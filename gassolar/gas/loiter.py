@@ -1,6 +1,6 @@
 " loiter segment "
 from gpkit import Model, Variable
-from flight_segment import FlightSegment
+from gassolar.gas.flight_segment import FlightSegment
 
 class Loiter(Model):
     "loiter segment"

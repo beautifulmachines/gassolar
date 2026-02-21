@@ -1,8 +1,8 @@
 " flight segment model "
 from gpkit import Model, Variable, Vectorize
 from gpkitmodels.GP.aircraft.mission.breguet_endurance import BreguetEndurance
-from steady_level_flight import SteadyLevelFlight
-from flight_state import FlightState
+from gassolar.gas.steady_level_flight import SteadyLevelFlight
+from gassolar.gas.flight_state import FlightState
 from gassolar.environment.wind_speeds import get_windspeed
 from gpkit.constraints.tight import Tight as TCS
 

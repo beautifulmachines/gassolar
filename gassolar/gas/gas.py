@@ -9,8 +9,8 @@ from gpkitmodels.GP.aircraft.tail.tail_boom import TailBoomState
 from gpkitmodels.SP.aircraft.tail.tail_boom_flex import TailBoomFlexibility
 from gpkitmodels.tools.summing_constraintset import summing_vars
 from gpkit import Model, Variable, Vectorize, units
-from flight_segment import FlightSegment
-from loiter import Loiter
+from gassolar.gas.flight_segment import FlightSegment
+from gassolar.gas.loiter import Loiter
 
 # pylint: disable=invalid-name
 
@@ -100,9 +100,7 @@ class AircraftPerf(Model):
             if "C_d" in dm.varkeys:
                 dvars.append(dm["C_d"]*dc["S"]/static.wing["S"])
 
-        constraints = [Wend == Wend,
-                       Wstart == Wstart,
-                       CDA/mfac >= sum(dvars),
+        constraints = [CDA/mfac >= sum(dvars),
                        CD >= CDA + self.wing.Cd]
 
         return self.dynamicmodels, constraints
@@ -152,10 +150,11 @@ class Mission(Model):
 
         JHO = Aircraft(sp=sp)
 
+        self.JHO = JHO
         climb1 = Climb(JHO, 10, latitude=latitude, percent=percent,
                        altitude=np.linspace(0, 15000, 11)[1:])
         # cruise1 = Cruise(JHO, 1, R=200, latitude=latitude, percent=percent)
-        loiter1 = Loiter(JHO, 5, latitude=latitude, percent=percent)
+        self.loiter = loiter1 = Loiter(JHO, 5, latitude=latitude, percent=percent)
         # cruise2 = Cruise(JHO, 1, latitude=latitude, percent=percent)
         # mission = [climb1, cruise1, loiter1, cruise2]
         mission = [climb1, loiter1]
@@ -199,16 +198,16 @@ class Mission(Model):
 def test():
     " test for integrated testing "
     model = Mission()
-    model.substitutions.update({"Mission.Loiter.t": 6})
+    model.substitutions[model.loiter["t"]] = 6
     model.cost = model["MTOW"]
     model.solve()
     model = Mission(sp=True)
-    model.substitutions.update({"Mission.Loiter.t": 6})
+    model.substitutions[model.loiter["t"]] = 6
     model.cost = model["MTOW"]
     model.localsolve()
 
 if __name__ == "__main__":
     M = Mission()
-    M.substitutions.update({"Mission.Loiter.t": 6})
+    M.substitutions[M.loiter["t"]] = 6
     M.cost = M["MTOW"]
-    sol = M.solve("mosek")
+    sol = M.solve()
