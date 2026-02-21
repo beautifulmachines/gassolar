@@ -15,10 +15,6 @@ per-file-ignores =
     gassolar/gas/fits/DF70/fitDF70.py: F401
     gassolar/gas/make_csv.py: F401
     gassolar/fits/jho1polars/jho1_polarfits.py: F841
-    # model files with unused gpkit Variables - investigate during solar work
-    gassolar/gas/gas.py: F841
-    gassolar/gas/gas_simple/gassimple.py: F841
-    gassolar/solar/solar.py: F841,E501
     gassolar/solar/solar_simple/solarsimple.py: E501
     # environment utilities
     gassolar/environment/wind_fit.py: F401,F841,E714
