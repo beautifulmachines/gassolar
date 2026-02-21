@@ -1,7 +1,9 @@
 "latitude vs endurance"
+
 import matplotlib.pyplot as plt
 import numpy as np
 from gassimple import Mission
+
 from gassolar.environment.wind_speeds import get_windspeed
 
 fig, ax = plt.subplots()
@@ -38,5 +40,4 @@ ax.set_xticklabels(labels)
 ax.set_xlabel("Latitude Requirement [deg]")
 ax.set_ylabel("Max Take Off Weight [lbf]")
 ax.legend(["%d Percentile Winds" % a for a in [80, 90, 95]], loc=2, fontsize=15)
-fig.savefig("../../../gassolarpaper/mtowvslatgassimple.pdf",
-            bbox_inches="tight")
+fig.savefig("../../../gassolarpaper/mtowvslatgassimple.pdf", bbox_inches="tight")

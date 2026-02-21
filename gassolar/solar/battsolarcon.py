@@ -1,13 +1,16 @@
-" contour plots "
+"contour plots"
+
+import sys
+
 import matplotlib.pyplot as plt
 import numpy as np
-import sys
-from solar import Mission
-from plotting import windalt_plot, labelLines
 from gpkit.tools.autosweep import autosweep_1d
+from plotting import labelLines, windalt_plot
+from solar import Mission
 
 N = 100
-plt.rcParams.update({'font.size':15})
+plt.rcParams.update({"font.size": 15})
+
 
 def find_sols(bsts):
     runagain = False
@@ -23,6 +26,7 @@ def find_sols(bsts):
         return find_sols(bsts)
     else:
         return bsts
+
 
 def plot_battsolarcon():
     fig, ax = plt.subplots()
@@ -40,7 +44,7 @@ def plot_battsolarcon():
             for vk in M.varkeys["\\eta_{prop}"]:
                 M.substitutions.update({vk: 0.75})
             for vk in M.varkeys["p_{wind}"]:
-                M.substitutions.update({vk: 90/100.0})
+                M.substitutions.update({vk: 90 / 100.0})
             del M.substitutions["h_{batt}"]
             M.substitutions.update({"\\eta_Mission/Aircraft/SolarCells": 0.4})
             M.cost = M["h_{batt}"]
@@ -56,28 +60,36 @@ def plot_battsolarcon():
             tol = 0.01
             notpassing = True
             try:
-                bst = autosweep_1d(M, tol, M["h_{batt}"], [hmin, hmax],
-                                   solver="mosek")
+                bst = autosweep_1d(M, tol, M["h_{batt}"], [hmin, hmax], solver="mosek")
                 bsts = find_sols([bst])
                 sols = np.hstack([b.sols for b in bsts])
                 time += sum(np.unique([s["soltime"] for s in sols]))
                 numsolves += bst.nsols
                 if lat % 4 == 0:
-                    l = ax.plot(xmin_, bst.sample_at(xmin_)["cost"], "k",
-                                label="%d$^{\\circ}$ Lat" % lat)
+                    l = ax.plot(
+                        xmin_,
+                        bst.sample_at(xmin_)["cost"],
+                        "k",
+                        label="%d$^{\\circ}$ Lat" % lat,
+                    )
                     lines.append(l[0])
                     etamax.append(max(bst.sample_at(xmin_)["cost"].magnitude))
                     midx.append(np.median(xmin_))
                 elif lat % 2 == 0:
-                    l = ax.plot(xmin_, bst.sample_at(xmin_)["cost"], "--", c="0.5",
-                                label="%d$^{\\circ}$ Lat" % lat)
+                    l = ax.plot(
+                        xmin_,
+                        bst.sample_at(xmin_)["cost"],
+                        "--",
+                        c="0.5",
+                        label="%d$^{\\circ}$ Lat" % lat,
+                    )
             except RuntimeWarning:
                 passing = False
 
     # ax.fill_between(xmin_, bst.sample_at(xmin_)["cost"], max(etamax),
     #                 edgecolor="r", lw=2, hatch="/", facecolor="None", zorder=100)
-    print "%d solves in %.4f seconds" % (numsolves, time)
-    labelLines(lines, align=False, xvals=midx, zorder=[10]*len(lines))
+    print("%d solves in %.4f seconds") % (numsolves, time)
+    labelLines(lines, align=False, xvals=midx, zorder=[10] * len(lines))
     # ax.text(425, 0.36, "Infeasible")
     ax.set_ylabel("Solar Cell Efficiency")
     ax.set_xlabel("Battery Specific Energy [Whr/kg]")
@@ -86,8 +98,10 @@ def plot_battsolarcon():
     ax.grid()
     return fig, ax
 
+
 def test():
     _, _ = plot_battsolarcon()
+
 
 if __name__ == "__main__":
     fig, ax = plot_battsolarcon()

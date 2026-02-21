@@ -1,8 +1,9 @@
-from gpkit.small_scripts import unitstr
-from gasmale import GasMALE
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
+from gasmale import GasMALE
 from gpkit import Variable
+from gpkit.small_scripts import unitstr
+
 
 def fix_vars(model, solution, var_names):
     """
@@ -18,6 +19,7 @@ def fix_vars(model, solution, var_names):
     for name in var_names:
         value = solution(name).magnitude
         model.substitutions.update({name: value + var_names[name]})
+
 
 def plot_sweep(model, xvarname, xsweep, yvarnames=None, ylim=None, fig=None, axis=None):
     """
@@ -52,16 +54,18 @@ def plot_sweep(model, xvarname, xsweep, yvarnames=None, ylim=None, fig=None, axi
             if yvarname not in model.substitutions:
                 ax.plot(sol(xvarname), sol(yvarname))
             else:
-                ax.plot(sol(xvarname),
-                        [sol(yvarname).magnitude]*len(sol(xvarname)))
-            ax.set_ylabel("%s [%s]" % (model[yvarname].descr["label"],
-                                       unitstr(model[yvarname].units)))
+                ax.plot(sol(xvarname), [sol(yvarname).magnitude] * len(sol(xvarname)))
+            ax.set_ylabel(
+                "%s [%s]"
+                % (model[yvarname].descr["label"], unitstr(model[yvarname].units))
+            )
         else:
             ax.plot(sol(xvarname), sol["sensitivities"]["constants"][xvarname])
             ax.set_ylabel("%s sens" % model[xvarname].descr["label"])
 
-        ax.set_xlabel("%s [%s]" % (model[xvarname].descr["label"],
-                                   unitstr(model[xvarname].units)))
+        ax.set_xlabel(
+            "%s [%s]" % (model[xvarname].descr["label"], unitstr(model[xvarname].units))
+        )
         if ylim:
             ax.set_ylim((ylim[0], ylim[1]))
 
@@ -70,6 +74,7 @@ def plot_sweep(model, xvarname, xsweep, yvarnames=None, ylim=None, fig=None, axi
         model.substitutions.update({xvarname: oldsub})
 
     return fig, axis
+
 
 def plot_altitude_sweeps(hvals, yvarnames, vars_to_fix):
     """
@@ -108,8 +113,9 @@ def plot_altitude_sweeps(hvals, yvarnames, vars_to_fix):
         fig, ax = plt.subplots()
         ax.plot(hvals, vals[:, j])
         ax.set_xlabel("%s [%s]" % (hvar.descr["label"], unitstr(hvar.units)))
-        ax.set_ylabel("%s [%s]" % (M_fix[yvarname].descr["label"],
-                                   unitstr(M_fix[yvarname].units)))
+        ax.set_ylabel(
+            "%s [%s]" % (M_fix[yvarname].descr["label"], unitstr(M_fix[yvarname].units))
+        )
         ax.set_title("CRD " + yvarname + " vs h_{station}")
         plt.grid()
 
@@ -117,6 +123,7 @@ def plot_altitude_sweeps(hvals, yvarnames, vars_to_fix):
         axis.append(ax)
 
     return figures, axis
+
 
 def plot_mission_var(model, sol, yvarname, ylim=False, yaxis_name=None):
     """
@@ -141,33 +148,42 @@ def plot_mission_var(model, sol, yvarname, ylim=False, yaxis_name=None):
                 if "/" in yvarname:
                     vname1 = yvarname.split("/")[0]
                     vname2 = yvarname.split("/")[1]
-                    value = (sol(fs[vname1])/sol(fs[vname2]))
-                    yunits = "%s/%s" % (unitstr(fs[vname1].units),
-                                        unitstr(fs[vname2].units))
+                    value = sol(fs[vname1]) / sol(fs[vname2])
+                    yunits = "%s/%s" % (
+                        unitstr(fs[vname1].units),
+                        unitstr(fs[vname2].units),
+                    )
                     ylabel = yvarname
                     name = vname1
                 else:
                     value = sol(fs[yvarname])
                     yunits = unitstr(fs[yvarname].units)
-                    ylabel = (fs[yvarname][0].descr["label"] if not
-                              isinstance(fs[yvarname], Variable) else
-                              fs[yvarname].descr["label"])
+                    ylabel = (
+                        fs[yvarname][0].descr["label"]
+                        if not isinstance(fs[yvarname], Variable)
+                        else fs[yvarname].descr["label"]
+                    )
                     name = yvarname
-                shape.append(shape[i] +
-                             (fs[name][0].descr["shape"][0] if not
-                              isinstance(fs[name], Variable) else 1))
+                shape.append(
+                    shape[i]
+                    + (
+                        fs[name][0].descr["shape"][0]
+                        if not isinstance(fs[name], Variable)
+                        else 1
+                    )
+                )
                 flightseg.append(fs.__class__.__name__ + "%s" % fs.num)
                 y.append(value.magnitude)
 
     y = np.hstack(np.array(y))
-    shape[2:] = [x-1 for x in shape[2:]]
+    shape[2:] = [x - 1 for x in shape[2:]]
 
     # define tick step on plot
     N = range(len(y))
 
     # create plot
     fig, ax = plt.subplots()
-    line, = ax.plot(N, y)
+    (line,) = ax.plot(N, y)
 
     # label time axis
     ax.xaxis.set_ticks(np.arange(0, len(y) - 1, 1))
@@ -188,17 +204,16 @@ def plot_mission_var(model, sol, yvarname, ylim=False, yaxis_name=None):
 
     ax.grid()
     for s in shape:
-        ax.plot([s, s], [ylim[0], ylim[1]], '--', color='r')
+        ax.plot([s, s], [ylim[0], ylim[1]], "--", color="r")
 
     return fig, ax
+
 
 def solution_value(eqstr, sol, units, submodel):
     if "/" in eqstr:
         varnames = eqstr.split("/")
-        value = (sol(submodel[varnames[0]])/
-                 sol(submodel[varnames[1]])).to(units)
+        value = (sol(submodel[varnames[0]]) / sol(submodel[varnames[1]])).to(units)
     else:
         value = sol(eqstr)
 
     return value
-

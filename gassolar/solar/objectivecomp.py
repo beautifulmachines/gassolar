@@ -1,11 +1,15 @@
-" change objective plot "
+"change objective plot"
+
+import sys
+
 import matplotlib.pyplot as plt
 import numpy as np
-import sys
+
 from gassolar.solar.solar import Mission
 
+
 def plot_objectivecomp(path=None):
-    plt.rcParams.update({'font.size':15})
+    plt.rcParams.update({"font.size": 15})
     fig, ax = plt.subplots()
     fig2, ax2 = plt.subplots()
     lat = np.arange(20, 40, 1)
@@ -20,7 +24,7 @@ def plot_objectivecomp(path=None):
                 M = Mission(latitude=l)
                 M.substitutions.update({"W_{pay}": 10})
                 for vk in M.varkeys["p_{wind}"]:
-                    M.substitutions.update({vk: 90/100.0})
+                    M.substitutions.update({vk: 90 / 100.0})
                 M.cost = M[obj]
                 try:
                     sol = M.solve("mosek")
@@ -38,7 +42,7 @@ def plot_objectivecomp(path=None):
         else:
             ty = "b--"
         ll = ax.plot(lat, W, "%s" % ty, lw=2)
-        ll1 = ax2.plot(lat, SS, '%s' % ty, lw=2)
+        ll1 = ax2.plot(lat, SS, "%s" % ty, lw=2)
 
     ax.set_ylim([0, 150])
     ax.set_xlim([20, 34])
@@ -49,21 +53,28 @@ def plot_objectivecomp(path=None):
     ax.set_xlabel("Latitude Requirement [deg]")
     ax2.set_xlabel("Latitude Requirement [deg]")
     ax.set_ylabel("Wing Span $b$ [ft]")
-    ax2.set_ylabel("Solar Cell Area $S_{\\mathrm{solar}}$ [ft$^2$]")
+    ax2.set_ylabel("Solar Cell Area $S_{\\\mathrm{solar}}$ [ft$^2$]")
     labels = ["$\\pm$%d" % item for item in ax.get_xticks()]
     # labels = ["$\\pm$%d" % l for l in np.linspace(20, 34, len(labels))]
     ax.set_xticklabels(labels)
     ax2.set_xticklabels(labels)
-    ax.legend(["Objective: min($b$)", "Objective: min($S_{\mathrm{solar}}$)"],
-              loc=2, fontsize=15)
-    ax2.legend(["Objective: min($b$)", "Objective: min($S_{\mathrm{solar}}$)"],
-               loc=2, fontsize=15)
+    ax.legend(
+        ["Objective: min($b$)", "Objective: min($S_{\\mathrm{solar}}$)"],
+        loc=2,
+        fontsize=15,
+    )
+    ax2.legend(
+        ["Objective: min($b$)", "Objective: min($S_{\\mathrm{solar}}$)"],
+        loc=2,
+        fontsize=15,
+    )
     if path:
         fig.savefig(path + "solarobjcomp.eps", bbox_inches="tight")
         fig2.savefig(path + "solarobjcomp2.eps", bbox_inches="tight")
     else:
         fig.savefig("solarobjcomp.eps", bbox_inches="tight")
         fig2.savefig("solarobjcomp2.eps", bbox_inches="tight")
+
 
 if __name__ == "__main__":
     if len(sys.argv) > 1:

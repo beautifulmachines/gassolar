@@ -1,7 +1,10 @@
-" flight state of gas powered aircraft "
+"flight state of gas powered aircraft"
+
 from gpkit import Model, Variable
-from gassolar.environment.wind_speeds import get_windspeed
+
 from gassolar.environment.air_properties import get_airvars
+
+
 class FlightState(Model):
     """
     environmental state of aircraft
@@ -13,6 +16,7 @@ class FlightState(Model):
     percent: percentile wind speeds [%]
     day: day of the year [Jan 1st = 1]
     """
+
     def setup(self, Vwind, latitude=45, percent=90, altitude=15000, day=355):
 
         # wind = get_windspeed(latitude, percent, altitude, day)
@@ -25,16 +29,17 @@ class FlightState(Model):
         mu = self.mu = Variable("\\mu", vis, "N*s/m**2", "dynamic viscosity")
         h = Variable("h", altitude, "ft", "flight altitude")
         href = Variable("h_{ref}", 15000, "ft", "reference altitude")
-        qne = self.qne = Variable("qne", "kg/s^2/m",
-                                  "never exceed dynamic pressure")
+        qne = self.qne = Variable("qne", "kg/s^2/m", "never exceed dynamic pressure")
         Vne = Variable("Vne", 40, "m/s", "never exceed velocity")
         rhosl = Variable("rhosl", 1.225, "kg/m^3", "air density at sea level")
 
-        constraints = [V/mfac >= Vwind,
-                       rho == rho,
-                       mu == mu,
-                       h == h,
-                       qne == 0.5*rhosl*Vne**2,
-                       href == href]
+        constraints = [
+            V / mfac >= Vwind,
+            rho == rho,
+            mu == mu,
+            h == h,
+            qne == 0.5 * rhosl * Vne**2,
+            href == href,
+        ]
 
         return constraints

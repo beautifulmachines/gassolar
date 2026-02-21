@@ -1,6 +1,7 @@
 "tests for gassolar.environment"
-from gassolar.environment.wind_speeds import get_windspeed
+
 from gassolar.environment.air_properties import get_airvars
+from gassolar.environment.wind_speeds import get_windspeed
 
 
 def test_get_windspeed():

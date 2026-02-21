@@ -1,6 +1,8 @@
-" latitude sweep "
+"latitude sweep"
+
 import matplotlib.pyplot as plt
 import numpy as np
+
 from gassolar.solar.solar_simple.solarsimple import Mission
 
 fig, ax = plt.subplots()
@@ -13,7 +15,7 @@ for a in [80, 90, 95]:
         for vk in M.varkeys["CDA_0"]:
             M.substitutions.update({vk: 0.002})
         for vk in M.varkeys["p_{wind}"]:
-            M.substitutions.update({vk: a/100.0})
+            M.substitutions.update({vk: a / 100.0})
         M.substitutions.update({"\\rho_{solar}": 0.25})
         M.cost = M["b"]
         try:
@@ -32,5 +34,4 @@ ax.set_xticklabels(labels)
 ax.set_xlabel("Latitude Requirement [deg]")
 ax.set_ylabel("Wing Span [ft]")
 ax.legend(["%d Percentile Winds" % a for a in [80, 90, 95]], loc=2, fontsize=15)
-fig.savefig("../../../gassolarpaper/spanvslatsolarsimple.pdf",
-            bbox_inches="tight")
+fig.savefig("../../../gassolarpaper/spanvslatsolarsimple.pdf", bbox_inches="tight")

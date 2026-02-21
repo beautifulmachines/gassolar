@@ -1,10 +1,11 @@
 import numpy as np
 import pandas as pd
-from gas import Mission
-from gpkit.small_scripts import unitstr
-from gpkit import Variable
-from gen_tex import find_submodels
 import xlsxwriter
+from gas import Mission
+from gen_tex import find_submodels
+from gpkit import Variable
+from gpkit.small_scripts import unitstr
+
 
 def sketch_params(M, sol, varnames, othervars=None, pointmasses=None):
 
@@ -15,8 +16,11 @@ def sketch_params(M, sol, varnames, othervars=None, pointmasses=None):
             spt = uts.split("*")
             spt[0] = "ft"
             uts = "".join(spt)
-        data[vname.replace(", ", "-").replace("\\", "")] = [sol(vname).to(uts).magnitude, uts,
-                                          M[vname].descr["label"]]
+        data[vname.replace(", ", "-").replace("\\", "")] = [
+            sol(vname).to(uts).magnitude,
+            uts,
+            M[vname].descr["label"],
+        ]
 
     if othervars:
         data.update(othervars)
@@ -36,23 +40,30 @@ def sketch_params(M, sol, varnames, othervars=None, pointmasses=None):
     df.columns = ["Value", "Units", "Label"]
     return df
 
+
 if __name__ == "__main__":
     M = Mission()
-    M.cost = 1/M["t_Mission/Loiter"]
+    M.cost = 1 / M["t_Mission/Loiter"]
     sol = M.solve("mosek")
 
     sketchvars = [
         "R_Mission/Aircraft/Fuselage",
-        "S_Mission/Aircraft/Wing", "b_Mission/Aircraft/Wing",
-        "l_Mission/Aircraft/Empennage/TailBoom", "d_0",
+        "S_Mission/Aircraft/Wing",
+        "b_Mission/Aircraft/Wing",
+        "l_Mission/Aircraft/Empennage/TailBoom",
+        "d_0",
         "b_Mission/Aircraft/Empennage/HorizontalTail",
         "S_Mission/Aircraft/Empennage/HorizontalTail",
         "b_Mission/Aircraft/Empennage/VerticalTail",
         "S_Mission/Aircraft/Empennage/VerticalTail",
-        "\\tau_Mission/Aircraft/Wing", "k_{nose}", "k_{body}", "k_{bulk}",
+        "\\tau_Mission/Aircraft/Wing",
+        "k_{nose}",
+        "k_{body}",
+        "k_{bulk}",
         "\\lambda_Mission/Aircraft/Wing",
         "\\lambda_Mission/Aircraft/Empennage/HorizontalTail",
-        "\\lambda_Mission/Aircraft/Empennage/VerticalTail"]
+        "\\lambda_Mission/Aircraft/Empennage/VerticalTail",
+    ]
     df = sketch_params(M, sol, sketchvars)
 
     df.to_csv("sketcher/16_82viewer/sketch_params.csv")

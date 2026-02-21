@@ -1,4 +1,5 @@
 "tests for gassolar.gas"
+
 from gassolar.gas.gas import Mission
 
 
