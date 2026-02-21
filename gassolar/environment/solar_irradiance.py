@@ -5,8 +5,33 @@ import sys
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-from gpfit.fit import fit
 from numpy import arccos, cos, deg2rad, sin, tan
+
+
+def _fit_monomial_ma(x, y):
+    """Fit y = c0 * u^e00 as a 1-term MA in log space using least squares.
+
+    x, y are log-transformed data arrays.
+    Returns a dict compatible with gpkitmodels FitCS (0-indexed keys).
+    """
+    A = np.column_stack([np.ones_like(x), x])
+    coeffs, _, _, _ = np.linalg.lstsq(A, y, rcond=None)
+    a, e = coeffs
+    yfit = a + e * x
+    rms_err = float(np.sqrt(np.mean((yfit - y) ** 2)))
+    max_err = float(np.max(np.abs(yfit - y)))
+    return {
+        "ftype": "MA",
+        "K": 1,
+        "d": 1,
+        "c0": float(np.exp(a)),
+        "e00": float(e),
+        "lb0": float(np.exp(x[0])),
+        "ub0": float(np.exp(x[-1])),
+        "rms_err": rms_err,
+        "max_err": max_err,
+    }
+
 
 plt.rcParams.update({"font.size": 15})
 GENERATE = False
@@ -48,7 +73,7 @@ def get_Eirr(latitude, day, N=50.0):
     Rsun = 695842  # radius of the sun, km
     P0 = Psun * 4 * np.pi * Rsun**2 / 4 / np.pi / Reo**2
     P = P0 * costhsun
-    E = np.trapz(P) * (abs(tend - tstart)) / N
+    E = np.trapezoid(P) * (abs(tend - tstart)) / N
     tday = tstart * 2
     tnight = 24 - tstart * 2
     plot = [P, t]
@@ -57,15 +82,12 @@ def get_Eirr(latitude, day, N=50.0):
 
 def twi_fits(latitude, day, gen=False):
 
-    np.random.seed(0)
-
     ES, td, tn, p = get_Eirr(latitude, day)
-    params = [latitude]
 
     P = p[0][p[1] > 0]
     t = p[1][p[1] > 0]
     f = np.array(
-        [np.trapz(P[: i + 1]) * (t[0] - t[i]) / i for i in range(1, len(P) - 1)]
+        [np.trapezoid(P[: i + 1]) * (t[0] - t[i]) / i for i in range(1, len(P) - 1)]
     )
     ends = np.array([P[i] * (t[0] - t[i]) for i in range(1, len(P))][:-1])
     Eday = np.array([P[i] * t[i] for i in range(1, len(P))][:-1])
@@ -74,14 +96,12 @@ def twi_fits(latitude, day, gen=False):
 
     x = np.log(P[1:-15])
     y = np.log(2 * C[:-14])
-    cn, err = fit(x, y, 1, "MA")
-    rm = err
-    print("RMS error: %.4f" % rm)
-    dftw = cn.get_fitdata()
+    dftw = _fit_monomial_ma(x, y)
+    print("RMS error: %.4f" % dftw["rms_err"])
     if not gen:
         fig1, ax1 = plt.subplots()
         fig2, ax2 = plt.subplots()
-        yfit = cn.evaluate(x)
+        yfit = np.log(dftw["c0"]) + dftw["e00"] * x
         ax1.plot(P[1:-15], 2 * C[:-14], "o", c="g", markerfacecolor="none", mew=1.5)
         ax1.plot(P[1:-15], np.exp(yfit), c="g", label="%dth Latitude" % latitude, lw=2)
         ax1.set_xlabel("Minimum Power $(P/S)_{\\mathrm{min}}$ [W/m$^2$]", fontsize=19)
@@ -90,17 +110,13 @@ def twi_fits(latitude, day, gen=False):
             fontsize=19,
         )
         ax1.grid()
-        params.append(cn[0].right.c)
-        params.append(cn[0].right.exp[list(cn[0].varkeys["u_fit_(0,)"])[0]])
 
     x = np.log(P[1:-15])
     y = np.log(2 * B[:-14])
-    cn, err = fit(x, y, 1, "MA")
-    rm = err
-    print("RMS error: %.4f" % rm)
-    dfday = cn.get_fitdata()
+    dfday = _fit_monomial_ma(x, y)
+    print("RMS error: %.4f" % dfday["rms_err"])
     if not gen:
-        yfit = cn.evaluate(x)
+        yfit = np.log(dfday["c0"]) + dfday["e00"] * x
         ax2.plot(P[1:-15], 2 * B[:-14], "o", c="g", markerfacecolor="none", mew=1.5)
         ax2.plot(P[1:-15], np.exp(yfit), c="g", label="%dth Latitude" % latitude, lw=2)
         ax2.grid()

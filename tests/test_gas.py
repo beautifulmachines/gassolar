@@ -3,7 +3,7 @@
 from gassolar.gas.gas import Mission
 
 
-def test_mission_gp():
+def test_gas_gp():
     model = Mission()
     model.substitutions[model.loiter["t"]] = 6
     model.cost = model["MTOW"]
@@ -11,7 +11,7 @@ def test_mission_gp():
     assert sol.cost > 0
 
 
-def test_mission_sp():
+def test_gas_sp():
     model = Mission(sp=True)
     model.substitutions[model.loiter["t"]] = 6
     model.cost = model["MTOW"]
