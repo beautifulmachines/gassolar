@@ -8,7 +8,7 @@ from os import sep
 from os.path import abspath, dirname
 
 import pandas as pd
-from gpkit import Model, SignomialsEnabled, Vectorize, parse_variables
+from gpkit import Model, SignomialsEnabled, Vectorize, parse_variables, ureg
 from gpkitmodels import g
 from gpkitmodels.GP.aircraft.fuselage.elliptical_fuselage import Fuselage
 from gpkitmodels.GP.aircraft.motor.motor import Motor
@@ -26,7 +26,7 @@ from gpkitmodels.SP.aircraft.tail.tail_boom_flex import TailBoomFlexibility
 from gpkitmodels.SP.aircraft.wing.boxspar import BoxSpar as BoxSparSP
 from gpkitmodels.SP.aircraft.wing.wing import Wing as WingSP
 from gpkitmodels.tools.fit_constraintset import FitCS as FCS
-from numpy import exp, hstack
+from numpy import array, exp, hstack
 
 import gassolar.environment
 from gassolar.environment.solar_irradiance import get_Eirr, twi_fits
@@ -669,9 +669,8 @@ class Climb(Model):
         alpha = 0.0065  # K/m
         h11k, T11k, p11k, rhosl = 11019, 216.483, 22532, 1.225  # m, K, Pa, kg/m^3
         T0, R, gms, n = 288.16, 287.04, 9.81, 5.2561  # K, m^2/K/s^2, m/s^2, -
-        hrange = [
-            c(self.h).to("m").magnitude * i / (self.N + 1) for i in range(1, self.N + 1)
-        ]
+        h_m = float(c[self.h]) * float(self.h.key.units.to("m").magnitude)
+        hrange = [h_m * i / (self.N + 1) for i in range(1, self.N + 1)]
         rho = []
         for al in hrange:
             if al < h11k:
@@ -680,11 +679,11 @@ class Climb(Model):
             else:
                 p = p11k * exp((h11k - al) * gms / R / T11k)
                 rho.append(p / R / T11k)
-        return [rho]
+        return array([rho]) * ureg("kg/m^3")
 
     def hstep(self, c):
         "find delta altitude"
-        return c[self.h] / self.N
+        return float(c[self.h]) / self.N * ureg("ft")
 
     @parse_variables(__doc__, globals())
     def setup(self, N, aircraft):
