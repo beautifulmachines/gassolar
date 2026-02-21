@@ -1,0 +1,26 @@
+[flake8]
+max-line-length = 88
+extend-ignore = E203,E741,F821
+per-file-ignores =
+    # trade study and plotting scripts - will be addressed during solar work
+    gassolar/solar/plotting.py: F401,F841,E402,F811
+    gassolar/solar/battsolarcon.py: F401,F841
+    gassolar/solar/contourplots.py: F401,F841
+    gassolar/solar/objectivecomp.py: F841,W605
+    gassolar/solar/windstruct.py: F401
+    gassolar/solar/battlat.py: F401
+    gassolar/solar/print_sens.py: F841,E501,W605
+    gassolar/gassolarlat.py: F401
+    # fit generation scripts (historical, generated CSVs already committed)
+    gassolar/gas/fits/DF70/fitDF70.py: F401
+    gassolar/gas/make_csv.py: F401
+    gassolar/fits/jho1polars/jho1_polarfits.py: F841
+    # model files with unused gpkit Variables - investigate during solar work
+    gassolar/gas/gas.py: F841
+    gassolar/gas/gas_simple/gassimple.py: F841
+    gassolar/solar/solar.py: F841,E501
+    gassolar/solar/solar_simple/solarsimple.py: E501
+    # environment utilities
+    gassolar/environment/wind_fit.py: F401,F841,E714
+    gassolar/environment/air_properties.py: E501
+    gassolar/environment/print_fits.py: E501
