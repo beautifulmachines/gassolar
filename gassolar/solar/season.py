@@ -1,9 +1,11 @@
-from gassolar.solar.solar import Mission
+import sys
+
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
 from relaxed_constants import relaxed_constants
-import sys
+
+from gassolar.solar.solar import Mission
 
 
 def season():
@@ -17,7 +19,7 @@ def season():
         mtows = []
         for d, m in zip(days, months):
             if failed:
-                mtows = mtows + [np.nan]*(4-len(mtows))
+                mtows = mtows + [np.nan] * (4 - len(mtows))
                 break
             M = Mission(latitude=l, day=d, month=m)
             M.cost = M["W_{total}"]
@@ -28,8 +30,11 @@ def season():
             except RuntimeWarning:
                 feas = relaxed_constants(M)
                 sol = feas.solve("mosek")
-                bdvars = [d for d in sol.program.varlocs if "Relax" in d.models
-                          and sol.program.result(d) >= 1.00001]
+                bdvars = [
+                    d
+                    for d in sol.program.varlocs
+                    if "Relax" in d.models and sol.program.result(d) >= 1.00001
+                ]
                 if not bdvars:
                     mtows.append(sol["cost"].magnitude)
                 else:
@@ -42,20 +47,32 @@ def season():
     df = pd.DataFrame(data)
     return df
 
+
 def plot_season(df):
     fig, ax = plt.subplots()
     colors = ["#014636", "#016c59", "#02818a", "#3690c0", "#67a9cf"]
     for d, cl in zip(df, colors):
-        ax.plot(range(1, 5), df[d], c=cl, ls="dashed", marker="o",
-                label=d + "$^{\circ}$ Lat")
+        ax.plot(
+            range(1, 5),
+            df[d],
+            c=cl,
+            ls="dashed",
+            marker="o",
+            label=d + "$^{\\circ}$ Lat",
+        )
 
     ax.set_xlim([0.5, 4.5])
     ax.set_ylim([0, 300])
     ax.set_ylabel("Max Take-off Weight")
-    ax.set_xticklabels(["", "6-months", "", "8-months", "", "10-months", "", "12-months"], rotation=-45, ha="left")
+    ax.set_xticklabels(
+        ["", "6-months", "", "8-months", "", "10-months", "", "12-months"],
+        rotation=-45,
+        ha="left",
+    )
     ax.grid()
     ax.legend(loc=2, fontsize=15, numpoints=1)
     return fig, ax
+
 
 if __name__ == "__main__":
 
@@ -75,5 +92,3 @@ if __name__ == "__main__":
 
     fig, ax = plot_season(df)
     fig.savefig(path + "season.pdf", bbox_inches="tight")
-
-

@@ -1,3 +1,0 @@
-pip install : pandas, git+https://github.com/hoburg/gpfit.git
-gpkit-models branch : master
-skipsolvers : cvxopt

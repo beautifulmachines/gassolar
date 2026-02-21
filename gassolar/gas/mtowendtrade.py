@@ -1,13 +1,17 @@
 "mtow vs endurance trade"
-import matplotlib.pyplot as plt
-import numpy as np
-from gassolar.gas.gas import Mission
-from gassolar.environment.wind_speeds import get_windspeed
-from gassolar.solar.battsolarcon import find_sols
-from gpkit.tools.autosweep import autosweep_1d
+
 import sys
 
-plt.rcParams.update({'font.size':15})
+import matplotlib.pyplot as plt
+import numpy as np
+from gpkit.tools.autosweep import autosweep_1d
+
+from gassolar.environment.wind_speeds import get_windspeed
+from gassolar.gas.gas import Mission
+from gassolar.solar.battsolarcon import find_sols
+
+plt.rcParams.update({"font.size": 15})
+
 
 def mtow_plot(model):
     model.cost = model["MTOW"]
@@ -28,7 +32,7 @@ def mtow_plot(model):
                 model.substitutions.update({vk: wind})
 
         model.substitutions.update({"MTOW": 1000})
-        model.cost = 1/model["t_Mission/Loiter"]
+        model.cost = 1 / model["t_Mission/Loiter"]
         sol = model.solve("mosek")
         time += sol["soltime"]
         nsolves += 1
@@ -38,34 +42,46 @@ def mtow_plot(model):
 
         del model.substitutions["MTOW"]
         model.cost = model["MTOW"]
-        bst = autosweep_1d(model, tol, model["t_Mission/Loiter"],
-                           [1, xmin_[-1]], solver="mosek")
+        bst = autosweep_1d(
+            model, tol, model["t_Mission/Loiter"], [1, xmin_[-1]], solver="mosek"
+        )
         bsts = find_sols([bst])
         sols = np.hstack([b.sols for b in bsts])
         time += sum(np.unique([s["soltime"] for s in sols]))
         nsolves += bst.nsols
         ws.append(bst.sample_at(xmin_)["cost"])
 
-    print "%d solves in %.4f seconds" % (nsolves, time)
-    ax.fill_between(xs[0], ws[0],
-                    np.append(ws[2], [1000]*(len(xs[0])-len(xs[2]))),
-                    facecolor="r", edgecolor="None", alpha=0.3)
+    print("%d solves in %.4f seconds") % (nsolves, time)
+    ax.fill_between(
+        xs[0],
+        ws[0],
+        np.append(ws[2], [1000] * (len(xs[0]) - len(xs[2]))),
+        facecolor="r",
+        edgecolor="None",
+        alpha=0.3,
+    )
     ax.plot(xs[0], ws[0], "r")
     ax.plot(xs[1], ws[1], "r", lw=2)
     ax.plot(xs[2], ws[2], "r")
     for i, p in enumerate(["80%", "90%", "95%"]):
         weight = ws[i].magnitude
-        we = 500 + min(abs(weight-500))
+        we = 500 + min(abs(weight - 500))
         if we not in weight:
-            we = 500 - min(abs(weight-500))
+            we = 500 - min(abs(weight - 500))
         end = xs[i][weight == we][0]
-        ax.annotate(p, xy=(end, we), xytext=(end+0.3, we+0.01),
-                    arrowprops=dict(arrowstyle="-"), fontsize=12)
+        ax.annotate(
+            p,
+            xy=(end, we),
+            xytext=(end + 0.3, we + 0.01),
+            arrowprops=dict(arrowstyle="-"),
+            fontsize=12,
+        )
     ax.grid()
     ax.set_ylim([0, 1000])
     ax.set_xlabel("Endurance [days]")
     ax.set_ylabel("Max Take Off Weight [lbf]")
     return fig, ax
+
 
 if __name__ == "__main__":
     M = Mission()

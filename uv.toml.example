@@ -1,0 +1,7 @@
+# Local development source overrides.
+# Copy this file to uv.toml (gitignored) to use local editable installs
+# instead of PyPI packages during development.
+
+[sources]
+gpkit-core = { path = "../gpkit-core", editable = true }
+gpkit-models = { path = "../gpkit-models", editable = true }

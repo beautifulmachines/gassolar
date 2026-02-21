@@ -1,11 +1,13 @@
 "endurance trade"
+
 import matplotlib.pyplot as plt
 import numpy as np
 from gassimple import Mission
-from gassolar.environment.wind_speeds import get_windspeed
 from gpkit.tools.autosweep import sweep_1d
 
-plt.rcParams.update({'font.size':15})
+from gassolar.environment.wind_speeds import get_windspeed
+
+plt.rcParams.update({"font.size": 15})
 M = Mission()
 M.cost = M["MTOW"]
 M.substitutions.update({"W_{pay}": 10})
@@ -29,8 +31,9 @@ for p in [85, 90, 95]:
             else:
                 M.substitutions.update({vk: wind})
         try:
-            bst = sweep_1d(M, tol, M["t_Mission/Loiter"], [lower, upper],
-                           solver="mosek")
+            bst = sweep_1d(
+                M, tol, M["t_Mission/Loiter"], [lower, upper], solver="mosek"
+            )
             notpassing = False
         except RuntimeWarning:
             notpassing = True

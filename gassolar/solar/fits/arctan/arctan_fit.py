@@ -1,11 +1,14 @@
-from gpfit.fit import fit
-import gpkitmodels.GP.aircraft.wing.gustloading as GustL
 import os
+import sys
+
+import gpkitmodels.GP.aircraft.wing.gustloading as GustL
 import matplotlib.pyplot as plt
 import numpy as np
-import sys
-plt.rcParams.update({'font.size':15})
+from gpfit.fit import fit
+
+plt.rcParams.update({"font.size": 15})
 GENERATE = True
+
 
 def arctanfit():
     u = np.linspace(1e-15, 0.7, 100)
@@ -16,7 +19,7 @@ def arctanfit():
 
     cn, err = fit(x, y, 1, "MA")
     rm = err
-    print "RMS error: %.4f" % rm
+    print("RMS error: %.4f") % rm
 
     yfit = cn.evaluate(x)
     df = cn.get_dataframe()
@@ -27,9 +30,16 @@ def arctanfit():
     ax.grid()
     ax.set_xlabel("$V_{\\mathrm{gust}}/V$")
     ax.set_ylabel("$\\alpha_{\\mathrm{gust}}$")
-    ax.legend(["$\\arctan{(V_{\\mathrm{gust}}/V)}$",
-               "$0.905 (V_{\\mathrm{gust}}/V)^{0.961}$"], loc=2, fontsize=15)
+    ax.legend(
+        [
+            "$\\arctan{(V_{\\mathrm{gust}}/V)}$",
+            "$0.905 (V_{\\mathrm{gust}}/V)^{0.961}$",
+        ],
+        loc=2,
+        fontsize=15,
+    )
     return df, fig, ax
+
 
 if __name__ == "__main__":
     df, fig, ax = arctanfit()

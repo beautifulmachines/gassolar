@@ -1,16 +1,20 @@
 "naca_polarfits.py"
-import numpy as np
-import sys
-import pandas as pd
-import matplotlib.pyplot as plt
-import gpkitmodels.GP.aircraft.tail.tail_aero as TailAero
-from gpfit.fit import fit
+
 import os
-plt.rcParams.update({'font.size':15})
+import sys
+
+import gpkitmodels.GP.aircraft.tail.tail_aero as TailAero
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+from gpfit.fit import fit
+
+plt.rcParams.update({"font.size": 15})
 
 GENERATE = True
 REFAC = 1e6
 NACAFAC = 100.0
+
 
 def text_to_df(filename):
     "parse XFOIL polars and concatente data in DataFrame"
@@ -18,29 +22,30 @@ def text_to_df(filename):
     data = {}
     for i, l in enumerate(lines):
         lines[i] = l.split("\n")[0]
-        for j in 10-np.arange(9):
-            if " "*j in lines[i]:
-                lines[i] = lines[i].replace(" "*j, " ")
+        for j in 10 - np.arange(9):
+            if " " * j in lines[i]:
+                lines[i] = lines[i].replace(" " * j, " ")
             if "Re = " in l:
-                re = l[l.find("Re =") + 5:l.find("Ncrit")-1].replace(" ", "")
+                re = l[l.find("Re =") + 5 : l.find("Ncrit") - 1].replace(" ", "")
                 data["Re"] = float(re)
             if "NACA" in l:
-                t = l[l.find("NACA")+5:-1]
-                data["tau"] = float(t)/NACAFAC
+                t = l[l.find("NACA") + 5 : -1]
+                data["tau"] = float(t) / NACAFAC
             if "---" in lines[i]:
                 start = i
 
-    titles = lines[start-1].split(" ")[1:]
+    titles = lines[start - 1].split(" ")[1:]
     for t in titles:
         data[t] = []
 
-    for l in lines[start+1:]:
+    for l in lines[start + 1 :]:
         for i, v in enumerate(l.split(" ")[1:]):
             data[titles[i]].append(v)
 
     df = pd.DataFrame(data)
     df = df.astype(float)
     return df
+
 
 def fit_setup(naca_range, re_range):
     "set up x and y parameters for gp fitting"
@@ -56,7 +61,6 @@ def fit_setup(naca_range, re_range):
             tau.append(dataf["tau"])
             re.append(dataf["Re"])
 
-
     u1 = np.hstack(re)
     u2 = np.hstack(tau)
     w = np.hstack(cd)
@@ -68,6 +72,7 @@ def fit_setup(naca_range, re_range):
     y = np.log(w)
     return x, y
 
+
 def plot_fits(naca_range, cnstr, x, y):
     "plot fit compared to data"
 
@@ -75,7 +80,7 @@ def plot_fits(naca_range, cnstr, x, y):
     colors = ["#084081", "#0868ac", "#2b8cbe", "#4eb3d3", "#7bccc4"]
     assert len(colors) == len(naca_range)
     lna, ind = np.unique(x[1], return_index=True)
-    xna = np.exp(lna)*100
+    xna = np.exp(lna) * 100
     xre = np.split(np.exp(x[0]), ind[1:])
     cds = np.split(np.exp(y), ind[1:])
     yfit = cnstr.evaluate(x)
@@ -86,8 +91,9 @@ def plot_fits(naca_range, cnstr, x, y):
         na = int(round(na))
         if na in nacaint:
             ax.plot(re, cd, "o", mec=colors[i], mfc="none", mew=1.5)
-            ax.plot(re, fi, c=colors[i],
-                    label="NACA" + naca_range[nacaint == na][0], lw=2)
+            ax.plot(
+                re, fi, c=colors[i], label="NACA" + naca_range[nacaint == na][0], lw=2
+            )
             i += 1
     ax.legend(fontsize=15)
     ax.set_xlabel("$Re$")
@@ -95,13 +101,14 @@ def plot_fits(naca_range, cnstr, x, y):
     ax.grid()
     return fig, ax
 
+
 if __name__ == "__main__":
     Re = [20, 35] + range(50, 1050, 50)
     NACA = np.array(["0005", "0008", "0009", "0010", "0015"])
-    X, Y = fit_setup(NACA, Re) # call fit(X, Y, 4, "SMA") to get fit
+    X, Y = fit_setup(NACA, Re)  # call fit(X, Y, 4, "SMA") to get fit
     np.random.seed(0)
     cn, err = fit(X, Y, 5, "MA")
-    print "RMS error: %.5f" % err
+    print("RMS error: %.5f") % err
     df = cn.get_dataframe()
     if GENERATE:
         path = os.path.dirname(TailAero.__file__)
@@ -115,4 +122,3 @@ if __name__ == "__main__":
         F.savefig(path + "taildragpolar.eps", bbox_inches="tight")
     else:
         F.savefig("taildragpolar.eps", bbox_inches="tight")
-

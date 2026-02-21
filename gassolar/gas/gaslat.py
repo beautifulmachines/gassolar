@@ -1,12 +1,16 @@
 "latitude sweep"
-import matplotlib.pyplot as plt
-import numpy as np
-from gassolar.gas.gas import Mission
-from gassolar.environment.wind_speeds import get_windspeed
+
 import sys
 
+import matplotlib.pyplot as plt
+import numpy as np
+
+from gassolar.environment.wind_speeds import get_windspeed
+from gassolar.gas.gas import Mission
+
+
 def gas_lat(model, cost, subs=None):
-    plt.rcParams.update({'font.size':15})
+    plt.rcParams.update({"font.size": 15})
     fig, ax = plt.subplots()
     lat = np.arange(0, 60, 1)
     model.substitutions.update(subs)
@@ -33,6 +37,7 @@ def gas_lat(model, cost, subs=None):
     ax.legend(["%d Percentile Winds" % a for a in [80, 90, 95]], loc=2, fontsize=15)
 
     return fig, ax
+
 
 if __name__ == "__main__":
     M = Mission()

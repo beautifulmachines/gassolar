@@ -1,37 +1,41 @@
 "jho1_polarfits.py"
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-from gpfit.fit import fit
-import sys
-from gpkitmodels.GP.aircraft.wing.wing import Wing
+
 import inspect
 import os
+import sys
+
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+from gpfit.fit import fit
+from gpkitmodels.GP.aircraft.wing.wing import Wing
 
 GENERATE = True
-plt.rcParams.update({'font.size':15})
+plt.rcParams.update({"font.size": 15})
+
 
 def text_to_df(filename):
     "parse XFOIL polars and concatente data in DataFrame"
     lines = list(open(filename))
     for i, l in enumerate(lines):
         lines[i] = l.split("\n")[0]
-        for j in 10-np.arange(9):
-            if " "*j in lines[i]:
-                lines[i] = lines[i].replace(" "*j, " ")
+        for j in 10 - np.arange(9):
+            if " " * j in lines[i]:
+                lines[i] = lines[i].replace(" " * j, " ")
             if "---" in lines[i]:
                 start = i
     data = {}
-    titles = lines[start-1].split(" ")[1:]
+    titles = lines[start - 1].split(" ")[1:]
     for t in titles:
         data[t] = []
 
-    for l in lines[start+1:]:
+    for l in lines[start + 1 :]:
         for i, v in enumerate(l.split(" ")[1:]):
             data[titles[i]].append(v)
 
     df = pd.DataFrame(data)
     return df
+
 
 def fit_setup(Re_range):
     "set up x and y parameters for gp fitting"
@@ -44,8 +48,8 @@ def fit_setup(Re_range):
         if r < 150:
             cl = dataf["CL"].values.astype(np.float)
             cd = dataf["CD"].values.astype(np.float)
-            CL.append(np.hstack([cl[cl >= 1.0]]*1))
-            CD.append(np.hstack([cd[cl >= 1.0]]*1))
+            CL.append(np.hstack([cl[cl >= 1.0]] * 1))
+            CD.append(np.hstack([cd[cl >= 1.0]] * 1))
         elif r < 200:
             cl = dataf["CL"].values.astype(np.float)
             cd = dataf["CD"].values.astype(np.float)
@@ -54,9 +58,11 @@ def fit_setup(Re_range):
         else:
             CL.append(dataf["CL"].values.astype(np.float))
             CD.append(dataf["CD"].values.astype(np.float))
-        ax.plot(dataf["CL"].values.astype(np.float), dataf["CD"].values.astype(np.float))
+        ax.plot(
+            dataf["CL"].values.astype(np.float), dataf["CD"].values.astype(np.float)
+        )
         ax.legend(["%d" % re for re in Re_range])
-        RE.append([r*1000.0]*len(CL[-1]))
+        RE.append([r * 1000.0] * len(CL[-1]))
 
     fig.savefig("polarstest.pdf")
 
@@ -69,12 +75,18 @@ def fit_setup(Re_range):
     y = np.log(w)
     return x, y
 
+
 def return_fit(cl, re):
     "polar fit for the JHO1 airfoil"
-    cd = (0.0247*cl**2.49*re**-1.11 + 2.03e-7*cl**12.7*re**-0.338 +
-          6.35e10*cl**-0.243*re**-3.43 + 6.49e-6*cl**-1.9*re**-0.681)**(1/3.72)
+    cd = (
+        0.0247 * cl**2.49 * re**-1.11
+        + 2.03e-7 * cl**12.7 * re**-0.338
+        + 6.35e10 * cl**-0.243 * re**-3.43
+        + 6.49e-6 * cl**-1.9 * re**-0.681
+    ) ** (1 / 3.72)
     # SMA function, K=3, max RMS error = 0.00489
     return cd
+
 
 def plot_fits(re, cnstr, x, y):
     "plot fit compared to data"
@@ -83,14 +95,14 @@ def plot_fits(re, cnstr, x, y):
     assert len(re) == len(colors)
     lre, ind = np.unique(X[1], return_index=True)
     xre = np.exp(lre)
-    xcl = [np.exp(X[0][ind[i-1]:ind[i]]) for i in range(1, len(ind))]
-    cds = [np.exp(Y[ind[i-1]:ind[i]]) for i in range(1, len(ind))]
+    xcl = [np.exp(X[0][ind[i - 1] : ind[i]]) for i in range(1, len(ind))]
+    cds = [np.exp(Y[ind[i - 1] : ind[i]]) for i in range(1, len(ind))]
     yfit = cnstr.evaluate(x)
-    cdf = [np.exp(yfit[ind[i-1]:ind[i]]) for i in range(1, len(ind))]
+    cdf = [np.exp(yfit[ind[i - 1] : ind[i]]) for i in range(1, len(ind))]
     fig, ax = plt.subplots()
     i = 0
     for r, cl, cd, fi in zip(xre, xcl, cds, cdf):
-        roundre = int(np.round(r)/1000)
+        roundre = int(np.round(r) / 1000)
         if roundre in re:
             ax.plot(cl, cd, "o", mec=colors[i], mfc="none", mew=1.5)
             ax.plot(cl, fi, c=colors[i], label="Re = %dk" % roundre, lw=2)
@@ -101,12 +113,13 @@ def plot_fits(re, cnstr, x, y):
     ax.grid()
     return fig, ax
 
+
 if __name__ == "__main__":
     Re = np.arange(150, 750, 50)
-    X, Y = fit_setup(Re) # call fit(X, Y, 4, "SMA") to get fit
+    X, Y = fit_setup(Re)  # call fit(X, Y, 4, "SMA") to get fit
     np.random.seed(0)
     cn, err = fit(X, Y, 4, "SMA")
-    print "RMS error: %.5f" % err
+    print("RMS error: %.5f") % err
     df = cn.get_dataframe()
     if GENERATE:
         path = os.path.dirname(inspect.getfile(Wing))
