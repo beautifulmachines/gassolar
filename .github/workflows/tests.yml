@@ -1,0 +1,38 @@
+name: Tests
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  schedule:
+    - cron: '0 2 * * *'  # nightly at 2 AM UTC
+
+jobs:
+  test:
+
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.13"]
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up uv
+      uses: astral-sh/setup-uv@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install
+      # --no-sources ignores [tool.uv.sources] local path overrides, using PyPI instead
+      run: uv sync --group test --no-sources
+
+    - name: Run tests
+      run: |
+        make test
+
+    - name: Check for file changes
+      run: |
+        make check-clean

@@ -1,0 +1,29 @@
+# This workflow runs code formatting and linting checks
+
+name: Lint
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up uv
+      uses: astral-sh/setup-uv@v4
+      with:
+        python-version: "3.13"
+    - name: Install
+      # --no-sources ignores [tool.uv.sources] local path overrides, using PyPI instead
+      run: uv sync --group lint --no-sources
+    - name: Check code formatting
+      run: |
+        make format
+    - name: Check for file changes
+      run: |
+        make check-clean
