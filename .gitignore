@@ -12,6 +12,7 @@ dist/
 # uv
 .venv/
 uv.lock
+uv.toml
 
 # Testing
 .pytest_cache/

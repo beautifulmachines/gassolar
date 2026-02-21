@@ -19,8 +19,7 @@ jobs:
       with:
         python-version: "3.13"
     - name: Install
-      # --no-sources ignores [tool.uv.sources] local path overrides, using PyPI instead
-      run: uv sync --group lint --no-sources
+      run: uv sync --group lint
     - name: Check code formatting
       run: |
         make format

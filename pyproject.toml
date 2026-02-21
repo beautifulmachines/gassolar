@@ -43,7 +43,3 @@ line-length = 88
 [tool.isort]
 profile = "black"
 line_length = 88
-
-[tool.uv.sources]
-gpkit-core = { path = "../gpkit-core", editable = true }
-gpkit-models = { path = "../gpkit-models", editable = true }

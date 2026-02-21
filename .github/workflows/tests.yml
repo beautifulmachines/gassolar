@@ -26,8 +26,7 @@ jobs:
         python-version: ${{ matrix.python-version }}
 
     - name: Install
-      # --no-sources ignores [tool.uv.sources] local path overrides, using PyPI instead
-      run: uv sync --group test --no-sources
+      run: uv sync --group test
 
     - name: Run tests
       run: |
