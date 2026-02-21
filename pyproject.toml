@@ -1,0 +1,49 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "gassolar"
+version = "0.1.0"
+description = "Gas and solar long-endurance aircraft GP/SP models"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [
+    { name = "Beautiful Machines Team" }
+]
+dependencies = [
+    "gpkit-core>=0.1.9",
+    "gpkit-models>=0.1.1",
+    "numpy",
+    "pandas",
+]
+
+[dependency-groups]
+dev = [{include-group = "lint"}, {include-group = "test"}]
+lint = [
+    "isort>=5.12.0",
+    "black>=24.1.0",
+    "flake8>=7.0.0",
+    "pre-commit>=3.6.0",
+]
+test = [
+    "pytest>=8.0.0",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["gassolar"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.black]
+line-length = 88
+
+[tool.isort]
+profile = "black"
+line_length = 88
+
+[tool.uv.sources]
+gpkit-core = { path = "../gpkit-core", editable = true }
+gpkit-models = { path = "../gpkit-models", editable = true }
