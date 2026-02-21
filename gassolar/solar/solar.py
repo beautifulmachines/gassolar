@@ -3,17 +3,18 @@
 # pylint: disable=attribute-defined-outside-init, invalid-name, unused-variable
 # pylint: disable=too-many-locals, redefined-variable-type
 # pylint: disable=too-many-instance-attributes
+import contextlib
+import io
 import os
 
 import numpy as np
 import pandas as pd
-from gpfit.fit_constraintset import FitCS as FCS
 from gpkit import Model, Variable
-from gpkit.tests.helpers import StdoutCaptured
 from gpkitmodels.GP.aircraft.tail.empennage import Empennage
 from gpkitmodels.GP.aircraft.wing.wing import Wing as WingGP
 from gpkitmodels.SP.aircraft.tail.tail_boom_flex import TailBoomFlexibility
 from gpkitmodels.SP.aircraft.wing.wing import Wing as WingSP
+from gpkitmodels.tools.fit_constraintset import FitCS as FCS
 from gpkitmodels.tools.summing_constraintset import summing_vars
 
 from gassolar.environment.solar_irradiance import get_Eirr, twi_fits
@@ -24,6 +25,26 @@ path = basepath.replace(os.sep + "solar" + os.sep, os.sep + "environment" + os.s
 DF = pd.read_csv(path + "windaltfitdata.csv")
 DFt = pd.read_csv(path + "solar_twlightfit.csv")
 DFd = pd.read_csv(path + "solar_dayfit.csv")
+
+# Percent ranges (±%) for constants, for use in parametric trade studies.
+# Originally specified via pr= kwargs on Variable(); not supported in current gpkit-core.
+PARAM_RANGES = {
+    "Aircraft.W_{avn}": 3,
+    "Motor.B_{PM}": 4,
+    "Motor.\\eta": 4,
+    "Battery.\\eta_{charge}": 1,
+    "Battery.\\eta_{discharge}": 1,
+    "Battery.h_{batt}": 6,
+    "Battery.(E/\\mathcal{V})": 4,
+    "SolarCells.\\rho_{solar}": 5,
+    "SolarCells.\\eta": 5,
+    "FlightState.\\mu": 1,
+    "FlightState.(E/S)_{irr}": 2,
+    "FlightState.p_{wind}": 1,
+    "FlightState.V_{wind-ref}": 1,
+    "FlightState.\\rho_{ref}": 1,
+    "SteadyLevelFlight.\\eta_{prop}": 2,
+}
 
 
 class Aircraft(Model):
@@ -51,7 +72,7 @@ class Aircraft(Model):
             self.motor,
         ]
         Wpay = Variable("W_{pay}", 0, "lbf", "payload weight")
-        Wavn = Variable("W_{avn}", 8, "lbf", "avionics weight", pr=3)
+        Wavn = Variable("W_{avn}", 8, "lbf", "avionics weight")
         Wtotal = Variable("W_{total}", "lbf", "aircraft weight")
         Wwing = Variable("W_{wing}", "lbf", "wing weight")
         Wcent = Variable("W_{cent}", "lbf", "center weight")
@@ -108,10 +129,10 @@ class Motor(Model):
 
         W = Variable("W", "lbf", "motor weight")
         Pmax = Variable("P_{max}", "W", "max power")
-        Bpm = Variable("B_{PM}", 4140.8, "W/kg", "power mass ratio", pr=4)
-        m = Variable("m", "kg", "motor mass", fix=True)
+        Bpm = Variable("B_{PM}", 4140.8, "W/kg", "power mass ratio")
+        m = Variable("m", "kg", "motor mass")
         g = Variable("g", 9.81, "m/s**2", "gravitational constant")
-        eta = Variable("\\eta", 0.95, "-", "motor efficiency", pr=4)
+        eta = Variable("\\eta", 0.95, "-", "motor efficiency")
 
         constraints = [Pmax == Bpm * m, W >= m * g]
 
@@ -124,15 +145,15 @@ class Battery(Model):
     def setup(self):
 
         W = Variable("W", "lbf", "battery weight")
-        eta_charge = Variable("\\eta_{charge}", 0.98, "-", "charging efficiency", pr=1)
+        eta_charge = Variable("\\eta_{charge}", 0.98, "-", "charging efficiency")
         eta_discharge = Variable(
-            "\\eta_{discharge}", 0.98, "-", "discharging efficiency", pr=1
+            "\\eta_{discharge}", 0.98, "-", "discharging efficiency"
         )
-        E = Variable("E", "J", "total battery energy", fix=True)
+        E = Variable("E", "J", "total battery energy")
         g = Variable("g", 9.81, "m/s**2", "gravitational constant")
-        hbatt = Variable("h_{batt}", 350, "W*hr/kg", "battery specific energy", pr=6)
+        hbatt = Variable("h_{batt}", 350, "W*hr/kg", "battery specific energy")
         vbatt = Variable(
-            "(E/\\mathcal{V})", 800, "W*hr/l", "volume battery energy density", pr=4
+            "(E/\\mathcal{V})", 800, "W*hr/l", "volume battery energy density"
         )
         Volbatt = Variable("\\mathcal{V}", "m**3", "battery volume")
 
@@ -151,13 +172,11 @@ class SolarCells(Model):
 
     def setup(self):
 
-        rhosolar = Variable(
-            "\\rho_{solar}", 0.27, "kg/m^2", "solar cell area density", pr=5
-        )
+        rhosolar = Variable("\\rho_{solar}", 0.27, "kg/m^2", "solar cell area density")
         g = Variable("g", 9.81, "m/s**2", "gravitational constant")
-        S = Variable("S", "ft**2", "solar cell area", fix=True)
+        S = Variable("S", "ft**2", "solar cell area")
         W = Variable("W", "lbf", "solar cell weight")
-        etasolar = Variable("\\eta", 0.22, "-", "solar cell efficiency", pr=5)
+        etasolar = Variable("\\eta", 0.22, "-", "solar cell efficiency")
 
         constraints = [W >= rhosolar * S * g]
 
@@ -239,24 +258,24 @@ class FlightState(Model):
         df = pd.read_csv(
             path + "windfits" + month + "/windaltfit_lat%d.csv" % latitude
         ).to_dict(orient="records")[0]
-        with StdoutCaptured(None):
+        with contextlib.redirect_stdout(io.StringIO()):
             dft, dfd = twi_fits(latitude, day, gen=True)
         esirr, _, tn, _ = get_Eirr(latitude, day)
 
         Vwind = Variable("V_{wind}", "m/s", "wind velocity")
         V = self.V = Variable("V", "m/s", "true airspeed")
         rho = self.rho = Variable("\\rho", "kg/m**3", "air density")
-        mu = self.mu = Variable("\\mu", 1.42e-5, "N*s/m**2", "viscosity", pr=1)
-        ESirr = Variable("(E/S)_{irr}", esirr, "W*hr/m^2", "solar energy", pr=2)
+        mu = self.mu = Variable("\\mu", 1.42e-5, "N*s/m**2", "viscosity")
+        ESirr = Variable("(E/S)_{irr}", esirr, "W*hr/m^2", "solar energy")
         PSmin = Variable("(P/S)_{min}", "W/m^2", "minimum necessary solar power")
         ESday = Variable("(E/S)_{day}", "W*hr/m^2", "solar cells energy during daytime")
         ESc = Variable("(E/S)_C", "W*hr/m^2", "energy for batteries during sunrise/set")
         ESvar = Variable("(E/S)_{ref}", 1, "W*hr/m^2", "energy units variable")
         PSvar = Variable("(P/S)_{ref}", 1, "W/m^2", "power units variable")
         tnight = Variable("t_{night}", tn, "hr", "night duration")
-        pct = Variable("p_{wind}", 0.9, "-", "percentile wind speeds", pr=1)
-        Vwindref = Variable("V_{wind-ref}", 100.0, "m/s", "reference wind speed", pr=1)
-        rhoref = Variable("\\rho_{ref}", 1.0, "kg/m**3", "reference air density", pr=1)
+        pct = Variable("p_{wind}", 0.9, "-", "percentile wind speeds")
+        Vwindref = Variable("V_{wind-ref}", 100.0, "m/s", "reference wind speed")
+        rhoref = Variable("\\rho_{ref}", 1.0, "kg/m**3", "reference air density")
         mfac = Variable("m_{fac}", 1.0, "-", "wind speed margin factor")
         qne = self.qne = Variable("qne", "kg/s^2/m", "never exceed dynamic pressure")
         Vne = Variable("Vne", 40, "m/s", "never exceed velocity")
@@ -337,7 +356,7 @@ class SteadyLevelFlight(Model):
     def setup(self, state, aircraft, perf):
 
         T = Variable("T", "N", "thrust")
-        etaprop = Variable("\\eta_{prop}", 0.8, "-", "propeller efficiency", pr=2)
+        etaprop = Variable("\\eta_{prop}", 0.8, "-", "propeller efficiency")
 
         constraints = [
             aircraft["W_{total}"]
