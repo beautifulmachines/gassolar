@@ -12,6 +12,8 @@ jobs:
   test:
 
     runs-on: ubuntu-latest
+    env:
+      UV_NO_SOURCES: "1"
     strategy:
       fail-fast: false
       matrix:
@@ -26,7 +28,7 @@ jobs:
         python-version: ${{ matrix.python-version }}
 
     - name: Install
-      run: uv sync --group test --no-sources
+      run: uv sync --group test
 
     - name: Run tests
       run: |

@@ -11,6 +11,8 @@ on:
 jobs:
   lint:
     runs-on: ubuntu-latest
+    env:
+      UV_NO_SOURCES: "1"
 
     steps:
     - uses: actions/checkout@v4
@@ -19,7 +21,7 @@ jobs:
       with:
         python-version: "3.13"
     - name: Install
-      run: uv sync --group lint --no-sources
+      run: uv sync --group lint
     - name: Check code formatting
       run: |
         make format
