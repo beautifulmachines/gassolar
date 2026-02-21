@@ -19,7 +19,7 @@ class Aircraft(Model):
         )
         Wpay = Variable("W_{pay}", 10, "lbf", "payload")
         Wzfw = Variable("W_{zfw}", "lbf", "zero fuel weight")
-        etaprop = Variable("\\eta_{prop}", 0.75, "-", "propulsive efficiency")
+        Variable("\\eta_{prop}", 0.75, "-", "propulsive efficiency")
 
         constraints = [
             Wstructures == Wstructures,

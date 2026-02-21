@@ -38,7 +38,7 @@ class Aircraft(Model):
         Wpay = Variable("W_{pay}", 10, "lbf", "payload weight")
         Wavn = Variable("W_{avn}", 8, "lbf", "avionics weight")
         Wwing = Variable("W_{wing}", "lbf", "wing weight for loading")
-        etaprop = Variable("\\eta_{prop}", 0.8, "-", "propulsive efficiency")
+        Variable("\\eta_{prop}", 0.8, "-", "propulsive efficiency")
 
         self.emp.substitutions[self.emp.vtail.Vv] = 0.04
         self.emp.substitutions[self.emp.vtail.planform.tau] = 0.08
@@ -104,8 +104,8 @@ class AircraftPerf(Model):
             static.emp.tailboom,
         ]
 
-        Wend = Variable("W_{end}", "lbf", "vector-end weight")
-        Wstart = Variable("W_{start}", "lbf", "vector-begin weight")
+        Variable("W_{end}", "lbf", "vector-end weight")
+        Variable("W_{start}", "lbf", "vector-begin weight")
         CD = Variable("C_D", "-", "drag coefficient")
         CDA = Variable("CDA", "-", "area drag coefficient")
         mfac = Variable("m_{fac}", 1.0, "-", "drag margin factor")

@@ -27,7 +27,8 @@ DFt = pd.read_csv(path + "solar_twlightfit.csv")
 DFd = pd.read_csv(path + "solar_dayfit.csv")
 
 # Percent ranges (±%) for constants, for use in parametric trade studies.
-# Originally specified via pr= kwargs on Variable(); not supported in current gpkit-core.
+# Originally specified via pr= kwargs on Variable(); not supported in current
+# gpkit-core.
 PARAM_RANGES = {
     "Aircraft.W_{avn}": 3,
     "Motor.B_{PM}": 4,
@@ -132,7 +133,7 @@ class Motor(Model):
         Bpm = Variable("B_{PM}", 4140.8, "W/kg", "power mass ratio")
         m = Variable("m", "kg", "motor mass")
         g = Variable("g", 9.81, "m/s**2", "gravitational constant")
-        eta = Variable("\\eta", 0.95, "-", "motor efficiency")
+        Variable("\\eta", 0.95, "-", "motor efficiency")
 
         constraints = [Pmax == Bpm * m, W >= m * g]
 
@@ -176,7 +177,7 @@ class SolarCells(Model):
         g = Variable("g", 9.81, "m/s**2", "gravitational constant")
         S = Variable("S", "ft**2", "solar cell area")
         W = Variable("W", "lbf", "solar cell weight")
-        etasolar = Variable("\\eta", 0.22, "-", "solar cell efficiency")
+        Variable("\\eta", 0.22, "-", "solar cell efficiency")
 
         constraints = [W >= rhosolar * S * g]
 
@@ -232,7 +233,7 @@ class AircraftPerf(Model):
                 * static.solarcells["S"]
                 * static.solarcells["\\eta"]
             ),
-            cda >= sum(dvars),
+            cda / mfac >= sum(dvars),
             CD >= cda + self.wing["Cd"],
             Poper <= static.motor["P_{max}"],
         ]
@@ -265,14 +266,14 @@ class FlightState(Model):
         Vwind = Variable("V_{wind}", "m/s", "wind velocity")
         V = self.V = Variable("V", "m/s", "true airspeed")
         rho = self.rho = Variable("\\rho", "kg/m**3", "air density")
-        mu = self.mu = Variable("\\mu", 1.42e-5, "N*s/m**2", "viscosity")
-        ESirr = Variable("(E/S)_{irr}", esirr, "W*hr/m^2", "solar energy")
+        self.mu = Variable("\\mu", 1.42e-5, "N*s/m**2", "viscosity")
+        Variable("(E/S)_{irr}", esirr, "W*hr/m^2", "solar energy")
         PSmin = Variable("(P/S)_{min}", "W/m^2", "minimum necessary solar power")
         ESday = Variable("(E/S)_{day}", "W*hr/m^2", "solar cells energy during daytime")
         ESc = Variable("(E/S)_C", "W*hr/m^2", "energy for batteries during sunrise/set")
         ESvar = Variable("(E/S)_{ref}", 1, "W*hr/m^2", "energy units variable")
         PSvar = Variable("(P/S)_{ref}", 1, "W/m^2", "power units variable")
-        tnight = Variable("t_{night}", tn, "hr", "night duration")
+        Variable("t_{night}", tn, "hr", "night duration")
         pct = Variable("p_{wind}", 0.9, "-", "percentile wind speeds")
         Vwindref = Variable("V_{wind-ref}", 100.0, "m/s", "reference wind speed")
         rhoref = Variable("\\rho_{ref}", 1.0, "kg/m**3", "reference air density")
@@ -282,7 +283,7 @@ class FlightState(Model):
         rhosl = Variable("rhosl", 1.225, "kg/m^3", "air density at sea level")
 
         constraints = [
-            V >= Vwind,
+            V / mfac >= Vwind,
             FCS(df, Vwind / Vwindref, [rho / rhoref, pct]),
             FCS(dfd, ESday / ESvar, [PSmin / PSvar]),
             FCS(dft, ESc / ESvar, [PSmin / PSvar]),
