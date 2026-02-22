@@ -26,11 +26,11 @@ path = basepath.replace(os.sep + "solar" + os.sep, os.sep + "environment" + os.s
 
 # Explicit subclasses to disable foam fill without mutating the shared base classes.
 class _WingGP(WingGP):
-    fillModel = None
+    fill_model = None
 
 
 class _WingSP(WingSP):
-    fillModel = None
+    fill_model = None
 
 
 DF = pd.read_csv(path + "windaltfitdata.csv")

@@ -39,15 +39,15 @@ path = dirname(gassolar.environment.__file__)
 # Explicit subclasses with solar-specific structural configurations,
 # replacing the runtime class mutations that were used previously.
 class _SolarHTail(HorizontalTail):
-    sparModel = BoxSparGP
-    fillModel = None
-    skinModel = WingSecondStruct
+    spar_model = BoxSparGP
+    fill_model = None
+    skin_model = WingSecondStruct
 
 
 class _SolarVTail(VerticalTail):
-    sparModel = BoxSparGP
-    fillModel = None
-    skinModel = WingSecondStruct
+    spar_model = BoxSparGP
+    fill_model = None
+    skin_model = WingSecondStruct
 
 
 class _SolarTailBoom(TailBoom):
@@ -56,15 +56,15 @@ class _SolarTailBoom(TailBoom):
 
 
 class _SolarWingGP(WingGP):
-    sparModel = BoxSparGP
-    fillModel = None
-    skinModel = WingSecondStruct
+    spar_model = BoxSparGP
+    fill_model = None
+    skin_model = WingSecondStruct
 
 
 class _SolarWingSP(WingSP):
-    sparModel = BoxSparSP
-    fillModel = None
-    skinModel = WingSecondStruct
+    spar_model = BoxSparSP
+    fill_model = None
+    skin_model = WingSecondStruct
 
 
 class AircraftPerf(Model):
