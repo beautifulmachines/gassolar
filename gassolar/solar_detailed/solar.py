@@ -12,7 +12,7 @@ from gpkit import Model, SignomialsEnabled, Vectorize, parse_variables, ureg
 from gpkitmodels import g
 from gpkitmodels.GP.aircraft.fuselage.elliptical_fuselage import Fuselage
 from gpkitmodels.GP.aircraft.motor.motor import Motor
-from gpkitmodels.GP.aircraft.prop.propeller import ActuatorProp, Propeller
+from gpkitmodels.GP.aircraft.prop.propeller import Propeller
 from gpkitmodels.GP.aircraft.tail.empennage import Empennage
 from gpkitmodels.GP.aircraft.tail.horizontal_tail import HorizontalTail
 from gpkitmodels.GP.aircraft.tail.tail_boom import TailBoom
@@ -34,6 +34,37 @@ from gassolar.environment.wind_speeds import get_month
 from gassolar.solar_detailed.relaxed_constants import post_process, relaxed_constants
 
 path = dirname(gassolar.environment.__file__)
+
+
+# Explicit subclasses with solar-specific structural configurations,
+# replacing the runtime class mutations that were used previously.
+class _SolarHTail(HorizontalTail):
+    sparModel = BoxSparGP
+    fillModel = None
+    skinModel = WingSecondStruct
+
+
+class _SolarVTail(VerticalTail):
+    sparModel = BoxSparGP
+    fillModel = None
+    skinModel = WingSecondStruct
+
+
+class _SolarTailBoom(TailBoom):
+    spar_model = BoxSparGP
+    secondaryWeight = True
+
+
+class _SolarWingGP(WingGP):
+    sparModel = BoxSparGP
+    fillModel = None
+    skinModel = WingSecondStruct
+
+
+class _SolarWingSP(WingSP):
+    sparModel = BoxSparSP
+    fillModel = None
+    skinModel = WingSecondStruct
 
 
 class AircraftPerf(Model):
@@ -224,30 +255,20 @@ class Aircraft(Model):
         foamhd.substitutions.update({foamhd.rho: 0.03})
         materials = [cfrpud, cfrpfabric, foamhd]
 
-        HorizontalTail.sparModel = BoxSparGP
-        HorizontalTail.fillModel = None
-        HorizontalTail.skinModel = WingSecondStruct
-        VerticalTail.sparModel = BoxSparGP
-        VerticalTail.fillModel = None
-        VerticalTail.skinModel = WingSecondStruct
-        TailBoom.__bases__ = (BoxSparGP,)
-        TailBoom.secondaryWeight = True
-        self.emp = Empennage(N=5)
+        self.emp = Empennage(
+            N=5,
+            htail_cls=_SolarHTail,
+            vtail_cls=_SolarVTail,
+            tailboom_cls=_SolarTailBoom,
+        )
         self.solarcells = SolarCells()
         self.battery = Battery()
         if sp:
-            WingSP.sparModel = BoxSparSP
-            WingSP.fillModel = None
-            WingSP.skinModel = WingSecondStruct
-            self.wing = WingSP(N=20)
+            self.wing = _SolarWingSP(N=20)
         else:
-            WingGP.sparModel = BoxSparGP
-            WingGP.fillModel = None
-            WingGP.skinModel = WingSecondStruct
-            self.wing = WingGP(N=20)
+            self.wing = _SolarWingGP(N=20)
         self.motor = Motor()
-        Propeller.flight_model = ActuatorProp
-        self.propeller = Propeller()
+        self.propeller = Propeller()  # ActuatorProp is already the default flight_model
         self.components = [self.solarcells, self.wing, self.battery, self.emp]
         self.propulsor = [self.motor, self.propeller]
 
