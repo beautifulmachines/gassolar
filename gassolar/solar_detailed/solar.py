@@ -8,7 +8,15 @@ from os import sep
 from os.path import abspath, dirname
 
 import pandas as pd
-from gpkit import Model, SignomialsEnabled, Vectorize, parse_variables, ureg
+from gpkit import (
+    Model,
+    SignomialsEnabled,
+    Var,
+    Variable,
+    Vectorize,
+    VectorVariable,
+    ureg,
+)
 from gpkitmodels import g
 from gpkitmodels.GP.aircraft.fuselage.elliptical_fuselage import Fuselage
 from gpkitmodels.GP.aircraft.motor.motor import Motor
@@ -97,29 +105,30 @@ class AircraftPerf(Model):
 
 
 class AircraftDrag(Model):
-    """Aircaft Performance
+    "Aircaft Performance"
 
-    Variables
-    ---------
-    CD                  [-]     aircraft drag coefficient
-    cda                 [-]     non-wing drag coefficient
-    mfac        1.05    [-]     drag margin factor
-    Pshaft              [hp]    shaft power
-    Pavn        200     [W]     avionics power draw
-    Ppay        100     [W]     payload power draw
-    Poper               [W]     operating power
-    mpower      1.05    [-]     power margin
-    T                   [lbf]     thrust
+    CD = Var("-", "aircraft drag coefficient")
+    cda = Var("-", "non-wing drag coefficient")
+    mfac = Var("-", "drag margin factor", value=1.05)
+    Pshaft = Var("hp", "shaft power")
+    Pavn = Var("W", "avionics power draw", value=200)
+    Ppay = Var("W", "payload power draw", value=100)
+    Poper = Var("W", "operating power")
+    mpower = Var("-", "power margin", value=1.05)
+    T = Var("lbf", "thrust")
 
-    LaTex Strings
-    -------------
-    CD          C_D
-    cda         CDA
-    mfac        m_{\\mathrm{fac}}
-    """
-
-    @parse_variables(__doc__, globals())
     def setup(self, static, state, onDesign=False):
+        CD, cda, mfac, Pavn, Ppay, Poper, mpower, T = (
+            self.CD,
+            self.cda,
+            self.mfac,
+            self.Pavn,
+            self.Ppay,
+            self.Poper,
+            self.mpower,
+            self.T,
+        )
+
         fd = dirname(abspath(__file__)) + sep + "dai1336a.csv"
 
         self.wing = static.wing.flight_model(static.wing, state, fitdata=fd)
@@ -188,57 +197,44 @@ class AircraftDrag(Model):
 
 
 class Aircraft(Model):
-    """Aircraft Model
+    "Aircraft Model"
 
-    Variables
-    ---------
-    Wpay        11      [lbf]   payload weight
-    Wavn        22      [lbf]   avionics weight
-    Wtotal              [lbf]   aircraft weight
-    Wwing               [lbf]   wing weight
-    Wcent               [lbf]   center weight
-    mfac        1.05    [-]     total weight margin
-    fland       0.02    [-]     fractional landing gear weight
-    Wland               [lbf]   landing gear weight
-    Nprop       4       [-]     Number of propulsors
-    minvttau    0.09    [-]     minimum vertical tail tau ratio
-    minhttau    0.06    [-]     minimum horizontal tail tau ratio
-    maxtau      0.144   [-]     maximum wing tau ratio
-
-    SKIP VERIFICATION
-
-    Upper Unbounded
-    ---------------
-    Wwing, Wcent, wing.mw (if sp), propeller.c
-
-    Lower Unbounded
-    ---------------
-    wing.spar.J, wing.spar.Sy
-    emp.htail.spar.J, emp.htail.spar.Sy
-    emp.vtail.spar.J, emp.vtail.spar.Sy
-    emp.tailboom.J, emp.tailboom.Sy
-    motor.Qmax
-    battery.E, solarcells.S
-    emp.htail.mh (if sp), emp.htail.Vh (if sp)
-    propeller.R, propeller.T_m, propeller.c
-
-    LaTex Strings
-    -------------
-    Wpay        W_{\\mathrm{pay}}
-    Wavn        W_{\\mathrm{avn}}
-    Wtotal      W_{\\mathrm{total}}
-    Wwing       W_{\\mathrm{wing}}
-    Wcent       W_{\\mathrm{cent}}
-
-    """
+    Wpay = Var("lbf", "payload weight", value=11)
+    Wavn = Var("lbf", "avionics weight", value=22)
+    Wtotal = Var("lbf", "aircraft weight")
+    Wwing = Var("lbf", "wing weight")
+    Wcent = Var("lbf", "center weight")
+    mfac = Var("-", "total weight margin", value=1.05)
+    fland = Var("-", "fractional landing gear weight", value=0.02)
+    Wland = Var("lbf", "landing gear weight")
+    Nprop = Var("-", "Number of propulsors", value=4)
+    minvttau = Var("-", "minimum vertical tail tau ratio", value=0.09)
+    minhttau = Var("-", "minimum horizontal tail tau ratio", value=0.06)
+    maxtau = Var("-", "maximum wing tau ratio", value=0.144)
 
     fuseModel = None
     flight_model = AircraftPerf
 
-    @parse_variables(__doc__, globals())
     def setup(self, Npod=0, sp=False):
         self.Npod = Npod
         self.sp = sp
+
+        Wpay, Wavn, Wtotal, Wwing, Wcent, mfac, fland, Wland = (
+            self.Wpay,
+            self.Wavn,
+            self.Wtotal,
+            self.Wwing,
+            self.Wcent,
+            self.mfac,
+            self.fland,
+            self.Wland,
+        )
+        Nprop, minvttau, minhttau, maxtau = (
+            self.Nprop,
+            self.minvttau,
+            self.minhttau,
+            self.maxtau,
+        )
 
         cfrpud.substitutions.update(
             {cfrpud.rho: 1.5, cfrpud.E: 200, cfrpud.tmin: 0.1, cfrpud.sigma: 1500}
@@ -369,132 +365,78 @@ class Aircraft(Model):
 
 
 class Battery(Model):
-    """Battery Model
+    "Battery Model"
 
-    Variables
-    ---------
-    W                               [lbf]        battery weight
-    etacharge           0.98        [-]          charging efficiency
-    etadischarge        0.98        [-]          discharging efficiency
-    E                               [kJ]         total battery energy
-    hbatt               350         [W*hr/kg]    battery specific energy
-    vbatt               800         [W*hr/l]     battery energy density
-    Volbatt                         [m**3]       battery volume
-    etapack             0.85        [-]          packing efficiency
-    etaRTE              0.95        [-]          battery RTE
-    minSOC              1.03        [-]          minimum state of charge
-    rhomppt             0.4223      [kg/kW]      power system mass density
-    etamppt             0.975       [-]          power system efficiency
+    W = Var("lbf", "battery weight")
+    etacharge = Var("-", "charging efficiency", value=0.98)
+    etadischarge = Var("-", "discharging efficiency", value=0.98)
+    E = Var("kJ", "total battery energy")
+    hbatt = Var("W*hr/kg", "battery specific energy", value=350)
+    vbatt = Var("W*hr/l", "battery energy density", value=800)
+    Volbatt = Var("m**3", "battery volume")
+    etapack = Var("-", "packing efficiency", value=0.85)
+    etaRTE = Var("-", "battery RTE", value=0.95)
+    minSOC = Var("-", "minimum state of charge", value=1.03)
+    rhomppt = Var("kg/kW", "power system mass density", value=0.4223)
+    etamppt = Var("-", "power system efficiency", value=0.975)
 
-    Upper Unbounded
-    ---------------
-    W, Volbatt
-
-    Lower Unbounded
-    ---------------
-    E
-
-    LaTex Strings
-    -------------
-    eta_charge          \\eta_{\\mathrm{charge}}
-    eta_discharge       \\eta_{\\mathrm{discharge}}
-    hbatt               h_{\\mathrm{batt}}
-    vbatt               (EV)_{\\mathrm{batt}}
-    Volbatt             \\mathcal{V}_{\\mathrm{batt}}
-
-    """
-
-    @parse_variables(__doc__, globals())
     def setup(self):
+        W, E, minSOC, hbatt, etaRTE, etapack, Volbatt, vbatt = (
+            self.W,
+            self.E,
+            self.minSOC,
+            self.hbatt,
+            self.etaRTE,
+            self.etapack,
+            self.Volbatt,
+            self.vbatt,
+        )
         return [W >= E * minSOC / hbatt / etaRTE / etapack * g, Volbatt >= E / vbatt]
 
 
 class SolarCells(Model):
-    """solar cell model
+    "solar cell model"
 
-    Variables
-    ---------
-    rhosolar            0.3     [kg/m^2]        solar cell area density
-    S                           [ft**2]         solar cell area
-    W                           [lbf]           solar cell weight
-    etasolar            0.2     [-]             solar cell efficiency
-    mfac                1.0     [-]             solar cell area margin
+    rhosolar = Var("kg/m^2", "solar cell area density", value=0.3)
+    S = Var("ft**2", "solar cell area")
+    W = Var("lbf", "solar cell weight")
+    etasolar = Var("-", "solar cell efficiency", value=0.2)
+    mfac = Var("-", "solar cell area margin", value=1.0)
 
-    Upper Unbounded
-    ---------------
-    W
-
-    Lower Unbounded
-    ---------------
-    S
-
-    LaTex Strings
-    -------------
-    rhosolar        \\rho_{\\mathrm{solar}}
-    etasolar        \\eta_{\\mathrm{solar}}
-    mfac            m_{\\mathrm{fac}}
-
-    """
-
-    @parse_variables(__doc__, globals())
     def setup(self):
-        return [W >= rhosolar * S * g]
+        return [self.W >= self.rhosolar * self.S * g]
 
 
 class FlightState(Model):
-    """Flight State (wind speed, solar irradiance, atmosphere)
+    "Flight State (wind speed, solar irradiance, atmosphere)"
 
-    Arguments
-    ------
-    latitude        [deg]       earth latitude
-    day                         day of the year [Jan 1st = 1]
+    Vwind = Var("m/s", "wind velocity")
+    V = Var("m/s", "true airspeed")
+    rho = Var("kg/m^3", "air density")
+    mu = Var("N*s/m^2", "viscosity", value=1.42e-5)
+    PSmin = Var("W/m^2", "minimum necessary solar power")
+    ESday = Var("W*hr/m^2", "solar cells energy during daytime")
+    EStwi = Var("W*hr/m^2", "twilight required battery energy")
+    ESvar = Var("W*hr/m^2", "energy units variable", value=1)
+    PSvar = Var("W/m^2", "power units variable", value=1)
+    pct = Var("-", "percentile wind speeds", value=0.9)
+    Vwindref = Var("m/s", "reference wind speed", value=100.0)
+    rhoref = Var("kg/m^3", "reference air density", value=1.0)
+    mfac = Var("-", "wind speed margin factor", value=1.0)
+    rhosl = Var("kg/m^3", "sea level air density", value=1.225)
+    Vne = Var("m/s", "never exceed speed at altitude")
+    qne = Var("kg/s^2/m", "never exceed dynamic pressure")
+    Nfac = Var("-", "factor on Vne", value=1.4)
 
-    Variables
-    ---------
-    Vwind                   [m/s]       wind velocity
-    V                       [m/s]       true airspeed
-    rho                     [kg/m^3]    air density
-    mu          1.42e-5     [N*s/m^2]   viscosity
-    ESirr       esirr       [W*hr/m^2]  solar energy
-    PSmin                   [W/m^2]     minimum necessary solar power
-    ESday                   [W*hr/m^2]  solar cells energy during daytime
-    EStwi                   [W*hr/m^2]  twilight required battery energy
-    ESvar       1           [W*hr/m^2]  energy units variable
-    PSvar       1           [W/m^2]     power units variable
-    tnight      tn          [hr]        night duration
-    pct         0.9         [-]         percentile wind speeds
-    Vwindref    100.0       [m/s]       reference wind speed
-    rhoref      1.0         [kg/m^3]    reference air density
-    mfac        1.0         [-]         wind speed margin factor
-    rhosl       1.225       [kg/m^3]    sea level air density
-    Vne                     [m/s]       never exceed speed at altitude
-    qne                     [kg/s^2/m]  never exceed dynamic pressure
-    N           1.4         [-]         factor on Vne
-
-    LaTex Strings
-    -------------
-    Vwind       V_{\\mathrm{wind}}}
-    V           V
-    rho         \\rho
-    mu          \\mu
-    ESirr       (E/S)_{\\mathrm{irr}}
-    PSmin       (P/S)_{\\mathrm{min}}
-    ESday       (E/S)_{\\mathrm{day}}
-    EStwi       (E/S)_{\\mathrm{twi}}
-    ESvar       (E/S)_{\\mathrm{ref}}
-    PSvar       (P/S)_{\\mathrm{ref}}
-    tnight      t_{\\mathrm{night}}
-    pct         p_{\\mathrm{wind}}
-    Vwindref    V_{\\mathrm{wind-ref}}
-    rhoref      \\rho_{\\mathrm{ref}}
-    mfac        m_{\\mathrm{fac}}
-
-    """
-
-    @parse_variables(__doc__, globals())
     def setup(self, latitude, day, esirr, tn):
-        self.esirr = esirr
-        self.tn = tn
+        # ESirr and tnight depend on args passed at construction time
+        self.ESirr = Variable("ESirr", esirr, "W*hr/m^2", "solar energy")
+        self.tnight = Variable("tnight", tn, "hr", "night duration")
+
+        Vwind, V, rho, mfac, PSmin = self.Vwind, self.V, self.rho, self.mfac, self.PSmin
+        ESday, EStwi, ESvar, PSvar = self.ESday, self.EStwi, self.ESvar, self.PSvar
+        Vwindref, rhoref, pct = self.Vwindref, self.rhoref, self.pct
+        Vne, qne, Nfac = self.Vne, self.qne, self.Nfac
 
         month = get_month(day)
         df = pd.read_csv(
@@ -508,7 +450,7 @@ class FlightState(Model):
             FCS(df, Vwind / Vwindref, [rho / rhoref, pct], name="wind"),
             FCS(dfd, ESday / ESvar, [PSmin / PSvar]),
             FCS(dft, EStwi / ESvar, [PSmin / PSvar]),
-            Vne == N * V,
+            Vne == Nfac * V,
             qne == 0.5 * rho * Vne**2,
         ]
 
@@ -517,8 +459,6 @@ class FlightSegment(Model):
     """Flight Segment"""
 
     def setup(self, aircraft, latitude=35, day=355):
-        # exec parse_variables(FlightSegment.__doc__)
-
         self.latitude = latitude
         self.day = day
         esirr, _, tn, _ = get_Eirr(latitude, day)
@@ -667,23 +607,12 @@ class FlightSegment(Model):
 
 
 class Climb(Model):
-    """Climb model
+    "Climb model"
 
-    Variables
-    ---------
-    h           60000           [ft]            climb altitude
-    t           500             [min]           time to climb
-    hdotmin                     [ft/min]        minimum climb rate
-    mu          1.42e-5         [N*s/m^2]       viscosity
-    dh          self.hstep      [ft]            change in altitude
-
-    Variables of length [1,N]
-    ---------------------
-    dt                          [min]           time step
-    V                           [m/s]           vehicle speed
-    hdot                        [ft/min]        climb rate
-    rho         self.density    [kg/m^3]        air density
-    """
+    h = Var("ft", "climb altitude", value=60000)
+    t = Var("min", "time to climb", value=500)
+    hdotmin = Var("ft/min", "minimum climb rate")
+    mu = Var("N*s/m^2", "viscosity", value=1.42e-5)
 
     def density(self, c):
         "find air density"
@@ -706,9 +635,19 @@ class Climb(Model):
         "find delta altitude"
         return float(c[self.h]) / self.N * ureg("ft")
 
-    @parse_variables(__doc__, globals())
     def setup(self, N, aircraft):
         self.N = N
+
+        # scalar with linked function
+        dh = self.dh = Variable("dh", self.hstep, "ft", "change in altitude")
+
+        # vectors of shape (1, N) — used by AircraftDrag called with self as state
+        dt = self.dt = VectorVariable((1, N), "dt", "min", "time step")
+        V = self.V = VectorVariable((1, N), "V", "m/s", "vehicle speed")
+        hdot = self.hdot = VectorVariable((1, N), "hdot", "ft/min", "climb rate")
+        rho = self.rho = VectorVariable(
+            (1, N), "rho", self.density, "kg/m^3", "air density"
+        )
 
         with Vectorize(self.N):
             self.drag = AircraftDrag(aircraft, self)
@@ -720,13 +659,12 @@ class Climb(Model):
         E = aircraft.battery.E
         Poper = self.drag.Poper
         T = self.drag.T
-        self.rho = rho
 
         constraints = [
             Wtotal <= 0.5 * rho * V**2 * CL * S,
             T >= 0.5 * rho * V**2 * CD * S + Wtotal * hdot / V,
             hdot >= dh / dt,
-            t >= sum(hstack(dt)),
+            self.t >= sum(hstack(dt)),
             E >= sum(hstack(Poper * dt)),
         ]
 
