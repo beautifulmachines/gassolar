@@ -10,7 +10,7 @@ def test_solar_detailed_gp():
     m = Mission(v, latitude=[20])
     m.cost = m[m.aircraft.Wtotal]
     sol = m.solve(verbosity=0)
-    assert sol.cost > 0
+    assert sol.cost == pytest.approx(814.409, rel=1e-3)
 
 
 @pytest.mark.skip(

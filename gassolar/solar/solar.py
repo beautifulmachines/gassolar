@@ -22,6 +22,17 @@ from gassolar.environment.wind_speeds import get_month
 
 basepath = os.path.abspath(__file__).replace(os.path.basename(__file__), "")
 path = basepath.replace(os.sep + "solar" + os.sep, os.sep + "environment" + os.sep)
+
+
+# Explicit subclasses to disable foam fill without mutating the shared base classes.
+class _WingGP(WingGP):
+    fill_model = None
+
+
+class _WingSP(WingSP):
+    fill_model = None
+
+
 DF = pd.read_csv(path + "windaltfitdata.csv")
 DFt = pd.read_csv(path + "solar_twlightfit.csv")
 DFd = pd.read_csv(path + "solar_dayfit.csv")
@@ -57,11 +68,9 @@ class Aircraft(Model):
         self.emp = Empennage()
         self.solarcells = SolarCells()
         if sp:
-            WingSP.fillModel = None
-            self.wing = WingSP()
+            self.wing = _WingSP()
         else:
-            WingGP.fillModel = None
-            self.wing = WingGP()
+            self.wing = _WingGP()
         self.battery = Battery()
         self.motor = Motor()
 
