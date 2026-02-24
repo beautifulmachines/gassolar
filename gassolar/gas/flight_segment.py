@@ -1,6 +1,6 @@
 "flight segment model"
 
-from gpkit import Model, Variable, Vectorize
+from gpkit import Model, Var, Variable, Vectorize
 from gpkitmodels.GP.aircraft.mission.breguet_endurance import BreguetEndurance
 
 from gassolar.environment.wind_speeds import get_windspeed
@@ -10,6 +10,8 @@ from gassolar.gas.steady_level_flight import SteadyLevelFlight
 
 class FlightSegment(Model):
     "flight segment"
+
+    W_fuel_fs = Var("lbf", "flight segment fuel weight")
 
     def setup(self, aircraft, N=5, altitude=15000, latitude=45, percent=90, day=355):
 
@@ -34,9 +36,8 @@ class FlightSegment(Model):
             self.be = BreguetEndurance(self.aircraftPerf)
 
         self.submodels = [self.fs, self.aircraftPerf, self.slf, self.be]
-        Wfuelfs = Variable("W_{fuel-fs}", "lbf", "flight segment fuel weight")
 
-        self.constraints = [Wfuelfs >= self.be["W_{fuel}"].sum()]
+        self.constraints = [self.W_fuel_fs >= self.be.W_fuel.sum()]
 
         if N > 1:
             self.constraints.extend(

@@ -93,7 +93,7 @@ class Mission(Model):
         constraints = [
             mtow == loiter["W_{start}"][0],
             mtow >= Wfueltot + gassimple["W_{zfw}"],
-            Wfueltot >= sum([fs["W_{fuel-fs}"] for fs in mission]),
+            Wfueltot >= sum([fs["W_fuel_fs"] for fs in mission]),
             mission[-1]["W_{end}"][-1] >= gassimple["W_{zfw}"],
             gassimple["W_{structures}"] >= mtow * gassimple["f_{structures}"],
         ]

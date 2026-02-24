@@ -1,16 +1,15 @@
 "steady level flight model"
 
-from gpkit import Model, Variable
+from gpkit import Model, Var
 
 
 class SteadyLevelFlight(Model):
     "steady level flight model"
 
+    T = Var("N", "thrust")
+
     def setup(self, state, aircraft, perf):
-
-        T = Variable("T", "N", "thrust")
-
-        constraints = [
+        return [
             (perf["W_{end}"] * perf["W_{start}"]) ** 0.5
             <= (
                 0.5
@@ -19,7 +18,7 @@ class SteadyLevelFlight(Model):
                 * perf.wing.CL
                 * aircraft.wing["S"]
             ),
-            T
+            self.T
             >= (
                 0.5
                 * state["\\rho"]
@@ -27,7 +26,5 @@ class SteadyLevelFlight(Model):
                 * perf["C_D"]
                 * aircraft.wing["S"]
             ),
-            perf["P_{shaft}"] >= T * state["V"] / aircraft["\\eta_{prop}"],
+            perf["P_{shaft}"] >= self.T * state["V"] / aircraft["\\eta_{prop}"],
         ]
-
-        return constraints
