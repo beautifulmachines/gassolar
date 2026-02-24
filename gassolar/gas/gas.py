@@ -209,7 +209,7 @@ class Mission(Model):
 
         constraints = [
             mtow >= climb1["W_{start}"][0],
-            Wfueltot >= sum(fs["W_{fuel-fs}"] for fs in mission),
+            Wfueltot >= sum(fs["W_fuel_fs"] for fs in mission),
             mission[-1]["W_{end}"][-1] >= JHO["W_{zfw}"],
             Wcent
             >= Wfueltot
