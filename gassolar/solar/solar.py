@@ -454,4 +454,5 @@ def test():
 if __name__ == "__main__":
     M = Mission(latitude=11)
     M.cost = M["W_{total}"]
-    sol = M.solve("mosek")
+    sol = M.solve()
+    print(sol.table())
