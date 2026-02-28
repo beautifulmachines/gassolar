@@ -1,3 +1,7 @@
+# Covers: gas aircraft (test_gas.py), solar aircraft (test_solar.py),
+#         solar_detailed (test_solar_detailed.py), JHO (test_jho.py)
+# STRUCT-04: gas and solar coverage. Liberty covered by liberty/ CI.
+# UV_NO_SOURCES=1: intentional — uses published PyPI versions (gpkit-core, gpkit-models)
 name: Tests
 
 on:
