@@ -434,6 +434,7 @@ class Mission(Model):
         "Return a ready-to-solve JHO Mission (SP; localsolve). Wind=False, DF70=True."
         m = cls()
         m.cost = 1 / m.loiter.t
+        m.substitutions[m.JHO.emp.vtail.Vv] = 0.04
         return m
 
 
