@@ -108,7 +108,7 @@ def plot_altitude_sweeps(hvals, yvarnames, vars_to_fix):
 
     figures = []
     axis = []
-    hvar = M_fix.variables_byname("h")[0]
+    hvar = next(iter(M_fix.varkeys.by_name("h")))
     for j, yvarname in enumerate(yvarnames):
         fig, ax = plt.subplots()
         ax.plot(hvals, vals[:, j])
