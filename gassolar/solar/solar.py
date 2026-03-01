@@ -83,7 +83,7 @@ class Aircraft(Model):
         ]
         Wpay = Variable("W_{pay}", 0, "lbf", "payload weight")
         Wavn = Variable("W_{avn}", 8, "lbf", "avionics weight")
-        Wtotal = Variable("W_{total}", "lbf", "aircraft weight")
+        self.Wtotal = Wtotal = Variable("W_{total}", "lbf", "aircraft weight")
         Wwing = Variable("W_{wing}", "lbf", "wing weight")
         Wcent = Variable("W_{cent}", "lbf", "center weight")
 
@@ -409,6 +409,13 @@ class Mission(Model):
                 self.mission.append(FlightSegment(self.solar, l, 355 - 10 - day))
 
         return self.solar, self.mission
+
+    @classmethod
+    def default(cls):
+        "Return a ready-to-solve solar Mission (GP). Latitude=11 (equatorial)."
+        m = cls(latitude=11)
+        m.cost = m.solar.Wtotal
+        return m
 
     # def process_result(self, result):
     #     super(Mission, self).process_result(result)

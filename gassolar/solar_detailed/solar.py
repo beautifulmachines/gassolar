@@ -705,6 +705,14 @@ class Mission(Model):
 
         return self.mission, self.aircraft
 
+    @classmethod
+    def default(cls):
+        "Return a ready-to-solve solar_detailed Mission (GP). Latitude=[20]."
+        aircraft = Aircraft(sp=False)
+        m = cls(aircraft, latitude=[20])
+        m.cost = m.aircraft.Wtotal
+        return m
+
 
 def test():
     "test model for continuous integration"

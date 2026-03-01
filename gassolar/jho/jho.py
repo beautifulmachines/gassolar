@@ -284,7 +284,7 @@ class Loiter(Model):
     def setup(self, N, aircraft, alt=15000, wind=False, etap=0.7):
         self.fs = FlightSegment(N, aircraft, alt, wind, etap)
 
-        t = Variable("t", "days", "time loitering")
+        self.t = t = Variable("t", "days", "time loitering")
         constraints = [self.fs.be["t"] >= t / N]
 
         return constraints, self.fs
@@ -428,6 +428,13 @@ class Mission(Model):
             constraints.extend([mission[i]["W_{end}"][-1] == fs["W_{start}"][0]])
 
         return self.JHO, mission, loading, constraints
+
+    @classmethod
+    def default(cls):
+        "Return a ready-to-solve JHO Mission (SP; localsolve). Wind=False, DF70=True."
+        m = cls()
+        m.cost = 1 / m.loiter.t
+        return m
 
 
 if __name__ == "__main__":
