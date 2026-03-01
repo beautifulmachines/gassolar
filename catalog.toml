@@ -4,9 +4,6 @@
 #   name         — human-readable display name
 #   description  — one-line description of the model and architecture
 #   entry_point  — Python import path in "module.path:ClassName" format
-#
-# Used by Compass (Phase 4) to discover and load models.
-# Extend schema with tags/complexity/version when Compass needs it (Phase 4 scope).
 
 [[models]]
 name = "Gas Aircraft"
