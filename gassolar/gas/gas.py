@@ -170,7 +170,7 @@ class Mission(Model):
 
     def setup(self, latitude=38, percent=90, sp=False):
 
-        mtow = Variable("MTOW", "lbf", "max-take off weight")
+        self.mtow = mtow = Variable("MTOW", "lbf", "max-take off weight")
         Wcent = Variable("W_{cent}", "lbf", "center aircraft weight")
         Wfueltot = Variable("W_{fuel-tot}", "lbf", "total aircraft fuel weight")
         LS = Variable("(W/S)", "lbf/ft**2", "wing loading")
@@ -232,6 +232,14 @@ class Mission(Model):
         loading[1].substitutions[loading[0].Nmax] = 2
 
         return JHO, mission, loading, constraints
+
+    @classmethod
+    def default(cls):
+        "Return a ready-to-solve gas Mission (GP). Latitude=38, loiter time=6 days."
+        m = cls()
+        m.cost = m.mtow
+        m.substitutions[m.loiter.t] = 6
+        return m
 
 
 def test():

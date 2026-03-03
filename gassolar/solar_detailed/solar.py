@@ -236,19 +236,6 @@ class Aircraft(Model):
             self.maxtau,
         )
 
-        cfrpud.substitutions.update(
-            {cfrpud.rho: 1.5, cfrpud.E: 200, cfrpud.tmin: 0.1, cfrpud.sigma: 1500}
-        )
-        cfrpfabric.substitutions.update(
-            {
-                cfrpfabric.rho: 1.3,
-                cfrpfabric.E: 40,
-                cfrpfabric.tmin: 0.1,
-                cfrpfabric.sigma: 300,
-                cfrpfabric.tau: 80,
-            }
-        )
-        foamhd.substitutions.update({foamhd.rho: 0.03})
         materials = [cfrpud, cfrpfabric, foamhd]
 
         self.emp = Empennage(
@@ -361,7 +348,22 @@ class Aircraft(Model):
                 ]
             )
 
-        return constraints, self.components, materials, self.propulsor
+        # Material property substitutions scoped to this Aircraft instance.
+        # Returned as a second-element dict so gpkit applies them locally,
+        # rather than mutating the global material singletons.
+        material_subs = {
+            cfrpud.rho: 1.5,
+            cfrpud.E: 200,
+            cfrpud.tmin: 0.1,
+            cfrpud.sigma: 1500,
+            cfrpfabric.rho: 1.3,
+            cfrpfabric.E: 40,
+            cfrpfabric.tmin: 0.1,
+            cfrpfabric.sigma: 300,
+            cfrpfabric.tau: 80,
+            foamhd.rho: 0.03,
+        }
+        return [constraints, self.components, materials, self.propulsor], material_subs
 
 
 class Battery(Model):
@@ -704,6 +706,14 @@ class Mission(Model):
                 self.mission.append(FlightSegment(self.aircraft, l, 355 - 10 - day))
 
         return self.mission, self.aircraft
+
+    @classmethod
+    def default(cls):
+        "Return a ready-to-solve solar_detailed Mission (GP). Latitude=[20]."
+        aircraft = Aircraft(sp=False)
+        m = cls(aircraft, latitude=[20])
+        m.cost = m.aircraft.Wtotal
+        return m
 
 
 def test():

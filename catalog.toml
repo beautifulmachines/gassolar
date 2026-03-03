@@ -1,26 +1,25 @@
 # catalog.toml — model registry for the gassolar collection
 #
 # Schema:
-#   name         — human-readable display name
-#   description  — one-line description of the model and architecture
-#   entry_point  — Python import path in "module.path:ClassName" format
+#   module — Python import path
+#   class  — class name within that module
+#
+# All registered models must implement default() classmethod.
+# Registration implies compliance: a model cannot appear here without a passing
+# CI test via test_catalog.py.
 
 [[models]]
-name = "Gas Aircraft"
-description = "Long-endurance gas-powered UAV (JHO-style), GP/SP mission model"
-entry_point = "gassolar.gas.gas:Mission"
+module = "gassolar.gas.gas"
+class = "Mission"
 
 [[models]]
-name = "Solar Aircraft — Simple"
-description = "Solar-electric UAV, simplified wing structure, GP/SP"
-entry_point = "gassolar.solar.solar:Mission"
+module = "gassolar.solar.solar"
+class = "Mission"
 
 [[models]]
-name = "Solar Aircraft — Detailed"
-description = "Solar-electric UAV with BEMT prop, detailed SP structural model"
-entry_point = "gassolar.solar_detailed.solar:Mission"
+module = "gassolar.solar_detailed.solar"
+class = "Mission"
 
 [[models]]
-name = "Jungle Hawk Owl (JHO)"
-description = "As-built gas UAV with DF70 engine, cylindrical fuselage, pylon — flight-tested"
-entry_point = "gassolar.jho.jho:Mission"
+module = "gassolar.jho.jho"
+class = "Mission"
