@@ -261,7 +261,7 @@ class FlightSegment(Model):
             )
             self.be = BreguetEndurance(self.aircraftPerf)
 
-        self.submodels = [self.fs, self.aircraftPerf, self.slf, self.be]
+        _submodels = [self.fs, self.aircraftPerf, self.slf, self.be]
 
         Wfuelfs = Variable("W_{fuel-fs}", "lbf", "flight segment fuel weight")
 
@@ -275,7 +275,7 @@ class FlightSegment(Model):
                 ]
             )
 
-        return self.submodels, self.constraints
+        return _submodels, self.constraints
 
 
 class Loiter(Model):

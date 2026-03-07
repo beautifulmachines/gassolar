@@ -35,7 +35,7 @@ class FlightSegment(Model):
             self.slf = SteadyLevelFlight(self.fs, self.aircraft, self.aircraftPerf)
             self.be = BreguetEndurance(self.aircraftPerf)
 
-        self.submodels = [self.fs, self.aircraftPerf, self.slf, self.be]
+        _submodels = [self.fs, self.aircraftPerf, self.slf, self.be]
 
         self.constraints = [self.W_fuel_fs >= self.be.W_fuel.sum()]
 
@@ -47,4 +47,4 @@ class FlightSegment(Model):
                 ]
             )
 
-        return self.submodels, self.constraints
+        return _submodels, self.constraints

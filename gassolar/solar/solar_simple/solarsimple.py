@@ -83,14 +83,14 @@ class FlightSegment(Model):
         self.slf = SteadyLevelFlight(self.fs, self.aircraft, self.aircraftPerf, etap)
         self.power = Power(self.aircraft, self.fs)
 
-        self.submodels = [self.fs, self.aircraftPerf, self.slf, self.power]
+        _submodels = [self.fs, self.aircraftPerf, self.slf, self.power]
 
         constraints = [
             self.power["P_{oper}"]
             >= self.power["P_{acc}"] + self.aircraftPerf["P_{shaft}"]
         ]
 
-        return self.aircraft, self.submodels, constraints
+        return self.aircraft, _submodels, constraints
 
 
 class SteadyLevelFlight(Model):

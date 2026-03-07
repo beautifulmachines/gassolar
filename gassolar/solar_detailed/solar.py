@@ -603,9 +603,9 @@ class FlightSegment(Model):
                         ]
                     )
 
-        self.submodels = [self.fs, self.aircraftPerf, self.slf, self.loading]
+        _submodels = [self.fs, self.aircraftPerf, self.slf, self.loading]
 
-        return constraints, self.submodels
+        return constraints, _submodels
 
 
 class Climb(Model):

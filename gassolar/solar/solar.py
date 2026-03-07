@@ -355,9 +355,9 @@ class FlightSegment(Model):
             self.loading[1].cl == self.aircraftPerf.wing.CL,
         ]
 
-        self.submodels = [self.fs, self.aircraftPerf, self.slf, self.loading]
+        _submodels = [self.fs, self.aircraftPerf, self.slf, self.loading]
 
-        return constraints, self.submodels
+        return constraints, _submodels
 
 
 class SteadyLevelFlight(Model):
