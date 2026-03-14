@@ -41,10 +41,7 @@ class FlightSegment(Model):
 
         if N > 1:
             self.constraints.extend(
-                [
-                    self.aircraftPerf["W_{end}"][:-1]
-                    >= self.aircraftPerf["W_{start}"][1:]
-                ]
+                [self.aircraftPerf.Wend[:-1] >= self.aircraftPerf.Wstart[1:]]
             )
 
         return _submodels, self.constraints

@@ -13,4 +13,4 @@ class Loiter(Model):
     def setup(self, aircraft, N=5, altitude=15000, latitude=45, percent=90, day=355):
         self.fs = FlightSegment(aircraft, N, altitude, latitude, percent, day)
 
-        return self.fs, [self.fs.be["t"] >= self.t / N]
+        return self.fs, [self.fs.be.t >= self.t / N]

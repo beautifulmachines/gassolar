@@ -9,7 +9,7 @@ import os
 
 import numpy as np
 import pandas as pd
-from gpkit import Model, Variable
+from gpkit import Model, Var, Variable
 from gpkitmodels.GP.aircraft.tail.empennage import Empennage
 from gpkitmodels.GP.aircraft.wing.wing import Wing as WingGP
 from gpkitmodels.SP.aircraft.tail.tail_boom_flex import TailBoomFlexibility
@@ -62,6 +62,12 @@ PARAM_RANGES = {
 class Aircraft(Model):
     "vehicle"
 
+    Wpay = Var("lbf", "payload weight", value=0)
+    Wavn = Var("lbf", "avionics weight", value=8)
+    Wtotal = Var("lbf", "aircraft weight")
+    Wwing = Var("lbf", "wing weight")
+    Wcent = Var("lbf", "center weight")
+
     def setup(self, sp=False):
 
         self.sp = sp
@@ -81,11 +87,6 @@ class Aircraft(Model):
             self.emp,
             self.motor,
         ]
-        Wpay = Variable("W_{pay}", 0, "lbf", "payload weight")
-        Wavn = Variable("W_{avn}", 8, "lbf", "avionics weight")
-        self.Wtotal = Wtotal = Variable("W_{total}", "lbf", "aircraft weight")
-        Wwing = Variable("W_{wing}", "lbf", "wing weight")
-        Wcent = Variable("W_{cent}", "lbf", "center weight")
 
         self.emp.substitutions[self.emp.vtail.Vv] = 0.04
         self.emp.substitutions[self.emp.vtail.planform.tau] = 0.08
@@ -98,30 +99,19 @@ class Aircraft(Model):
             self.emp.substitutions[self.emp.htail.mh] = 0.1
 
         constraints = [
-            Wtotal >= (Wpay + Wavn + sum(summing_vars(self.components, "W"))),
-            Wwing
+            self.Wtotal
+            >= (self.Wpay + self.Wavn + sum(summing_vars(self.components, "W"))),
+            self.Wwing
             >= (sum(summing_vars([self.wing, self.battery, self.solarcells], "W"))),
-            Wcent >= Wpay + Wavn + sum(summing_vars([self.emp, self.motor], "W")),
-            self.solarcells["S"] <= self.wing["S"],
-            self.wing.planform.cmac**2
-            * 0.5
-            * self.wing.planform.tau
-            * self.wing.planform.b
-            >= (self.battery["\\mathcal{V}"]),
+            self.Wcent
+            >= self.Wpay + self.Wavn + sum(summing_vars([self.emp, self.motor], "W")),
+            self.solarcells.S <= self.wing.S,
+            self.wing.planform.cmac**2 * 0.5 * self.wing.planform.tau * self.wing.b
+            >= (self.battery.Volbatt),
             self.emp.htail.Vh
-            <= (
-                self.emp.htail["S"]
-                * self.emp.htail.lh
-                / self.wing["S"] ** 2
-                * self.wing["b"]
-            ),
+            <= (self.emp.htail.S * self.emp.htail.lh / self.wing.S**2 * self.wing.b),
             self.emp.vtail.Vv
-            <= (
-                self.emp.vtail["S"]
-                * self.emp.vtail.lv
-                / self.wing["S"]
-                / self.wing["b"]
-            ),
+            <= (self.emp.vtail.S * self.emp.vtail.lv / self.wing.S / self.wing.b),
             self.emp.tailboom.d0 <= (self.wing.planform.tau * self.wing.planform.croot),
         ]
 
@@ -135,66 +125,61 @@ class Aircraft(Model):
 class Motor(Model):
     "the thing that provides power"
 
+    W = Var("lbf", "motor weight")
+    Pmax = Var("W", "max power")
+    Bpm = Var("W/kg", "power mass ratio", value=4140.8)
+    m = Var("kg", "motor mass")
+    g = Var("m/s**2", "gravitational constant", value=9.81)
+    eta = Var("-", "motor efficiency", value=0.95)
+
     def setup(self):
-
-        W = Variable("W", "lbf", "motor weight")
-        Pmax = Variable("P_{max}", "W", "max power")
-        Bpm = Variable("B_{PM}", 4140.8, "W/kg", "power mass ratio")
-        m = Variable("m", "kg", "motor mass")
-        g = Variable("g", 9.81, "m/s**2", "gravitational constant")
-        Variable("\\eta", 0.95, "-", "motor efficiency")
-
-        constraints = [Pmax == Bpm * m, W >= m * g]
-
+        constraints = [self.Pmax == self.Bpm * self.m, self.W >= self.m * self.g]
         return constraints
 
 
 class Battery(Model):
     "battery model"
 
+    W = Var("lbf", "battery weight")
+    eta_charge = Var("-", "charging efficiency", value=0.98)
+    eta_discharge = Var("-", "discharging efficiency", value=0.98)
+    E = Var("J", "total battery energy")
+    g = Var("m/s**2", "gravitational constant", value=9.81)
+    hbatt = Var("W*hr/kg", "battery specific energy", value=350)
+    vbatt = Var("W*hr/l", "volume battery energy density", value=800)
+    Volbatt = Var("m**3", "battery volume")
+
     def setup(self):
-
-        W = Variable("W", "lbf", "battery weight")
-        eta_charge = Variable("\\eta_{charge}", 0.98, "-", "charging efficiency")
-        eta_discharge = Variable(
-            "\\eta_{discharge}", 0.98, "-", "discharging efficiency"
-        )
-        E = Variable("E", "J", "total battery energy")
-        g = Variable("g", 9.81, "m/s**2", "gravitational constant")
-        hbatt = Variable("h_{batt}", 350, "W*hr/kg", "battery specific energy")
-        vbatt = Variable(
-            "(E/\\mathcal{V})", 800, "W*hr/l", "volume battery energy density"
-        )
-        Volbatt = Variable("\\mathcal{V}", "m**3", "battery volume")
-
         constraints = [
-            W >= E / hbatt * g,
-            Volbatt >= E / vbatt,
-            eta_charge == eta_charge,
-            eta_discharge == eta_discharge,
+            self.W >= self.E / self.hbatt * self.g,
+            self.Volbatt >= self.E / self.vbatt,
+            self.eta_charge == self.eta_charge,
+            self.eta_discharge == self.eta_discharge,
         ]
-
         return constraints
 
 
 class SolarCells(Model):
     "solar cell model"
 
+    rho_solar = Var("kg/m^2", "solar cell area density", value=0.27)
+    g = Var("m/s**2", "gravitational constant", value=9.81)
+    S = Var("ft**2", "solar cell area")
+    W = Var("lbf", "solar cell weight")
+    eta = Var("-", "solar cell efficiency", value=0.22)
+
     def setup(self):
-
-        rhosolar = Variable("\\rho_{solar}", 0.27, "kg/m^2", "solar cell area density")
-        g = Variable("g", 9.81, "m/s**2", "gravitational constant")
-        S = Variable("S", "ft**2", "solar cell area")
-        W = Variable("W", "lbf", "solar cell weight")
-        Variable("\\eta", 0.22, "-", "solar cell efficiency")
-
-        constraints = [W >= rhosolar * S * g]
-
+        constraints = [self.W >= self.rho_solar * self.S * self.g]
         return constraints
 
 
 class AircraftPerf(Model):
     "aircraft performance"
+
+    CD = Var("-", "aircraft drag coefficient")
+    Pshaft = Var("hp", "shaft power")
+    Pavn = Var("W", "Accessory power draw", value=0.0)
+    Poper = Var("W", "operating power")
 
     def setup(self, static, state):
 
@@ -207,44 +192,40 @@ class AircraftPerf(Model):
         areadragmodel = [self.htail, self.vtail, self.tailboom]
         areadragcomps = [static.emp.htail, static.emp.vtail, static.emp.tailboom]
 
-        CD = Variable("C_D", "-", "aircraft drag coefficient")
         cda = Variable("CDA", "-", "non-wing drag coefficient")
-        Pshaft = Variable("P_{shaft}", "hp", "shaft power")
-        Pavn = Variable("P_{avn}", 0.0, "W", "Accessory power draw")
-        Poper = Variable("P_{oper}", "W", "operating power")
         mfac = Variable("m_{fac}", 1.2, "-", "drag margin factor")
 
         dvars = []
         for dc, dm in zip(areadragcomps, areadragmodel):
             if "Cf" in dm.varkeys:
-                dvars.append(dm["Cf"] * dc["S"] / static.wing["S"])
+                dvars.append(dm.get_var("Cf") * dc.S / static.wing.S)
             if "Cd" in dm.varkeys:
-                dvars.append(dm["Cd"] * dc["S"] / static.wing["S"])
+                dvars.append(dm.get_var("Cd") * dc.S / static.wing.S)
 
         constraints = [
-            state["(E/S)_{irr}"]
+            state.get_var("(E/S)_{irr}")
             >= (
-                state["(E/S)_{day}"]
-                + static.battery["E"]
-                / static.battery["\\eta_{charge}"]
-                / static.solarcells["\\eta"]
-                / static.solarcells["S"]
+                state.get_var("(E/S)_{day}")
+                + static.battery.E
+                / static.battery.eta_charge
+                / static.solarcells.eta
+                / static.solarcells.S
             ),
-            static.battery["E"] * static.battery["\\eta_{discharge}"]
+            static.battery.E * static.battery.eta_discharge
             >= (
-                Poper * state["t_{night}"]
-                + state["(E/S)_C"] * static.solarcells["\\eta"] * static.solarcells["S"]
+                self.Poper * state.get_var("t_{night}")
+                + state.get_var("(E/S)_C") * static.solarcells.eta * static.solarcells.S
             ),
-            Poper >= Pavn + Pshaft / static.motor["\\eta"],
-            Poper
+            self.Poper >= self.Pavn + self.Pshaft / static.motor.eta,
+            self.Poper
             == (
-                state["(P/S)_{min}"]
-                * static.solarcells["S"]
-                * static.solarcells["\\eta"]
+                state.get_var("(P/S)_{min}")
+                * static.solarcells.S
+                * static.solarcells.eta
             ),
             cda / mfac >= sum(dvars),
-            CD >= cda + self.wing["Cd"],
-            Poper <= static.motor["P_{max}"],
+            self.CD >= cda + self.wing.Cd,
+            self.Poper <= static.motor.Pmax,
         ]
 
         return self.flight_models, constraints
@@ -348,10 +329,10 @@ class FlightSegment(Model):
         self.loading[1].substitutions[self.loading[1].Nmax] = 2
 
         constraints = [
-            self.loading[0]["W"] == self.aircraft["W_{cent}"],
-            self.loading[1]["W"] == self.aircraft["W_{cent}"],
-            self.loading[1].Ww == self.aircraft["W_{wing}"],
-            self.loading[1].v == self.fs["V"],
+            self.loading[0].W == self.aircraft.Wcent,
+            self.loading[1].W == self.aircraft.Wcent,
+            self.loading[1].Ww == self.aircraft.Wwing,
+            self.loading[1].v == self.fs.V,
             self.loading[1].cl == self.aircraftPerf.wing.CL,
         ]
 
@@ -369,23 +350,10 @@ class SteadyLevelFlight(Model):
         etaprop = Variable("\\eta_{prop}", 0.8, "-", "propeller efficiency")
 
         constraints = [
-            aircraft["W_{total}"]
-            <= (
-                0.5
-                * state["\\rho"]
-                * state["V"] ** 2
-                * perf.wing.CL
-                * aircraft.wing["S"]
-            ),
-            T
-            >= (
-                0.5
-                * state["\\rho"]
-                * state["V"] ** 2
-                * perf["C_D"]
-                * aircraft.wing["S"]
-            ),
-            perf["P_{shaft}"] >= T * state["V"] / etaprop,
+            aircraft.Wtotal
+            <= (0.5 * state.rho * state.V**2 * perf.wing.CL * aircraft.wing.S),
+            T >= (0.5 * state.rho * state.V**2 * perf.CD * aircraft.wing.S),
+            perf.Pshaft >= T * state.V / etaprop,
         ]
 
         return constraints
@@ -451,15 +419,15 @@ class Mission(Model):
 def test():
     "test model for continuous integration"
     m = Mission(latitude=11)
-    m.cost = m["W_{total}"]
+    m.cost = m.solar.Wtotal
     m.solve()
     m = Mission(latitude=11, sp=True)
-    m.cost = m["W_{total}"]
+    m.cost = m.solar.Wtotal
     m.localsolve()
 
 
 if __name__ == "__main__":
     M = Mission(latitude=11)
-    M.cost = M["W_{total}"]
+    M.cost = M.solar.Wtotal
     sol = M.solve()
     print(sol.table())
