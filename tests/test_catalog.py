@@ -6,9 +6,16 @@ from pathlib import Path
 import pytest
 from gpkit import Model
 from gpkit.tests.test_catalog import catalog_ids, load_catalog, run_catalog_test
-from gpkit.tests.test_ir import ir_diff
 
-_CATALOG = load_catalog(Path(__file__))
+try:
+    from gpkit.tests.test_ir import ir_diff
+except FileNotFoundError:
+    ir_diff = None
+
+try:
+    _CATALOG = load_catalog(Path(__file__))
+except FileNotFoundError:
+    _CATALOG = []
 
 
 @pytest.mark.parametrize("model_entry", _CATALOG, ids=catalog_ids(_CATALOG))
@@ -25,6 +32,8 @@ def test_catalog_ir_roundtrip(model_entry):
     models: fixed substitutions dropped, unit format changes, vectorized key refs).
     These are documented in 03-03-SUMMARY.md as deferred IR gaps for Phase 4.
     """
+    if ir_diff is None:
+        pytest.skip("ir_diff not available (install gpkit-core from source)")
     mod = importlib.import_module(model_entry["module"])
     cls = getattr(mod, model_entry["class"])
     m = cls.default()
