@@ -14,7 +14,7 @@ authors = [
 ]
 dependencies = [
     "gpkit-core>=0.2.9",
-    "gpkit-models>=0.1.6",
+    "gpkit-models>=0.1.7",
     "numpy",
     "pandas",
 ]
