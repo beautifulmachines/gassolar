@@ -32,7 +32,7 @@ class FlightState(Model):
         # Vwind = Variable("V_{wind}", wind, "m/s", "wind velocity")
         self.rho = Variable("\\rho", density, "kg/m**3", "air density")
         self.mu = Variable("\\mu", vis, "N*s/m**2", "dynamic viscosity")
-        Variable("h", altitude, "ft", "flight altitude")
+        self.h = Variable("h", altitude, "ft", "flight altitude")
 
         constraints = [
             self.V / self.mfac >= Vwind,

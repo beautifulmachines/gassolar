@@ -1,5 +1,5 @@
 import numpy as np
-from gpkit import Model, Variable, Vectorize
+from gpkit import Model, Var, Variable, Vectorize
 from gpkitmodels.GP.aircraft.engine.df70 import DF70
 from gpkitmodels.GP.aircraft.engine.gas_engine import Engine
 from gpkitmodels.GP.aircraft.fuselage.cylindrical_fuselage import Fuselage
@@ -16,6 +16,11 @@ from numpy import pi
 class Aircraft(Model):
     "the JHO vehicle"
 
+    Wzfw = Var("lbf", "zero fuel weight")
+    Wpay = Var("lbf", "payload weight", value=10)
+    Ppay = Var("W", "payload power", value=10)
+    Wavn = Var("lbf", "avionics weight", value=5.35)
+
     def setup(self, Wfueltot, df70=True):
 
         self.fuselage = Fuselage(Wfueltot)
@@ -29,11 +34,6 @@ class Aircraft(Model):
 
         components = [self.fuselage, self.wing, self.engine, self.emp, self.pylon]
         self.smeared_loads = [self.fuselage, self.engine, self.pylon]
-
-        Wzfw = Variable("W_{zfw}", "lbf", "zero fuel weight")
-        Wpay = Variable("W_{pay}", 10, "lbf", "payload weight")
-        Ppay = Variable("P_{pay}", 10, "W", "payload power")  # noqa: F841
-        Wavn = Variable("W_{avn}", 5.35, "lbf", "avionics weight")
         lantenna = Variable("l_{antenna}", 13.4, "in", "antenna length")
         wantenna = Variable("w_{antenna}", 10.2, "in", "antenna width")
         Volpay = Variable("\\mathcal{V}_{pay}", 1.0, "ft**3", "payload volume")
@@ -44,35 +44,24 @@ class Aircraft(Model):
         self.emp.substitutions[self.emp.htail.planform.tau] = 0.08
 
         constraints = [
-            Wzfw >= sum(summing_vars(components, "W")) + Wpay + Wavn,
+            self.Wzfw >= sum(summing_vars(components, "W")) + self.Wpay + self.Wavn,
             self.emp.htail.Vh
-            <= (
-                self.emp.htail["S"]
-                * self.emp.htail.lh
-                / self.wing["S"] ** 2
-                * self.wing["b"]
-            ),
+            <= (self.emp.htail.S * self.emp.htail.lh / self.wing.S**2 * self.wing.b),
             self.emp.vtail.Vv
-            == (
-                self.emp.vtail["S"]
-                * self.emp.vtail.lv
-                / self.wing["S"]
-                / self.wing["b"]
-            ),
+            == (self.emp.vtail.S * self.emp.vtail.lv / self.wing.S / self.wing.b),
             self.wing.planform.CLmax / self.wing.mw
             <= (self.emp.htail.planform.CLmax / self.emp.htail.mh),
             # enforce antenna sticking on the tail
             self.emp.vtail.planform.croot * self.emp.vtail.planform.lam >= (wantenna),
-            self.emp.vtail["b"] >= lantenna,
+            self.emp.vtail.b >= lantenna,
             # enforce a cruciform with the htail infront of vertical tail
-            self.emp.tailboom["l"]
-            >= (self.emp.htail.lh + self.emp.htail.planform.croot),
-            4.0 / 6 * pi * self.fuselage.k_nose * self.fuselage["R"] ** 3 >= Volpay,
+            self.emp.tailboom.l >= (self.emp.htail.lh + self.emp.htail.planform.croot),
+            4.0 / 6 * pi * self.fuselage.k_nose * self.fuselage.R**3 >= Volpay,
             self.fuselage.Vol_body >= (self.fuselage.fueltank.Vol + Volavn),
         ]
 
         if df70:
-            constraints.extend([self.engine["h"] <= 2 * self.fuselage["R"]])
+            constraints.extend([self.engine.h <= 2 * self.fuselage.R])
 
         return components, constraints
 
@@ -86,16 +75,13 @@ class Aircraft(Model):
 class Pylon(Model):
     "attachment from fuselage to pylon"
 
+    h = Var("in", "pylon height", value=7)
+    l = Var("in", "pylon length", value=32.8)
+    S = Var("ft**2", "pylon surface area")
+    W = Var("lbf", "pylon weight", value=1.83)
+
     def setup(self):
-
-        h = Variable("h", 7, "in", "pylon height")
-        l = Variable("l", 32.8, "in", "pylon length")
-        S = Variable("S", "ft**2", "pylon surface area")
-        W = Variable("W", 1.83, "lbf", "pylon weight")  # noqa: F841
-
-        constraints = [S >= 2 * l * h]
-
-        return constraints
+        return [self.S >= 2 * self.l * self.h]
 
     def flight_model(self, state):
         return PylonAero(self, state)
@@ -110,7 +96,7 @@ class PylonAero(Model):
         Re = Variable("Re", "-", "fuselage reynolds number")
 
         constraints = [
-            Re == state["V"] * state["\\rho"] * static["l"] / state["\\mu"],
+            Re == state.V * state.rho * static.l / state.mu,
             Cf >= 0.455 / Re**0.3,
         ]
 
@@ -138,6 +124,10 @@ class AircraftLoading(Model):
 
 class AircraftPerf(Model):
     "performance model for aircraft"
+
+    Wend = Var("lbf", "vector-end weight")
+    Wstart = Var("lbf", "vector-begin weight")
+    CD = Var("-", "drag coefficient")
 
     def setup(self, static, state, **kwargs):
 
@@ -173,24 +163,21 @@ class AircraftPerf(Model):
             static.pylon,
         ]
 
-        Wend = Variable("W_{end}", "lbf", "vector-end weight")  # noqa: F841
-        Wstart = Variable("W_{start}", "lbf", "vector-begin weight")  # noqa: F841
-        CD = Variable("C_D", "-", "drag coefficient")
         CDA = Variable("CDA", "-", "area drag coefficient")
         mfac = Variable("m_{fac}", 1.15, "-", "drag margin factor")
 
         dvars = []
         for dc, dm in zip(areadragcomps, areadragmodel):
             if "C_d" in dm.varkeys:
-                dvars.append(dm["C_d"] * dc["S"] / static.wing["S"])
+                dvars.append(dm.get_var("C_d") * dc.S / static.wing.S)
             if "Cd" in dm.varkeys:
-                dvars.append(dm["Cd"] * dc["S"] / static.wing["S"])
+                dvars.append(dm.get_var("Cd") * dc.S / static.wing.S)
             if "Cf" in dm.varkeys:
-                dvars.append(dm["Cf"] * dc["S"] / static.wing["S"])
+                dvars.append(dm.get_var("Cf") * dc.S / static.wing.S)
             if "C_f" in dm.varkeys:
-                dvars.append(dm["C_f"] * dc["S"] / static.wing["S"])
+                dvars.append(dm.get_var("C_f") * dc.S / static.wing.S)
 
-        constraints = [CDA >= sum(dvars), CD / mfac >= CDA + self.wing.Cd]
+        constraints = [CDA >= sum(dvars), self.CD / mfac >= CDA + self.wing.Cd]
 
         return self.dynamicmodels, constraints
 
@@ -198,10 +185,14 @@ class AircraftPerf(Model):
 class FlightState(Model):
     "define environment state during a portion of an aircraft mission"
 
+    rho = Var("kg/m^3", "air density")
+    mu = Var("N*s/m^2", "Dynamic viscosity")
+    qne = Var("kg/s^2/m", "never exceed dynamic pressure")
+    V = Var("m/s", "true airspeed")
+
     def setup(self, alt, wind, **kwargs):
 
-        rho = self.rho = Variable("\\rho", "kg/m^3", "air density")
-        h = Variable("h", alt, "ft", "altitude")
+        h = self.h = Variable("h", alt, "ft", "altitude")
         href = Variable("h_{ref}", 15000, "ft", "Reference altitude")
         psl = Variable("p_{sl}", 101325, "Pa", "Pressure at sea level")
         Latm = Variable("L_{atm}", 0.0065, "K/m", "Temperature lapse rate")
@@ -210,30 +201,27 @@ class FlightState(Model):
             (t.value - l.value * v.value).magnitude for t, v, l in zip(Tsl, h, Latm)
         ]
         Tatm = Variable("t_{atm}", temp, "K", "Air temperature")
-        mu = self.mu = Variable("\\mu", "N*s/m^2", "Dynamic viscosity")
         musl = Variable(
             "\\mu_{sl}", 1.789 * 10**-5, "N*s/m^2", "Dynamic viscosity at sea level"
         )
         Rspec = Variable("R_{spec}", 287.058, "J/kg/K", "Specific gas constant of air")
-        qne = self.qne = Variable("qne", "kg/s^2/m", "never exceed dynamic pressure")
         Vne = Variable("Vne", 40, "m/s", "never exceed velocity")
         rhosl = Variable("rhosl", 1.225, "kg/m^3", "air density at sea level")
 
         # Atmospheric variation with altitude (valid from 0-7km of altitude)
         constraints = [
-            rho == psl * Tatm ** (5.257 - 1) / Rspec / (Tsl**5.257),
-            (mu / musl) ** 0.1 == 0.991 * (h / href) ** (-0.00529),
-            qne == 0.5 * rhosl * Vne**2,
+            self.rho == psl * Tatm ** (5.257 - 1) / Rspec / (Tsl**5.257),
+            (self.mu / musl) ** 0.1 == 0.991 * (h / href) ** (-0.00529),
+            self.qne == 0.5 * rhosl * Vne**2,
             Latm == Latm,
         ]
 
-        V = self.V = Variable("V", "m/s", "true airspeed")
         mfac = Variable("m_{fac}", 1.0, "-", "wind speed margin factor")
 
         if wind:
 
             V_wind = Variable("V_{wind}", 25, "m/s", "Wind speed")
-            constraints.extend([V / mfac >= V_wind])
+            constraints.extend([self.V / mfac >= V_wind])
 
         else:
 
@@ -241,13 +229,18 @@ class FlightState(Model):
             V_ref = Variable("V_{ref}", 25, "m/s", "Reference wind speed")
 
             constraints.extend(
-                [(V_wind / V_ref) >= 0.6462 * (h / href) + 0.3538, V / mfac >= V_wind]
+                [
+                    (V_wind / V_ref) >= 0.6462 * (h / href) + 0.3538,
+                    self.V / mfac >= V_wind,
+                ]
             )
         return constraints
 
 
 class FlightSegment(Model):
     "creates flight segment for aircraft"
+
+    Wfuelfs = Var("lbf", "flight segment fuel weight")
 
     def setup(self, N, aircraft, alt=15000, wind=False, etap=0.7):
 
@@ -261,21 +254,16 @@ class FlightSegment(Model):
             )
             self.be = BreguetEndurance(self.aircraftPerf)
 
-        self.submodels = [self.fs, self.aircraftPerf, self.slf, self.be]
+        _submodels = [self.fs, self.aircraftPerf, self.slf, self.be]
 
-        Wfuelfs = Variable("W_{fuel-fs}", "lbf", "flight segment fuel weight")
-
-        self.constraints = [Wfuelfs >= self.be.W_fuel.sum()]
+        self.constraints = [self.Wfuelfs >= self.be.W_fuel.sum()]
 
         if N > 1:
             self.constraints.extend(
-                [
-                    self.aircraftPerf["W_{end}"][:-1]
-                    >= self.aircraftPerf["W_{start}"][1:]
-                ]
+                [self.aircraftPerf.Wend[:-1] >= self.aircraftPerf.Wstart[1:]]
             )
 
-        return self.submodels, self.constraints
+        return _submodels, self.constraints
 
 
 class Loiter(Model):
@@ -285,7 +273,7 @@ class Loiter(Model):
         self.fs = FlightSegment(N, aircraft, alt, wind, etap)
 
         self.t = t = Variable("t", "days", "time loitering")
-        constraints = [self.fs.be["t"] >= t / N]
+        constraints = [self.fs.be.t >= t / N]
 
         return constraints, self.fs
 
@@ -294,10 +282,10 @@ class Cruise(Model):
     "make a cruise flight segment"
 
     def setup(self, N, aircraft, alt=15000, wind=False, etap=0.7, R=200):
-        fs = FlightSegment(N, aircraft, alt, wind, etap)
+        self.fs = fs = FlightSegment(N, aircraft, alt, wind, etap)
 
         R = Variable("R", R, "nautical_miles", "Range to station")
-        constraints = [R / N <= fs["V"] * fs.be["t"]]
+        constraints = [R / N <= fs.fs.V * fs.be.t]
 
         return fs, constraints
 
@@ -306,7 +294,7 @@ class Climb(Model):
     "make a climb flight segment"
 
     def setup(self, N, aircraft, alt=15000, wind=False, etap=0.7, dh=15000):
-        fs = FlightSegment(N, aircraft, alt, wind, etap)
+        self.fs = fs = FlightSegment(N, aircraft, alt, wind, etap)
 
         with Vectorize(N):
             hdot = Variable("\\dot{h}", "ft/min", "Climb rate")
@@ -315,12 +303,12 @@ class Climb(Model):
         hdotmin = Variable("\\dot{h}_{min}", 100, "ft/min", "minimum climb rate")
 
         constraints = [
-            hdot * fs.be["t"] >= deltah / N,
+            hdot * fs.be.t >= deltah / N,
             hdot >= hdotmin,
-            fs.slf["T"]
+            fs.slf.T
             >= (
-                0.5 * fs["\\rho"] * fs["V"] ** 2 * fs["C_D"] * fs.aircraft.wing["S"]
-                + fs["W_{start}"] * hdot / fs["V"]
+                0.5 * fs.fs.rho * fs.fs.V**2 * fs.aircraftPerf.CD * fs.aircraft.wing.S
+                + fs.aircraftPerf.Wstart * hdot / fs.fs.V
             ),
         ]
 
@@ -330,63 +318,35 @@ class Climb(Model):
 class SLFMaxSpeed(Model):
     "steady level flight model"
 
+    T = Var("N", "thrust")
+
     def setup(self, state, aircraft, perf, etap):
 
-        T = Variable("T", "N", "thrust")
         etaprop = Variable("\\eta_{prop}", etap, "-", "propulsive efficiency")
 
-        constraints = [
-            (perf["W_{end}"] * perf["W_{start}"]) ** 0.5
-            <= (
-                0.5
-                * state["\\rho"]
-                * state["V_{max}"] ** 2
-                * perf.wing.CL
-                * aircraft.wing["S"]
-            ),
-            T
-            >= (
-                0.5
-                * state["\\rho"]
-                * state["V_{max}"] ** 2
-                * perf["C_D"]
-                * aircraft.wing["S"]
-            ),
-            perf["P_{shaft-max}"] >= T * state["V_{max}"] / etaprop,
+        return [
+            (perf.Wend * perf.Wstart) ** 0.5
+            <= (0.5 * state.rho * state.V_max**2 * perf.wing.CL * aircraft.wing.S),
+            self.T >= (0.5 * state.rho * state.V_max**2 * perf.CD * aircraft.wing.S),
+            perf.engine.P_shaft >= self.T * state.V_max / etaprop,
         ]
-
-        return constraints
 
 
 class SteadyLevelFlight(Model):
     "steady level flight model"
 
+    T = Var("N", "thrust")
+
     def setup(self, state, aircraft, perf, etap):
 
-        T = Variable("T", "N", "thrust")
         etaprop = Variable("\\eta_{prop}", etap, "-", "propulsive efficiency")
 
-        constraints = [
-            (perf["W_{end}"] * perf["W_{start}"]) ** 0.5
-            <= (
-                0.5
-                * state["\\rho"]
-                * state["V"] ** 2
-                * perf.wing.CL
-                * aircraft.wing["S"]
-            ),
-            T
-            >= (
-                0.5
-                * state["\\rho"]
-                * state["V"] ** 2
-                * perf["C_D"]
-                * aircraft.wing["S"]
-            ),
-            perf["P_{shaft}"] >= T * state["V"] / etaprop,
+        return [
+            (perf.Wend * perf.Wstart) ** 0.5
+            <= (0.5 * state.rho * state.V**2 * perf.wing.CL * aircraft.wing.S),
+            self.T >= (0.5 * state.rho * state.V**2 * perf.CD * aircraft.wing.S),
+            perf.engine.P_shaft >= self.T * state.V / etaprop,
         ]
-
-        return constraints
 
 
 class Mission(Model):
@@ -394,7 +354,7 @@ class Mission(Model):
 
     def setup(self, wind=False, DF70=True):
 
-        mtow = Variable("MTOW", "lbf", "max-take off weight")
+        self.mtow = mtow = Variable("MTOW", "lbf", "max-take off weight")
         Wcent = Variable("W_{cent}", "lbf", "center aircraft weight")
         Wfueltot = Variable("W_{fuel-tot}", "lbf", "total aircraft fuel weight")
 
@@ -411,21 +371,23 @@ class Mission(Model):
         loading = self.JHO.loading(loiter1.fs.fs, Wcent)
 
         constraints = [
-            mtow == climb1["W_{start}"][0],
-            Wfueltot >= sum(fs["W_{fuel-fs}"] for fs in mission),
-            mission[-1]["W_{end}"][-1] >= self.JHO["W_{zfw}"],
+            mtow == climb1.fs.aircraftPerf.Wstart[0],
+            Wfueltot >= sum(fs.fs.Wfuelfs for fs in mission),
+            mission[-1].fs.aircraftPerf.Wend[-1] >= self.JHO.Wzfw,
             Wcent >= Wfueltot + sum(summing_vars(self.JHO.smeared_loads, "W")),
-            loiter1["P_{total}"]
+            loiter1.fs.aircraftPerf.engine.P_total
             >= (
-                loiter1["P_{shaft}"]
-                + (loiter1["P_{avn}"] + self.JHO["P_{pay}"])
-                / loiter1["\\eta_{alternator}"]
+                loiter1.fs.aircraftPerf.engine.P_shaft
+                + (loiter1.fs.aircraftPerf.engine.P_avn + self.JHO.Ppay)
+                / loiter1.fs.aircraftPerf.engine.eta_alternator
             ),
-            Wcent == loading.wingl["W"],
+            Wcent == loading.wingl.W,
         ]
 
         for i, fs in enumerate(mission[1:]):
-            constraints.extend([mission[i]["W_{end}"][-1] == fs["W_{start}"][0]])
+            constraints.extend(
+                [mission[i].fs.aircraftPerf.Wend[-1] == fs.fs.aircraftPerf.Wstart[0]]
+            )
 
         return self.JHO, mission, loading, constraints
 
@@ -441,6 +403,6 @@ class Mission(Model):
 if __name__ == "__main__":
     model = Mission()
     model.substitutions[model.JHO.emp.vtail.Vv] = 0.04
-    model.cost = 1 / model.loiter["t"]
+    model.cost = 1 / model.loiter.t
     sol = model.localsolve()
     print(sol.table())

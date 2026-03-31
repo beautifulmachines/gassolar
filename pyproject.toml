@@ -13,8 +13,8 @@ authors = [
     { name = "Beautiful Machines Team" }
 ]
 dependencies = [
-    "gpkit-core>=0.2.4",
-    "gpkit-models>=0.1.6",
+    "gpkit-core>=0.2.9",
+    "gpkit-models>=0.1.7",
     "numpy",
     "pandas",
 ]
