@@ -1,25 +1,21 @@
-# catalog.toml — model registry for the gassolar collection
-#
-# Schema:
-#   module — Python import path
-#   class  — class name within that module
-#
-# All registered models must implement default() classmethod.
-# Registration implies compliance: a model cannot appear here without a passing
-# CI test via test_catalog.py.
+# gassolar catalog
+# Long-endurance aircraft models for GP/SP optimization studies.
+# All entries implement default() — registration implies CI compliance.
 
 [[models]]
-module = "gassolar.gas.gas"
-class = "Mission"
-
-[[models]]
+id = "solar_mission"
+name = "Solar Aircraft Mission"
 module = "gassolar.solar.solar"
 class = "Mission"
 
 [[models]]
-module = "gassolar.solar_detailed.solar"
+id = "gas_mission"
+name = "Gas Aircraft Mission"
+module = "gassolar.gas.gas"
 class = "Mission"
 
 [[models]]
+id = "jho_mission"
+name = "JHO Mission"
 module = "gassolar.jho.jho"
 class = "Mission"

@@ -360,7 +360,7 @@ class SteadyLevelFlight(Model):
 
 
 class Mission(Model):
-    "define mission for aircraft"
+    "Long-endurance solar-electric aircraft; equatorial mission."
 
     def setup(self, latitude=35, day=355, sp=False):
 

@@ -157,7 +157,7 @@ class Climb(Model):
 
 
 class Mission(Model):
-    "creates flight profile"
+    "Long-endurance gas-powered aircraft; mid-latitude mission, GP design."
 
     def setup(self, latitude=38, percent=90, sp=False):
 

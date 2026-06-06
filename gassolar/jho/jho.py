@@ -350,7 +350,7 @@ class SteadyLevelFlight(Model):
 
 
 class Mission(Model):
-    "creates flight profile"
+    "Jungle Hawk Owl: gas-powered long-endurance UAV."
 
     def setup(self, wind=False, DF70=True):
 
