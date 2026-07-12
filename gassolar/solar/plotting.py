@@ -3,8 +3,6 @@ import os
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-from gpfit.max_affine import max_affine
-from gpfit.softmax_affine import softmax_affine
 from scipy import interpolate
 
 from gassolar.environment.wind_speeds import get_windspeed
@@ -53,9 +51,7 @@ def altitude(density):
     return h
 
 
-from math import atan2, degrees
-
-import numpy as np
+from math import atan2, degrees  # noqa: E402
 
 
 # Label line with line2D label data

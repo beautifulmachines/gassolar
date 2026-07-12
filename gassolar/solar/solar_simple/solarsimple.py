@@ -45,9 +45,6 @@ class Aircraft(Model):
             Ssolar <= S,
             b**2 == S * AR,
             cmac == S / b,
-            eta_solar == eta_solar,
-            eta_charge == eta_charge,
-            eta_discharge == eta_discharge,
         ]
 
         return constraints
@@ -67,7 +64,7 @@ class AircraftPerf(Model):
         cda0 = Variable("CDA_0", 0.005, "-", "non-wing drag coefficient")
         Pshaft = Variable("P_{shaft}", "hp", "shaft power")
 
-        constraints = [CD >= cda0 + self.wing["C_d"], Pshaft == Pshaft]
+        constraints = [CD >= cda0 + self.wing["C_d"]]
 
         return self.wing, constraints
 
@@ -96,7 +93,7 @@ class FlightSegment(Model):
 class SteadyLevelFlight(Model):
     "steady level flight model"
 
-    def setup(self, state, aircraft, perf, etap, **kwargs):
+    def setup(self, state, aircraft, perf, etap, **kwargs):  # noqa: ARG002
 
         T = Variable("T", "N", "thrust")
         etaprop = Variable("\\eta_{prop}", etap, "-", "propulsive efficiency")
@@ -123,8 +120,6 @@ class Power(Model):
                 Poper * state["t_{day}"]
                 + static["E_{batt}"] / static["\\eta_{discharge}"]
             ),
-            Poper == Poper,
-            Pacc == Pacc,
             static["E_{batt}"]
             >= (Poper * state["t_{night}"] / static["\\eta_{discharge}"]),
         ]

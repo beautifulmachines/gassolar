@@ -1,8 +1,5 @@
 "Simple Solar-Electric Powered Aircraft Model"
 
-# pylint: disable=attribute-defined-outside-init, invalid-name, unused-variable
-# pylint: disable=too-many-locals, redefined-variable-type
-# pylint: disable=too-many-instance-attributes
 import contextlib
 import io
 import os
@@ -367,7 +364,7 @@ class Mission(Model):
         self.solar = Aircraft(sp=sp)
         lats = range(1, latitude + 1, 1)
         self.mission = []
-        if day == 355 or day == 172:
+        if day in {355, 172}:
             for l in lats:
                 self.mission.append(FlightSegment(self.solar, l, day))
         else:

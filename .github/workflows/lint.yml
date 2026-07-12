@@ -28,3 +28,6 @@ jobs:
     - name: Check for file changes
       run: |
         make check-clean
+    - name: Lint
+      run: |
+        make lint

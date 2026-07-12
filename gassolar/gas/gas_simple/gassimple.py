@@ -22,8 +22,6 @@ class Aircraft(Model):
         Variable("\\eta_{prop}", 0.75, "-", "propulsive efficiency")
 
         constraints = [
-            Wstructures == Wstructures,
-            fstructures == fstructures,
             Wzfw >= Wstructures + Wpay,
         ]
 
@@ -68,10 +66,7 @@ class AircraftPerf(Model):
 
         constraints = [
             CD >= cda0 + self.wing["C_d"],
-            Wstart == Wstart,
-            Wend == Wend,
             Ptot >= Pshaft,
-            bsfc == bsfc,
         ]
 
         return self.wing, constraints

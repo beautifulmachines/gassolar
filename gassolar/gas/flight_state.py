@@ -24,7 +24,7 @@ class FlightState(Model):
     rhosl = Var("kg/m^3", "air density at sea level", value=1.225)
     href = Var("ft", "reference altitude", value=15000)
 
-    def setup(self, Vwind, latitude=45, percent=90, altitude=15000, day=355):
+    def setup(self, Vwind, latitude=45, percent=90, altitude=15000, day=355):  # noqa: ARG002
 
         # wind = get_windspeed(latitude, percent, altitude, day)
         density, vis = get_airvars(altitude)

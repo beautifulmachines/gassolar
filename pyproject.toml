@@ -22,9 +22,7 @@ dependencies = [
 [dependency-groups]
 dev = [{include-group = "lint"}, {include-group = "test"}]
 lint = [
-    "isort>=5.12.0",
-    "black>=24.1.0",
-    "flake8>=7.0.0",
+    "ruff>=0.8.0",
     "pre-commit>=3.6.0",
 ]
 test = [
@@ -38,12 +36,28 @@ exclude = ["gassolar/**/fitting"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 
-[tool.black]
-line-length = 88
+[tool.ruff]
+target-version = "py311"
+extend-exclude = ["*.ipynb"]  # unreferenced legacy notebook, not maintained package code
 
-[tool.isort]
-profile = "black"
-line_length = 88
+[tool.ruff.lint]
+extend-select = [
+    "I",      # import sorting, replaces isort
+    "PL",     # pylint-parity category (convention/error/refactor/warning), stable rules only
+    "ARG",    # unused-argument family
+    "BLE",    # blind-except (broad-exception-caught)
+    "UP032",  # f-string modernization
+    "S102",   # exec-used
+]
+ignore = [
+    "E741",     # ambiguous-variable-name: physics notation (same as gpkit-core/gpkit-models)
+    "PLR2004",  # magic-value-comparison: noisy, no precedent, revisit later
+    "F841",     # unused-variable: Variable() side-effect idiom, spread across 9 files (gassolar#12)
+    "PLR0913",  # too-many-arguments: GP setup() methods commonly take many args, spread across 8 files
+]
+
+[tool.ruff.lint.per-file-ignores]
+"gassolar/solar/windstruct.py" = ["PLC0415"]
 
 [tool.uv.sources]
 gpkit-core = { path = "../gpkit-core", editable = true }

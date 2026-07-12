@@ -10,7 +10,7 @@ from gpkit.constraints.bounded import Bounded
 from gpkit.constraints.relax import ConstantsRelaxed
 
 
-def relaxed_constants(model, include_only=None, exclude=None):
+def relaxed_constants(model, include_only=None, exclude=None):  # noqa: ARG001
     """Wrap a model so constants are allowed to relax during solving.
 
     Returns a new Model whose objective drives all relaxation variables

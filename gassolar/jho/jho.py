@@ -10,8 +10,6 @@ from gpkitmodels.SP.aircraft.wing.wing import Wing
 from gpkitmodels.tools.summing_constraintset import summing_vars
 from numpy import pi
 
-# pylint: disable=invalid-name
-
 
 class Aircraft(Model):
     "the JHO vehicle"
@@ -129,7 +127,7 @@ class AircraftPerf(Model):
     Wstart = Var("lbf", "vector-begin weight")
     CD = Var("-", "drag coefficient")
 
-    def setup(self, static, state, **kwargs):
+    def setup(self, static, state, **kwargs):  # noqa: ARG002
 
         self.wing = static.wing.flight_model(static.wing, state)
         self.fuselage = static.fuselage.flight_model(state)
@@ -190,7 +188,7 @@ class FlightState(Model):
     qne = Var("kg/s^2/m", "never exceed dynamic pressure")
     V = Var("m/s", "true airspeed")
 
-    def setup(self, alt, wind, **kwargs):
+    def setup(self, alt, wind, **kwargs):  # noqa: ARG002
 
         h = self.h = Variable("h", alt, "ft", "altitude")
         href = Variable("h_{ref}", 15000, "ft", "Reference altitude")
@@ -213,18 +211,15 @@ class FlightState(Model):
             self.rho == psl * Tatm ** (5.257 - 1) / Rspec / (Tsl**5.257),
             (self.mu / musl) ** 0.1 == 0.991 * (h / href) ** (-0.00529),
             self.qne == 0.5 * rhosl * Vne**2,
-            Latm == Latm,
         ]
 
         mfac = Variable("m_{fac}", 1.0, "-", "wind speed margin factor")
 
         if wind:
-
             V_wind = Variable("V_{wind}", 25, "m/s", "Wind speed")
             constraints.extend([self.V / mfac >= V_wind])
 
         else:
-
             V_wind = Variable("V_{wind}", "m/s", "Wind speed")
             V_ref = Variable("V_{ref}", 25, "m/s", "Reference wind speed")
 

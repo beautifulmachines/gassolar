@@ -8,8 +8,6 @@ import pandas as pd
 
 from gassolar.solar.solar import Mission
 
-# pylint: disable=invalid-name
-
 plt.rcParams.update({"font.size": 15})
 
 
@@ -88,7 +86,6 @@ def test():
 
 
 if __name__ == "__main__":
-
     GEN = False
 
     if GEN:

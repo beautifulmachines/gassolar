@@ -8,7 +8,6 @@ import numpy as np
 
 from gassolar.environment.wind_speeds import get_windspeed
 from gassolar.gas.gas import Mission as Mgas
-from gassolar.solar.battsolarcon import find_sols
 from gassolar.solar.solar import Mission as Msolar
 
 FIGPATH = (
@@ -18,7 +17,7 @@ FIGPATH = (
 plt.rcParams.update({"font.size": 15})
 
 
-def plot_lats():
+def plot_lats():  # noqa: PLR0915
     fig, ax = plt.subplots()
     lat = np.arange(20, 41, 1)
     Mg = Mgas()

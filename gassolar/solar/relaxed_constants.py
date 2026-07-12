@@ -8,7 +8,7 @@ and postcondition an SP to ensure all relax values are 1
 """
 
 
-def relaxed_constants(model, include_only=None, exclude=None):
+def relaxed_constants(model, include_only=None, exclude=None):  # noqa: ARG001
     """
     Method to precondition an SP so it solves with a relaxed constants
         algorithim

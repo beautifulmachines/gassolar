@@ -7,7 +7,7 @@ import numpy as np
 import pandas as pd
 from gpfit.fit import fit
 
-from gassolar.environment.wind_speeds import get_windspeed, interpolate
+from gassolar.environment.wind_speeds import get_windspeed
 
 plt.rc("text", usetex=True)
 plt.rcParams.update({"font.size": 15})
@@ -62,7 +62,7 @@ def fit_setup(altitude=(40000, 80000), latitude=45, day=355):
     return x, y
 
 
-def plot_fits(xdata, ydata, yfit, latitude, plot=False):
+def plot_fits(xdata, ydata, yfit, latitude, plot=False):  # noqa: ARG001
 
     x1 = np.flipud(np.unique(xdata[0]))
     x2 = np.unique(xdata[1])
@@ -74,7 +74,7 @@ def plot_fits(xdata, ydata, yfit, latitude, plot=False):
         x2, ydata.reshape(len(x2), len(x1)), yfit.reshape(len(x2), len(x1)), colors
     ):
         pp = np.exp(p)
-        if pp == 0.75 or pp == 0.85 or pp == 0.95:
+        if pp in {0.75, 0.85, 0.95}:
             ax.plot(
                 np.exp(x1), np.exp(y) * WIND_NORM, "o", mec="k", mfc="none", mew=1.5
             )
@@ -103,7 +103,7 @@ def plot_fits(xdata, ydata, yfit, latitude, plot=False):
     return fig, ax
 
 
-def make_fits(day, latrange, month, gen=False, path="", plot=False):
+def make_fits(day, latrange, month, gen=False, path="", plot=False):  # noqa: PLR0912
 
     for l in latrange:
         print("Fitting for %d latitude") % l
@@ -150,7 +150,7 @@ def make_fits(day, latrange, month, gen=False, path="", plot=False):
             else:
                 print("Lowest RMS: %.3f, trying new altitude range") % rms_best
         if plot:
-            if not yfit is None:
+            if yfit is not None:
                 fig, ax = plot_fits(X, Y, yfit, l, plot=plot)
                 fig.savefig(
                     path + "windfits" + month + "/windfitl%d.pdf" % l,
@@ -160,7 +160,6 @@ def make_fits(day, latrange, month, gen=False, path="", plot=False):
 
 
 if __name__ == "__main__":
-
     if len(sys.argv) > 1:
         path = sys.argv[1]
     else:
