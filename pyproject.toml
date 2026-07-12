@@ -1,10 +1,10 @@
 [build-system]
-requires = ["hatchling"]
+requires = ["hatchling", "hatch-vcs"]
 build-backend = "hatchling.build"
 
 [project]
+dynamic = ["version"]
 name = "gassolar"
-version = "0.1.0"
 description = "Gas and solar long-endurance aircraft GP/SP models"
 readme = "README.md"
 requires-python = ">=3.11"
@@ -28,6 +28,12 @@ lint = [
 test = [
     "pytest>=8.0.0",
 ]
+
+[tool.hatch.version]
+source = "vcs"
+
+[tool.hatch.version.raw-options]
+fallback_version = "0.0.0"
 
 [tool.hatch.build.targets.wheel]
 packages = ["gassolar"]

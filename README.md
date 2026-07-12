@@ -53,3 +53,33 @@ If you wish to generate this data yourself, change the `GENERATE=True` flag in:
  and run each file. 
 
  Please report and issues with the installation, makefiles, or models.
+
+## Releasing
+
+`gassolar` isn't published to PyPI, so a "release" here is just a git tag + GitHub
+Release marking a reproducible milestone (e.g. "the exact model version behind a given
+design study"), not a package publish.
+
+The version is still derived automatically from git tags (via `hatch-vcs`) — there is
+no `__version__` to hand-edit. `gassolar.__version__` reflects whatever tag is checked
+out:
+
+- On a commit exactly at tag `v0.1.0`, with no local changes: `0.1.0`.
+- On any other commit: `0.1.1.devN+g<hash>`, where `N` is commits since the last tag.
+- With uncommitted local changes: the version always carries a dev/dirty suffix, even
+  if `HEAD` is itself tagged — so a clean `X.Y.Z` version only ever comes from a
+  committed, exactly-tagged commit.
+
+To mark a milestone:
+
+```bash
+make release V=0.1.0
+```
+
+or directly:
+
+```bash
+gh release create v0.1.0 --generate-notes
+```
+
+Use plain `vMAJOR.MINOR.PATCH` tags.
