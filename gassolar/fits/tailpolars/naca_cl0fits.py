@@ -88,7 +88,7 @@ def plot_fits(naca_range, cnstr, x, y):
     i = 0
     nacaint = np.array([int(n) for n in naca_range])
     for na, re, cd, fi in zip(xna, xre, cds, cdf):
-        na = int(round(na))
+        na = int(round(na))  # noqa: PLW2901
         if na in nacaint:
             ax.plot(re, cd, "o", mec=colors[i], mfc="none", mew=1.5)
             ax.plot(

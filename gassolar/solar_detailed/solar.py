@@ -1,7 +1,5 @@
 "Simple Solar-Electric Powered Aircraft Model"
 
-# pylint: disable=invalid-name, too-many-instance-attributes, too-many-locals
-# pylint: disable=redefined-variable-type, too-many-statements, not-callable
 import contextlib
 import io
 from os import sep
@@ -215,7 +213,7 @@ class Aircraft(Model):
     fuseModel = None
     flight_model = AircraftPerf
 
-    def setup(self, Npod=0, sp=False):
+    def setup(self, Npod=0, sp=False):  # noqa: PLR0915
         self.Npod = Npod
         self.sp = sp
 
@@ -460,7 +458,7 @@ class FlightState(Model):
 class FlightSegment(Model):
     """Flight Segment"""
 
-    def setup(self, aircraft, latitude=35, day=355):
+    def setup(self, aircraft, latitude=35, day=355):  # noqa: PLR0915
         self.latitude = latitude
         self.day = day
         esirr, _, tn, _ = get_Eirr(latitude, day)
@@ -470,7 +468,7 @@ class FlightSegment(Model):
         self.aircraftPerf = self.aircraft.flight_model(aircraft, self.fs, False)
         self.slf = SteadyLevelFlight(self.fs, self.aircraft, self.aircraftPerf)
 
-        if aircraft.Npod != 0 and aircraft.Npod != 1:
+        if aircraft.Npod not in {0, 1}:
             assert self.aircraft.sp
             loadsp = self.aircraft.sp
         else:
@@ -536,7 +534,7 @@ class FlightSegment(Model):
             self.vtailg.W == qne * Sv * CLvmax,
         ]
 
-        if self.aircraft.Npod != 0 and self.aircraft.Npod != 1:
+        if self.aircraft.Npod not in {0, 1}:
             Nwing, Npod = self.aircraft.wing.N, self.aircraft.Npod
             ypod = Nwing / ((Npod - 1) / 2 + 1)
             ypods = [ypod * n for n in range(1, (Npod - 1) // 2 + 1)]
@@ -696,7 +694,7 @@ class Mission(Model):
         self.aircraft = aircraft
         self.mission = []
         self.mission.append(Climb(5, self.aircraft))
-        if day == 355 or day == 172:
+        if day in {355, 172}:
             for l in latitude:
                 self.mission.append(FlightSegment(self.aircraft, l, day))
         else:

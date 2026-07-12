@@ -37,7 +37,6 @@ plt.rcParams.update({"font.size": 15})
 GENERATE = False
 
 
-# pylint disable: invalid-name
 def get_Eirr(latitude, day, N=50.0):
     """
     day is juilian day, measured from Jan 1st

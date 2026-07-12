@@ -5,7 +5,7 @@ import sys
 import matplotlib.pyplot as plt
 import numpy as np
 from gpkit.tools.autosweep import autosweep_1d
-from plotting import labelLines, windalt_plot
+from plotting import labelLines
 from solar import Mission
 
 N = 100

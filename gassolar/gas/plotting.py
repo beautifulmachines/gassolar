@@ -49,7 +49,6 @@ def plot_sweep(model, xvarname, xsweep, yvarnames=None, ylim=None, fig=None, axi
         if not isinstance(axis, np.ndarray) == 1:
             axis = [axis]
     for yvarname, ax in zip(yvarnames, axis):
-
         if yvarname:
             if yvarname not in model.substitutions:
                 ax.plot(sol(xvarname), sol(yvarname))

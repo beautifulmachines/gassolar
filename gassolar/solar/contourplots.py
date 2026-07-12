@@ -6,11 +6,11 @@ import matplotlib.pyplot as plt
 import numpy as np
 from battsolarcon import find_sols
 from gpkit.tools.autosweep import autosweep_1d
-from plotting import labelLines, windalt_plot
+from plotting import labelLines
 from solar import Mission
 
 
-def plot_contours(path=None):
+def plot_contours(path=None):  # noqa: PLR0912, PLR0915
     N = 100
     stime = 0.0
     numsolves = 0

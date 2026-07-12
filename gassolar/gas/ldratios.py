@@ -20,7 +20,7 @@ def return_cd(cl, re):
     return cd
 
 
-def ld_plot(model, num):
+def ld_plot(model, num):  # noqa: PLR0912, PLR0915
     model.cost = 1 / model["t_Mission/Loiter"]
     for e in model.varkeys["\\eta_{prop}"]:
         model.substitutions.update({e: 0.75})
@@ -40,7 +40,7 @@ def ld_plot(model, num):
     sol = model.solve("mosek")
     re = sol("Re_Mission/Loiter/FlightSegment/AircraftPerf/WingAero")[-1]
 
-    if num == 1 or num == 2:
+    if num in {1, 2}:
         clm = sol("C_L_Mission/Loiter/FlightSegment/AircraftPerf/WingAero")
         cdm = sol("c_{dp}_Mission/Loiter/FlightSegment/AircraftPerf/WingAero")
         l = ax.plot(
@@ -105,7 +105,7 @@ def ld_plot(model, num):
         cl15 = cl**1.5 / cd
         clmax = cl[cl15 == max(cl15)]
         cdmax = cd[cl15 == max(cl15)]
-        if i == 2 or i == 4:
+        if i in {2, 4}:
             l = ax.plot(
                 cl, cd, linewidth=2, label="Re=%3.fk" % (r / 1000.0), c=col, zorder=1
             )

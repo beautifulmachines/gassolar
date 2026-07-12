@@ -1,9 +1,5 @@
-import numpy as np
 import pandas as pd
-import xlsxwriter
 from gas import Mission
-from gen_tex import find_submodels
-from gpkit import Variable
 from gpkit.small_scripts import unitstr
 
 

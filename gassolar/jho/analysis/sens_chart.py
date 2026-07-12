@@ -6,8 +6,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 from gpkit.util.repr_conventions import unitstr
 
-# pylint: disable=invalid-name, anomalous-backslash-in-string
-
 
 def get_highestsens(model, res, varnames=None, N=10):
     "plot bar chart of sensitivities"
@@ -87,7 +85,7 @@ def plot_chart(sensdict):
 
 def test():
     "test for integrated testing"
-    model = Mission(latitude=[20])
+    model = Mission(latitude=[20])  # noqa: F821 (see gassolar#13)
     model.cost = model[model.solar.Wtotal]
     result = model.solve("mosek")
     _ = get_highestsens(model, result)
@@ -100,13 +98,12 @@ def test():
 
 
 if __name__ == "__main__":
-
     if len(sys.argv) > 1:
         path = sys.argv[1]
     else:
         path = ""
 
-    M = Mission(latitude=[20])
+    M = Mission(latitude=[20])  # noqa: F821 (see gassolar#13)
     M.cost = M[M.solar.Wtotal]
     sol = M.solve("mosek")
 

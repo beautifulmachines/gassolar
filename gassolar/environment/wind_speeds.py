@@ -93,7 +93,7 @@ def get_windspeed(latitude, perc, altitude, day, NS="NS", path=PATH):
                 break
             if pres > p:
                 mb[0] = pressures[i - 1]
-                mb[1] = pressures[i]
+                mb[1] = pres
                 break
         w = []
         for m in mb:

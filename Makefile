@@ -2,12 +2,12 @@
 
 # Code quality
 lint:
-	uv run flake8 gassolar/
+	uv run ruff check gassolar/
 
 # Code formatting
 format:
-	uv run isort gassolar/
-	uv run black gassolar/
+	uv run ruff format gassolar/
+	uv run ruff check --select I --fix gassolar/
 
 # Testing
 test:

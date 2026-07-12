@@ -7,12 +7,14 @@ id = "solar_mission"
 name = "Solar Aircraft Mission"
 module = "gassolar.solar.solar"
 class = "Mission"
+budget_vars = ["Wtotal"]
 
 [[models]]
 id = "gas_mission"
 name = "Gas Aircraft Mission"
 module = "gassolar.gas.gas"
 class = "Mission"
+budget_vars = ["Wzfw"]
 
 [[models]]
 id = "jho_mission"

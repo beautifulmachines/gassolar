@@ -88,7 +88,7 @@ def return_fit(cl, re):
     return cd
 
 
-def plot_fits(re, cnstr, x, y):
+def plot_fits(re, cnstr, x, y):  # noqa: ARG001 (same pattern as gpkit-models#30)
     "plot fit compared to data"
     # colors = ["k", "m", "b", "g", "y"]
     colors = ["#084081", "#0868ac", "#2b8cbe", "#4eb3d3", "#7bccc4"]

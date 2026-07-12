@@ -140,10 +140,10 @@ def optimum_speeds(model):
     sol = model.localsolve(verbosity=0)
 
     vmins = sol("Mission.Loiter.FlightSegment.FlightState.V")[0].magnitude
-    print("optimum loiter speed for min power, " "start of loiter [m/s] = %.3f" % vmins)
+    print("optimum loiter speed for min power, start of loiter [m/s] = %.3f" % vmins)
 
     vmine = sol("Mission.Loiter.FlightSegment.FlightState.V")[-1].magnitude
-    print("optimum loiter speed for min power, " "end of loiter [m/s] = %.3f" % vmine)
+    print("optimum loiter speed for min power, end of loiter [m/s] = %.3f" % vmine)
 
     vstr = "Mission.Cruise.FlightSegment.FlightState.V"
     vcrin = list(sol(vstr).items())[0][1].magnitude

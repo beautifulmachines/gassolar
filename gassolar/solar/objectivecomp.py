@@ -8,7 +8,7 @@ import numpy as np
 from gassolar.solar.solar import Mission
 
 
-def plot_objectivecomp(path=None):
+def plot_objectivecomp(path=None):  # noqa: PLR0915
     plt.rcParams.update({"font.size": 15})
     fig, ax = plt.subplots()
     fig2, ax2 = plt.subplots()

@@ -2,8 +2,6 @@
 
 import sys
 
-import matplotlib.pyplot as plt
-
 from gassolar.solar.plotting import windalt_plot
 
 

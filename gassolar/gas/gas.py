@@ -13,8 +13,6 @@ from gpkitmodels.tools.summing_constraintset import summing_vars
 from gassolar.gas.flight_segment import FlightSegment
 from gassolar.gas.loiter import Loiter
 
-# pylint: disable=invalid-name
-
 
 class Aircraft(Model):
     "the JHO vehicle"
