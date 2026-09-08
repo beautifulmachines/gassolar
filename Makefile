@@ -25,6 +25,13 @@ check-clean:
 	@if [ -n "$$(git status --porcelain)" ]; then \
 		echo "Found uncommitted changes:"; \
 		git status --porcelain; \
+		echo; \
+		diff="$$(git diff)"; \
+		echo "$$diff" | head -n 200; \
+		lines="$$(echo "$$diff" | wc -l)"; \
+		if [ "$$lines" -gt 200 ]; then \
+			echo "... truncated ($$lines lines total; run 'git diff' locally for the rest) ..."; \
+		fi; \
 		exit 1; \
 	else \
 		echo "Working directory is clean."; \
