@@ -2066,11 +2066,11 @@ Mission.FlightSegment10.AircraftPerf
 +0.2177 : CDA/m_{fac} ≥ Cd·S/S + Cd·S/S + Cf·S/S
 
 Mission.FlightSegment10.AircraftPerf.TailAero
-+0.05518 : 9.51·Re^-0.4823469575592283·tau^0.4674663891252668 ≤ Cd/m_{fac--fit}
++0.05518 : 9.51·Re^-0.4823·tau^0.4675 ≤ Cd/m_{fac--fit}
 +0.02661 : Re = V·\rho·S/b/\mu
 
 Mission.FlightSegment10.AircraftPerf.TailAero1
-+0.1029  : 9.51·Re^-0.4823469575592283·tau^0.4674663891252668 ≤ Cd/m_{fac--fit}
++0.1029  : 9.51·Re^-0.4823·tau^0.4675 ≤ Cd/m_{fac--fit}
 +0.04964 : Re = V·\rho·S/b/\mu
 
 Mission.FlightSegment10.AircraftPerf.TailBoomAero
@@ -2080,13 +2080,13 @@ Mission.FlightSegment10.AircraftPerf.TailBoomAero
 Mission.FlightSegment10.AircraftPerf.WingAero
 +1.896  : Cd ≥ cdp + CL²/3.14/AR/e
 +0.6641 : Re = \rho·V·cmac/\mu
-+0.3195 : (cdp/m_{fac-polar-fit})^3.090426578262655 ≥ 1.02e-07·CL^18.8561449416522·Re^-0.1833195640493263 + 0.00168·CL^2.963071814236627·Re^-0.6674768931603589 + 2.28e-06·CL^-1.6533259069045527·Re^-0.3496409845113647 + 1.76e+08·CL^-0.178664295938327·Re^-2.713007500787293
++0.3195 : (cdp/m_{fac-polar-fit})^3.09 ≥ 1.02e-07·CL^18.86·Re^-0.1833 + 0.00168·CL^2.963·Re^-0.6675 + 2.28e-06·CL^-1.653·Re^-0.3496 + 1.76e+08·CL^-0.1787·Re^-2.713
 
 Mission.FlightSegment10.FlightState
 +0.9458 : V_{wind} ≤ V/m_{fac}
-+0.2267 : 16.3·(P/S)_{min}/(P/S)_{ref}^0.9186408247283837 = (E/S)_{day}/(E/S)_{ref}/m_{fac--fit}
-+0.1351 : 0.00278·(P/S)_{min}/(P/S)_{ref}^2.0164131015326943 = (E/S)_C/(E/S)_{ref}/m_{fac--fit}
-+0.1069 : (V_{wind}/V_{wind-ref}/m_{fac--fit})^8.84495117021481 ≥ 4.53·(\rho/\rho_{ref})^8.474071515270701·p_{wind}^14.218225278976671 + 9.77e-12·(\rho/\rho_{ref})^-8.293475135472821·p_{wind}^920.0923052810368 + 5.82e-19·(\rho/\rho_{ref})^-10.89343824484696·p_{wind}^14.185664473270531 + 55.7·(\rho/\rho_{ref})^8.426163344773421·p_{wind}^61.02094079387481
++0.2267 : 16.3·(P/S)_{min}/(P/S)_{ref}^0.9186 = (E/S)_{day}/(E/S)_{ref}/m_{fac--fit}
++0.1351 : 0.00278·(P/S)_{min}/(P/S)_{ref}^2.016 = (E/S)_C/(E/S)_{ref}/m_{fac--fit}
++0.1069 : (V_{wind}/V_{wind-ref}/m_{fac--fit})^8.845 ≥ 4.53·(\rho/\rho_{ref})^8.474·p_{wind}^14.22 + 9.77e-12·(\rho/\rho_{ref})^-8.293·p_{wind}^920.1 + 5.82e-19·(\rho/\rho_{ref})^-10.89·p_{wind}^14.19 + 55.7·(\rho/\rho_{ref})^8.426·p_{wind}^61.02
 -0.0114 : qne = 0.5·Vne²·rhosl
 
 Mission.FlightSegment10.GustL
@@ -2103,15 +2103,15 @@ Mission.FlightSegment10.GustL
 +0.06578 : q[3] ≥ W·N/b·cbar[3]·(agust[3]·6.28/cl·(1 + Ww/W) + 1)
 +0.06211 : th[1] ≥ th[0] + deta[0]·0.5·b/2·(M[1] + M[0])/E/I[0]
 +0.05409 : q[4] ≥ W·N/b·cbar[4]·(agust[4]·6.28/cl·(1 + Ww/W) + 1)
-+0.05352 : (cosminus1[3]·vgust/v)^0.9960249757710424·0.946 = agust[3]/m_{fac--fit}
-+0.04738 : (cosminus1[4]·vgust/v)^0.9960249757710424·0.946 = agust[4]/m_{fac--fit}
++0.05352 : (cosminus1[3]·vgust/v)^0.996·0.946 = agust[3]/m_{fac--fit}
++0.04738 : (cosminus1[4]·vgust/v)^0.996·0.946 = agust[4]/m_{fac--fit}
 +0.03841 : M[0] ≥ M[1] + deta[0]·0.5·b/2·(S[0] + S[1])
 +0.03642 : S[1] ≥ S[2] + deta[1]·0.5·b/2·(q[1] + q[2])
 +0.03573 : w[2] ≥ w[1] + deta[1]·0.5·b/2·(th[2] + th[1])
 +0.03556 : th[4] ≥ th[3] + deta[3]·0.5·b/2·(M[4] + M[3])/E/I[3]
 +0.03385 : M[3] ≥ M[4] + deta[3]·0.5·b/2·(S[3] + S[4])
 +0.01932 : q[2] ≥ W·N/b·cbar[2]·(agust[2]·6.28/cl·(1 + Ww/W) + 1)
-+0.01304 : (cosminus1[2]·vgust/v)^0.9960249757710424·0.946 = agust[2]/m_{fac--fit}
++0.01304 : (cosminus1[2]·vgust/v)^0.996·0.946 = agust[2]/m_{fac--fit}
 
 Mission.FlightSegment10.SteadyLevelFlight
 +2.261 : Wtotal ≤ 0.5·\rho·V²·CL·S

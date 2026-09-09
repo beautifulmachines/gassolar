@@ -81,7 +81,7 @@
   fixed g
   cons  f = l/R/2
   cons  k ≥ 1 + 60/f³ + f/400
-  cons  3·(S/3.14)^1.6075 ≥ 2·(l·R·2)^1.6075 + (2·R)^3.215
+  cons  3·(S/3.14)^1.607 ≥ 2·(l·R·2)^1.607 + (2·R)^3.215
   cons  Vol ≤ 4.19·l/2·R²
   cons  W/mfac ≥ S·rho·t·g
   cons  t ≥ nply·tmin

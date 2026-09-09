@@ -107,7 +107,7 @@
   cons  S_nose^1.6 ≥ (6.28·R²)^1.6·(0.333 + 0.667·k_nose^1.6)
   cons  S_bulk ≥ R²·(0.0123·k_bulk² + 1.52·k_bulk + 0.502)
   cons  Vol_body ≤ 3.14·R²·l_body
-  cons  l ≤ 3·R·(k_body·k_nose·k_bulk)^0.3333333333333333
+  cons  l ≤ 3·R·(k_body·k_nose·k_bulk)^0.3333
   cons  S ≥ 3.14·R²
   cons  Vol_body ≥ Vol
   cons  W/mfac ≥ FuelTank.W + FuselageSkin.W
@@ -752,16 +752,16 @@
   cons  Cf_ref[7] = Re_ref[7]^0.3^-1·0.455
   cons  Cf_ref[8] = Re_ref[8]^0.3^-1·0.455
   cons  Cf_ref[9] = Re_ref[9]^0.3^-1·0.455
-  cons  Cd[0]^0.996232 ≥ Cf[0]/Cf_ref[0]·(0.00243·k_body^0.033607·k_nose^1.21682·k_bulk^0.306251 + 0.00255·k_body^-0.0316887·k_nose^-0.585489·k_bulk^1.15394 + 0.0436·k_body^0.0545722·k_nose^0.258228·k_bulk^-1.42664 + 0.0097·k_body^0.8661·k_nose^-0.209136·k_bulk^-0.156166)
-  cons  Cd[1]^0.996232 ≥ Cf[1]/Cf_ref[1]·(0.00243·k_body^0.033607·k_nose^1.21682·k_bulk^0.306251 + 0.00255·k_body^-0.0316887·k_nose^-0.585489·k_bulk^1.15394 + 0.0436·k_body^0.0545722·k_nose^0.258228·k_bulk^-1.42664 + 0.0097·k_body^0.8661·k_nose^-0.209136·k_bulk^-0.156166)
-  cons  Cd[2]^0.996232 ≥ Cf[2]/Cf_ref[2]·(0.00243·k_body^0.033607·k_nose^1.21682·k_bulk^0.306251 + 0.00255·k_body^-0.0316887·k_nose^-0.585489·k_bulk^1.15394 + 0.0436·k_body^0.0545722·k_nose^0.258228·k_bulk^-1.42664 + 0.0097·k_body^0.8661·k_nose^-0.209136·k_bulk^-0.156166)
-  cons  Cd[3]^0.996232 ≥ Cf[3]/Cf_ref[3]·(0.00243·k_body^0.033607·k_nose^1.21682·k_bulk^0.306251 + 0.00255·k_body^-0.0316887·k_nose^-0.585489·k_bulk^1.15394 + 0.0436·k_body^0.0545722·k_nose^0.258228·k_bulk^-1.42664 + 0.0097·k_body^0.8661·k_nose^-0.209136·k_bulk^-0.156166)
-  cons  Cd[4]^0.996232 ≥ Cf[4]/Cf_ref[4]·(0.00243·k_body^0.033607·k_nose^1.21682·k_bulk^0.306251 + 0.00255·k_body^-0.0316887·k_nose^-0.585489·k_bulk^1.15394 + 0.0436·k_body^0.0545722·k_nose^0.258228·k_bulk^-1.42664 + 0.0097·k_body^0.8661·k_nose^-0.209136·k_bulk^-0.156166)
-  cons  Cd[5]^0.996232 ≥ Cf[5]/Cf_ref[5]·(0.00243·k_body^0.033607·k_nose^1.21682·k_bulk^0.306251 + 0.00255·k_body^-0.0316887·k_nose^-0.585489·k_bulk^1.15394 + 0.0436·k_body^0.0545722·k_nose^0.258228·k_bulk^-1.42664 + 0.0097·k_body^0.8661·k_nose^-0.209136·k_bulk^-0.156166)
-  cons  Cd[6]^0.996232 ≥ Cf[6]/Cf_ref[6]·(0.00243·k_body^0.033607·k_nose^1.21682·k_bulk^0.306251 + 0.00255·k_body^-0.0316887·k_nose^-0.585489·k_bulk^1.15394 + 0.0436·k_body^0.0545722·k_nose^0.258228·k_bulk^-1.42664 + 0.0097·k_body^0.8661·k_nose^-0.209136·k_bulk^-0.156166)
-  cons  Cd[7]^0.996232 ≥ Cf[7]/Cf_ref[7]·(0.00243·k_body^0.033607·k_nose^1.21682·k_bulk^0.306251 + 0.00255·k_body^-0.0316887·k_nose^-0.585489·k_bulk^1.15394 + 0.0436·k_body^0.0545722·k_nose^0.258228·k_bulk^-1.42664 + 0.0097·k_body^0.8661·k_nose^-0.209136·k_bulk^-0.156166)
-  cons  Cd[8]^0.996232 ≥ Cf[8]/Cf_ref[8]·(0.00243·k_body^0.033607·k_nose^1.21682·k_bulk^0.306251 + 0.00255·k_body^-0.0316887·k_nose^-0.585489·k_bulk^1.15394 + 0.0436·k_body^0.0545722·k_nose^0.258228·k_bulk^-1.42664 + 0.0097·k_body^0.8661·k_nose^-0.209136·k_bulk^-0.156166)
-  cons  Cd[9]^0.996232 ≥ Cf[9]/Cf_ref[9]·(0.00243·k_body^0.033607·k_nose^1.21682·k_bulk^0.306251 + 0.00255·k_body^-0.0316887·k_nose^-0.585489·k_bulk^1.15394 + 0.0436·k_body^0.0545722·k_nose^0.258228·k_bulk^-1.42664 + 0.0097·k_body^0.8661·k_nose^-0.209136·k_bulk^-0.156166)
+  cons  Cd[0]^0.9962 ≥ Cf[0]/Cf_ref[0]·(0.00243·k_body^0.03361·k_nose^1.217·k_bulk^0.3063 + 0.00255·k_body^-0.03169·k_nose^-0.5855·k_bulk^1.154 + 0.0436·k_body^0.05457·k_nose^0.2582·k_bulk^-1.427 + 0.0097·k_body^0.8661·k_nose^-0.2091·k_bulk^-0.1562)
+  cons  Cd[1]^0.9962 ≥ Cf[1]/Cf_ref[1]·(0.00243·k_body^0.03361·k_nose^1.217·k_bulk^0.3063 + 0.00255·k_body^-0.03169·k_nose^-0.5855·k_bulk^1.154 + 0.0436·k_body^0.05457·k_nose^0.2582·k_bulk^-1.427 + 0.0097·k_body^0.8661·k_nose^-0.2091·k_bulk^-0.1562)
+  cons  Cd[2]^0.9962 ≥ Cf[2]/Cf_ref[2]·(0.00243·k_body^0.03361·k_nose^1.217·k_bulk^0.3063 + 0.00255·k_body^-0.03169·k_nose^-0.5855·k_bulk^1.154 + 0.0436·k_body^0.05457·k_nose^0.2582·k_bulk^-1.427 + 0.0097·k_body^0.8661·k_nose^-0.2091·k_bulk^-0.1562)
+  cons  Cd[3]^0.9962 ≥ Cf[3]/Cf_ref[3]·(0.00243·k_body^0.03361·k_nose^1.217·k_bulk^0.3063 + 0.00255·k_body^-0.03169·k_nose^-0.5855·k_bulk^1.154 + 0.0436·k_body^0.05457·k_nose^0.2582·k_bulk^-1.427 + 0.0097·k_body^0.8661·k_nose^-0.2091·k_bulk^-0.1562)
+  cons  Cd[4]^0.9962 ≥ Cf[4]/Cf_ref[4]·(0.00243·k_body^0.03361·k_nose^1.217·k_bulk^0.3063 + 0.00255·k_body^-0.03169·k_nose^-0.5855·k_bulk^1.154 + 0.0436·k_body^0.05457·k_nose^0.2582·k_bulk^-1.427 + 0.0097·k_body^0.8661·k_nose^-0.2091·k_bulk^-0.1562)
+  cons  Cd[5]^0.9962 ≥ Cf[5]/Cf_ref[5]·(0.00243·k_body^0.03361·k_nose^1.217·k_bulk^0.3063 + 0.00255·k_body^-0.03169·k_nose^-0.5855·k_bulk^1.154 + 0.0436·k_body^0.05457·k_nose^0.2582·k_bulk^-1.427 + 0.0097·k_body^0.8661·k_nose^-0.2091·k_bulk^-0.1562)
+  cons  Cd[6]^0.9962 ≥ Cf[6]/Cf_ref[6]·(0.00243·k_body^0.03361·k_nose^1.217·k_bulk^0.3063 + 0.00255·k_body^-0.03169·k_nose^-0.5855·k_bulk^1.154 + 0.0436·k_body^0.05457·k_nose^0.2582·k_bulk^-1.427 + 0.0097·k_body^0.8661·k_nose^-0.2091·k_bulk^-0.1562)
+  cons  Cd[7]^0.9962 ≥ Cf[7]/Cf_ref[7]·(0.00243·k_body^0.03361·k_nose^1.217·k_bulk^0.3063 + 0.00255·k_body^-0.03169·k_nose^-0.5855·k_bulk^1.154 + 0.0436·k_body^0.05457·k_nose^0.2582·k_bulk^-1.427 + 0.0097·k_body^0.8661·k_nose^-0.2091·k_bulk^-0.1562)
+  cons  Cd[8]^0.9962 ≥ Cf[8]/Cf_ref[8]·(0.00243·k_body^0.03361·k_nose^1.217·k_bulk^0.3063 + 0.00255·k_body^-0.03169·k_nose^-0.5855·k_bulk^1.154 + 0.0436·k_body^0.05457·k_nose^0.2582·k_bulk^-1.427 + 0.0097·k_body^0.8661·k_nose^-0.2091·k_bulk^-0.1562)
+  cons  Cd[9]^0.9962 ≥ Cf[9]/Cf_ref[9]·(0.00243·k_body^0.03361·k_nose^1.217·k_bulk^0.3063 + 0.00255·k_body^-0.03169·k_nose^-0.5855·k_bulk^1.154 + 0.0436·k_body^0.05457·k_nose^0.2582·k_bulk^-1.427 + 0.0097·k_body^0.8661·k_nose^-0.2091·k_bulk^-0.1562)
 [Mission.Climb.FlightSegment.AircraftPerf.DF70Perf]
   free  BSFC[:]
   free  P_shaft[:]
@@ -776,26 +776,26 @@
   fixed m_{fac}[:]
   fixed P_sl_max  [Mission.Aircraft.DF70]
   fixed bsfc_min  [Mission.Aircraft.DF70]
-  cons  (BSFC[0]/m_{fac}[0]/bsfc_min)^36.2209 ≥ (RPM[0]/RPM_{max}[0])^8.06517·2.32 + (RPM[0]/RPM_{max}[0])^-38.8545·0.00103
-  cons  (BSFC[1]/m_{fac}[1]/bsfc_min)^36.2209 ≥ (RPM[1]/RPM_{max}[1])^8.06517·2.32 + (RPM[1]/RPM_{max}[1])^-38.8545·0.00103
-  cons  (BSFC[2]/m_{fac}[2]/bsfc_min)^36.2209 ≥ (RPM[2]/RPM_{max}[2])^8.06517·2.32 + (RPM[2]/RPM_{max}[2])^-38.8545·0.00103
-  cons  (BSFC[3]/m_{fac}[3]/bsfc_min)^36.2209 ≥ (RPM[3]/RPM_{max}[3])^8.06517·2.32 + (RPM[3]/RPM_{max}[3])^-38.8545·0.00103
-  cons  (BSFC[4]/m_{fac}[4]/bsfc_min)^36.2209 ≥ (RPM[4]/RPM_{max}[4])^8.06517·2.32 + (RPM[4]/RPM_{max}[4])^-38.8545·0.00103
-  cons  (BSFC[5]/m_{fac}[5]/bsfc_min)^36.2209 ≥ (RPM[5]/RPM_{max}[5])^8.06517·2.32 + (RPM[5]/RPM_{max}[5])^-38.8545·0.00103
-  cons  (BSFC[6]/m_{fac}[6]/bsfc_min)^36.2209 ≥ (RPM[6]/RPM_{max}[6])^8.06517·2.32 + (RPM[6]/RPM_{max}[6])^-38.8545·0.00103
-  cons  (BSFC[7]/m_{fac}[7]/bsfc_min)^36.2209 ≥ (RPM[7]/RPM_{max}[7])^8.06517·2.32 + (RPM[7]/RPM_{max}[7])^-38.8545·0.00103
-  cons  (BSFC[8]/m_{fac}[8]/bsfc_min)^36.2209 ≥ (RPM[8]/RPM_{max}[8])^8.06517·2.32 + (RPM[8]/RPM_{max}[8])^-38.8545·0.00103
-  cons  (BSFC[9]/m_{fac}[9]/bsfc_min)^36.2209 ≥ (RPM[9]/RPM_{max}[9])^8.06517·2.32 + (RPM[9]/RPM_{max}[9])^-38.8545·0.00103
-  cons  (P_total[0]/P_{shaft-max}[0])^0.1 = (RPM[0]/RPM_{max}[0])^0.294421·0.999
-  cons  (P_total[1]/P_{shaft-max}[1])^0.1 = (RPM[1]/RPM_{max}[1])^0.294421·0.999
-  cons  (P_total[2]/P_{shaft-max}[2])^0.1 = (RPM[2]/RPM_{max}[2])^0.294421·0.999
-  cons  (P_total[3]/P_{shaft-max}[3])^0.1 = (RPM[3]/RPM_{max}[3])^0.294421·0.999
-  cons  (P_total[4]/P_{shaft-max}[4])^0.1 = (RPM[4]/RPM_{max}[4])^0.294421·0.999
-  cons  (P_total[5]/P_{shaft-max}[5])^0.1 = (RPM[5]/RPM_{max}[5])^0.294421·0.999
-  cons  (P_total[6]/P_{shaft-max}[6])^0.1 = (RPM[6]/RPM_{max}[6])^0.294421·0.999
-  cons  (P_total[7]/P_{shaft-max}[7])^0.1 = (RPM[7]/RPM_{max}[7])^0.294421·0.999
-  cons  (P_total[8]/P_{shaft-max}[8])^0.1 = (RPM[8]/RPM_{max}[8])^0.294421·0.999
-  cons  (P_total[9]/P_{shaft-max}[9])^0.1 = (RPM[9]/RPM_{max}[9])^0.294421·0.999
+  cons  (BSFC[0]/m_{fac}[0]/bsfc_min)^36.22 ≥ (RPM[0]/RPM_{max}[0])^8.065·2.32 + (RPM[0]/RPM_{max}[0])^-38.85·0.00103
+  cons  (BSFC[1]/m_{fac}[1]/bsfc_min)^36.22 ≥ (RPM[1]/RPM_{max}[1])^8.065·2.32 + (RPM[1]/RPM_{max}[1])^-38.85·0.00103
+  cons  (BSFC[2]/m_{fac}[2]/bsfc_min)^36.22 ≥ (RPM[2]/RPM_{max}[2])^8.065·2.32 + (RPM[2]/RPM_{max}[2])^-38.85·0.00103
+  cons  (BSFC[3]/m_{fac}[3]/bsfc_min)^36.22 ≥ (RPM[3]/RPM_{max}[3])^8.065·2.32 + (RPM[3]/RPM_{max}[3])^-38.85·0.00103
+  cons  (BSFC[4]/m_{fac}[4]/bsfc_min)^36.22 ≥ (RPM[4]/RPM_{max}[4])^8.065·2.32 + (RPM[4]/RPM_{max}[4])^-38.85·0.00103
+  cons  (BSFC[5]/m_{fac}[5]/bsfc_min)^36.22 ≥ (RPM[5]/RPM_{max}[5])^8.065·2.32 + (RPM[5]/RPM_{max}[5])^-38.85·0.00103
+  cons  (BSFC[6]/m_{fac}[6]/bsfc_min)^36.22 ≥ (RPM[6]/RPM_{max}[6])^8.065·2.32 + (RPM[6]/RPM_{max}[6])^-38.85·0.00103
+  cons  (BSFC[7]/m_{fac}[7]/bsfc_min)^36.22 ≥ (RPM[7]/RPM_{max}[7])^8.065·2.32 + (RPM[7]/RPM_{max}[7])^-38.85·0.00103
+  cons  (BSFC[8]/m_{fac}[8]/bsfc_min)^36.22 ≥ (RPM[8]/RPM_{max}[8])^8.065·2.32 + (RPM[8]/RPM_{max}[8])^-38.85·0.00103
+  cons  (BSFC[9]/m_{fac}[9]/bsfc_min)^36.22 ≥ (RPM[9]/RPM_{max}[9])^8.065·2.32 + (RPM[9]/RPM_{max}[9])^-38.85·0.00103
+  cons  (P_total[0]/P_{shaft-max}[0])^0.1 = (RPM[0]/RPM_{max}[0])^0.2944·0.999
+  cons  (P_total[1]/P_{shaft-max}[1])^0.1 = (RPM[1]/RPM_{max}[1])^0.2944·0.999
+  cons  (P_total[2]/P_{shaft-max}[2])^0.1 = (RPM[2]/RPM_{max}[2])^0.2944·0.999
+  cons  (P_total[3]/P_{shaft-max}[3])^0.1 = (RPM[3]/RPM_{max}[3])^0.2944·0.999
+  cons  (P_total[4]/P_{shaft-max}[4])^0.1 = (RPM[4]/RPM_{max}[4])^0.2944·0.999
+  cons  (P_total[5]/P_{shaft-max}[5])^0.1 = (RPM[5]/RPM_{max}[5])^0.2944·0.999
+  cons  (P_total[6]/P_{shaft-max}[6])^0.1 = (RPM[6]/RPM_{max}[6])^0.2944·0.999
+  cons  (P_total[7]/P_{shaft-max}[7])^0.1 = (RPM[7]/RPM_{max}[7])^0.2944·0.999
+  cons  (P_total[8]/P_{shaft-max}[8])^0.1 = (RPM[8]/RPM_{max}[8])^0.2944·0.999
+  cons  (P_total[9]/P_{shaft-max}[9])^0.1 = (RPM[9]/RPM_{max}[9])^0.2944·0.999
   cons  RPM[0] ≤ RPM_{max}[0]
   cons  RPM[1] ≤ RPM_{max}[1]
   cons  RPM[2] ≤ RPM_{max}[2]
@@ -1094,7 +1094,7 @@
   cons  Re[0] = V[0]·rho[0]·l/mu[0]
   cons  Cf[0] ≥ Re[0]^0.3^-1·0.455
   cons  Cf_ref[0] = Re_ref[0]^0.3^-1·0.455
-  cons  Cd[0]^0.996232 ≥ Cf[0]/Cf_ref[0]·(0.00243·k_body^0.033607·k_nose^1.21682·k_bulk^0.306251 + 0.00255·k_body^-0.0316887·k_nose^-0.585489·k_bulk^1.15394 + 0.0436·k_body^0.0545722·k_nose^0.258228·k_bulk^-1.42664 + 0.0097·k_body^0.8661·k_nose^-0.209136·k_bulk^-0.156166)
+  cons  Cd[0]^0.9962 ≥ Cf[0]/Cf_ref[0]·(0.00243·k_body^0.03361·k_nose^1.217·k_bulk^0.3063 + 0.00255·k_body^-0.03169·k_nose^-0.5855·k_bulk^1.154 + 0.0436·k_body^0.05457·k_nose^0.2582·k_bulk^-1.427 + 0.0097·k_body^0.8661·k_nose^-0.2091·k_bulk^-0.1562)
 [Mission.Cruise.FlightSegment.AircraftPerf.DF70Perf]
   free  BSFC[:]
   free  P_shaft[:]
@@ -1109,8 +1109,8 @@
   fixed m_{fac}[:]
   fixed P_sl_max  [Mission.Aircraft.DF70]
   fixed bsfc_min  [Mission.Aircraft.DF70]
-  cons  (BSFC[0]/m_{fac}[0]/bsfc_min)^36.2209 ≥ (RPM[0]/RPM_{max}[0])^8.06517·2.32 + (RPM[0]/RPM_{max}[0])^-38.8545·0.00103
-  cons  (P_total[0]/P_{shaft-max}[0])^0.1 = (RPM[0]/RPM_{max}[0])^0.294421·0.999
+  cons  (BSFC[0]/m_{fac}[0]/bsfc_min)^36.22 ≥ (RPM[0]/RPM_{max}[0])^8.065·2.32 + (RPM[0]/RPM_{max}[0])^-38.85·0.00103
+  cons  (P_total[0]/P_{shaft-max}[0])^0.1 = (RPM[0]/RPM_{max}[0])^0.2944·0.999
   cons  RPM[0] ≤ RPM_{max}[0]
   cons  L_{eng}[0] = P_{shaft-max}[0]/P_sl_max
   cons  P_{shaft-max}[0] ≥ P_total[0]
@@ -1326,11 +1326,11 @@
   cons  Cf_ref[2] = Re_ref[2]^0.3^-1·0.455
   cons  Cf_ref[3] = Re_ref[3]^0.3^-1·0.455
   cons  Cf_ref[4] = Re_ref[4]^0.3^-1·0.455
-  cons  Cd[0]^0.996232 ≥ Cf[0]/Cf_ref[0]·(0.00243·k_body^0.033607·k_nose^1.21682·k_bulk^0.306251 + 0.00255·k_body^-0.0316887·k_nose^-0.585489·k_bulk^1.15394 + 0.0436·k_body^0.0545722·k_nose^0.258228·k_bulk^-1.42664 + 0.0097·k_body^0.8661·k_nose^-0.209136·k_bulk^-0.156166)
-  cons  Cd[1]^0.996232 ≥ Cf[1]/Cf_ref[1]·(0.00243·k_body^0.033607·k_nose^1.21682·k_bulk^0.306251 + 0.00255·k_body^-0.0316887·k_nose^-0.585489·k_bulk^1.15394 + 0.0436·k_body^0.0545722·k_nose^0.258228·k_bulk^-1.42664 + 0.0097·k_body^0.8661·k_nose^-0.209136·k_bulk^-0.156166)
-  cons  Cd[2]^0.996232 ≥ Cf[2]/Cf_ref[2]·(0.00243·k_body^0.033607·k_nose^1.21682·k_bulk^0.306251 + 0.00255·k_body^-0.0316887·k_nose^-0.585489·k_bulk^1.15394 + 0.0436·k_body^0.0545722·k_nose^0.258228·k_bulk^-1.42664 + 0.0097·k_body^0.8661·k_nose^-0.209136·k_bulk^-0.156166)
-  cons  Cd[3]^0.996232 ≥ Cf[3]/Cf_ref[3]·(0.00243·k_body^0.033607·k_nose^1.21682·k_bulk^0.306251 + 0.00255·k_body^-0.0316887·k_nose^-0.585489·k_bulk^1.15394 + 0.0436·k_body^0.0545722·k_nose^0.258228·k_bulk^-1.42664 + 0.0097·k_body^0.8661·k_nose^-0.209136·k_bulk^-0.156166)
-  cons  Cd[4]^0.996232 ≥ Cf[4]/Cf_ref[4]·(0.00243·k_body^0.033607·k_nose^1.21682·k_bulk^0.306251 + 0.00255·k_body^-0.0316887·k_nose^-0.585489·k_bulk^1.15394 + 0.0436·k_body^0.0545722·k_nose^0.258228·k_bulk^-1.42664 + 0.0097·k_body^0.8661·k_nose^-0.209136·k_bulk^-0.156166)
+  cons  Cd[0]^0.9962 ≥ Cf[0]/Cf_ref[0]·(0.00243·k_body^0.03361·k_nose^1.217·k_bulk^0.3063 + 0.00255·k_body^-0.03169·k_nose^-0.5855·k_bulk^1.154 + 0.0436·k_body^0.05457·k_nose^0.2582·k_bulk^-1.427 + 0.0097·k_body^0.8661·k_nose^-0.2091·k_bulk^-0.1562)
+  cons  Cd[1]^0.9962 ≥ Cf[1]/Cf_ref[1]·(0.00243·k_body^0.03361·k_nose^1.217·k_bulk^0.3063 + 0.00255·k_body^-0.03169·k_nose^-0.5855·k_bulk^1.154 + 0.0436·k_body^0.05457·k_nose^0.2582·k_bulk^-1.427 + 0.0097·k_body^0.8661·k_nose^-0.2091·k_bulk^-0.1562)
+  cons  Cd[2]^0.9962 ≥ Cf[2]/Cf_ref[2]·(0.00243·k_body^0.03361·k_nose^1.217·k_bulk^0.3063 + 0.00255·k_body^-0.03169·k_nose^-0.5855·k_bulk^1.154 + 0.0436·k_body^0.05457·k_nose^0.2582·k_bulk^-1.427 + 0.0097·k_body^0.8661·k_nose^-0.2091·k_bulk^-0.1562)
+  cons  Cd[3]^0.9962 ≥ Cf[3]/Cf_ref[3]·(0.00243·k_body^0.03361·k_nose^1.217·k_bulk^0.3063 + 0.00255·k_body^-0.03169·k_nose^-0.5855·k_bulk^1.154 + 0.0436·k_body^0.05457·k_nose^0.2582·k_bulk^-1.427 + 0.0097·k_body^0.8661·k_nose^-0.2091·k_bulk^-0.1562)
+  cons  Cd[4]^0.9962 ≥ Cf[4]/Cf_ref[4]·(0.00243·k_body^0.03361·k_nose^1.217·k_bulk^0.3063 + 0.00255·k_body^-0.03169·k_nose^-0.5855·k_bulk^1.154 + 0.0436·k_body^0.05457·k_nose^0.2582·k_bulk^-1.427 + 0.0097·k_body^0.8661·k_nose^-0.2091·k_bulk^-0.1562)
 [Mission.Loiter.FlightSegment.AircraftPerf.DF70Perf]
   free  BSFC[:]
   free  P_shaft[:]
@@ -1345,16 +1345,16 @@
   fixed m_{fac}[:]
   fixed P_sl_max  [Mission.Aircraft.DF70]
   fixed bsfc_min  [Mission.Aircraft.DF70]
-  cons  (BSFC[0]/m_{fac}[0]/bsfc_min)^36.2209 ≥ (RPM[0]/RPM_{max}[0])^8.06517·2.32 + (RPM[0]/RPM_{max}[0])^-38.8545·0.00103
-  cons  (BSFC[1]/m_{fac}[1]/bsfc_min)^36.2209 ≥ (RPM[1]/RPM_{max}[1])^8.06517·2.32 + (RPM[1]/RPM_{max}[1])^-38.8545·0.00103
-  cons  (BSFC[2]/m_{fac}[2]/bsfc_min)^36.2209 ≥ (RPM[2]/RPM_{max}[2])^8.06517·2.32 + (RPM[2]/RPM_{max}[2])^-38.8545·0.00103
-  cons  (BSFC[3]/m_{fac}[3]/bsfc_min)^36.2209 ≥ (RPM[3]/RPM_{max}[3])^8.06517·2.32 + (RPM[3]/RPM_{max}[3])^-38.8545·0.00103
-  cons  (BSFC[4]/m_{fac}[4]/bsfc_min)^36.2209 ≥ (RPM[4]/RPM_{max}[4])^8.06517·2.32 + (RPM[4]/RPM_{max}[4])^-38.8545·0.00103
-  cons  (P_total[0]/P_{shaft-max}[0])^0.1 = (RPM[0]/RPM_{max}[0])^0.294421·0.999
-  cons  (P_total[1]/P_{shaft-max}[1])^0.1 = (RPM[1]/RPM_{max}[1])^0.294421·0.999
-  cons  (P_total[2]/P_{shaft-max}[2])^0.1 = (RPM[2]/RPM_{max}[2])^0.294421·0.999
-  cons  (P_total[3]/P_{shaft-max}[3])^0.1 = (RPM[3]/RPM_{max}[3])^0.294421·0.999
-  cons  (P_total[4]/P_{shaft-max}[4])^0.1 = (RPM[4]/RPM_{max}[4])^0.294421·0.999
+  cons  (BSFC[0]/m_{fac}[0]/bsfc_min)^36.22 ≥ (RPM[0]/RPM_{max}[0])^8.065·2.32 + (RPM[0]/RPM_{max}[0])^-38.85·0.00103
+  cons  (BSFC[1]/m_{fac}[1]/bsfc_min)^36.22 ≥ (RPM[1]/RPM_{max}[1])^8.065·2.32 + (RPM[1]/RPM_{max}[1])^-38.85·0.00103
+  cons  (BSFC[2]/m_{fac}[2]/bsfc_min)^36.22 ≥ (RPM[2]/RPM_{max}[2])^8.065·2.32 + (RPM[2]/RPM_{max}[2])^-38.85·0.00103
+  cons  (BSFC[3]/m_{fac}[3]/bsfc_min)^36.22 ≥ (RPM[3]/RPM_{max}[3])^8.065·2.32 + (RPM[3]/RPM_{max}[3])^-38.85·0.00103
+  cons  (BSFC[4]/m_{fac}[4]/bsfc_min)^36.22 ≥ (RPM[4]/RPM_{max}[4])^8.065·2.32 + (RPM[4]/RPM_{max}[4])^-38.85·0.00103
+  cons  (P_total[0]/P_{shaft-max}[0])^0.1 = (RPM[0]/RPM_{max}[0])^0.2944·0.999
+  cons  (P_total[1]/P_{shaft-max}[1])^0.1 = (RPM[1]/RPM_{max}[1])^0.2944·0.999
+  cons  (P_total[2]/P_{shaft-max}[2])^0.1 = (RPM[2]/RPM_{max}[2])^0.2944·0.999
+  cons  (P_total[3]/P_{shaft-max}[3])^0.1 = (RPM[3]/RPM_{max}[3])^0.2944·0.999
+  cons  (P_total[4]/P_{shaft-max}[4])^0.1 = (RPM[4]/RPM_{max}[4])^0.2944·0.999
   cons  RPM[0] ≤ RPM_{max}[0]
   cons  RPM[1] ≤ RPM_{max}[1]
   cons  RPM[2] ≤ RPM_{max}[2]
@@ -1573,7 +1573,7 @@
   cons  Re[0] = V[0]·rho[0]·l/mu[0]
   cons  Cf[0] ≥ Re[0]^0.3^-1·0.455
   cons  Cf_ref[0] = Re_ref[0]^0.3^-1·0.455
-  cons  Cd[0]^0.996232 ≥ Cf[0]/Cf_ref[0]·(0.00243·k_body^0.033607·k_nose^1.21682·k_bulk^0.306251 + 0.00255·k_body^-0.0316887·k_nose^-0.585489·k_bulk^1.15394 + 0.0436·k_body^0.0545722·k_nose^0.258228·k_bulk^-1.42664 + 0.0097·k_body^0.8661·k_nose^-0.209136·k_bulk^-0.156166)
+  cons  Cd[0]^0.9962 ≥ Cf[0]/Cf_ref[0]·(0.00243·k_body^0.03361·k_nose^1.217·k_bulk^0.3063 + 0.00255·k_body^-0.03169·k_nose^-0.5855·k_bulk^1.154 + 0.0436·k_body^0.05457·k_nose^0.2582·k_bulk^-1.427 + 0.0097·k_body^0.8661·k_nose^-0.2091·k_bulk^-0.1562)
 [Mission.Cruise1.FlightSegment.AircraftPerf.DF70Perf]
   free  BSFC[:]
   free  P_shaft[:]
@@ -1588,8 +1588,8 @@
   fixed m_{fac}[:]
   fixed P_sl_max  [Mission.Aircraft.DF70]
   fixed bsfc_min  [Mission.Aircraft.DF70]
-  cons  (BSFC[0]/m_{fac}[0]/bsfc_min)^36.2209 ≥ (RPM[0]/RPM_{max}[0])^8.06517·2.32 + (RPM[0]/RPM_{max}[0])^-38.8545·0.00103
-  cons  (P_total[0]/P_{shaft-max}[0])^0.1 = (RPM[0]/RPM_{max}[0])^0.294421·0.999
+  cons  (BSFC[0]/m_{fac}[0]/bsfc_min)^36.22 ≥ (RPM[0]/RPM_{max}[0])^8.065·2.32 + (RPM[0]/RPM_{max}[0])^-38.85·0.00103
+  cons  (P_total[0]/P_{shaft-max}[0])^0.1 = (RPM[0]/RPM_{max}[0])^0.2944·0.999
   cons  RPM[0] ≤ RPM_{max}[0]
   cons  L_{eng}[0] = P_{shaft-max}[0]/P_sl_max
   cons  P_{shaft-max}[0] ≥ P_total[0]
