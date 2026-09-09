@@ -60,6 +60,18 @@ ignore = [
     "PLR2004",  # magic-value-comparison: noisy, no precedent, revisit later
     "F841",     # unused-variable: Variable() side-effect idiom, spread across 9 files (gassolar#12)
     "PLR0913",  # too-many-arguments: GP setup() methods commonly take many args, spread across 8 files
+    "PLR0917",  # too-many-positional-arguments: same GP setup() methods as PLR0913
+
+    # Newly enabled by ruff's expanded default rule set (0.16). Real signal, not
+    # noise, but too large to fix safely in one pass -- mostly legacy plotting/fit
+    # scripts with no test coverage. Tracked in gassolar#TODO for re-enabling and
+    # fixing incrementally; do not add new violations of these while they're off.
+    "UP031",    # printf-string-formatting: 82 hits, mostly plot labels/titles
+    "C408",     # unnecessary-collection-call: 24 hits
+    "SIM102",   # collapsible-if: 5 hits
+    "SIM115",   # open-file-with-context-handler: 3 hits
+    "RUF059",   # unused-unpacked-variable: 5 hits
+    "RUF015",   # unnecessary-iterable-allocation-for-first-element: 2 hits
 ]
 
 [tool.ruff.lint.per-file-ignores]

@@ -76,11 +76,9 @@ def plot_fits(cnstr, x, y):
         y0 = [yt[ind1[j - 1] : ind1[j]] for j in range(1, len(ind1))]
         yf0 = [yft[ind1[j - 1] : ind1[j]] for j in range(1, len(ind1))]
         fig, ax = plt.subplots()
-        c = 0
-        for r, cl, cd, fi in zip(exp(x1), x0, y0, yf0):
+        for c, (r, cl, cd, fi) in enumerate(zip(exp(x1), x0, y0, yf0)):
             ax.plot(exp(cl), exp(cd), "o", mec=colors[c], mfc="none", mew=1.5)
             ax.plot(exp(cl), exp(fi), c=colors[c], label="Re = %dk" % r, lw=2)
-            c += 1
         ax.set_xlabel("$C_L$")
         ax.set_ylabel("$c_{d_p}$")
         ax.set_title("$\\tau = %.2f$" % exp(x2[i - 1]))

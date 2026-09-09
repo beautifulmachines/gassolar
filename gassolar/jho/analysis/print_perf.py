@@ -3,7 +3,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from jho import Mission
-from sens_chart import get_highestsens, plot_chart  # noqa: F401
 
 plt.rcParams.update({"font.size": 15})
 
@@ -229,21 +228,3 @@ if __name__ == "__main__":
     optimum_speeds(M)
     _ = max_speed(M)
     max_payload(M)
-    # f, a = plot_climbrate(Sol)
-    # f.savefig("crateh.jpg")
-    # f, a = plot_glide(Sol)
-    # f.savefig("gliderange.jpg")
-    #
-    # vns = {M.JHO.wing.planform.b: "$b$",
-    #        M.JHO.emp.tailboom.l: "$l_{\\mathrm{tailboom}}$",
-    #        M.JHO.wing.planform.croot: "$c_{\\mathrm{root}}$",
-    #        M.JHO.emp.tailboom.d0: "$d_{\\mathrm{tailboom}}$",
-    #        "Mission.Aircraft.Fuselage.R": "$R_{\\mathrm{fuse}}$",
-    #        M.JHO.wing.planform.tau: "\\tau",
-    #        "k_{nose}": "$k_{\\mathrm{nose}}$",
-    #        "k_{bulk}": "$k_{\\mathrm{bulk}}$",
-    #        "k_{body}": "$k_{\\mathrm{body}}$",
-    #        }
-    # sd = get_highestsens(M, Sol, varnames=vns)
-    # f, a = plot_chart(sd)
-    # f.savefig("sensbarfix.pdf", bbox_inches="tight")
