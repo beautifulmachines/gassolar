@@ -1,0 +1,1324 @@
+
+          ┃┓
+     Cost╺┫┃
+ (0.15/d) ┃┣╸1/Loiter.t
+          ┃┛ (0.15/d)
+
+
+
+         ┃┓       ┓               ┓              ┓
+         ┃┃       ┃               ┃              ┃
+         ┃┃       ┃               ┣╸AircraftPerf ┣╸DF70Perf╶⎨
+         ┃┣╸Climb ┣╸FlightSegment ┃              ┃
+         ┃┃       ┃               ┛              ┛
+         ┃┃       ┃               ┣╸FlightState╶⎨
+         ┃┛       ┛               ┣╸SteadyLevelFlight╶⎨
+         ┃┓        ┓               ┣╸BreguetEndurance╶⎨
+         ┃┃        ┃               ┛
+ Mission╺┫┃        ┃               ┣╸AircraftPerf╶⎨
+         ┃┃        ┃               ┛
+         ┃┣╸Loiter ┣╸FlightSegment ┣╸FlightState╶⎨
+         ┃┃        ┃               ┣╸SteadyLevelFlight╶⎨
+         ┃┃        ┃               ┣╸[5 terms]
+         ┃┛        ┛               ┛
+         ┃┣╸Aircraft╶⎨
+         ┃┛
+         ┃┣╸AircraftLoading╶⎨
+         ┃┣╸[14 terms]
+         ┃┛
+
+
+Optimal Cost
+------------
+1/Mission.Loiter.t : 0.1496 [1/d]
+
+Solution
+--------
+...constants
+g : 9.81 [m/s²] (+1.462) earth surface gravitational acceleration
+
+Mission
+        MTOW : 165.7 [lbf]  max-take off weight
+    W_{cent} : 118.4 [lbf]  center aircraft weight
+W_{fuel-tot} : 95.66 [lbf]  total aircraft fuel weight
+
+Mission.Aircraft
+             Wzfw : 70    [lbf]             zero fuel weight
+...constants
+      w_{antenna} : 10.2  [in]  (+0.1681)   antenna width
+             Wpay : 10    [lbf] (+0.1024)   payload weight
+             Wavn : 5.35  [lbf] (+0.05479)  avionics weight
+\mathcal{V}_{pay} : 1     [ft³] (+0.02988)  payload volume
+             Ppay : 10    [W]   (+0.01244)  payload power
+\mathcal{V}_{avn} : 0.125 [ft³] (+0.003413) avionics volume
+      l_{antenna} : 13.4  [in]  (~0)        antenna length
+
+Mission.Aircraft.DF70
+       W : 7.76   [lbf]                Installed/Total engine weight
+...constants
+bsfc_min : 0.3162 [kg/h/kW] (+1.052)   minimum BSFC
+P_sl_max : 5.17   [hp]      (-0.601)   Max shaft power at sea level
+  W_df70 : 7.76   [lbf]     (+0.08984) Installed/Total DF70 engine weight
+    mfac : 1                (+0.08984) Engine weight margin factor
+       h : 12     [in]      (~0)       engine height
+
+Mission.Aircraft.Empennage
+   W : 4.976 [lbf]            empennage weight
+...constants
+mfac : 1           (+0.05096) tail weight margin factor
+
+Mission.Aircraft.Empennage.HorizontalTail
+    Vh : 0.6373                  horizontal tail volume coefficient
+     W : 1.162  [lbf]            wing weight
+    lh : 5.649  [ft]             horizontal tail moment arm
+    mh : 4.189                   horizontal tail span effectiveness
+...constants
+CLhmin : 0.75         (-0.03092) max downlift coefficient
+  mfac : 1.1          (+0.0119)  wing weight margin factor
+
+Mission.Aircraft.Empennage.HorizontalTail.Planform
+       S : 3.775  [ft²]             surface area
+       b : 3.886  [ft]              span
+    cmac : 0.9755 [ft]              mean aerodynamic chord
+   croot : 1.079  [ft]              root chord
+ cave[:] : [ 1.03   0.918 ] [ft] mid section chord
+...constants
+     tau : 0.08         (+0.01965)  airfoil thickness ratio
+      AR : 4            (-0.004207) aspect ratio
+   CLmax : 1.39         (~0)        maximum lift coefficient
+      CM : 0.14         (~0)        wing moment coefficient
+ cbarmac : 0.9037       (~0)        non-dim MAC
+     lam : 0.8          (~0)        taper ratio
+  eta[:] : [ 0   0.5  1        ]      (2y/b)
+      sens ( ~0  ~0   +0.00267 )
+ cbar[:] : [ 1.11  1   0.889 ]      non-dim chord at nodes
+      sens ( ~0    ~0  ~0    )
+cbave[:] : [ 1.06  0.944 ]      non-dim mid section chord
+      sens ( ~0    ~0    )
+ deta[:] : [ 0.5  0.5 ]      \Delta (2y/b)
+      sens ( ~0   ~0  )
+
+Mission.Aircraft.Empennage.HorizontalTail.WingCore
+   W : 0.3022 [lbf]             wing core weight
+...constants
+Abar : 0.0548       (+0.003404) normalized cross section area
+
+Mission.Aircraft.Empennage.HorizontalTail.WingCore.FoamHD
+...constants
+rho : 0.024 [g/cm³] (+0.003404) foam density
+
+Mission.Aircraft.Empennage.HorizontalTail.WingSkin
+    W : 0.7544  [lbf]        wing skin weight
+    t : 0.012   [in]         wing skin thickness
+...constants
+  Cmw : 0.121           (~0) negative wing moment coeff
+Jtbar : 0.01114 [1/mm]  (~0) torsional moment of inertia
+  Vne : 45      [m/s]   (~0) never exceed vehicle speed
+rhosl : 1.225   [kg/m³] (~0) sea level air density
+
+Mission.Aircraft.Empennage.HorizontalTail.WingSkin.CFRPFabric
+...constants
+  rho : 1.6    [g/cm³] (+0.008499) density of CFRP
+ tmin : 0.3048 [mm]    (+0.008499) minimum gauge thickness
+    E : 150    [GPa]   (~0)        Youngs modulus
+    G : 2      [GPa]   (~0)        shear modulus
+sigma : 400    [MPa]   (~0)        max stress
+  tau : 570    [MPa]   (~0)        torsional stress limit
+
+Mission.Aircraft.Empennage.TailBoom
+    S : 3.456 [ft²]              tail boom surface area
+    W : 1.614 [lbf]              spar weight
+    b : 13.46 [ft]               twice tail boom length
+    l : 6.729 [ft]               tail boom length
+ I[:] : [ 1.15e-07 ] [m⁴] moment of inertia
+Sy[:] : [ 4.14e-06 ] [m³] section modulus
+ d[:] : [ 1.96     ] [in] diameter
+dm[:] : [ 0.732    ] [kg] segment mass
+ t[:] : [ 0.0935   ] [in] thickness
+...constants
+ deta : 1             (+0.05899) normalized segment length
+ mfac : 1             (+0.01653) weight margin factor
+    k : 0.8           (-0.01102) taper index
+ kfac : 0.6           (~0)       (1-k/2)
+ rhoA : 0.15  [kg/m²] (~0)       total aerial density
+  tau : 1             (~0)       thickness to width ratio
+
+Mission.Aircraft.Empennage.TailBoom.CFRPFabric
+...constants
+  rho : 1.6    [g/cm³] (+0.01653) density of CFRP
+    E : 150    [GPa]   (-0.01653) Youngs modulus
+sigma : 400    [MPa]   (~0)       max stress
+    G : 2      [GPa]   (~0)       shear modulus
+  tau : 570    [MPa]   (~0)       torsional stress limit
+ tmin : 0.3048 [mm]    (~0)       minimum gauge thickness
+
+Mission.Aircraft.Empennage.VerticalTail
+   W : 2.199 [lbf]            wing weight
+  lv : 6.171 [ft]             vertical tail moment arm
+...constants
+mfac : 1.1         (+0.02252) wing weight margin factor
+  Vv : 0.04        (~0)       vertical tail volume coefficient
+
+Mission.Aircraft.Empennage.VerticalTail.Planform
+       S : 6.503  [ft²]             surface area
+       b : 5.1    [ft]              span
+    cmac : 1.322  [ft]              mean aerodynamic chord
+   croot : 1.7    [ft]              root chord
+ cave[:] : [ 1.49  1.06 ] [ft] mid section chord
+...constants
+     lam : 0.5          (-0.1681)   taper ratio
+      AR : 4            (+0.09542)  aspect ratio
+     tau : 0.08         (+0.02969)  airfoil thickness ratio
+   CLmax : 1.39         (+0.009389) maximum lift coefficient
+      CM : 0.14         (~0)        wing moment coefficient
+ cbarmac : 0.7778       (~0)        non-dim MAC
+  eta[:] : [ 0   0.5  1       ]      (2y/b)
+      sens ( ~0  ~0   +0.0032 )
+ cbar[:] : [ 1.33  1   0.667 ]      non-dim chord at nodes
+      sens ( ~0    ~0  ~0    )
+cbave[:] : [ 1.17  0.833 ]      non-dim mid section chord
+      sens ( ~0    ~0    )
+ deta[:] : [ 0.5  0.5 ]      \Delta (2y/b)
+      sens ( ~0   ~0  )
+
+Mission.Aircraft.Empennage.VerticalTail.WingCore
+   W : 0.6999 [lbf]             wing core weight
+...constants
+Abar : 0.0548       (+0.007885) normalized cross section area
+
+Mission.Aircraft.Empennage.VerticalTail.WingCore.FoamHD
+...constants
+rho : 0.024 [g/cm³] (+0.007885) foam density
+
+Mission.Aircraft.Empennage.VerticalTail.WingSkin
+    W : 1.299   [lbf]        wing skin weight
+    t : 0.012   [in]         wing skin thickness
+...constants
+  Cmw : 0.121           (~0) negative wing moment coeff
+Jtbar : 0.01114 [1/mm]  (~0) torsional moment of inertia
+  Vne : 45      [m/s]   (~0) never exceed vehicle speed
+rhosl : 1.225   [kg/m³] (~0) sea level air density
+
+Mission.Aircraft.Empennage.VerticalTail.WingSkin.CFRPFabric
+...constants
+  rho : 1.6    [g/cm³] (+0.01464) density of CFRP
+ tmin : 0.3048 [mm]    (+0.01464) minimum gauge thickness
+    E : 150    [GPa]   (~0)       Youngs modulus
+    G : 2      [GPa]   (~0)       shear modulus
+sigma : 400    [MPa]   (~0)       max stress
+  tau : 570    [MPa]   (~0)       torsional stress limit
+
+Mission.Aircraft.Fuselage
+       R : 0.5299 [ft]            fuselage radius
+       S : 0.8821 [ft²]           fuselage cross sectional area
+  S_body : 9.307  [ft²]           wetted surface area of body
+  S_bulk : 2.071  [ft²]           wetted surface area of bulk
+  S_nose : 4.604  [ft²]           wetted surface area of nose
+   S_wet : 15.98  [ft²]           fuselage wetted area
+Vol_body : 2.466  [ft³]           volume of body
+       W : 13.17  [lbf]           Fuselage weight
+  k_body : 5.275                  fuselage body length to radius ratio
+  k_bulk : 4.354                  fuselage bulk length to radius ratio
+  k_nose : 3.209                  fuselage nose length to radius ratio
+       l : 6.665  [ft]            fuselage length
+  l_body : 2.795  [ft]            center body length
+...constants
+    mfac : 2.1          (+0.1524) Fuselage weight margin factor
+
+Mission.Aircraft.Fuselage.FuelTank
+     Vol : 2.341 [ft³]                fuel tank volume
+       W : 2.87  [lbf]                fuel tank weight
+...constants
+       f : 0.03            (+0.06977) fraction fuel tank weight to fuel weight
+    mfac : 1.1             (+0.06392) fuel volume margin factor
+rho_fuel : 6.01  [lbf/gal] (-0.06392) density of 100LL
+
+Mission.Aircraft.Fuselage.FuselageSkin
+         I : 7.484e-06 [m⁴]               wing skin moment of inertia
+       I_g : 0.2497    [kg·m²]            mass moment of inertia
+         W : 3.401     [lbf]              fuselage skin weight
+         m : 1.542     [kg]               fuselage skin mass
+         t : 0.03      [in]               skin thickness
+...constants
+rho_kevlar : 1.363     [g/cm³] (+0.08267) kevlar density
+     t_min : 0.03      [in]    (+0.08267) minimum skin thickness
+         E : 30        [GPa]   (~0)       Young's Modulus of Kevlar
+
+Mission.Aircraft.Pylon
+S : 3.189 [ft²]            pylon surface area
+...constants
+h : 7     [in]  (+0.03998) pylon height
+l : 32.8  [in]  (+0.02799) pylon length
+W : 1.83  [lbf] (+0.02119) pylon weight
+
+Mission.Aircraft.Wing
+   W : 26.92 [lbf]           wing weight
+  mw : 5.89                  span wise effectiveness
+...constants
+mfac : 1.2         (+0.2757) wing weight margin factor
+
+Mission.Aircraft.Wing.CapSpar
+        W : 10.11 [lbf]            spar weight
+     I[:] : [ 1.88e-07  1.54e-07  1.25e-07  9.88e-08  7.66e-08  5.76e-08 ... ] [m⁴] spar x moment of inertia
+    Sy[:] : [ 3.6e-06   3e-06     2.46e-06  1.98e-06  1.55e-06  1.17e-06 ... ] [m³] section modulus
+    dm[:] : [ 0.406     0.365     0.325     0.285     0.245     0.206    ... ] [kg] segment spar mass
+   hin[:] : [ 1.54      1.48      1.41      1.35      1.29      1.23     ... ] [in] height between caps
+     t[:] : [ 0.161     0.151     0.14      0.129     0.116     0.101    ... ] [in] spar cap thickness
+tshear[:] : [ 0.012     0.012     0.012     0.012     0.012     0.012    ... ] [in] shear web thickness
+     w[:] : [ 2.43      2.32      2.21      2.09      1.98      1.87     ... ] [in] spar width
+...constants
+     mfac : 0.97        (-0.1581)  curvature knockdown factor
+     wlim : 0.15        (-0.04298) spar width to chord ratio
+        E : 2e+07 [psi] (~0)       Young modulus of CFRP
+
+Mission.Aircraft.Wing.CapSpar.CFRPFabric
+...constants
+  rho : 1.6    [g/cm³] (+0.009112) density of CFRP
+ tmin : 0.3048 [mm]    (+0.009112) minimum gauge thickness
+    E : 150    [GPa]   (~0)        Youngs modulus
+    G : 2      [GPa]   (~0)        shear modulus
+sigma : 400    [MPa]   (~0)        max stress
+  tau : 570    [MPa]   (~0)        torsional stress limit
+
+Mission.Aircraft.Wing.CapSpar.CFRPUD
+...constants
+    E : 137  [GPa]   (-0.1581) Youngs Modulus of CFRP
+  rho : 1.6  [g/cm³] (+0.102)  density of CFRP
+sigma : 1700 [MPa]   (~0)      maximum stress limit of CFRP
+ tmin : 0.1  [mm]    (~0)      minimum gauge thickness
+
+Mission.Aircraft.Wing.CapSpar.FoamHD
+...constants
+rho : 0.036 [g/cm³] (+0.01314) foam density
+
+Mission.Aircraft.Wing.Planform
+      AR : 29.98                    aspect ratio
+       S : 32.26  [ft²]             surface area
+       b : 31.1   [ft]              span
+    cmac : 1.076  [ft]              mean aerodynamic chord
+   croot : 1.383  [ft]              root chord
+ cave[:] : [ 1.35   1.29   1.23   1.16   1.1    1.04  ... ] [ft] mid section chord
+...constants
+     tau : 0.115        (-0.3501)   airfoil thickness ratio
+   CLmax : 1.39         (+0.02186)  maximum lift coefficient
+      CM : 0.14         (+0.009052) wing moment coefficient
+ cbarmac : 0.7778       (~0)        non-dim MAC
+     lam : 0.5          (~0)        taper ratio
+  eta[:] : [ 0   0.0909     0.182      0.273      0.364      0.455     ... ]      (2y/b)
+      sens ( ~0  -1.64e-05  -3.42e-05  -5.31e-05  -7.32e-05  -9.54e-05 ... )
+ cbar[:] : [ 1.33  1.27  1.21  1.15  1.09  1.03 ... ]      non-dim chord at nodes
+      sens ( ~0    ~0    ~0    ~0    ~0    ~0   ... )
+cbave[:] : [ 1.3  1.24  1.18  1.12  1.06  1  ... ]      non-dim mid section chord
+      sens ( ~0   ~0    ~0    ~0    ~0    ~0 ... )
+ deta[:] : [ 0.0909  0.0909  0.0909  0.0909  0.0909  0.0909 ... ]      \Delta (2y/b)
+      sens ( ~0      ~0      ~0      ~0      ~0      ~0     ... )
+
+Mission.Aircraft.Wing.WingCore
+   W : 5.877   [lbf]            wing core weight
+...constants
+Abar : 0.07534       (+0.07223) normalized cross section area
+
+Mission.Aircraft.Wing.WingCore.FoamHD
+...constants
+rho : 0.036 [g/cm³] (+0.07223) foam density
+
+Mission.Aircraft.Wing.WingSkin
+    W : 6.447   [lbf]        wing skin weight
+    t : 0.012   [in]         wing skin thickness
+...constants
+  Cmw : 0.121           (~0) negative wing moment coeff
+Jtbar : 0.01114 [1/mm]  (~0) torsional moment of inertia
+  Vne : 45      [m/s]   (~0) never exceed vehicle speed
+rhosl : 1.225   [kg/m³] (~0) sea level air density
+
+Mission.Aircraft.Wing.WingSkin.CFRPFabric
+...constants
+  rho : 1.6    [g/cm³] (+0.07923) density of CFRP
+ tmin : 0.3048 [mm]    (+0.07923) minimum gauge thickness
+    E : 150    [GPa]   (~0)       Youngs modulus
+    G : 2      [GPa]   (~0)       shear modulus
+sigma : 400    [MPa]   (~0)       max stress
+  tau : 570    [MPa]   (~0)       torsional stress limit
+
+Mission.AircraftLoading.FuselageLoading.FuselageLanding
+           F : 914.6     [lbf]       maximum landing force
+         M_g : 5700      [m·N]       landing moment about center of mass
+           a : 4076      [m/s²]      landing vertical acceleration
+    omegadot : 1.478e+04 [1/s²]      angular acceleration about rear fuselage
+...constants
+       N_max : 5                (~0) maximum landing load factor
+sigma_kevlar : 190       [MPa]  (~0) stress strength of Kevlar
+
+Mission.AircraftLoading.FuselageLoading.FuselageSkinL
+         M_h : 2223      [m·N]      horizontal axis center fuselage moment
+           q : 5.993e+04 [N/m]      distributed load
+...constants
+       N_max : 5               (~0) max loading
+       kappa : 0.05            (~0) maximum tip deflection ratio
+sigma_kevlar : 190       [MPa] (~0) stress strength of Kevlar
+
+Mission.AircraftLoading.SparLoading
+      N : 5                      loading factor
+      W : 118.4  [lbf]           loading weight
+   M[:] : [ 2.78e+03  2.24e+03  1.77e+03  1.37e+03  1.02e+03  733      ... ] [m·N] wing section root moment
+   S[:] : [ 1.32e+03  1.16e+03  1.01e+03  871       736       609      ... ] [N]   shear along wing
+   q[:] : [ 370       354       337       320       303       286      ... ] [N/m] distributed wing loading
+  th[:] : [ 6.77e-09  0.0419    0.0829    0.123     0.161     0.197    ... ]       deflection angle
+   w[:] : [ 3.82e-08  0.00903   0.0359    0.0802    0.141     0.218    ... ] [m]   wing deflection
+...constants
+   Nmax : 5            (+0.1581) max loading
+Nsafety : 1            (+0.1581) safety load factor
+  kappa : 0.2          (-0.1581) max tip deflection ratio
+   Mtip : 1e-10  [m·N] (~0)      tip moment
+   Stip : 1e-10  [N]   (~0)      tip loading
+ throot : 1e-10        (~0)      root deflection angle
+  twmax : 0.2618       (~0)      max tip twist
+  wroot : 1e-10  [m]   (~0)      root deflection
+
+Mission.AircraftLoading.TailBoomBending
+      F : 343.7   [N]      tail force
+     th : 0.08354          tail boom deflection angle
+  Mr[:] : [ 1.08e+03 ] [m·N] section root moment
+...constants
+Nsafety : 1           (~0) safety load factor
+  kappa : 0.1         (~0) max tail boom deflection
+
+Mission.AircraftLoading.TailBoomBending.Beam
+        \bar{EI}[:] : [ 5.99     ] normalized YM and moment of inertia
+         \bar{M}[:] : [ 1         3.15e-07 ] normalized moment
+    \bar{\delta}[:] : [ 0.00163   0.0559   ] normalized displacement
+          \theta[:] : [ 5.21e-08  0.0835   ] deflection slope
+              dx[:] : [ 1        ] normalized length of element
+...constants
+      \bar{M}_{tip} : 1e-10  (~0) Tip moment
+\bar{\delta}_{root} : 1e-10  (~0) Base deflection
+      \theta_{root} : 1e-10  (~0) Base angle
+         \bar{S}[:] : [ 1         1        ] normalized shear
+                 sens ( +0.00357  +0.00357 )
+
+Mission.AircraftLoading.TailBoomBending1
+      F : 592    [N]             tail force
+     th : 0.1439                 tail boom deflection angle
+  Mr[:] : [ 1.42e+03 ] [m·N] section root moment
+...constants
+Nsafety : 1          (+0.009389) safety load factor
+  kappa : 0.1        (-0.009389) max tail boom deflection
+
+Mission.AircraftLoading.TailBoomBending1.Beam
+        \bar{EI}[:] : [ 3.48     ] normalized YM and moment of inertia
+         \bar{M}[:] : [ 1         2.29e-07 ] normalized moment
+    \bar{\delta}[:] : [ 3.03e-07  0.0719   ] normalized displacement
+          \theta[:] : [ 3.49e-08  0.144    ] deflection slope
+              dx[:] : [ 1        ] normalized length of element
+...constants
+      \bar{M}_{tip} : 1e-10  (~0) Tip moment
+\bar{\delta}_{root} : 1e-10  (~0) Base deflection
+      \theta_{root} : 1e-10  (~0) Base angle
+         \bar{S}[:] : [ 1         1        ] normalized shear
+                 sens ( +0.00469  +0.00469 )
+
+Mission.AircraftLoading.TailBoomFlexibility
+   Fne : 1.35                tail boom flexibility factor
+  deda : 0.08607             wing downwash derivative
+  sph1 : 0.3068              flexibility helper variable 1
+  sph2 : 0.3439              flexibility helper variable 2
+...constants
+SMcorr : 0.55     (+0.04943) corrected static margin
+
+Mission.Climb
+   \dot{h}[:] : [ 373  343  314  284  254  224 ... ] [ft/min] Climb rate
+...constants
+\dot{h}_{min} : 100     [ft/min] (+0.3888)   minimum climb rate
+     \Delta h : 1.5e+04 [ft]     (+0.007678) altitude difference
+
+Mission.Climb.FlightSegment
+Wfuelfs : 2.243 [lbf]  flight segment fuel weight
+
+Mission.Climb.FlightSegment.AircraftPerf
+    CDA[:] : [ 0.00445  0.00442  0.00443  0.00444  0.00446  0.00449 ... ]       area drag coefficient
+     CD[:] : [ 0.0325   0.0323   0.0324   0.0324   0.0326   0.0327  ... ]       drag coefficient
+   Wend[:] : [ 165      165      165      165      165      165     ... ] [lbf] vector-end weight
+ Wstart[:] : [ 166      165      165      165      165      165     ... ] [lbf] vector-begin weight
+...constants
+m_{fac}[:] : [ 1.15       1.15       1.15       1.15       1.15       1.15      ... ]       drag margin factor
+        sens ( +0.000149  +0.000169  +0.000195  +0.000228  +0.000273  +0.000336 ... )
+
+Mission.Climb.FlightSegment.AircraftPerf.DF70Perf
+          BSFC[:] : [ 0.324    0.324    0.324    0.324    0.324    0.324   ... ] [kg/h/kW] Brake specific fuel consumption
+       P_shaft[:] : [ 4.81     4.54     4.27     4        3.73     3.46    ... ] [hp]      Shaft power
+       P_total[:] : [ 4.87     4.6      4.33     4.06     3.79     3.52    ... ] [hp]      Total power, avionics included
+ P_{shaft-max}[:] : [ 4.9      4.63     4.36     4.08     3.81     3.54    ... ] [hp]      Max shaft power at altitude
+           RPM[:] : [ 7.7e+03  7.7e+03  7.7e+03  7.7e+03  7.7e+03  7.7e+03 ... ] [rpm]     Engine operating RPM
+...constants
+       L_{eng}[:] : [ 0.948      0.895      0.843      0.79       0.738      0.685     ... ]           shaft power loss factor
+               sens ( -0.000157  -0.000178  -0.000206  -0.000241  -0.000288  -0.000354 ... )
+         P_avn[:] : [ 40         40         40         40         40         40        ... ] [W]       Avionics power
+               sens ( +8.85e-06  +9.86e-06  +1.11e-05  +1.28e-05  +1.5e-05   +1.8e-05  ... )
+eta_alternator[:] : [ 0.8        0.8        0.8        0.8        0.8        0.8       ... ]           alternator efficiency
+               sens ( -8.85e-06  -9.86e-06  -1.11e-05  -1.28e-05  -1.5e-05   -1.8e-05  ... )
+       m_{fac}[:] : [ 1          1          1          1          1          1         ... ]           BSFC margin factor
+               sens ( +0.000486  +0.000499  +0.000514  +0.000534  +0.000558  +0.00059  ... )
+     RPM_{max}[:] : [ 7.7e+03    7.7e+03    7.7e+03    7.7e+03    7.7e+03    7.7e+03   ... ] [rpm]     Maximum RPM
+               sens ( ~0         ~0         ~0         ~0         ~0         ~0        ... )
+       h_{ref}[:] : [ 1e+03      1e+03      1e+03      1e+03      1e+03      1e+03     ... ] [ft]      reference altitude
+               sens ( ~0         ~0         ~0         ~0         ~0         ~0        ... )
+
+Mission.Climb.FlightSegment.AircraftPerf.FuselageAero
+    Cd[:] : [ 0.0425    0.0423    0.0424    0.0425    0.0426    0.0428   ... ] fuselage drag coefficient
+    Cf[:] : [ 0.00546   0.00544   0.00544   0.00546   0.00548   0.0055   ... ] fuselage skin friction coefficient
+Cf_ref[:] : [ 0.00721   0.00721   0.00721   0.00721   0.00721   0.00721  ... ] reference skin friction coefficient
+    Re[:] : [ 2.52e+06  2.56e+06  2.55e+06  2.53e+06  2.5e+06   2.46e+06 ... ] fuselage reynolds number
+...constants
+Re_ref[:] : [ 1e+06      1e+06      1e+06      1e+06      1e+06      1e+06     ... ] reference Reynolds number
+       sens ( +1.84e-06  +2.09e-06  +2.41e-06  +2.83e-06  +3.39e-06  +4.16e-06 ... )
+
+Mission.Climb.FlightSegment.AircraftPerf.PylonAero
+C_f[:] : [ 0.00714   0.00711   0.00711   0.00713   0.00716   0.00719  ... ] fuselage skin friction coefficient
+ Re[:] : [ 1.03e+06  1.05e+06  1.05e+06  1.04e+06  1.03e+06  1.01e+06 ... ] fuselage reynolds number
+
+Mission.Climb.FlightSegment.AircraftPerf.TailAero
+          Cd[:] : [ 0.00628   0.00624   0.00625   0.00627   0.00631   0.00636  ... ] drag coefficient
+          Re[:] : [ 3.68e+05  3.73e+05  3.72e+05  3.69e+05  3.65e+05  3.59e+05 ... ] Reynolds number
+...constants
+m_{fac--fit}[:] : [ 1.04       1.04       1.04       1.04       1.04       1.04      ... ] RMS error of fit
+             sens ( +3.87e-06  +4.38e-06  +5.05e-06  +5.94e-06  +7.13e-06  +8.79e-06 ... )
+
+Mission.Climb.FlightSegment.AircraftPerf.TailAero1
+          Cd[:] : [ 0.00551   0.00547   0.00548   0.0055    0.00553   0.00557  ... ] drag coefficient
+          Re[:] : [ 4.82e+05  4.89e+05  4.89e+05  4.84e+05  4.78e+05  4.71e+05 ... ] Reynolds number
+...constants
+m_{fac--fit}[:] : [ 1.04       1.04       1.04       1.04       1.04       1.04      ... ] RMS error of fit
+             sens ( +5.84e-06  +6.61e-06  +7.63e-06  +8.97e-06  +1.08e-05  +1.33e-05 ... )
+
+Mission.Climb.FlightSegment.AircraftPerf.TailBoomAero
+Cf[:] : [ 0.00545   0.00543   0.00543   0.00544   0.00546   0.00549  ... ] tail boom skin friction coefficient
+Re[:] : [ 2.55e+06  2.58e+06  2.58e+06  2.56e+06  2.53e+06  2.49e+06 ... ] tail boom reynolds number
+
+Mission.Climb.FlightSegment.AircraftPerf.WingAero
+               CL[:] : [ 1.1       1.1       1.1       1.1       1.1       1.1      ... ] lift coefficient
+               Cd[:] : [ 0.0238    0.0237    0.0237    0.0238    0.0239    0.024    ... ] wing drag coefficient
+               Re[:] : [ 4.07e+05  4.13e+05  4.12e+05  4.09e+05  4.04e+05  3.98e+05 ... ] reynolds number
+              cdp[:] : [ 0.00959   0.00954   0.00954   0.00958   0.00963   0.00969  ... ] wing profile drag coefficient
+...constants
+                e[:] : [ 0.9        0.9        0.9       0.9        0.9        0.9       ... ] span efficiency
+                  sens ( -7.47e-05  -8.49e-05  -9.8e-05  -0.000115  -0.000137  -0.000169 ... )
+m_{fac-polar-fit}[:] : [ 1          1          1         1          1          1         ... ] fit factor
+                  sens ( +5.05e-05  +5.72e-05  +6.6e-05  +7.75e-05  +9.3e-05   +0.000114 ... )
+          CLstall[:] : [ 1.3        1.3        1.3       1.3        1.3        1.3       ... ] stall CL
+                  sens ( ~0         ~0         ~0        ~0         ~0         ~0        ... )
+
+Mission.Climb.FlightSegment.BreguetEndurance
+   W_fuel[:] : [ 0.178    0.182    0.187    0.194    0.203    0.213   ... ] [lbf] Segment-fuel weight
+        t[:] : [ 0.0028   0.00303  0.00332  0.00366  0.0041   0.00465 ... ] [d]   Time per flight segment
+    z_bre[:] : [ 0.00105  0.00108  0.00111  0.00115  0.0012   0.00127 ... ]       Breguet coefficient
+...constants
+f_fueloil[:] : [ 0.98       0.98       0.98       0.98       0.98       0.98      ... ]       Fuel-oil fraction
+          sens ( -0.000486  -0.000498  -0.000514  -0.000534  -0.000558  -0.000589 ... )
+
+Mission.Climb.FlightSegment.FlightState
+       V[:] : [ 19.5      20        20.4      20.9      21.3      21.8     ... ] [m/s]     true airspeed
+V_{wind}[:] : [ 14.3      15.5      16.7      17.9      19        20.1     ... ] [m/s]     Wind speed
+      mu[:] : [ 1.85e-05  1.78e-05  1.74e-05  1.72e-05  1.7e-05   1.68e-05 ... ] [N·s/m²]  Dynamic viscosity
+     qne[:] : [ 980       980       980       980       980       980      ... ] [kg/m/s²] never exceed dynamic pressure
+     rho[:] : [ 1.17      1.12      1.07      1.02      0.978     0.933    ... ] [kg/m³]   air density
+...constants
+  T_{sl}[:] : [ 288        288        288        288        288        288       ... ] [K]       Temperature at sea level
+         sens ( +0.000456  +0.000517  +0.000596  +0.0007    +0.000839  +0.00103  ... )
+ t_{atm}[:] : [ 285        282        279        276        273        270       ... ] [K]       Air temperature
+         sens ( -0.000369  -0.000418  -0.000483  -0.000567  -0.000679  -0.000836 ... )
+R_{spec}[:] : [ 287        287        287        287        287        287       ... ] [J/K/kg]  Specific gas constant of air
+         sens ( +8.67e-05  +9.83e-05  +0.000113  +0.000133  +0.00016   +0.000196 ... )
+  p_{sl}[:] : [ 1.01e+05   1.01e+05   1.01e+05   1.01e+05   1.01e+05   1.01e+05  ... ] [Pa]      Pressure at sea level
+         sens ( -8.67e-05  -9.83e-05  -0.000113  -0.000133  -0.00016   -0.000196 ... )
+ V_{ref}[:] : [ 25         25         25         25         25         25        ... ] [m/s]     Reference wind speed
+         sens ( ~0         ~0         ~0         ~0         ~0         ~0        ... )
+ m_{fac}[:] : [ 1          1          1          1          1          1         ... ]           wind speed margin factor
+         sens ( ~0         ~0         ~0         ~0         ~0         ~0        ... )
+       h[:] : [ 1.5e+03    3e+03      4.5e+03    6e+03      7.5e+03    9e+03     ... ] [ft]      altitude
+         sens ( -1.31e-06  -1.48e-06  -1.7e-06   -2.01e-06  -2.42e-06  -2.99e-06 ... )
+ h_{ref}[:] : [ 1.5e+04    1.5e+04    1.5e+04    1.5e+04    1.5e+04    1.5e+04   ... ] [ft]      Reference altitude
+         sens ( +1.31e-06  +1.48e-06  +1.7e-06   +2.01e-06  +2.42e-06  +2.99e-06 ... )
+\mu_{sl}[:] : [ 1.79e-05   1.79e-05   1.79e-05   1.79e-05   1.79e-05   1.79e-05  ... ] [N·s/m²]  Dynamic viscosity at sea level
+         sens ( +2.48e-05  +2.79e-05  +3.22e-05  +3.8e-05   +4.57e-05  +5.66e-05 ... )
+ L_{atm}[:] : [ 0.0065     0.0065     0.0065     0.0065     0.0065     0.0065    ... ] [K/m]     Temperature lapse rate
+         sens ( ~0         ~0         ~0         ~0         ~0         ~0        ... )
+     Vne[:] : [ 40         40         40         40         40         40        ... ] [m/s]     never exceed velocity
+         sens ( ~0         ~0         ~0         ~0         ~0         ~0        ... )
+   rhosl[:] : [ 1.23       1.23       1.23       1.23       1.23       1.23      ... ] [kg/m³]   air density at sea level
+         sens ( ~0         ~0         ~0         ~0         ~0         ~0        ... )
+
+Mission.Climb.FlightSegment.SteadyLevelFlight
+          T[:] : [ 93.1  86    79.1  72.5  66.1  60   ... ] [N] thrust
+...constants
+\eta_{prop}[:] : [ 0.508      0.508      0.508      0.508      0.508      0.508     ... ]     propulsive efficiency
+            sens ( -0.000635  -0.000667  -0.000709  -0.000762  -0.000832  -0.000926 ... )
+
+Mission.Cruise
+...constants
+R : 180 [nmi] (+0.02) Range to station
+
+Mission.Cruise.FlightSegment
+Wfuelfs : 2.146 [lbf]  flight segment fuel weight
+
+Mission.Cruise.FlightSegment.AircraftPerf
+    CDA[:] : [ 0.00412 ]       area drag coefficient
+     CD[:] : [ 0.0171  ]       drag coefficient
+   Wend[:] : [ 161     ] [lbf] vector-end weight
+ Wstart[:] : [ 163     ] [lbf] vector-begin weight
+...constants
+m_{fac}[:] : [ 1.15    ]       drag margin factor
+        sens ( +0.0137 )
+
+Mission.Cruise.FlightSegment.AircraftPerf.DF70Perf
+          BSFC[:] : [ 0.324    ] [kg/h/kW] Brake specific fuel consumption
+       P_shaft[:] : [ 1.31     ] [hp]      Shaft power
+       P_total[:] : [ 1.38     ] [hp]      Total power, avionics included
+ P_{shaft-max}[:] : [ 2.46     ] [hp]      Max shaft power at altitude
+           RPM[:] : [ 6.33e+03 ] [rpm]     Engine operating RPM
+...constants
+       m_{fac}[:] : [ 1         ]           BSFC margin factor
+               sens ( +0.02     )
+       L_{eng}[:] : [ 0.475     ]           shaft power loss factor
+               sens ( +0.00559  )
+         P_avn[:] : [ 40        ] [W]       Avionics power
+               sens ( +0.000702 )
+eta_alternator[:] : [ 0.8       ]           alternator efficiency
+               sens ( -0.000702 )
+     RPM_{max}[:] : [ 7.7e+03   ] [rpm]     Maximum RPM
+               sens ( ~0        )
+       h_{ref}[:] : [ 1e+03     ] [ft]      reference altitude
+               sens ( ~0        )
+
+Mission.Cruise.FlightSegment.AircraftPerf.FuselageAero
+    Cd[:] : [ 0.04    ] fuselage drag coefficient
+    Cf[:] : [ 0.00514 ] fuselage skin friction coefficient
+Cf_ref[:] : [ 0.00721 ] reference skin friction coefficient
+    Re[:] : [ 3.1e+06 ] fuselage reynolds number
+...constants
+Re_ref[:] : [ 1e+06     ] reference Reynolds number
+       sens ( +0.000303 )
+
+Mission.Cruise.FlightSegment.AircraftPerf.PylonAero
+C_f[:] : [ 0.00671  ] fuselage skin friction coefficient
+ Re[:] : [ 1.27e+06 ] fuselage reynolds number
+
+Mission.Cruise.FlightSegment.AircraftPerf.TailAero
+          Cd[:] : [ 0.00569  ] drag coefficient
+          Re[:] : [ 4.51e+05 ] Reynolds number
+...constants
+m_{fac--fit}[:] : [ 1.04      ] RMS error of fit
+             sens ( +0.000613 )
+
+Mission.Cruise.FlightSegment.AircraftPerf.TailAero1
+          Cd[:] : [ 0.00499  ] drag coefficient
+          Re[:] : [ 5.92e+05 ] Reynolds number
+...constants
+m_{fac--fit}[:] : [ 1.04      ] RMS error of fit
+             sens ( +0.000926 )
+
+Mission.Cruise.FlightSegment.AircraftPerf.TailBoomAero
+Cf[:] : [ 0.00512  ] tail boom skin friction coefficient
+Re[:] : [ 3.12e+06 ] tail boom reynolds number
+
+Mission.Cruise.FlightSegment.AircraftPerf.WingAero
+               CL[:] : [ 0.599   ] lift coefficient
+               Cd[:] : [ 0.0108  ] wing drag coefficient
+               Re[:] : [ 5e+05   ] reynolds number
+              cdp[:] : [ 0.00656 ] wing profile drag coefficient
+...constants
+m_{fac-polar-fit}[:] : [ 1        ] fit factor
+                  sens ( +0.00603 )
+                e[:] : [ 0.9      ] span efficiency
+                  sens ( -0.00389 )
+          CLstall[:] : [ 1.3      ] stall CL
+                  sens ( ~0       )
+
+Mission.Cruise.FlightSegment.BreguetEndurance
+   W_fuel[:] : [ 2.15  ] [lbf] Segment-fuel weight
+        t[:] : [ 0.119 ] [d]   Time per flight segment
+    z_bre[:] : [ 0.013 ]       Breguet coefficient
+...constants
+f_fueloil[:] : [ 0.98    ]       Fuel-oil fraction
+          sens ( -0.0199 )
+
+Mission.Cruise.FlightSegment.FlightState
+       V[:] : [ 32.3     ] [m/s]     true airspeed
+V_{wind}[:] : [ 28.4     ] [m/s]     Wind speed
+      mu[:] : [ 1.63e-05 ] [N·s/m²]  Dynamic viscosity
+     qne[:] : [ 980      ] [kg/m/s²] never exceed dynamic pressure
+     rho[:] : [ 0.771    ] [kg/m³]   air density
+...constants
+  T_{sl}[:] : [ 288       ] [K]       Temperature at sea level
+         sens ( -0.00598  )
+ t_{atm}[:] : [ 258       ] [K]       Air temperature
+         sens ( +0.00484  )
+\mu_{sl}[:] : [ 1.79e-05  ] [N·s/m²]  Dynamic viscosity at sea level
+         sens ( +0.00402  )
+R_{spec}[:] : [ 287       ] [J/K/kg]  Specific gas constant of air
+         sens ( -0.00114  )
+  p_{sl}[:] : [ 1.01e+05  ] [Pa]      Pressure at sea level
+         sens ( +0.00114  )
+       h[:] : [ 1.5e+04   ] [ft]      altitude
+         sens ( -0.000213 )
+ h_{ref}[:] : [ 1.5e+04   ] [ft]      Reference altitude
+         sens ( +0.000213 )
+ L_{atm}[:] : [ 0.0065    ] [K/m]     Temperature lapse rate
+         sens ( ~0        )
+ V_{ref}[:] : [ 25        ] [m/s]     Reference wind speed
+         sens ( ~0        )
+     Vne[:] : [ 40        ] [m/s]     never exceed velocity
+         sens ( ~0        )
+ m_{fac}[:] : [ 1         ]           wind speed margin factor
+         sens ( ~0        )
+   rhosl[:] : [ 1.23      ] [kg/m³]   air density at sea level
+         sens ( ~0        )
+
+Mission.Cruise.FlightSegment.SteadyLevelFlight
+          T[:] : [ 20.7 ] [N] thrust
+...constants
+\eta_{prop}[:] : [ 0.684   ]     propulsive efficiency
+            sens ( -0.0137 )
+
+Mission.Cruise1
+...constants
+R : 200 [nmi] (+0.02456) Range to station
+
+Mission.Cruise1.FlightSegment
+Wfuelfs : 1.897 [lbf]  flight segment fuel weight
+
+Mission.Cruise1.FlightSegment.AircraftPerf
+    CDA[:] : [ 0.00453 ]       area drag coefficient
+     CD[:] : [ 0.0164  ]       drag coefficient
+   Wend[:] : [ 70      ] [lbf] vector-end weight
+ Wstart[:] : [ 71.9    ] [lbf] vector-begin weight
+...constants
+m_{fac}[:] : [ 1.15   ]       drag margin factor
+        sens ( +0.014 )
+
+Mission.Cruise1.FlightSegment.AircraftPerf.DF70Perf
+          BSFC[:] : [ 0.424   ] [kg/h/kW] Brake specific fuel consumption
+       P_shaft[:] : [ 0.58    ] [hp]      Shaft power
+       P_total[:] : [ 0.647   ] [hp]      Total power, avionics included
+ P_{shaft-max}[:] : [ 2.46    ] [hp]      Max shaft power at altitude
+           RPM[:] : [ 4.9e+03 ] [rpm]     Engine operating RPM
+...constants
+       m_{fac}[:] : [ 1        ]           BSFC margin factor
+               sens ( +0.0246  )
+       L_{eng}[:] : [ 0.475    ]           shaft power loss factor
+               sens ( +0.00895 )
+         P_avn[:] : [ 40       ] [W]       Avionics power
+               sens ( +0.00162 )
+eta_alternator[:] : [ 0.8      ]           alternator efficiency
+               sens ( -0.00162 )
+     RPM_{max}[:] : [ 7.7e+03  ] [rpm]     Maximum RPM
+               sens ( ~0       )
+       h_{ref}[:] : [ 1e+03    ] [ft]      reference altitude
+               sens ( ~0       )
+
+Mission.Cruise1.FlightSegment.AircraftPerf.FuselageAero
+    Cd[:] : [ 0.0432  ] fuselage drag coefficient
+    Cf[:] : [ 0.00555 ] fuselage skin friction coefficient
+Cf_ref[:] : [ 0.00721 ] reference skin friction coefficient
+    Re[:] : [ 2.4e+06 ] fuselage reynolds number
+...constants
+Re_ref[:] : [ 1e+06     ] reference Reynolds number
+       sens ( +0.000349 )
+
+Mission.Cruise1.FlightSegment.AircraftPerf.PylonAero
+C_f[:] : [ 0.00725  ] fuselage skin friction coefficient
+ Re[:] : [ 9.82e+05 ] fuselage reynolds number
+
+Mission.Cruise1.FlightSegment.AircraftPerf.TailAero
+          Cd[:] : [ 0.00644  ] drag coefficient
+          Re[:] : [ 3.49e+05 ] Reynolds number
+...constants
+m_{fac--fit}[:] : [ 1.04     ] RMS error of fit
+             sens ( +0.00074 )
+
+Mission.Cruise1.FlightSegment.AircraftPerf.TailAero1
+          Cd[:] : [ 0.00565  ] drag coefficient
+          Re[:] : [ 4.58e+05 ] Reynolds number
+...constants
+m_{fac--fit}[:] : [ 1.04     ] RMS error of fit
+             sens ( +0.00112 )
+
+Mission.Cruise1.FlightSegment.AircraftPerf.TailBoomAero
+Cf[:] : [ 0.00553  ] tail boom skin friction coefficient
+Re[:] : [ 2.42e+06 ] tail boom reynolds number
+
+Mission.Cruise1.FlightSegment.AircraftPerf.WingAero
+               CL[:] : [ 0.437    ] lift coefficient
+               Cd[:] : [ 0.00973  ] wing drag coefficient
+               Re[:] : [ 3.87e+05 ] reynolds number
+              cdp[:] : [ 0.00748  ] wing profile drag coefficient
+...constants
+m_{fac-polar-fit}[:] : [ 1        ] fit factor
+                  sens ( +0.00733 )
+                e[:] : [ 0.9      ] span efficiency
+                  sens ( -0.00221 )
+          CLstall[:] : [ 1.3      ] stall CL
+                  sens ( ~0       )
+
+Mission.Cruise1.FlightSegment.BreguetEndurance
+   W_fuel[:] : [ 1.9    ] [lbf] Segment-fuel weight
+        t[:] : [ 0.171  ] [d]   Time per flight segment
+    z_bre[:] : [ 0.0262 ]       Breguet coefficient
+...constants
+f_fueloil[:] : [ 0.98    ]       Fuel-oil fraction
+          sens ( -0.0242 )
+
+Mission.Cruise1.FlightSegment.FlightState
+       V[:] : [ 25       ] [m/s]     true airspeed
+V_{wind}[:] : [ 25       ] [m/s]     Wind speed
+      mu[:] : [ 1.63e-05 ] [N·s/m²]  Dynamic viscosity
+     qne[:] : [ 980      ] [kg/m/s²] never exceed dynamic pressure
+     rho[:] : [ 0.771    ] [kg/m³]   air density
+...constants
+  T_{sl}[:] : [ 288      ] [K]       Temperature at sea level
+         sens ( -0.0263  )
+ t_{atm}[:] : [ 258      ] [K]       Air temperature
+         sens ( +0.0213  )
+\mu_{sl}[:] : [ 1.79e-05 ] [N·s/m²]  Dynamic viscosity at sea level
+         sens ( +0.00554 )
+R_{spec}[:] : [ 287      ] [J/K/kg]  Specific gas constant of air
+         sens ( -0.00501 )
+  p_{sl}[:] : [ 1.01e+05 ] [Pa]      Pressure at sea level
+         sens ( +0.00501 )
+ V_{ref}[:] : [ 25       ] [m/s]     Reference wind speed
+         sens ( +0.00499 )
+ m_{fac}[:] : [ 1        ]           wind speed margin factor
+         sens ( +0.00499 )
+       h[:] : [ 1.5e+04  ] [ft]      altitude
+         sens ( +0.00293 )
+ h_{ref}[:] : [ 1.5e+04  ] [ft]      Reference altitude
+         sens ( -0.00293 )
+ L_{atm}[:] : [ 0.0065   ] [K/m]     Temperature lapse rate
+         sens ( ~0       )
+     Vne[:] : [ 40       ] [m/s]     never exceed velocity
+         sens ( ~0       )
+   rhosl[:] : [ 1.23     ] [kg/m³]   air density at sea level
+         sens ( ~0       )
+
+Mission.Cruise1.FlightSegment.SteadyLevelFlight
+          T[:] : [ 11.8 ] [N] thrust
+...constants
+\eta_{prop}[:] : [ 0.684  ]     propulsive efficiency
+            sens ( -0.014 )
+
+Mission.Loiter
+t : 6.686 [d]  time loitering
+
+Mission.Loiter.FlightSegment
+Wfuelfs : 89.38 [lbf]  flight segment fuel weight
+
+Mission.Loiter.FlightSegment.AircraftPerf
+    CDA[:] : [ 0.00453  0.00453  0.00453  0.00453  0.00453 ]       area drag coefficient
+     CD[:] : [ 0.0267   0.0232   0.0205   0.0184   0.017   ]       drag coefficient
+   Wend[:] : [ 141      122      104      87.7     71.9    ] [lbf] vector-end weight
+ Wstart[:] : [ 161      141      122      104      87.7    ] [lbf] vector-begin weight
+...constants
+m_{fac}[:] : [ 1.15    1.15    1.15    1.15    1.15   ]       drag margin factor
+        sens ( +0.118  +0.116  +0.115  +0.113  +0.112 )
+
+Mission.Loiter.FlightSegment.AircraftPerf.DF70Perf
+          BSFC[:] : [ 0.352     0.369     0.384     0.398     0.409    ] [kg/h/kW] Brake specific fuel consumption
+       P_shaft[:] : [ 1         0.869     0.767     0.69      0.635    ] [hp]      Shaft power
+       P_total[:] : [ 1.08      0.953     0.851     0.774     0.718    ] [hp]      Total power, avionics included
+ P_{shaft-max}[:] : [ 2.46      2.46      2.46      2.46      2.46     ] [hp]      Max shaft power at altitude
+           RPM[:] : [ 5.84e+03  5.59e+03  5.38e+03  5.21e+03  5.08e+03 ] [rpm]     Engine operating RPM
+...constants
+       m_{fac}[:] : [ 1         1         1        1        1       ]           BSFC margin factor
+               sens ( +0.2      +0.2      +0.2     +0.2     +0.2    )
+       L_{eng}[:] : [ 0.475     0.475     0.475    0.475    0.475   ]           shaft power loss factor
+               sens ( +0.0724   +0.0728   +0.0729  +0.0729  +0.0729 )
+eta_alternator[:] : [ 0.8       0.8       0.8      0.8      0.8     ]           alternator efficiency
+               sens ( -0.00986  -0.0112   -0.0125  -0.0138  -0.0148 )
+         P_avn[:] : [ 40        40        40       40       40      ] [W]       Avionics power
+               sens ( +0.00789  +0.00895  +0.01    +0.011   +0.0119 )
+     RPM_{max}[:] : [ 7.7e+03   7.7e+03   7.7e+03  7.7e+03  7.7e+03 ] [rpm]     Maximum RPM
+               sens ( ~0        ~0        ~0       ~0       ~0      )
+       h_{ref}[:] : [ 1e+03     1e+03     1e+03    1e+03    1e+03   ] [ft]      reference altitude
+               sens ( ~0        ~0        ~0       ~0       ~0      )
+
+Mission.Loiter.FlightSegment.AircraftPerf.FuselageAero
+    Cd[:] : [ 0.0432   0.0432   0.0432   0.0432   0.0432  ] fuselage drag coefficient
+    Cf[:] : [ 0.00555  0.00555  0.00555  0.00555  0.00555 ] fuselage skin friction coefficient
+Cf_ref[:] : [ 0.00721  0.00721  0.00721  0.00721  0.00721 ] reference skin friction coefficient
+    Re[:] : [ 2.4e+06  2.4e+06  2.4e+06  2.4e+06  2.4e+06 ] fuselage reynolds number
+...constants
+Re_ref[:] : [ 1e+06    1e+06     1e+06     1e+06     1e+06    ] reference Reynolds number
+       sens ( +0.0018  +0.00204  +0.00228  +0.00251  +0.00271 )
+
+Mission.Loiter.FlightSegment.AircraftPerf.PylonAero
+C_f[:] : [ 0.00725   0.00725   0.00725   0.00725   0.00725  ] fuselage skin friction coefficient
+ Re[:] : [ 9.82e+05  9.82e+05  9.82e+05  9.82e+05  9.82e+05 ] fuselage reynolds number
+
+Mission.Loiter.FlightSegment.AircraftPerf.TailAero
+          Cd[:] : [ 0.00644   0.00644   0.00644   0.00644   0.00644  ] drag coefficient
+          Re[:] : [ 3.49e+05  3.49e+05  3.49e+05  3.49e+05  3.49e+05 ] Reynolds number
+...constants
+m_{fac--fit}[:] : [ 1.04      1.04      1.04      1.04      1.04     ] RMS error of fit
+             sens ( +0.00382  +0.00433  +0.00485  +0.00533  +0.00574 )
+
+Mission.Loiter.FlightSegment.AircraftPerf.TailAero1
+          Cd[:] : [ 0.00565   0.00565   0.00565   0.00565   0.00565  ] drag coefficient
+          Re[:] : [ 4.58e+05  4.58e+05  4.58e+05  4.58e+05  4.58e+05 ] Reynolds number
+...constants
+m_{fac--fit}[:] : [ 1.04      1.04      1.04      1.04      1.04     ] RMS error of fit
+             sens ( +0.00577  +0.00654  +0.00732  +0.00805  +0.00867 )
+
+Mission.Loiter.FlightSegment.AircraftPerf.TailBoomAero
+Cf[:] : [ 0.00553   0.00553   0.00553   0.00553   0.00553  ] tail boom skin friction coefficient
+Re[:] : [ 2.42e+06  2.42e+06  2.42e+06  2.42e+06  2.42e+06 ] tail boom reynolds number
+
+Mission.Loiter.FlightSegment.AircraftPerf.WingAero
+               CL[:] : [ 0.928     0.807     0.695     0.589     0.489    ] lift coefficient
+               Cd[:] : [ 0.0187    0.0157    0.0133    0.0115    0.0102   ] wing drag coefficient
+               Re[:] : [ 3.87e+05  3.87e+05  3.87e+05  3.87e+05  3.87e+05 ] reynolds number
+              cdp[:] : [ 0.00855   0.00799   0.00761   0.00741   0.00739  ] wing profile drag coefficient
+...constants
+m_{fac-polar-fit}[:] : [ 1        1        1        1        1       ] fit factor
+                  sens ( +0.0433  +0.0459  +0.0489  +0.0523  +0.0563 )
+                e[:] : [ 0.9      0.9      0.9      0.9      0.9     ] span efficiency
+                  sens ( -0.0515  -0.0441  -0.0366  -0.029   -0.0215 )
+          CLstall[:] : [ 1.3      1.3      1.3      1.3      1.3     ] stall CL
+                  sens ( ~0       ~0       ~0       ~0       ~0      )
+
+Mission.Loiter.FlightSegment.BreguetEndurance
+   W_fuel[:] : [ 20.5   18.9   17.6   16.6   15.8  ] [lbf] Segment-fuel weight
+        t[:] : [ 1.34   1.34   1.34   1.34   1.34  ] [d]   Time per flight segment
+    z_bre[:] : [ 0.134  0.142  0.153  0.17   0.195 ]       Breguet coefficient
+...constants
+f_fueloil[:] : [ 0.98    0.98    0.98    0.98    0.98   ]       Fuel-oil fraction
+          sens ( -0.187  -0.187  -0.186  -0.184  -0.182 )
+
+Mission.Loiter.FlightSegment.FlightState
+       V[:] : [ 25        25        25        25        25       ] [m/s]     true airspeed
+V_{wind}[:] : [ 25        25        25        25        25       ] [m/s]     Wind speed
+      mu[:] : [ 1.63e-05  1.63e-05  1.63e-05  1.63e-05  1.63e-05 ] [N·s/m²]  Dynamic viscosity
+     qne[:] : [ 980       980       980       980       980      ] [kg/m/s²] never exceed dynamic pressure
+     rho[:] : [ 0.771     0.771     0.771     0.771     0.771    ] [kg/m³]   air density
+...constants
+ V_{ref}[:] : [ 25        25        25        25        25       ] [m/s]     Reference wind speed
+         sens ( +0.0712   +0.103    +0.138    +0.175    +0.215   )
+ m_{fac}[:] : [ 1         1         1         1         1        ]           wind speed margin factor
+         sens ( +0.0712   +0.103    +0.138    +0.175    +0.215   )
+  T_{sl}[:] : [ 288       288       288       288       288      ] [K]       Temperature at sea level
+         sens ( +0.192    +0.114    +0.0325   -0.0577   -0.155   )
+ t_{atm}[:] : [ 258       258       258       258       258      ] [K]       Air temperature
+         sens ( -0.155    -0.0924   -0.0264   +0.0467   +0.126   )
+       h[:] : [ 1.5e+04   1.5e+04   1.5e+04   1.5e+04   1.5e+04  ] [ft]      altitude
+         sens ( +0.0446   +0.0652   +0.0872   +0.111    +0.136   )
+ h_{ref}[:] : [ 1.5e+04   1.5e+04   1.5e+04   1.5e+04   1.5e+04  ] [ft]      Reference altitude
+         sens ( -0.0446   -0.0652   -0.0872   -0.111    -0.136   )
+\mu_{sl}[:] : [ 1.79e-05  1.79e-05  1.79e-05  1.79e-05  1.79e-05 ] [N·s/m²]  Dynamic viscosity at sea level
+         sens ( +0.0264   +0.0309   +0.0356   +0.04     +0.0432  )
+R_{spec}[:] : [ 287       287       287       287       287      ] [J/K/kg]  Specific gas constant of air
+         sens ( +0.0364   +0.0217   +0.00619  -0.011    -0.0296  )
+  p_{sl}[:] : [ 1.01e+05  1.01e+05  1.01e+05  1.01e+05  1.01e+05 ] [Pa]      Pressure at sea level
+         sens ( -0.0364   -0.0217   -0.00619  +0.011    +0.0296  )
+     Vne[:] : [ 40        40        40        40        40       ] [m/s]     never exceed velocity
+         sens ( +0.00661  +0.00661  +0.00661  +0.00661  +0.00661 )
+   rhosl[:] : [ 1.23      1.23      1.23      1.23      1.23     ] [kg/m³]   air density at sea level
+         sens ( +0.00331  +0.00331  +0.00331  +0.00331  +0.00331 )
+ L_{atm}[:] : [ 0.0065    0.0065    0.0065    0.0065    0.0065   ] [K/m]     Temperature lapse rate
+         sens ( ~0        ~0        ~0        ~0        ~0       )
+
+Mission.Loiter.FlightSegment.SteadyLevelFlight
+          T[:] : [ 19.3  16.8  14.8  13.3  12.2 ] [N] thrust
+...constants
+\eta_{prop}[:] : [ 0.647   0.647   0.647   0.647   0.647  ]     propulsive efficiency
+            sens ( -0.118  -0.116  -0.115  -0.113  -0.112 )
+
+Most Sensitive Constraints
+--------------------------
+Mission
+-1.072  : Wend[9] = Wstart[0]
+-1.067  : Wend[0] = Wstart[0]
+-0.7329 : Wend[4] = Wstart[0]
++0.717  : Wend[0] ≥ Wzfw
++0.2614 : W_{fuel-tot} ≥ Wfuelfs + Wfuelfs + Wfuelfs + Wfuelfs
++0.1581 : W_{cent} = W
++0.1581 : W_{cent} ≥ W_{fuel-tot} + W + W + W
++0.1276 : P_total[0] ≥ P_shaft[0] + (P_avn[0] + Ppay)/eta_alternator[0]
++0.1272 : P_total[1] ≥ P_shaft[1] + (P_avn[1] + Ppay)/eta_alternator[1]
++0.1272 : P_total[4] ≥ P_shaft[4] + (P_avn[4] + Ppay)/eta_alternator[4]
++0.1271 : P_total[2] ≥ P_shaft[2] + (P_avn[2] + Ppay)/eta_alternator[2]
++0.1271 : P_total[3] ≥ P_shaft[3] + (P_avn[3] + Ppay)/eta_alternator[3]
+
+Mission.Aircraft
++0.717   : Wzfw ≥ W + W + W + W + W + Wpay + Wavn
++0.1681  : w_{antenna} ≤ croot·lam
++0.07275 : l ≥ lh + croot
++0.06733 : Vol_body ≥ Vol + \mathcal{V}_{avn}
++0.05848 : Vh ≤ S·lh/S²·b
++0.02988 : \mathcal{V}_{pay} ≤ 2.09·k_nose·R³
+
+Mission.Aircraft.DF70
++0.08984 : W_df70 ≤ W/mfac
+
+Mission.Aircraft.Empennage
++0.05096 : W/mfac ≥ W + W + W
+
+Mission.Aircraft.Empennage.HorizontalTail
++0.02042 : mh·(1 + 2/AR) ≤ 6.28
++0.0119  : W/mfac ≥ W + W
+
+Mission.Aircraft.Empennage.HorizontalTail.Planform
+-0.01167 : croot = S/b·cbar[0]
+
+Mission.Aircraft.Empennage.TailBoom
+-0.03307 : S = l·3.14·d[0]
++0.01653 : I[0] ≤ t[0]·3.14·d[0]³/8
++0.01653 : W/mfac ≥ g·dm[:].sum()
++0.01653 : dm[0] ≥ 3.14·rho·d[0]·deta·t[0]·kfac·l
+
+Mission.Aircraft.Empennage.VerticalTail
++0.02252 : W/mfac ≥ W + W
+
+Mission.Aircraft.Empennage.VerticalTail.Planform
++0.1681  : croot = S/b·cbar[0]
+-0.09542 : b² = S·AR
+-0.01044 : cave[0] = cbave[0]·S/b
+
+Mission.Aircraft.Empennage.VerticalTail.WingSkin
++0.01464 : W ≥ rho·S·2·t·g
++0.01464 : t ≥ tmin
+
+Mission.Aircraft.Fuselage
++0.1524  : W/mfac ≥ W + W
++0.08267 : S_wet ≥ S_body + S_nose + S_bulk
++0.07432 : S ≥ 3.14·R²
++0.06733 : Vol_body ≤ 3.14·R²·l_body
++0.04814 : S_body ≥ 6.28·R·l_body
++0.02237 : l ≤ 3·R·(k_body·k_nose·k_bulk)^0.3333
+-0.01919 : k_body = l_body/R
++0.01489 : S_nose^1.6 ≥ (6.28·R²)^1.6·(0.333 + 0.667·k_nose^1.6)
++0.01071 : S_bulk ≥ R²·(0.0123·k_bulk² + 1.52·k_bulk + 0.502)
+
+Mission.Aircraft.Fuselage.FuelTank
++0.06977 : W ≥ f·W_{fuel-tot}
++0.06392 : Vol/mfac ≥ W_{fuel-tot}/rho_fuel
+
+Mission.Aircraft.Fuselage.FuselageSkin
++0.08267 : W ≥ m·g
++0.08267 : m ≥ S_wet·rho_kevlar·t
++0.08267 : t ≥ t_min
+
+Mission.Aircraft.Pylon
++0.03998 : S ≥ 2·l·h
+
+Mission.Aircraft.Wing
++0.2757  : W/mfac ≥ W + W + W
++0.03016 : mw·(1 + 2/AR) ≥ 6.28
+
+Mission.Aircraft.Wing.CapSpar
++0.1243  : W ≥ 2·dm[:].sum()·g
++0.07293 : cave[0]·tau ≥ hin[0] + t[0]·2
++0.06412 : cave[1]·tau ≥ hin[1] + t[1]·2
++0.05516 : cave[2]·tau ≥ hin[2] + t[2]·2
++0.04615 : cave[3]·tau ≥ hin[3] + t[3]·2
++0.03724 : cave[4]·tau ≥ hin[4] + t[4]·2
++0.03164 : I[0]/mfac ≤ w[0]·2·t[0]·(hin[0]/2)²
++0.02862 : cave[5]·tau ≥ hin[5] + t[5]·2
++0.02797 : I[1]/mfac ≤ w[1]·2·t[1]·(hin[1]/2)²
++0.02425 : I[2]/mfac ≤ w[2]·2·t[2]·(hin[2]/2)²
++0.02199 : dm[0] ≥ (rho·w[0]·2·t[0] + tshear[0]·2·rho·(hin[0] + t[0]·2) + rho·w[0]·hin[0])·b/2·deta[0]
++0.02054 : cave[6]·tau ≥ hin[6] + t[6]·2
++0.02053 : I[3]/mfac ≤ w[3]·2·t[3]·(hin[3]/2)²
++0.01979 : dm[1] ≥ (rho·w[1]·2·t[1] + tshear[1]·2·rho·(hin[1] + t[1]·2) + rho·w[1]·hin[1])·b/2·deta[1]
++0.01761 : dm[2] ≥ (rho·w[2]·2·t[2] + tshear[2]·2·rho·(hin[2] + t[2]·2) + rho·w[2]·hin[2])·b/2·deta[2]
++0.01685 : I[4]/mfac ≤ w[4]·2·t[4]·(hin[4]/2)²
++0.01545 : dm[3] ≥ (rho·w[3]·2·t[3] + tshear[3]·2·rho·(hin[3] + t[3]·2) + rho·w[3]·hin[3])·b/2·deta[3]
++0.01331 : cave[7]·tau ≥ hin[7] + t[7]·2
++0.0133  : dm[4] ≥ (rho·w[4]·2·t[4] + tshear[4]·2·rho·(hin[4] + t[4]·2) + rho·w[4]·hin[4])·b/2·deta[4]
++0.01327 : I[5]/mfac ≤ w[5]·2·t[5]·(hin[5]/2)²
++0.01118 : dm[5] ≥ (rho·w[5]·2·t[5] + tshear[5]·2·rho·(hin[5] + t[5]·2) + rho·w[5]·hin[5])·b/2·deta[5]
++0.01073 : w[0] ≤ wlim·cave[0]
+
+Mission.Aircraft.Wing.Planform
+-0.4515  : b² = S·AR
++0.2026  : cmac = croot·cbarmac
++0.2026  : croot = S/b·cbar[0]
++0.06215 : cave[0] = cbave[0]·S/b
++0.05377 : cave[1] = cbave[1]·S/b
++0.04509 : cave[2] = cbave[2]·S/b
++0.03624 : cave[3] = cbave[3]·S/b
++0.02741 : cave[4] = cbave[4]·S/b
++0.01887 : cave[5] = cbave[5]·S/b
++0.01094 : cave[6] = cbave[6]·S/b
+
+Mission.Aircraft.Wing.WingCore
++0.07223 : W ≥ 2·(g·rho·Abar·cave[:]²·b/2·deta[:]).sum()
+
+Mission.Aircraft.Wing.WingSkin
++0.07923 : W ≥ rho·S·2·t·g
++0.07923 : t ≥ tmin
+
+Mission.AircraftLoading.SparLoading
+-0.1581  : N = Nsafety·Nmax
++0.1581  : kappa ≥ w[11]/(b/2)
++0.1581  : w[11] ≥ w[10] + deta[10]·0.5·b/2·(th[11] + th[10])
++0.1337  : w[10] ≥ w[9] + deta[9]·0.5·b/2·(th[10] + th[9])
++0.1106  : w[9] ≥ w[8] + deta[8]·0.5·b/2·(th[9] + th[8])
++0.09191 : th[5] ≥ th[4] + deta[4]·0.5·b/2·(M[5] + M[4])/E/I[4]
++0.09104 : th[6] ≥ th[5] + deta[5]·0.5·b/2·(M[6] + M[5])/E/I[5]
++0.08911 : w[8] ≥ w[7] + deta[7]·0.5·b/2·(th[8] + th[7])
++0.08661 : th[4] ≥ th[3] + deta[3]·0.5·b/2·(M[4] + M[3])/E/I[3]
++0.08436 : th[7] ≥ th[6] + deta[6]·0.5·b/2·(M[7] + M[6])/E/I[6]
++0.07489 : th[3] ≥ th[2] + deta[2]·0.5·b/2·(M[3] + M[2])/E/I[2]
++0.07313 : S[7] ≥ S[8] + deta[7]·0.5·b/2·(q[7] + q[8])
++0.07239 : th[8] ≥ th[7] + deta[7]·0.5·b/2·(M[8] + M[7])/E/I[7]
++0.07082 : S[8] ≥ S[9] + deta[8]·0.5·b/2·(q[8] + q[9])
++0.0703  : M[4] ≥ M[5] + deta[4]·0.5·b/2·(S[4] + S[5])
++0.06939 : w[7] ≥ w[6] + deta[6]·0.5·b/2·(th[7] + th[6])
++0.0692  : M[3] ≥ M[4] + deta[3]·0.5·b/2·(S[3] + S[4])
++0.06848 : S[6] ≥ S[7] + deta[6]·0.5·b/2·(q[6] + q[7])
++0.06532 : M[5] ≥ M[6] + deta[5]·0.5·b/2·(S[5] + S[6])
++0.06077 : M[2] ≥ M[3] + deta[2]·0.5·b/2·(S[2] + S[3])
++0.05962 : S[9] ≥ S[10] + deta[9]·0.5·b/2·(q[9] + q[10])
++0.0588  : S[5] ≥ S[6] + deta[5]·0.5·b/2·(q[5] + q[6])
++0.05659 : th[2] ≥ th[1] + deta[1]·0.5·b/2·(M[2] + M[1])/E/I[1]
++0.05591 : th[9] ≥ th[8] + deta[8]·0.5·b/2·(M[9] + M[8])/E/I[8]
++0.05565 : M[6] ≥ M[7] + deta[6]·0.5·b/2·(S[6] + S[7])
++0.05175 : w[6] ≥ w[5] + deta[5]·0.5·b/2·(th[6] + th[5])
++0.04601 : S[4] ≥ S[5] + deta[4]·0.5·b/2·(q[4] + q[5])
++0.04389 : M[1] ≥ M[2] + deta[1]·0.5·b/2·(S[1] + S[2])
++0.04287 : M[7] ≥ M[8] + deta[7]·0.5·b/2·(S[7] + S[8])
++0.03718 : S[10] ≥ S[11] + deta[10]·0.5·b/2·(q[10] + q[11])
++0.0364  : w[5] ≥ w[4] + deta[4]·0.5·b/2·(th[5] + th[4])
++0.03571 : th[10] ≥ th[9] + deta[9]·0.5·b/2·(M[10] + M[9])/E/I[9]
++0.0343  : q[10] ≥ N·W/b·cbar[10]
++0.03203 : S[3] ≥ S[4] + deta[3]·0.5·b/2·(q[3] + q[4])
++0.03164 : th[1] ≥ th[0] + deta[0]·0.5·b/2·(M[1] + M[0])/E/I[0]
++0.02883 : M[8] ≥ M[9] + deta[8]·0.5·b/2·(S[8] + S[9])
++0.02842 : q[9] ≥ N·W/b·cbar[9]
++0.02356 : w[4] ≥ w[3] + deta[3]·0.5·b/2·(th[4] + th[3])
++0.02306 : q[8] ≥ N·W/b·cbar[8]
++0.01875 : S[2] ≥ S[3] + deta[2]·0.5·b/2·(q[2] + q[3])
++0.01816 : q[7] ≥ N·W/b·cbar[7]
++0.01778 : q[11] ≥ N·W/b·cbar[11]
++0.0175  : M[0] ≥ M[1] + deta[0]·0.5·b/2·(S[0] + S[1])
++0.0155  : M[9] ≥ M[10] + deta[9]·0.5·b/2·(S[9] + S[10])
++0.01372 : q[6] ≥ N·W/b·cbar[6]
++0.01338 : w[3] ≥ w[2] + deta[2]·0.5·b/2·(th[3] + th[2])
++0.0125  : th[11] ≥ th[10] + deta[10]·0.5·b/2·(M[11] + M[10])/E/I[10]
+
+Mission.AircraftLoading.TailBoomBending
+-0.01429 : dx[0] = deta
+
+Mission.AircraftLoading.TailBoomBending1
+-0.02817 : dx[0] = deta
+
+Mission.AircraftLoading.TailBoomFlexibility
++0.05848 : sph1 + sph2 ≥ SMcorr + CM/CLmax
++0.03092 : sph2 ≤ Vh·CLhmin/CLmax
++0.03016 : sph1·mw·Fne/mh/Vh + deda ≤ 1
++0.02757 : Fne ≥ 1 + mh·th
+
+Mission.Climb
++0.9516 : T[9] ≥ rho[9]·0.5·V[9]²·CD[9]·S + Wstart[9]·\dot{h}[9]/V[9]
++0.3888 : \dot{h}[9] ≥ \dot{h}_{min}
+
+Mission.Climb.FlightSegment.AircraftPerf
++0.5604  : CD[9]/m_{fac}[9] ≥ CDA[9] + Cd[9]
++0.09948 : CDA[9] ≥ Cd[9]·S/S + Cf[9]·S/S + Cd[9]·S/S + Cd[9]·S/S + Cf[9]·S/S + C_f[9]·S/S
+
+Mission.Climb.FlightSegment.AircraftPerf.DF70Perf
++9.76   : (P_total[9]/P_{shaft-max}[9])^0.1 = (RPM[9]/RPM_{max}[9])^0.2944·0.999
++2.873  : RPM[9] ≤ RPM_{max}[9]
++0.9784 : P_total[9] ≥ P_shaft[9] + P_avn[9]/eta_alternator[9]
+-0.976  : L_{eng}[9] = P_{shaft-max}[9]/P_sl_max
+
+Mission.Climb.FlightSegment.AircraftPerf.FuselageAero
++0.02932 : Cf[9] ≥ Re[9]^0.3^-1·0.455
++0.02599 : Cd[9]^0.9962 ≥ Cf[9]/Cf_ref[9]·(0.00243·k_body^0.03361·k_nose^1.217·k_bulk^0.3063 + 0.00255·k_body^-0.03169·k_nose^-0.5855·k_bulk^1.154 + 0.0436·k_body^0.05457·k_nose^0.2582·k_bulk^-1.427 + 0.0097·k_body^0.8661·k_nose^-0.2091·k_bulk^-0.1562)
++0.02599 : Cf_ref[9] = Re_ref[9]^0.3^-1·0.455
+
+Mission.Climb.FlightSegment.AircraftPerf.PylonAero
++0.01572 : C_f[9] ≥ Re[9]^0.3^-1·0.455
+
+Mission.Climb.FlightSegment.AircraftPerf.TailAero
++0.01654 : Re[9]^-0.4823·9.51·tau^0.4675 ≤ Cd[9]/m_{fac--fit}[9]
+
+Mission.Climb.FlightSegment.AircraftPerf.TailAero1
++0.02499 : Re[9]^-0.4823·9.51·tau^0.4675 ≤ Cd[9]/m_{fac--fit}[9]
++0.01205 : Re[9] = V[9]·rho[9]·S/b/mu[9]
+
+Mission.Climb.FlightSegment.AircraftPerf.TailBoomAero
++0.013 : Cf[9] ≥ Re[9]^0.3^-1·0.455
+
+Mission.Climb.FlightSegment.AircraftPerf.WingAero
++0.4609  : Cd[9] ≥ cdp[9] + CL[9]²/3.14/AR/e[9]
++0.07427 : Re[9] = rho[9]·V[9]·cmac/mu[9]
++0.06404 : (cdp[9]/m_{fac-polar-fit}[9])^3.09 ≥ CL[9]^18.86·1.02e-07·Re[9]^-0.1833 + CL[9]^2.963·0.00168·Re[9]^-0.6675 + CL[9]^-1.653·2.28e-06·Re[9]^-0.3496 + CL[9]^-0.1787·1.76e+08·Re[9]^-2.713
+
+Mission.Climb.FlightSegment.BreguetEndurance
++0.7362 : Wstart[9] ≥ Wend[9] + W_fuel[9]
+
+Mission.Climb.FlightSegment.FlightState
+-1.117  : (mu[9]/\mu_{sl}[9])^0.1 = (h[9]/h_{ref}[9])^-0.00529·0.991
++0.2244 : rho[9] = p_{sl}[9]·t_{atm}[9]^4.257/R_{spec}[9]/T_{sl}[9]^5.257
++0.2233 : V_{wind}[9] ≤ V[9]/m_{fac}[9]
++0.2233 : V_{wind}[9]/V_{ref}[9] ≥ h[9]/h_{ref}[9]·0.646 + 0.354
+
+Mission.Climb.FlightSegment.SteadyLevelFlight
++0.9516 : P_shaft[9] ≥ T[9]·V[9]/\eta_{prop}[9]
++0.6731 : (Wend[9]·Wstart[9])^0.5 ≤ rho[9]·0.5·V[9]²·CL[9]·S
+
+Mission.Cruise
++0.02 : V[0]·t[0] ≥ R
+
+Mission.Cruise.FlightSegment.AircraftPerf
++0.01371 : CD[0]/m_{fac}[0] ≥ CDA[0] + Cd[0]
+
+Mission.Cruise.FlightSegment.AircraftPerf.DF70Perf
+-0.05594 : (P_total[0]/P_{shaft-max}[0])^0.1 = (RPM[0]/RPM_{max}[0])^0.2944·0.999
++0.01441 : P_total[0] ≥ P_shaft[0] + P_avn[0]/eta_alternator[0]
+
+Mission.Cruise.FlightSegment.BreguetEndurance
++1.067   : Wstart[0] ≥ Wend[0] + W_fuel[0]
++0.02    : z_bre[0] ≥ P_total[0]·t[0]·BSFC[0]·g/(Wend[0]·Wstart[0])^0.5
++0.01987 : f_fueloil[0]·W_fuel[0]/Wend[0] ≥ z_bre[0]^1 + z_bre[0]²/2 + z_bre[0]³/6
+
+Mission.Cruise.FlightSegment.FlightState
+-0.04021 : (mu[0]/\mu_{sl}[0])^0.1 = (h[0]/h_{ref}[0])^-0.00529·0.991
+
+Mission.Cruise.FlightSegment.SteadyLevelFlight
++0.01371 : P_shaft[0] ≥ T[0]·V[0]/\eta_{prop}[0]
++0.01371 : T[0] ≥ rho[0]·0.5·V[0]²·CD[0]·S
+
+Mission.Cruise1
++0.02456 : V[0]·t[0] ≥ R
+
+Mission.Cruise1.FlightSegment.AircraftPerf
++0.014 : CD[0]/m_{fac}[0] ≥ CDA[0] + Cd[0]
+
+Mission.Cruise1.FlightSegment.AircraftPerf.DF70Perf
+-0.08948 : (P_total[0]/P_{shaft-max}[0])^0.1 = (RPM[0]/RPM_{max}[0])^0.2944·0.999
++0.01561 : P_total[0] ≥ P_shaft[0] + P_avn[0]/eta_alternator[0]
+
+Mission.Cruise1.FlightSegment.BreguetEndurance
++0.7223  : Wstart[0] ≥ Wend[0] + W_fuel[0]
++0.02456 : z_bre[0] ≥ P_total[0]·t[0]·BSFC[0]·g/(Wend[0]·Wstart[0])^0.5
++0.02424 : f_fueloil[0]·W_fuel[0]/Wend[0] ≥ z_bre[0]^1 + z_bre[0]²/2 + z_bre[0]³/6
+
+Mission.Cruise1.FlightSegment.FlightState
+-0.05539 : (mu[0]/\mu_{sl}[0])^0.1 = (h[0]/h_{ref}[0])^-0.00529·0.991
+
+Mission.Cruise1.FlightSegment.SteadyLevelFlight
++0.014 : P_shaft[0] ≥ T[0]·V[0]/\eta_{prop}[0]
++0.014 : T[0] ≥ rho[0]·0.5·V[0]²·CD[0]·S
+
+Mission.Loiter
++0.2 : t[4] ≥ t/5
++0.2 : t[1] ≥ t/5
++0.2 : t[3] ≥ t/5
++0.2 : t[0] ≥ t/5
++0.2 : t[2] ≥ t/5
+
+Mission.Loiter.FlightSegment
++1.051  : Wend[0] ≥ Wstart[1]
++1.009  : Wend[1] ≥ Wstart[2]
++0.9426 : Wend[2] ≥ Wstart[3]
++0.8503 : Wend[3] ≥ Wstart[4]
++0.2442 : Wfuelfs ≥ W_fuel[:].sum()
+
+Mission.Loiter.FlightSegment.AircraftPerf
++0.1177  : CD[0]/m_{fac}[0] ≥ CDA[0] + Cd[0]
++0.116   : CD[1]/m_{fac}[1] ≥ CDA[1] + Cd[1]
++0.1146  : CD[2]/m_{fac}[2] ≥ CDA[2] + Cd[2]
++0.1134  : CD[3]/m_{fac}[3] ≥ CDA[3] + Cd[3]
++0.1123  : CD[4]/m_{fac}[4] ≥ CDA[4] + Cd[4]
++0.03452 : CDA[4] ≥ Cd[4]·S/S + Cf[4]·S/S + Cd[4]·S/S + Cd[4]·S/S + Cf[4]·S/S + C_f[4]·S/S
++0.03205 : CDA[3] ≥ Cd[3]·S/S + Cf[3]·S/S + Cd[3]·S/S + Cd[3]·S/S + Cf[3]·S/S + C_f[3]·S/S
++0.02914 : CDA[2] ≥ Cd[2]·S/S + Cf[2]·S/S + Cd[2]·S/S + Cd[2]·S/S + Cf[2]·S/S + C_f[2]·S/S
++0.02603 : CDA[1] ≥ Cd[1]·S/S + Cf[1]·S/S + Cd[1]·S/S + Cd[1]·S/S + Cf[1]·S/S + C_f[1]·S/S
++0.02295 : CDA[0] ≥ Cd[0]·S/S + Cf[0]·S/S + Cd[0]·S/S + Cd[0]·S/S + Cf[0]·S/S + C_f[0]·S/S
+
+Mission.Loiter.FlightSegment.AircraftPerf.DF70Perf
+-0.7288  : (P_total[4]/P_{shaft-max}[4])^0.1 = (RPM[4]/RPM_{max}[4])^0.2944·0.999
+-0.7286  : (P_total[3]/P_{shaft-max}[3])^0.1 = (RPM[3]/RPM_{max}[3])^0.2944·0.999
+-0.7285  : (P_total[2]/P_{shaft-max}[2])^0.1 = (RPM[2]/RPM_{max}[2])^0.2944·0.999
+-0.7281  : (P_total[1]/P_{shaft-max}[1])^0.1 = (RPM[1]/RPM_{max}[1])^0.2944·0.999
+-0.724   : (P_total[0]/P_{shaft-max}[0])^0.1 = (RPM[0]/RPM_{max}[0])^0.2944·0.999
++0.07288 : L_{eng}[4] = P_{shaft-max}[4]/P_sl_max
++0.07286 : L_{eng}[3] = P_{shaft-max}[3]/P_sl_max
++0.07285 : L_{eng}[2] = P_{shaft-max}[2]/P_sl_max
++0.07281 : L_{eng}[1] = P_{shaft-max}[1]/P_sl_max
++0.0724  : L_{eng}[0] = P_{shaft-max}[0]/P_sl_max
+
+Mission.Loiter.FlightSegment.AircraftPerf.FuselageAero
++0.01018 : Cf[4] ≥ Re[4]^0.3^-1·0.455
+
+Mission.Loiter.FlightSegment.AircraftPerf.WingAero
++0.09477 : Cd[0] ≥ cdp[0] + CL[0]²/3.14/AR/e[0]
++0.08997 : Cd[1] ≥ cdp[1] + CL[1]²/3.14/AR/e[1]
++0.08547 : Cd[2] ≥ cdp[2] + CL[2]²/3.14/AR/e[2]
++0.0813  : Cd[3] ≥ cdp[3] + CL[3]²/3.14/AR/e[3]
++0.0778  : Cd[4] ≥ cdp[4] + CL[4]²/3.14/AR/e[4]
++0.03025 : Re[4] = rho[4]·V[4]·cmac/mu[4]
++0.0279  : Re[3] = rho[3]·V[3]·cmac/mu[3]
++0.02463 : Re[2] = rho[2]·V[2]·cmac/mu[2]
++0.02108 : Re[1] = rho[1]·V[1]·cmac/mu[1]
++0.01822 : (cdp[4]/m_{fac-polar-fit}[4])^3.09 ≥ CL[4]^18.86·1.02e-07·Re[4]^-0.1833 + CL[4]^2.963·0.00168·Re[4]^-0.6675 + CL[4]^-1.653·2.28e-06·Re[4]^-0.3496 + CL[4]^-0.1787·1.76e+08·Re[4]^-2.713
++0.01772 : Re[0] = rho[0]·V[0]·cmac/mu[0]
++0.01694 : (cdp[3]/m_{fac-polar-fit}[3])^3.09 ≥ CL[3]^18.86·1.02e-07·Re[3]^-0.1833 + CL[3]^2.963·0.00168·Re[3]^-0.6675 + CL[3]^-1.653·2.28e-06·Re[3]^-0.3496 + CL[3]^-0.1787·1.76e+08·Re[3]^-2.713
++0.01582 : (cdp[2]/m_{fac-polar-fit}[2])^3.09 ≥ CL[2]^18.86·1.02e-07·Re[2]^-0.1833 + CL[2]^2.963·0.00168·Re[2]^-0.6675 + CL[2]^-1.653·2.28e-06·Re[2]^-0.3496 + CL[2]^-0.1787·1.76e+08·Re[2]^-2.713
++0.01484 : (cdp[1]/m_{fac-polar-fit}[1])^3.09 ≥ CL[1]^18.86·1.02e-07·Re[1]^-0.1833 + CL[1]^2.963·0.00168·Re[1]^-0.6675 + CL[1]^-1.653·2.28e-06·Re[1]^-0.3496 + CL[1]^-0.1787·1.76e+08·Re[1]^-2.713
++0.01401 : (cdp[0]/m_{fac-polar-fit}[0])^3.09 ≥ CL[0]^18.86·1.02e-07·Re[0]^-0.1833 + CL[0]^2.963·0.00168·Re[0]^-0.6675 + CL[0]^-1.653·2.28e-06·Re[0]^-0.3496 + CL[0]^-0.1787·1.76e+08·Re[0]^-2.713
+
+Mission.Loiter.FlightSegment.BreguetEndurance
++1.031  : Wstart[0] ≥ Wend[0] + W_fuel[0]
++1.004  : Wstart[1] ≥ Wend[1] + W_fuel[1]
++0.9519 : Wstart[2] ≥ Wend[2] + W_fuel[2]
++0.8738 : Wstart[3] ≥ Wend[3] + W_fuel[3]
++0.77   : Wstart[4] ≥ Wend[4] + W_fuel[4]
++0.2    : z_bre[4] ≥ P_total[4]·t[4]·BSFC[4]·g/(Wend[4]·Wstart[4])^0.5
++0.2    : z_bre[1] ≥ P_total[1]·t[1]·BSFC[1]·g/(Wend[1]·Wstart[1])^0.5
++0.2    : z_bre[3] ≥ P_total[3]·t[3]·BSFC[3]·g/(Wend[3]·Wstart[3])^0.5
++0.2    : z_bre[0] ≥ P_total[0]·t[0]·BSFC[0]·g/(Wend[0]·Wstart[0])^0.5
++0.2    : z_bre[2] ≥ P_total[2]·t[2]·BSFC[2]·g/(Wend[2]·Wstart[2])^0.5
++0.1873 : f_fueloil[0]·W_fuel[0]/Wend[0] ≥ z_bre[0]^1 + z_bre[0]²/2 + z_bre[0]³/6
++0.1865 : f_fueloil[1]·W_fuel[1]/Wend[1] ≥ z_bre[1]^1 + z_bre[1]²/2 + z_bre[1]³/6
++0.1855 : f_fueloil[2]·W_fuel[2]/Wend[2] ≥ z_bre[2]^1 + z_bre[2]²/2 + z_bre[2]³/6
++0.184  : f_fueloil[3]·W_fuel[3]/Wend[3] ≥ z_bre[3]^1 + z_bre[3]²/2 + z_bre[3]³/6
++0.1819 : f_fueloil[4]·W_fuel[4]/Wend[4] ≥ z_bre[4]^1 + z_bre[4]²/2 + z_bre[4]³/6
+
+Mission.Loiter.FlightSegment.FlightState
+-0.4324  : (mu[4]/\mu_{sl}[4])^0.1 = (h[4]/h_{ref}[4])^-0.00529·0.991
+-0.3996  : (mu[3]/\mu_{sl}[3])^0.1 = (h[3]/h_{ref}[3])^-0.00529·0.991
+-0.356   : (mu[2]/\mu_{sl}[2])^0.1 = (h[2]/h_{ref}[2])^-0.00529·0.991
+-0.3087  : (mu[1]/\mu_{sl}[1])^0.1 = (h[1]/h_{ref}[1])^-0.00529·0.991
+-0.2636  : (mu[0]/\mu_{sl}[0])^0.1 = (h[0]/h_{ref}[0])^-0.00529·0.991
++0.2147  : V_{wind}[4] ≤ V[4]/m_{fac}[4]
++0.2147  : V_{wind}[4]/V_{ref}[4] ≥ h[4]/h_{ref}[4]·0.646 + 0.354
++0.1753  : V_{wind}[3] ≤ V[3]/m_{fac}[3]
++0.1753  : V_{wind}[3]/V_{ref}[3] ≥ h[3]/h_{ref}[3]·0.646 + 0.354
++0.1378  : V_{wind}[2] ≤ V[2]/m_{fac}[2]
++0.1378  : V_{wind}[2]/V_{ref}[2] ≥ h[2]/h_{ref}[2]·0.646 + 0.354
++0.1035  : V_{wind}[1] ≤ V[1]/m_{fac}[1]
++0.1035  : V_{wind}[1]/V_{ref}[1] ≥ h[1]/h_{ref}[1]·0.646 + 0.354
++0.07119 : V_{wind}[0] ≤ V[0]/m_{fac}[0]
++0.07119 : V_{wind}[0]/V_{ref}[0] ≥ h[0]/h_{ref}[0]·0.646 + 0.354
++0.03645 : rho[0] = p_{sl}[0]·t_{atm}[0]^4.257/R_{spec}[0]/T_{sl}[0]^5.257
+-0.02957 : rho[4] = p_{sl}[4]·t_{atm}[4]^4.257/R_{spec}[4]/T_{sl}[4]^5.257
++0.0217  : rho[1] = p_{sl}[1]·t_{atm}[1]^4.257/R_{spec}[1]/T_{sl}[1]^5.257
+-0.01098 : rho[3] = p_{sl}[3]·t_{atm}[3]^4.257/R_{spec}[3]/T_{sl}[3]^5.257
+
+Mission.Loiter.FlightSegment.SteadyLevelFlight
++0.1278  : (Wend[0]·Wstart[0])^0.5 ≤ rho[0]·0.5·V[0]²·CL[0]·S
++0.1177  : P_shaft[0] ≥ T[0]·V[0]/\eta_{prop}[0]
++0.1177  : T[0] ≥ rho[0]·0.5·V[0]²·CD[0]·S
++0.116   : P_shaft[1] ≥ T[1]·V[1]/\eta_{prop}[1]
++0.116   : T[1] ≥ rho[1]·0.5·V[1]²·CD[1]·S
++0.1146  : P_shaft[2] ≥ T[2]·V[2]/\eta_{prop}[2]
++0.1146  : T[2] ≥ rho[2]·0.5·V[2]²·CD[2]·S
++0.1134  : P_shaft[3] ≥ T[3]·V[3]/\eta_{prop}[3]
++0.1134  : T[3] ≥ rho[3]·0.5·V[3]²·CD[3]·S
++0.1123  : P_shaft[4] ≥ T[4]·V[4]/\eta_{prop}[4]
++0.1123  : T[4] ≥ rho[4]·0.5·V[4]²·CD[4]·S
++0.1068  : (Wend[1]·Wstart[1])^0.5 ≤ rho[1]·0.5·V[1]²·CL[1]·S
++0.0852  : (Wend[2]·Wstart[2])^0.5 ≤ rho[2]·0.5·V[2]²·CL[2]·S
++0.06241 : (Wend[3]·Wstart[3])^0.5 ≤ rho[3]·0.5·V[3]²·CL[3]·S
++0.03951 : (Wend[4]·Wstart[4])^0.5 ≤ rho[4]·0.5·V[4]²·CL[4]·S

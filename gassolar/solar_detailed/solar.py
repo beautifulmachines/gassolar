@@ -292,9 +292,8 @@ class Aircraft(Model):
         ]
 
         if self.Npod != 0:
-            with Vectorize(1):
-                with Vectorize(self.Npod):
-                    self.fuselage = Fuselage()
+            with Vectorize(1), Vectorize(self.Npod):
+                self.fuselage = Fuselage()
 
             self.k = self.fuselage.k
             Volfuse = self.Volfuse = self.fuselage.Vol[:, 0]

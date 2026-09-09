@@ -1,0 +1,4124 @@
+[Mission]
+[Mission.Aircraft]
+  free  Wcent
+  free  Wtotal
+  free  Wwing
+  free  Volbatt
+  free  Battery.W
+  free  HorizontalTail.Planform.S
+  free  lh
+  free  d[:]
+  free  VerticalTail.Planform.S
+  free  lv
+  free  Empennage.W
+  free  Motor.W
+  free  SolarCells.S
+  free  SolarCells.W
+  free  _WingGP.Planform.S
+  free  b
+  free  cmac
+  free  croot
+  free  _WingGP.W
+  fixed Wavn
+  fixed Wpay
+  fixed Vh
+  fixed Vv
+  fixed tau
+  cons  Wtotal ≥ Wpay + Wavn + SolarCells.W + _WingGP.W + Battery.W + Empennage.W + Motor.W
+  cons  Wwing ≥ _WingGP.W + Battery.W + SolarCells.W
+  cons  Wcent ≥ Wpay + Wavn + Empennage.W + Motor.W
+  cons  SolarCells.S ≤ _WingGP.Planform.S
+  cons  Volbatt ≤ cmac²·0.5·tau·b
+  cons  Vh ≤ HorizontalTail.Planform.S·lh/_WingGP.Planform.S²·b
+  cons  Vv ≤ VerticalTail.Planform.S·lv/_WingGP.Planform.S/b
+  cons  d[0] ≤ tau·croot
+[Mission.Aircraft.SolarCells]
+  free  S
+  free  W
+  fixed eta
+  fixed g
+  fixed rho_solar
+  cons  W ≥ rho_solar·S·g
+[Mission.Aircraft._WingGP]
+  free  W
+  free  CapSpar.W
+  free  WingSkin.W
+  fixed mfac
+  cons  W/mfac ≥ WingSkin.W + CapSpar.W
+[Mission.Aircraft._WingGP.Planform]
+  free  AR
+  free  S
+  free  b
+  free  cave[:]
+  free  cmac
+  free  croot
+  free  tau
+  fixed CLmax
+  fixed CM
+  fixed cbar[:]
+  fixed cbarmac
+  fixed cbave[:]
+  fixed deta[:]
+  fixed eta[:]
+  fixed lam
+  cons  b² = S·AR
+  cons  cave[0] = cbave[0]·S/b
+  cons  cave[1] = cbave[1]·S/b
+  cons  cave[2] = cbave[2]·S/b
+  cons  cave[3] = cbave[3]·S/b
+  cons  croot = S/b·cbar[0]
+  cons  cmac = croot·cbarmac
+[Mission.Aircraft._WingGP.WingSkin]
+  free  W
+  free  t
+  free  S  [Mission.Aircraft._WingGP.Planform]
+  free  croot  [Mission.Aircraft._WingGP.Planform]
+  fixed Cmw
+  fixed Jtbar
+  fixed Vne
+  fixed rhosl
+  fixed rho
+  fixed tau
+  fixed tmin
+  fixed g
+  cons  W ≥ rho·S·2·t·g
+  cons  t ≥ tmin
+  cons  tau ≥ 1/Jtbar/croot²/t·Cmw·S·rhosl·Vne²
+[Mission.Aircraft._WingGP.WingSkin.CFRPFabric]
+  fixed E
+  fixed G
+  fixed rho
+  fixed sigma
+  fixed tau
+  fixed tmin
+[Mission.Aircraft._WingGP.CapSpar]
+  free  I[:]
+  free  Sy[:]
+  free  W
+  free  dm[:]
+  free  hin[:]
+  free  t[:]
+  free  tshear[:]
+  free  w[:]
+  free  b  [Mission.Aircraft._WingGP.Planform]
+  free  cave[:]  [Mission.Aircraft._WingGP.Planform]
+  free  tau  [Mission.Aircraft._WingGP.Planform]
+  fixed E
+  fixed mfac
+  fixed wlim
+  fixed CFRPFabric.rho
+  fixed tmin
+  fixed CFRPUD.rho
+  fixed FoamHD.rho
+  fixed deta[:]  [Mission.Aircraft._WingGP.Planform]
+  fixed g
+  cons  I[0]/mfac ≤ w[0]·2·t[0]·(hin[0]/2)²
+  cons  I[1]/mfac ≤ w[1]·2·t[1]·(hin[1]/2)²
+  cons  I[2]/mfac ≤ w[2]·2·t[2]·(hin[2]/2)²
+  cons  I[3]/mfac ≤ w[3]·2·t[3]·(hin[3]/2)²
+  cons  dm[0] ≥ (CFRPUD.rho·w[0]·2·t[0] + tshear[0]·2·CFRPFabric.rho·(hin[0] + t[0]·2) + FoamHD.rho·w[0]·hin[0])·b/2·deta[0]
+  cons  dm[1] ≥ (CFRPUD.rho·w[1]·2·t[1] + tshear[1]·2·CFRPFabric.rho·(hin[1] + t[1]·2) + FoamHD.rho·w[1]·hin[1])·b/2·deta[1]
+  cons  dm[2] ≥ (CFRPUD.rho·w[2]·2·t[2] + tshear[2]·2·CFRPFabric.rho·(hin[2] + t[2]·2) + FoamHD.rho·w[2]·hin[2])·b/2·deta[2]
+  cons  dm[3] ≥ (CFRPUD.rho·w[3]·2·t[3] + tshear[3]·2·CFRPFabric.rho·(hin[3] + t[3]·2) + FoamHD.rho·w[3]·hin[3])·b/2·deta[3]
+  cons  W ≥ 2·dm[:].sum()·g
+  cons  w[0] ≤ wlim·cave[0]
+  cons  w[1] ≤ wlim·cave[1]
+  cons  w[2] ≤ wlim·cave[2]
+  cons  w[3] ≤ wlim·cave[3]
+  cons  cave[0]·tau ≥ hin[0] + t[0]·2
+  cons  cave[1]·tau ≥ hin[1] + t[1]·2
+  cons  cave[2]·tau ≥ hin[2] + t[2]·2
+  cons  cave[3]·tau ≥ hin[3] + t[3]·2
+  cons  I[0] ≥ Sy[0]·(hin[0]/2 + t[0])
+  cons  I[1] ≥ Sy[1]·(hin[1]/2 + t[1])
+  cons  I[2] ≥ Sy[2]·(hin[2]/2 + t[2])
+  cons  I[3] ≥ Sy[3]·(hin[3]/2 + t[3])
+  cons  tshear[0] ≥ tmin
+  cons  tshear[1] ≥ tmin
+  cons  tshear[2] ≥ tmin
+  cons  tshear[3] ≥ tmin
+[Mission.Aircraft._WingGP.CapSpar.CFRPUD]
+  fixed E
+  fixed rho
+  fixed sigma
+  fixed tmin
+[Mission.Aircraft._WingGP.CapSpar.CFRPFabric]
+  fixed E
+  fixed G
+  fixed rho
+  fixed sigma
+  fixed tau
+  fixed tmin
+[Mission.Aircraft._WingGP.CapSpar.FoamHD]
+  fixed rho
+[Mission.Aircraft.Battery]
+  free  E
+  free  Volbatt
+  free  W
+  fixed eta_charge
+  fixed eta_discharge
+  fixed g
+  fixed hbatt
+  fixed vbatt
+  cons  W ≥ E/hbatt·g
+  cons  Volbatt ≥ E/vbatt
+  cons  eta_charge = eta_charge
+  cons  eta_discharge = eta_discharge
+[Mission.Aircraft.Empennage]
+  free  W
+  free  HorizontalTail.W
+  free  lh
+  free  TailBoom.W
+  free  l
+  free  VerticalTail.W
+  free  lv
+  fixed mfac
+  cons  W/mfac ≥ HorizontalTail.W + VerticalTail.W + TailBoom.W
+  cons  l ≥ lh
+  cons  l ≥ lv
+[Mission.Aircraft.Empennage.HorizontalTail]
+  free  Vh
+  free  W
+  free  lh
+  free  mh
+  free  WingCore.W
+  free  WingSkin.W
+  fixed CLhmin
+  fixed mfac
+  fixed AR
+  cons  W/mfac ≥ WingSkin.W + WingCore.W
+  cons  mh·(1 + 2/AR) ≤ 6.28
+[Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  free  S
+  free  b
+  free  cave[:]
+  free  cmac
+  free  croot
+  free  tau
+  fixed AR
+  fixed CLmax
+  fixed CM
+  fixed cbar[:]
+  fixed cbarmac
+  fixed cbave[:]
+  fixed deta[:]
+  fixed eta[:]
+  fixed lam
+  cons  b² = S·AR
+  cons  cave[0] = cbave[0]·S/b
+  cons  cave[1] = cbave[1]·S/b
+  cons  croot = S/b·cbar[0]
+  cons  cmac = croot·cbarmac
+[Mission.Aircraft.Empennage.HorizontalTail.WingSkin]
+  free  W
+  free  t
+  free  S  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  free  croot  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  fixed Cmw
+  fixed Jtbar
+  fixed Vne
+  fixed rhosl
+  fixed rho
+  fixed tau
+  fixed tmin
+  fixed g
+  cons  W ≥ rho·S·2·t·g
+  cons  t ≥ tmin
+  cons  tau ≥ 1/Jtbar/croot²/t·Cmw·S·rhosl·Vne²
+[Mission.Aircraft.Empennage.HorizontalTail.WingSkin.CFRPFabric]
+  fixed E
+  fixed G
+  fixed rho
+  fixed sigma
+  fixed tau
+  fixed tmin
+[Mission.Aircraft.Empennage.HorizontalTail.WingCore]
+  free  W
+  free  b  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  free  cave[:]  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  fixed Abar
+  fixed deta[:]  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  fixed rho
+  fixed g
+  cons  W ≥ 2·(g·rho·Abar·cave[:]²·b/2·deta[:]).sum()
+[Mission.Aircraft.Empennage.HorizontalTail.WingCore.FoamHD]
+  fixed rho
+[Mission.Aircraft.Empennage.VerticalTail]
+  free  Vv
+  free  W
+  free  lv
+  free  WingCore.W
+  free  WingSkin.W
+  fixed mfac
+  cons  W/mfac ≥ WingSkin.W + WingCore.W
+[Mission.Aircraft.Empennage.VerticalTail.Planform]
+  free  S
+  free  b
+  free  cave[:]
+  free  cmac
+  free  croot
+  free  tau
+  fixed AR
+  fixed CLmax
+  fixed CM
+  fixed cbar[:]
+  fixed cbarmac
+  fixed cbave[:]
+  fixed deta[:]
+  fixed eta[:]
+  fixed lam
+  cons  b² = S·AR
+  cons  cave[0] = cbave[0]·S/b
+  cons  cave[1] = cbave[1]·S/b
+  cons  croot = S/b·cbar[0]
+  cons  cmac = croot·cbarmac
+[Mission.Aircraft.Empennage.VerticalTail.WingSkin]
+  free  W
+  free  t
+  free  S  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  free  croot  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  fixed Cmw
+  fixed Jtbar
+  fixed Vne
+  fixed rhosl
+  fixed rho
+  fixed tau
+  fixed tmin
+  fixed g
+  cons  W ≥ rho·S·2·t·g
+  cons  t ≥ tmin
+  cons  tau ≥ 1/Jtbar/croot²/t·Cmw·S·rhosl·Vne²
+[Mission.Aircraft.Empennage.VerticalTail.WingSkin.CFRPFabric]
+  fixed E
+  fixed G
+  fixed rho
+  fixed sigma
+  fixed tau
+  fixed tmin
+[Mission.Aircraft.Empennage.VerticalTail.WingCore]
+  free  W
+  free  b  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  free  cave[:]  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  fixed Abar
+  fixed deta[:]  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  fixed rho
+  fixed g
+  cons  W ≥ 2·(g·rho·Abar·cave[:]²·b/2·deta[:]).sum()
+[Mission.Aircraft.Empennage.VerticalTail.WingCore.FoamHD]
+  fixed rho
+[Mission.Aircraft.Empennage.TailBoom]
+  free  I[:]
+  free  Sy[:]
+  free  S
+  free  W
+  free  b
+  free  cave[:]
+  free  d[:]
+  free  dm[:]
+  free  l
+  free  t[:]
+  fixed deta
+  fixed k
+  fixed kfac
+  fixed mfac
+  fixed rhoA
+  fixed tau
+  fixed rho
+  fixed tmin
+  fixed g
+  cons  I[0] ≤ t[0]·3.14·d[0]³/8
+  cons  Sy[0] ≤ I[0]·2/d[0]
+  cons  dm[0] ≥ 3.14·rho·d[0]·deta·t[0]·kfac·l
+  cons  W/mfac ≥ g·dm[:].sum()
+  cons  t[0] ≥ tmin
+  cons  S = l·3.14·d[0]
+  cons  b = 2·l
+[Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
+  fixed E
+  fixed G
+  fixed rho
+  fixed sigma
+  fixed tau
+  fixed tmin
+[Mission.Aircraft.Motor]
+  free  Pmax
+  free  W
+  free  m
+  fixed Bpm
+  fixed eta
+  fixed g
+  cons  Pmax = Bpm·m
+  cons  W ≥ m·g
+[Mission.FlightSegment]
+  free  Wcent  [Mission.Aircraft]
+  free  Wwing  [Mission.Aircraft]
+  free  CL
+  free  V
+  free  Ww
+  free  GustL.W
+  free  cl
+  free  v
+  free  SparLoading.W
+  cons  SparLoading.W = Wcent
+  cons  GustL.W = Wcent
+  cons  Ww = Wwing
+  cons  v = V
+  cons  cl = CL
+[Mission.FlightSegment.FlightState]
+  free  (E/S)_C
+  free  (E/S)_{day}
+  free  (P/S)_{min}
+  free  V_{wind}
+  free  V
+  free  \rho
+  free  qne
+  fixed (E/S)_{irr}
+  fixed (E/S)_{ref}
+  fixed (P/S)_{ref}
+  fixed V_{wind-ref}
+  fixed Vne
+  fixed \mu
+  fixed \rho_{ref}
+  fixed m_{fac--fit}
+  fixed m_{fac}
+  fixed p_{wind}
+  fixed rhosl
+  fixed t_{night}
+  cons  V_{wind} ≤ V/m_{fac}
+  cons  qne = 0.5·Vne²·rhosl
+[Mission.FlightSegment.AircraftPerf]
+  free  CD
+  free  CDA
+  free  Poper
+  free  Pshaft
+  free  E  [Mission.Aircraft.Battery]
+  free  HorizontalTail.Planform.S  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  free  TailBoom.S  [Mission.Aircraft.Empennage.TailBoom]
+  free  VerticalTail.Planform.S  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  free  Pmax  [Mission.Aircraft.Motor]
+  free  SolarCells.S  [Mission.Aircraft.SolarCells]
+  free  _WingGP.Planform.S  [Mission.Aircraft._WingGP.Planform]
+  free  TailAero.Cd
+  free  TailAero1.Cd
+  free  Cf
+  free  WingAero.Cd
+  free  (E/S)_C  [Mission.FlightSegment.FlightState]
+  free  (E/S)_{day}  [Mission.FlightSegment.FlightState]
+  free  (P/S)_{min}  [Mission.FlightSegment.FlightState]
+  fixed Pavn
+  fixed m_{fac}
+  fixed eta_charge  [Mission.Aircraft.Battery]
+  fixed eta_discharge  [Mission.Aircraft.Battery]
+  fixed Motor.eta  [Mission.Aircraft.Motor]
+  fixed SolarCells.eta  [Mission.Aircraft.SolarCells]
+  fixed (E/S)_{irr}  [Mission.FlightSegment.FlightState]
+  fixed t_{night}  [Mission.FlightSegment.FlightState]
+  cons  (E/S)_{irr} ≥ (E/S)_{day} + E/eta_charge/SolarCells.eta/SolarCells.S
+  cons  E·eta_discharge ≥ Poper·t_{night} + (E/S)_C·SolarCells.eta·SolarCells.S
+  cons  Poper ≥ Pavn + Pshaft/Motor.eta
+  cons  Poper = (P/S)_{min}·SolarCells.S·SolarCells.eta
+  cons  CDA/m_{fac} ≥ TailAero.Cd·HorizontalTail.Planform.S/_WingGP.Planform.S + TailAero1.Cd·VerticalTail.Planform.S/_WingGP.Planform.S + Cf·TailBoom.S/_WingGP.Planform.S
+  cons  CD ≥ CDA + WingAero.Cd
+  cons  Poper ≤ Pmax
+[Mission.FlightSegment.AircraftPerf.WingAero]
+  free  CL
+  free  Cd
+  free  Re
+  free  cdp
+  free  AR  [Mission.Aircraft._WingGP.Planform]
+  free  cmac  [Mission.Aircraft._WingGP.Planform]
+  free  V  [Mission.FlightSegment.FlightState]
+  free  \rho  [Mission.FlightSegment.FlightState]
+  fixed CLstall
+  fixed e
+  fixed m_{fac-polar-fit}
+  fixed \mu  [Mission.FlightSegment.FlightState]
+  cons  Cd ≥ cdp + CL²/3.14/AR/e
+  cons  Re = \rho·V·cmac/\mu
+  cons  CL ≤ CLstall
+[Mission.FlightSegment.AircraftPerf.TailAero]
+  free  Cd
+  free  Re
+  free  S  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  free  b  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  free  V  [Mission.FlightSegment.FlightState]
+  free  \rho  [Mission.FlightSegment.FlightState]
+  fixed m_{fac--fit}
+  fixed \mu  [Mission.FlightSegment.FlightState]
+  cons  Re = V·\rho·S/b/\mu
+[Mission.FlightSegment.AircraftPerf.TailAero1]
+  free  Cd
+  free  Re
+  free  S  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  free  b  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  free  V  [Mission.FlightSegment.FlightState]
+  free  \rho  [Mission.FlightSegment.FlightState]
+  fixed m_{fac--fit}
+  fixed \mu  [Mission.FlightSegment.FlightState]
+  cons  Re = V·\rho·S/b/\mu
+[Mission.FlightSegment.AircraftPerf.TailBoomAero]
+  free  Cf
+  free  Re
+  free  l  [Mission.Aircraft.Empennage.TailBoom]
+  free  V  [Mission.FlightSegment.FlightState]
+  free  \rho  [Mission.FlightSegment.FlightState]
+  fixed \mu  [Mission.FlightSegment.FlightState]
+  cons  Re = V·\rho·l/\mu
+  cons  Cf ≥ 0.455/Re^0.3
+[Mission.FlightSegment.SteadyLevelFlight]
+  free  T
+  free  Wtotal  [Mission.Aircraft]
+  free  S  [Mission.Aircraft._WingGP.Planform]
+  free  CD  [Mission.FlightSegment.AircraftPerf]
+  free  Pshaft  [Mission.FlightSegment.AircraftPerf]
+  free  CL  [Mission.FlightSegment.AircraftPerf.WingAero]
+  free  V  [Mission.FlightSegment.FlightState]
+  free  \rho  [Mission.FlightSegment.FlightState]
+  fixed \eta_{prop}
+  cons  Wtotal ≤ 0.5·\rho·V²·CL·S
+  cons  T ≥ 0.5·\rho·V²·CD·S
+  cons  Pshaft ≥ T·V/\eta_{prop}
+[Mission.FlightSegment.SparLoading]
+  free  EIbar[:]
+  free  M[:]
+  free  Mtw[:]
+  free  N
+  free  S[:]
+  free  Sout[:]
+  free  W
+  free  q[:]
+  free  th[:]
+  free  theta[:]
+  free  w[:]
+  free  I[:]  [Mission.Aircraft._WingGP.CapSpar]
+  free  Sy[:]  [Mission.Aircraft._WingGP.CapSpar]
+  free  b  [Mission.Aircraft._WingGP.Planform]
+  fixed Mtip
+  fixed Nmax
+  fixed Nsafety
+  fixed Stip
+  fixed kappa
+  fixed throot
+  fixed twmax
+  fixed wroot
+  fixed E  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
+  fixed sigma  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
+  fixed cbar[:]  [Mission.Aircraft._WingGP.Planform]
+  fixed deta[:]  [Mission.Aircraft._WingGP.Planform]
+  cons  S[0] ≥ S[1] + deta[0]·0.5·b/2·(q[0] + q[1])
+  cons  S[1] ≥ S[2] + deta[1]·0.5·b/2·(q[1] + q[2])
+  cons  S[2] ≥ S[3] + deta[2]·0.5·b/2·(q[2] + q[3])
+  cons  S[3] ≥ S[4] + deta[3]·0.5·b/2·(q[3] + q[4])
+  cons  M[0] ≥ M[1] + deta[0]·0.5·b/2·(S[0] + S[1])
+  cons  M[1] ≥ M[2] + deta[1]·0.5·b/2·(S[1] + S[2])
+  cons  M[2] ≥ M[3] + deta[2]·0.5·b/2·(S[2] + S[3])
+  cons  M[3] ≥ M[4] + deta[3]·0.5·b/2·(S[3] + S[4])
+  cons  N = Nsafety·Nmax
+  cons  q[0] ≥ N·W/b·cbar[0]
+  cons  q[1] ≥ N·W/b·cbar[1]
+  cons  q[2] ≥ N·W/b·cbar[2]
+  cons  q[3] ≥ N·W/b·cbar[3]
+  cons  q[4] ≥ N·W/b·cbar[4]
+  cons  S[4] ≥ Stip
+  cons  M[4] ≥ Mtip
+  cons  th[0] ≥ throot
+  cons  th[1] ≥ th[0] + deta[0]·0.5·b/2·(M[1] + M[0])/E/I[0]
+  cons  th[2] ≥ th[1] + deta[1]·0.5·b/2·(M[2] + M[1])/E/I[1]
+  cons  th[3] ≥ th[2] + deta[2]·0.5·b/2·(M[3] + M[2])/E/I[2]
+  cons  th[4] ≥ th[3] + deta[3]·0.5·b/2·(M[4] + M[3])/E/I[3]
+  cons  w[0] ≥ wroot
+  cons  w[1] ≥ w[0] + deta[0]·0.5·b/2·(th[1] + th[0])
+  cons  w[2] ≥ w[1] + deta[1]·0.5·b/2·(th[2] + th[1])
+  cons  w[3] ≥ w[2] + deta[2]·0.5·b/2·(th[3] + th[2])
+  cons  w[4] ≥ w[3] + deta[3]·0.5·b/2·(th[4] + th[3])
+  cons  sigma ≥ M[0]/Sy[0]
+  cons  sigma ≥ M[1]/Sy[1]
+  cons  sigma ≥ M[2]/Sy[2]
+  cons  sigma ≥ M[3]/Sy[3]
+  cons  kappa ≥ w[4]/(b/2)
+[Mission.FlightSegment.GustL]
+  free  EIbar[:]
+  free  M[:]
+  free  Mtw[:]
+  free  N
+  free  S[:]
+  free  Sout[:]
+  free  Ww
+  free  W
+  free  agust[:]
+  free  cl
+  free  q[:]
+  free  th[:]
+  free  theta[:]
+  free  v
+  free  w[:]
+  free  I[:]  [Mission.Aircraft._WingGP.CapSpar]
+  free  Sy[:]  [Mission.Aircraft._WingGP.CapSpar]
+  free  b  [Mission.Aircraft._WingGP.Planform]
+  fixed Mtip
+  fixed Nmax
+  fixed Nsafety
+  fixed Stip
+  fixed cosminus1[:]
+  fixed kappa
+  fixed m_{fac--fit}
+  fixed throot
+  fixed twmax
+  fixed vgust
+  fixed wroot
+  fixed E  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
+  fixed sigma  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
+  fixed cbar[:]  [Mission.Aircraft._WingGP.Planform]
+  fixed deta[:]  [Mission.Aircraft._WingGP.Planform]
+  cons  S[0] ≥ S[1] + deta[0]·0.5·b/2·(q[0] + q[1])
+  cons  S[1] ≥ S[2] + deta[1]·0.5·b/2·(q[1] + q[2])
+  cons  S[2] ≥ S[3] + deta[2]·0.5·b/2·(q[2] + q[3])
+  cons  S[3] ≥ S[4] + deta[3]·0.5·b/2·(q[3] + q[4])
+  cons  M[0] ≥ M[1] + deta[0]·0.5·b/2·(S[0] + S[1])
+  cons  M[1] ≥ M[2] + deta[1]·0.5·b/2·(S[1] + S[2])
+  cons  M[2] ≥ M[3] + deta[2]·0.5·b/2·(S[2] + S[3])
+  cons  M[3] ≥ M[4] + deta[3]·0.5·b/2·(S[3] + S[4])
+  cons  N = Nsafety·Nmax
+  cons  q[0] ≥ N·W/b·cbar[0]
+  cons  q[1] ≥ N·W/b·cbar[1]
+  cons  q[2] ≥ N·W/b·cbar[2]
+  cons  q[3] ≥ N·W/b·cbar[3]
+  cons  q[4] ≥ N·W/b·cbar[4]
+  cons  S[4] ≥ Stip
+  cons  M[4] ≥ Mtip
+  cons  th[0] ≥ throot
+  cons  th[1] ≥ th[0] + deta[0]·0.5·b/2·(M[1] + M[0])/E/I[0]
+  cons  th[2] ≥ th[1] + deta[1]·0.5·b/2·(M[2] + M[1])/E/I[1]
+  cons  th[3] ≥ th[2] + deta[2]·0.5·b/2·(M[3] + M[2])/E/I[2]
+  cons  th[4] ≥ th[3] + deta[3]·0.5·b/2·(M[4] + M[3])/E/I[3]
+  cons  w[0] ≥ wroot
+  cons  w[1] ≥ w[0] + deta[0]·0.5·b/2·(th[1] + th[0])
+  cons  w[2] ≥ w[1] + deta[1]·0.5·b/2·(th[2] + th[1])
+  cons  w[3] ≥ w[2] + deta[2]·0.5·b/2·(th[3] + th[2])
+  cons  w[4] ≥ w[3] + deta[3]·0.5·b/2·(th[4] + th[3])
+  cons  sigma ≥ M[0]/Sy[0]
+  cons  sigma ≥ M[1]/Sy[1]
+  cons  sigma ≥ M[2]/Sy[2]
+  cons  sigma ≥ M[3]/Sy[3]
+  cons  kappa ≥ w[4]/(b/2)
+  cons  q[0] ≥ W·N/b·cbar[0]·(agust[0]·6.28/cl·(1 + Ww/W) + 1)
+  cons  q[1] ≥ W·N/b·cbar[1]·(agust[1]·6.28/cl·(1 + Ww/W) + 1)
+  cons  q[2] ≥ W·N/b·cbar[2]·(agust[2]·6.28/cl·(1 + Ww/W) + 1)
+  cons  q[3] ≥ W·N/b·cbar[3]·(agust[3]·6.28/cl·(1 + Ww/W) + 1)
+  cons  q[4] ≥ W·N/b·cbar[4]·(agust[4]·6.28/cl·(1 + Ww/W) + 1)
+[Mission.FlightSegment.TailBoomBending]
+  free  F
+  free  Mr[:]
+  free  th
+  free  S  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  free  I[:]  [Mission.Aircraft.Empennage.TailBoom]
+  free  Sy[:]  [Mission.Aircraft.Empennage.TailBoom]
+  free  l  [Mission.Aircraft.Empennage.TailBoom]
+  free  qne  [Mission.FlightSegment.FlightState]
+  free  \bar{EI}[:]
+  free  \bar{M}[:]
+  free  \bar{\delta}[:]
+  free  \theta[:]
+  free  dx[:]
+  fixed Nsafety
+  fixed kappa
+  fixed CLmax  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  fixed E  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
+  fixed sigma  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
+  fixed deta  [Mission.Aircraft.Empennage.TailBoom]
+  cons  dx[0] = deta
+  cons  F ≥ qne·S
+  cons  \bar{EI}[0] ≤ E·I[0]/F/l²/2
+  cons  Mr[0] ≥ \bar{M}[0]·F·l
+  cons  sigma ≥ Mr[0]/Sy[0]
+  cons  th = \theta[1]
+  cons  kappa ≥ \bar{\delta}[1]·CLmax·Nsafety
+[Mission.FlightSegment.TailBoomBending.Beam]
+  free  \bar{EI}[:]
+  free  \bar{M}[:]
+  free  \bar{\delta}[:]
+  free  \theta[:]
+  free  dx[:]
+  fixed \bar{M}_{tip}
+  fixed \bar{S}[:]
+  fixed \bar{\delta}_{root}
+  fixed \theta_{root}
+  cons  \bar{M}[0] ≥ \bar{M}[1] + dx[0]·0.5·(\bar{S}[0] + \bar{S}[1])
+  cons  \bar{M}[1] ≥ \bar{M}_{tip}
+  cons  \theta[0] ≥ \theta_{root}
+  cons  \theta[1] ≥ \theta[0] + dx[0]·0.5·(\bar{M}[1] + \bar{M}[0])/\bar{EI}[0]
+  cons  \bar{\delta}[0] ≥ \bar{\delta}_{root}
+  cons  \bar{\delta}[1] ≥ \bar{\delta}[0] + dx[0]·0.5·(\theta[1] + \theta[0])
+[Mission.FlightSegment.TailBoomBending1]
+  free  F
+  free  Mr[:]
+  free  th
+  free  I[:]  [Mission.Aircraft.Empennage.TailBoom]
+  free  Sy[:]  [Mission.Aircraft.Empennage.TailBoom]
+  free  l  [Mission.Aircraft.Empennage.TailBoom]
+  free  S  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  free  qne  [Mission.FlightSegment.FlightState]
+  free  \bar{EI}[:]
+  free  \bar{M}[:]
+  free  \bar{\delta}[:]
+  free  \theta[:]
+  free  dx[:]
+  fixed Nsafety
+  fixed kappa
+  fixed E  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
+  fixed sigma  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
+  fixed deta  [Mission.Aircraft.Empennage.TailBoom]
+  fixed CLmax  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  cons  dx[0] = deta
+  cons  F ≥ qne·S
+  cons  \bar{EI}[0] ≤ E·I[0]/F/l²/2
+  cons  Mr[0] ≥ \bar{M}[0]·F·l
+  cons  sigma ≥ Mr[0]/Sy[0]
+  cons  th = \theta[1]
+  cons  kappa ≥ \bar{\delta}[1]·CLmax·Nsafety
+[Mission.FlightSegment.TailBoomBending1.Beam]
+  free  \bar{EI}[:]
+  free  \bar{M}[:]
+  free  \bar{\delta}[:]
+  free  \theta[:]
+  free  dx[:]
+  fixed \bar{M}_{tip}
+  fixed \bar{S}[:]
+  fixed \bar{\delta}_{root}
+  fixed \theta_{root}
+  cons  \bar{M}[0] ≥ \bar{M}[1] + dx[0]·0.5·(\bar{S}[0] + \bar{S}[1])
+  cons  \bar{M}[1] ≥ \bar{M}_{tip}
+  cons  \theta[0] ≥ \theta_{root}
+  cons  \theta[1] ≥ \theta[0] + dx[0]·0.5·(\bar{M}[1] + \bar{M}[0])/\bar{EI}[0]
+  cons  \bar{\delta}[0] ≥ \bar{\delta}_{root}
+  cons  \bar{\delta}[1] ≥ \bar{\delta}[0] + dx[0]·0.5·(\theta[1] + \theta[0])
+[Mission.FlightSegment1]
+  free  Wcent  [Mission.Aircraft]
+  free  Wwing  [Mission.Aircraft]
+  free  CL
+  free  V
+  free  Ww
+  free  GustL.W
+  free  cl
+  free  v
+  free  SparLoading.W
+  cons  SparLoading.W = Wcent
+  cons  GustL.W = Wcent
+  cons  Ww = Wwing
+  cons  v = V
+  cons  cl = CL
+[Mission.FlightSegment1.FlightState]
+  free  (E/S)_C
+  free  (E/S)_{day}
+  free  (P/S)_{min}
+  free  V_{wind}
+  free  V
+  free  \rho
+  free  qne
+  fixed (E/S)_{irr}
+  fixed (E/S)_{ref}
+  fixed (P/S)_{ref}
+  fixed V_{wind-ref}
+  fixed Vne
+  fixed \mu
+  fixed \rho_{ref}
+  fixed m_{fac--fit}
+  fixed m_{fac}
+  fixed p_{wind}
+  fixed rhosl
+  fixed t_{night}
+  cons  V_{wind} ≤ V/m_{fac}
+  cons  qne = 0.5·Vne²·rhosl
+[Mission.FlightSegment1.AircraftPerf]
+  free  CD
+  free  CDA
+  free  Poper
+  free  Pshaft
+  free  E  [Mission.Aircraft.Battery]
+  free  HorizontalTail.Planform.S  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  free  TailBoom.S  [Mission.Aircraft.Empennage.TailBoom]
+  free  VerticalTail.Planform.S  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  free  Pmax  [Mission.Aircraft.Motor]
+  free  SolarCells.S  [Mission.Aircraft.SolarCells]
+  free  _WingGP.Planform.S  [Mission.Aircraft._WingGP.Planform]
+  free  TailAero.Cd
+  free  TailAero1.Cd
+  free  Cf
+  free  WingAero.Cd
+  free  (E/S)_C  [Mission.FlightSegment1.FlightState]
+  free  (E/S)_{day}  [Mission.FlightSegment1.FlightState]
+  free  (P/S)_{min}  [Mission.FlightSegment1.FlightState]
+  fixed Pavn
+  fixed m_{fac}
+  fixed eta_charge  [Mission.Aircraft.Battery]
+  fixed eta_discharge  [Mission.Aircraft.Battery]
+  fixed Motor.eta  [Mission.Aircraft.Motor]
+  fixed SolarCells.eta  [Mission.Aircraft.SolarCells]
+  fixed (E/S)_{irr}  [Mission.FlightSegment1.FlightState]
+  fixed t_{night}  [Mission.FlightSegment1.FlightState]
+  cons  (E/S)_{irr} ≥ (E/S)_{day} + E/eta_charge/SolarCells.eta/SolarCells.S
+  cons  E·eta_discharge ≥ Poper·t_{night} + (E/S)_C·SolarCells.eta·SolarCells.S
+  cons  Poper ≥ Pavn + Pshaft/Motor.eta
+  cons  Poper = (P/S)_{min}·SolarCells.S·SolarCells.eta
+  cons  CDA/m_{fac} ≥ TailAero.Cd·HorizontalTail.Planform.S/_WingGP.Planform.S + TailAero1.Cd·VerticalTail.Planform.S/_WingGP.Planform.S + Cf·TailBoom.S/_WingGP.Planform.S
+  cons  CD ≥ CDA + WingAero.Cd
+  cons  Poper ≤ Pmax
+[Mission.FlightSegment1.AircraftPerf.WingAero]
+  free  CL
+  free  Cd
+  free  Re
+  free  cdp
+  free  AR  [Mission.Aircraft._WingGP.Planform]
+  free  cmac  [Mission.Aircraft._WingGP.Planform]
+  free  V  [Mission.FlightSegment1.FlightState]
+  free  \rho  [Mission.FlightSegment1.FlightState]
+  fixed CLstall
+  fixed e
+  fixed m_{fac-polar-fit}
+  fixed \mu  [Mission.FlightSegment1.FlightState]
+  cons  Cd ≥ cdp + CL²/3.14/AR/e
+  cons  Re = \rho·V·cmac/\mu
+  cons  CL ≤ CLstall
+[Mission.FlightSegment1.AircraftPerf.TailAero]
+  free  Cd
+  free  Re
+  free  S  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  free  b  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  free  V  [Mission.FlightSegment1.FlightState]
+  free  \rho  [Mission.FlightSegment1.FlightState]
+  fixed m_{fac--fit}
+  fixed \mu  [Mission.FlightSegment1.FlightState]
+  cons  Re = V·\rho·S/b/\mu
+[Mission.FlightSegment1.AircraftPerf.TailAero1]
+  free  Cd
+  free  Re
+  free  S  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  free  b  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  free  V  [Mission.FlightSegment1.FlightState]
+  free  \rho  [Mission.FlightSegment1.FlightState]
+  fixed m_{fac--fit}
+  fixed \mu  [Mission.FlightSegment1.FlightState]
+  cons  Re = V·\rho·S/b/\mu
+[Mission.FlightSegment1.AircraftPerf.TailBoomAero]
+  free  Cf
+  free  Re
+  free  l  [Mission.Aircraft.Empennage.TailBoom]
+  free  V  [Mission.FlightSegment1.FlightState]
+  free  \rho  [Mission.FlightSegment1.FlightState]
+  fixed \mu  [Mission.FlightSegment1.FlightState]
+  cons  Re = V·\rho·l/\mu
+  cons  Cf ≥ 0.455/Re^0.3
+[Mission.FlightSegment1.SteadyLevelFlight]
+  free  T
+  free  Wtotal  [Mission.Aircraft]
+  free  S  [Mission.Aircraft._WingGP.Planform]
+  free  CD  [Mission.FlightSegment1.AircraftPerf]
+  free  Pshaft  [Mission.FlightSegment1.AircraftPerf]
+  free  CL  [Mission.FlightSegment1.AircraftPerf.WingAero]
+  free  V  [Mission.FlightSegment1.FlightState]
+  free  \rho  [Mission.FlightSegment1.FlightState]
+  fixed \eta_{prop}
+  cons  Wtotal ≤ 0.5·\rho·V²·CL·S
+  cons  T ≥ 0.5·\rho·V²·CD·S
+  cons  Pshaft ≥ T·V/\eta_{prop}
+[Mission.FlightSegment1.SparLoading]
+  free  EIbar[:]
+  free  M[:]
+  free  Mtw[:]
+  free  N
+  free  S[:]
+  free  Sout[:]
+  free  W
+  free  q[:]
+  free  th[:]
+  free  theta[:]
+  free  w[:]
+  free  I[:]  [Mission.Aircraft._WingGP.CapSpar]
+  free  Sy[:]  [Mission.Aircraft._WingGP.CapSpar]
+  free  b  [Mission.Aircraft._WingGP.Planform]
+  fixed Mtip
+  fixed Nmax
+  fixed Nsafety
+  fixed Stip
+  fixed kappa
+  fixed throot
+  fixed twmax
+  fixed wroot
+  fixed E  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
+  fixed sigma  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
+  fixed cbar[:]  [Mission.Aircraft._WingGP.Planform]
+  fixed deta[:]  [Mission.Aircraft._WingGP.Planform]
+  cons  S[0] ≥ S[1] + deta[0]·0.5·b/2·(q[0] + q[1])
+  cons  S[1] ≥ S[2] + deta[1]·0.5·b/2·(q[1] + q[2])
+  cons  S[2] ≥ S[3] + deta[2]·0.5·b/2·(q[2] + q[3])
+  cons  S[3] ≥ S[4] + deta[3]·0.5·b/2·(q[3] + q[4])
+  cons  M[0] ≥ M[1] + deta[0]·0.5·b/2·(S[0] + S[1])
+  cons  M[1] ≥ M[2] + deta[1]·0.5·b/2·(S[1] + S[2])
+  cons  M[2] ≥ M[3] + deta[2]·0.5·b/2·(S[2] + S[3])
+  cons  M[3] ≥ M[4] + deta[3]·0.5·b/2·(S[3] + S[4])
+  cons  N = Nsafety·Nmax
+  cons  q[0] ≥ N·W/b·cbar[0]
+  cons  q[1] ≥ N·W/b·cbar[1]
+  cons  q[2] ≥ N·W/b·cbar[2]
+  cons  q[3] ≥ N·W/b·cbar[3]
+  cons  q[4] ≥ N·W/b·cbar[4]
+  cons  S[4] ≥ Stip
+  cons  M[4] ≥ Mtip
+  cons  th[0] ≥ throot
+  cons  th[1] ≥ th[0] + deta[0]·0.5·b/2·(M[1] + M[0])/E/I[0]
+  cons  th[2] ≥ th[1] + deta[1]·0.5·b/2·(M[2] + M[1])/E/I[1]
+  cons  th[3] ≥ th[2] + deta[2]·0.5·b/2·(M[3] + M[2])/E/I[2]
+  cons  th[4] ≥ th[3] + deta[3]·0.5·b/2·(M[4] + M[3])/E/I[3]
+  cons  w[0] ≥ wroot
+  cons  w[1] ≥ w[0] + deta[0]·0.5·b/2·(th[1] + th[0])
+  cons  w[2] ≥ w[1] + deta[1]·0.5·b/2·(th[2] + th[1])
+  cons  w[3] ≥ w[2] + deta[2]·0.5·b/2·(th[3] + th[2])
+  cons  w[4] ≥ w[3] + deta[3]·0.5·b/2·(th[4] + th[3])
+  cons  sigma ≥ M[0]/Sy[0]
+  cons  sigma ≥ M[1]/Sy[1]
+  cons  sigma ≥ M[2]/Sy[2]
+  cons  sigma ≥ M[3]/Sy[3]
+  cons  kappa ≥ w[4]/(b/2)
+[Mission.FlightSegment1.GustL]
+  free  EIbar[:]
+  free  M[:]
+  free  Mtw[:]
+  free  N
+  free  S[:]
+  free  Sout[:]
+  free  Ww
+  free  W
+  free  agust[:]
+  free  cl
+  free  q[:]
+  free  th[:]
+  free  theta[:]
+  free  v
+  free  w[:]
+  free  I[:]  [Mission.Aircraft._WingGP.CapSpar]
+  free  Sy[:]  [Mission.Aircraft._WingGP.CapSpar]
+  free  b  [Mission.Aircraft._WingGP.Planform]
+  fixed Mtip
+  fixed Nmax
+  fixed Nsafety
+  fixed Stip
+  fixed cosminus1[:]
+  fixed kappa
+  fixed m_{fac--fit}
+  fixed throot
+  fixed twmax
+  fixed vgust
+  fixed wroot
+  fixed E  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
+  fixed sigma  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
+  fixed cbar[:]  [Mission.Aircraft._WingGP.Planform]
+  fixed deta[:]  [Mission.Aircraft._WingGP.Planform]
+  cons  S[0] ≥ S[1] + deta[0]·0.5·b/2·(q[0] + q[1])
+  cons  S[1] ≥ S[2] + deta[1]·0.5·b/2·(q[1] + q[2])
+  cons  S[2] ≥ S[3] + deta[2]·0.5·b/2·(q[2] + q[3])
+  cons  S[3] ≥ S[4] + deta[3]·0.5·b/2·(q[3] + q[4])
+  cons  M[0] ≥ M[1] + deta[0]·0.5·b/2·(S[0] + S[1])
+  cons  M[1] ≥ M[2] + deta[1]·0.5·b/2·(S[1] + S[2])
+  cons  M[2] ≥ M[3] + deta[2]·0.5·b/2·(S[2] + S[3])
+  cons  M[3] ≥ M[4] + deta[3]·0.5·b/2·(S[3] + S[4])
+  cons  N = Nsafety·Nmax
+  cons  q[0] ≥ N·W/b·cbar[0]
+  cons  q[1] ≥ N·W/b·cbar[1]
+  cons  q[2] ≥ N·W/b·cbar[2]
+  cons  q[3] ≥ N·W/b·cbar[3]
+  cons  q[4] ≥ N·W/b·cbar[4]
+  cons  S[4] ≥ Stip
+  cons  M[4] ≥ Mtip
+  cons  th[0] ≥ throot
+  cons  th[1] ≥ th[0] + deta[0]·0.5·b/2·(M[1] + M[0])/E/I[0]
+  cons  th[2] ≥ th[1] + deta[1]·0.5·b/2·(M[2] + M[1])/E/I[1]
+  cons  th[3] ≥ th[2] + deta[2]·0.5·b/2·(M[3] + M[2])/E/I[2]
+  cons  th[4] ≥ th[3] + deta[3]·0.5·b/2·(M[4] + M[3])/E/I[3]
+  cons  w[0] ≥ wroot
+  cons  w[1] ≥ w[0] + deta[0]·0.5·b/2·(th[1] + th[0])
+  cons  w[2] ≥ w[1] + deta[1]·0.5·b/2·(th[2] + th[1])
+  cons  w[3] ≥ w[2] + deta[2]·0.5·b/2·(th[3] + th[2])
+  cons  w[4] ≥ w[3] + deta[3]·0.5·b/2·(th[4] + th[3])
+  cons  sigma ≥ M[0]/Sy[0]
+  cons  sigma ≥ M[1]/Sy[1]
+  cons  sigma ≥ M[2]/Sy[2]
+  cons  sigma ≥ M[3]/Sy[3]
+  cons  kappa ≥ w[4]/(b/2)
+  cons  q[0] ≥ W·N/b·cbar[0]·(agust[0]·6.28/cl·(1 + Ww/W) + 1)
+  cons  q[1] ≥ W·N/b·cbar[1]·(agust[1]·6.28/cl·(1 + Ww/W) + 1)
+  cons  q[2] ≥ W·N/b·cbar[2]·(agust[2]·6.28/cl·(1 + Ww/W) + 1)
+  cons  q[3] ≥ W·N/b·cbar[3]·(agust[3]·6.28/cl·(1 + Ww/W) + 1)
+  cons  q[4] ≥ W·N/b·cbar[4]·(agust[4]·6.28/cl·(1 + Ww/W) + 1)
+[Mission.FlightSegment1.TailBoomBending]
+  free  F
+  free  Mr[:]
+  free  th
+  free  S  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  free  I[:]  [Mission.Aircraft.Empennage.TailBoom]
+  free  Sy[:]  [Mission.Aircraft.Empennage.TailBoom]
+  free  l  [Mission.Aircraft.Empennage.TailBoom]
+  free  qne  [Mission.FlightSegment1.FlightState]
+  free  \bar{EI}[:]
+  free  \bar{M}[:]
+  free  \bar{\delta}[:]
+  free  \theta[:]
+  free  dx[:]
+  fixed Nsafety
+  fixed kappa
+  fixed CLmax  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  fixed E  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
+  fixed sigma  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
+  fixed deta  [Mission.Aircraft.Empennage.TailBoom]
+  cons  dx[0] = deta
+  cons  F ≥ qne·S
+  cons  \bar{EI}[0] ≤ E·I[0]/F/l²/2
+  cons  Mr[0] ≥ \bar{M}[0]·F·l
+  cons  sigma ≥ Mr[0]/Sy[0]
+  cons  th = \theta[1]
+  cons  kappa ≥ \bar{\delta}[1]·CLmax·Nsafety
+[Mission.FlightSegment1.TailBoomBending.Beam]
+  free  \bar{EI}[:]
+  free  \bar{M}[:]
+  free  \bar{\delta}[:]
+  free  \theta[:]
+  free  dx[:]
+  fixed \bar{M}_{tip}
+  fixed \bar{S}[:]
+  fixed \bar{\delta}_{root}
+  fixed \theta_{root}
+  cons  \bar{M}[0] ≥ \bar{M}[1] + dx[0]·0.5·(\bar{S}[0] + \bar{S}[1])
+  cons  \bar{M}[1] ≥ \bar{M}_{tip}
+  cons  \theta[0] ≥ \theta_{root}
+  cons  \theta[1] ≥ \theta[0] + dx[0]·0.5·(\bar{M}[1] + \bar{M}[0])/\bar{EI}[0]
+  cons  \bar{\delta}[0] ≥ \bar{\delta}_{root}
+  cons  \bar{\delta}[1] ≥ \bar{\delta}[0] + dx[0]·0.5·(\theta[1] + \theta[0])
+[Mission.FlightSegment1.TailBoomBending1]
+  free  F
+  free  Mr[:]
+  free  th
+  free  I[:]  [Mission.Aircraft.Empennage.TailBoom]
+  free  Sy[:]  [Mission.Aircraft.Empennage.TailBoom]
+  free  l  [Mission.Aircraft.Empennage.TailBoom]
+  free  S  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  free  qne  [Mission.FlightSegment1.FlightState]
+  free  \bar{EI}[:]
+  free  \bar{M}[:]
+  free  \bar{\delta}[:]
+  free  \theta[:]
+  free  dx[:]
+  fixed Nsafety
+  fixed kappa
+  fixed E  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
+  fixed sigma  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
+  fixed deta  [Mission.Aircraft.Empennage.TailBoom]
+  fixed CLmax  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  cons  dx[0] = deta
+  cons  F ≥ qne·S
+  cons  \bar{EI}[0] ≤ E·I[0]/F/l²/2
+  cons  Mr[0] ≥ \bar{M}[0]·F·l
+  cons  sigma ≥ Mr[0]/Sy[0]
+  cons  th = \theta[1]
+  cons  kappa ≥ \bar{\delta}[1]·CLmax·Nsafety
+[Mission.FlightSegment1.TailBoomBending1.Beam]
+  free  \bar{EI}[:]
+  free  \bar{M}[:]
+  free  \bar{\delta}[:]
+  free  \theta[:]
+  free  dx[:]
+  fixed \bar{M}_{tip}
+  fixed \bar{S}[:]
+  fixed \bar{\delta}_{root}
+  fixed \theta_{root}
+  cons  \bar{M}[0] ≥ \bar{M}[1] + dx[0]·0.5·(\bar{S}[0] + \bar{S}[1])
+  cons  \bar{M}[1] ≥ \bar{M}_{tip}
+  cons  \theta[0] ≥ \theta_{root}
+  cons  \theta[1] ≥ \theta[0] + dx[0]·0.5·(\bar{M}[1] + \bar{M}[0])/\bar{EI}[0]
+  cons  \bar{\delta}[0] ≥ \bar{\delta}_{root}
+  cons  \bar{\delta}[1] ≥ \bar{\delta}[0] + dx[0]·0.5·(\theta[1] + \theta[0])
+[Mission.FlightSegment2]
+  free  Wcent  [Mission.Aircraft]
+  free  Wwing  [Mission.Aircraft]
+  free  CL
+  free  V
+  free  Ww
+  free  GustL.W
+  free  cl
+  free  v
+  free  SparLoading.W
+  cons  SparLoading.W = Wcent
+  cons  GustL.W = Wcent
+  cons  Ww = Wwing
+  cons  v = V
+  cons  cl = CL
+[Mission.FlightSegment2.FlightState]
+  free  (E/S)_C
+  free  (E/S)_{day}
+  free  (P/S)_{min}
+  free  V_{wind}
+  free  V
+  free  \rho
+  free  qne
+  fixed (E/S)_{irr}
+  fixed (E/S)_{ref}
+  fixed (P/S)_{ref}
+  fixed V_{wind-ref}
+  fixed Vne
+  fixed \mu
+  fixed \rho_{ref}
+  fixed m_{fac--fit}
+  fixed m_{fac}
+  fixed p_{wind}
+  fixed rhosl
+  fixed t_{night}
+  cons  V_{wind} ≤ V/m_{fac}
+  cons  qne = 0.5·Vne²·rhosl
+[Mission.FlightSegment2.AircraftPerf]
+  free  CD
+  free  CDA
+  free  Poper
+  free  Pshaft
+  free  E  [Mission.Aircraft.Battery]
+  free  HorizontalTail.Planform.S  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  free  TailBoom.S  [Mission.Aircraft.Empennage.TailBoom]
+  free  VerticalTail.Planform.S  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  free  Pmax  [Mission.Aircraft.Motor]
+  free  SolarCells.S  [Mission.Aircraft.SolarCells]
+  free  _WingGP.Planform.S  [Mission.Aircraft._WingGP.Planform]
+  free  TailAero.Cd
+  free  TailAero1.Cd
+  free  Cf
+  free  WingAero.Cd
+  free  (E/S)_C  [Mission.FlightSegment2.FlightState]
+  free  (E/S)_{day}  [Mission.FlightSegment2.FlightState]
+  free  (P/S)_{min}  [Mission.FlightSegment2.FlightState]
+  fixed Pavn
+  fixed m_{fac}
+  fixed eta_charge  [Mission.Aircraft.Battery]
+  fixed eta_discharge  [Mission.Aircraft.Battery]
+  fixed Motor.eta  [Mission.Aircraft.Motor]
+  fixed SolarCells.eta  [Mission.Aircraft.SolarCells]
+  fixed (E/S)_{irr}  [Mission.FlightSegment2.FlightState]
+  fixed t_{night}  [Mission.FlightSegment2.FlightState]
+  cons  (E/S)_{irr} ≥ (E/S)_{day} + E/eta_charge/SolarCells.eta/SolarCells.S
+  cons  E·eta_discharge ≥ Poper·t_{night} + (E/S)_C·SolarCells.eta·SolarCells.S
+  cons  Poper ≥ Pavn + Pshaft/Motor.eta
+  cons  Poper = (P/S)_{min}·SolarCells.S·SolarCells.eta
+  cons  CDA/m_{fac} ≥ TailAero.Cd·HorizontalTail.Planform.S/_WingGP.Planform.S + TailAero1.Cd·VerticalTail.Planform.S/_WingGP.Planform.S + Cf·TailBoom.S/_WingGP.Planform.S
+  cons  CD ≥ CDA + WingAero.Cd
+  cons  Poper ≤ Pmax
+[Mission.FlightSegment2.AircraftPerf.WingAero]
+  free  CL
+  free  Cd
+  free  Re
+  free  cdp
+  free  AR  [Mission.Aircraft._WingGP.Planform]
+  free  cmac  [Mission.Aircraft._WingGP.Planform]
+  free  V  [Mission.FlightSegment2.FlightState]
+  free  \rho  [Mission.FlightSegment2.FlightState]
+  fixed CLstall
+  fixed e
+  fixed m_{fac-polar-fit}
+  fixed \mu  [Mission.FlightSegment2.FlightState]
+  cons  Cd ≥ cdp + CL²/3.14/AR/e
+  cons  Re = \rho·V·cmac/\mu
+  cons  CL ≤ CLstall
+[Mission.FlightSegment2.AircraftPerf.TailAero]
+  free  Cd
+  free  Re
+  free  S  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  free  b  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  free  V  [Mission.FlightSegment2.FlightState]
+  free  \rho  [Mission.FlightSegment2.FlightState]
+  fixed m_{fac--fit}
+  fixed \mu  [Mission.FlightSegment2.FlightState]
+  cons  Re = V·\rho·S/b/\mu
+[Mission.FlightSegment2.AircraftPerf.TailAero1]
+  free  Cd
+  free  Re
+  free  S  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  free  b  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  free  V  [Mission.FlightSegment2.FlightState]
+  free  \rho  [Mission.FlightSegment2.FlightState]
+  fixed m_{fac--fit}
+  fixed \mu  [Mission.FlightSegment2.FlightState]
+  cons  Re = V·\rho·S/b/\mu
+[Mission.FlightSegment2.AircraftPerf.TailBoomAero]
+  free  Cf
+  free  Re
+  free  l  [Mission.Aircraft.Empennage.TailBoom]
+  free  V  [Mission.FlightSegment2.FlightState]
+  free  \rho  [Mission.FlightSegment2.FlightState]
+  fixed \mu  [Mission.FlightSegment2.FlightState]
+  cons  Re = V·\rho·l/\mu
+  cons  Cf ≥ 0.455/Re^0.3
+[Mission.FlightSegment2.SteadyLevelFlight]
+  free  T
+  free  Wtotal  [Mission.Aircraft]
+  free  S  [Mission.Aircraft._WingGP.Planform]
+  free  CD  [Mission.FlightSegment2.AircraftPerf]
+  free  Pshaft  [Mission.FlightSegment2.AircraftPerf]
+  free  CL  [Mission.FlightSegment2.AircraftPerf.WingAero]
+  free  V  [Mission.FlightSegment2.FlightState]
+  free  \rho  [Mission.FlightSegment2.FlightState]
+  fixed \eta_{prop}
+  cons  Wtotal ≤ 0.5·\rho·V²·CL·S
+  cons  T ≥ 0.5·\rho·V²·CD·S
+  cons  Pshaft ≥ T·V/\eta_{prop}
+[Mission.FlightSegment2.SparLoading]
+  free  EIbar[:]
+  free  M[:]
+  free  Mtw[:]
+  free  N
+  free  S[:]
+  free  Sout[:]
+  free  W
+  free  q[:]
+  free  th[:]
+  free  theta[:]
+  free  w[:]
+  free  I[:]  [Mission.Aircraft._WingGP.CapSpar]
+  free  Sy[:]  [Mission.Aircraft._WingGP.CapSpar]
+  free  b  [Mission.Aircraft._WingGP.Planform]
+  fixed Mtip
+  fixed Nmax
+  fixed Nsafety
+  fixed Stip
+  fixed kappa
+  fixed throot
+  fixed twmax
+  fixed wroot
+  fixed E  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
+  fixed sigma  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
+  fixed cbar[:]  [Mission.Aircraft._WingGP.Planform]
+  fixed deta[:]  [Mission.Aircraft._WingGP.Planform]
+  cons  S[0] ≥ S[1] + deta[0]·0.5·b/2·(q[0] + q[1])
+  cons  S[1] ≥ S[2] + deta[1]·0.5·b/2·(q[1] + q[2])
+  cons  S[2] ≥ S[3] + deta[2]·0.5·b/2·(q[2] + q[3])
+  cons  S[3] ≥ S[4] + deta[3]·0.5·b/2·(q[3] + q[4])
+  cons  M[0] ≥ M[1] + deta[0]·0.5·b/2·(S[0] + S[1])
+  cons  M[1] ≥ M[2] + deta[1]·0.5·b/2·(S[1] + S[2])
+  cons  M[2] ≥ M[3] + deta[2]·0.5·b/2·(S[2] + S[3])
+  cons  M[3] ≥ M[4] + deta[3]·0.5·b/2·(S[3] + S[4])
+  cons  N = Nsafety·Nmax
+  cons  q[0] ≥ N·W/b·cbar[0]
+  cons  q[1] ≥ N·W/b·cbar[1]
+  cons  q[2] ≥ N·W/b·cbar[2]
+  cons  q[3] ≥ N·W/b·cbar[3]
+  cons  q[4] ≥ N·W/b·cbar[4]
+  cons  S[4] ≥ Stip
+  cons  M[4] ≥ Mtip
+  cons  th[0] ≥ throot
+  cons  th[1] ≥ th[0] + deta[0]·0.5·b/2·(M[1] + M[0])/E/I[0]
+  cons  th[2] ≥ th[1] + deta[1]·0.5·b/2·(M[2] + M[1])/E/I[1]
+  cons  th[3] ≥ th[2] + deta[2]·0.5·b/2·(M[3] + M[2])/E/I[2]
+  cons  th[4] ≥ th[3] + deta[3]·0.5·b/2·(M[4] + M[3])/E/I[3]
+  cons  w[0] ≥ wroot
+  cons  w[1] ≥ w[0] + deta[0]·0.5·b/2·(th[1] + th[0])
+  cons  w[2] ≥ w[1] + deta[1]·0.5·b/2·(th[2] + th[1])
+  cons  w[3] ≥ w[2] + deta[2]·0.5·b/2·(th[3] + th[2])
+  cons  w[4] ≥ w[3] + deta[3]·0.5·b/2·(th[4] + th[3])
+  cons  sigma ≥ M[0]/Sy[0]
+  cons  sigma ≥ M[1]/Sy[1]
+  cons  sigma ≥ M[2]/Sy[2]
+  cons  sigma ≥ M[3]/Sy[3]
+  cons  kappa ≥ w[4]/(b/2)
+[Mission.FlightSegment2.GustL]
+  free  EIbar[:]
+  free  M[:]
+  free  Mtw[:]
+  free  N
+  free  S[:]
+  free  Sout[:]
+  free  Ww
+  free  W
+  free  agust[:]
+  free  cl
+  free  q[:]
+  free  th[:]
+  free  theta[:]
+  free  v
+  free  w[:]
+  free  I[:]  [Mission.Aircraft._WingGP.CapSpar]
+  free  Sy[:]  [Mission.Aircraft._WingGP.CapSpar]
+  free  b  [Mission.Aircraft._WingGP.Planform]
+  fixed Mtip
+  fixed Nmax
+  fixed Nsafety
+  fixed Stip
+  fixed cosminus1[:]
+  fixed kappa
+  fixed m_{fac--fit}
+  fixed throot
+  fixed twmax
+  fixed vgust
+  fixed wroot
+  fixed E  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
+  fixed sigma  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
+  fixed cbar[:]  [Mission.Aircraft._WingGP.Planform]
+  fixed deta[:]  [Mission.Aircraft._WingGP.Planform]
+  cons  S[0] ≥ S[1] + deta[0]·0.5·b/2·(q[0] + q[1])
+  cons  S[1] ≥ S[2] + deta[1]·0.5·b/2·(q[1] + q[2])
+  cons  S[2] ≥ S[3] + deta[2]·0.5·b/2·(q[2] + q[3])
+  cons  S[3] ≥ S[4] + deta[3]·0.5·b/2·(q[3] + q[4])
+  cons  M[0] ≥ M[1] + deta[0]·0.5·b/2·(S[0] + S[1])
+  cons  M[1] ≥ M[2] + deta[1]·0.5·b/2·(S[1] + S[2])
+  cons  M[2] ≥ M[3] + deta[2]·0.5·b/2·(S[2] + S[3])
+  cons  M[3] ≥ M[4] + deta[3]·0.5·b/2·(S[3] + S[4])
+  cons  N = Nsafety·Nmax
+  cons  q[0] ≥ N·W/b·cbar[0]
+  cons  q[1] ≥ N·W/b·cbar[1]
+  cons  q[2] ≥ N·W/b·cbar[2]
+  cons  q[3] ≥ N·W/b·cbar[3]
+  cons  q[4] ≥ N·W/b·cbar[4]
+  cons  S[4] ≥ Stip
+  cons  M[4] ≥ Mtip
+  cons  th[0] ≥ throot
+  cons  th[1] ≥ th[0] + deta[0]·0.5·b/2·(M[1] + M[0])/E/I[0]
+  cons  th[2] ≥ th[1] + deta[1]·0.5·b/2·(M[2] + M[1])/E/I[1]
+  cons  th[3] ≥ th[2] + deta[2]·0.5·b/2·(M[3] + M[2])/E/I[2]
+  cons  th[4] ≥ th[3] + deta[3]·0.5·b/2·(M[4] + M[3])/E/I[3]
+  cons  w[0] ≥ wroot
+  cons  w[1] ≥ w[0] + deta[0]·0.5·b/2·(th[1] + th[0])
+  cons  w[2] ≥ w[1] + deta[1]·0.5·b/2·(th[2] + th[1])
+  cons  w[3] ≥ w[2] + deta[2]·0.5·b/2·(th[3] + th[2])
+  cons  w[4] ≥ w[3] + deta[3]·0.5·b/2·(th[4] + th[3])
+  cons  sigma ≥ M[0]/Sy[0]
+  cons  sigma ≥ M[1]/Sy[1]
+  cons  sigma ≥ M[2]/Sy[2]
+  cons  sigma ≥ M[3]/Sy[3]
+  cons  kappa ≥ w[4]/(b/2)
+  cons  q[0] ≥ W·N/b·cbar[0]·(agust[0]·6.28/cl·(1 + Ww/W) + 1)
+  cons  q[1] ≥ W·N/b·cbar[1]·(agust[1]·6.28/cl·(1 + Ww/W) + 1)
+  cons  q[2] ≥ W·N/b·cbar[2]·(agust[2]·6.28/cl·(1 + Ww/W) + 1)
+  cons  q[3] ≥ W·N/b·cbar[3]·(agust[3]·6.28/cl·(1 + Ww/W) + 1)
+  cons  q[4] ≥ W·N/b·cbar[4]·(agust[4]·6.28/cl·(1 + Ww/W) + 1)
+[Mission.FlightSegment2.TailBoomBending]
+  free  F
+  free  Mr[:]
+  free  th
+  free  S  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  free  I[:]  [Mission.Aircraft.Empennage.TailBoom]
+  free  Sy[:]  [Mission.Aircraft.Empennage.TailBoom]
+  free  l  [Mission.Aircraft.Empennage.TailBoom]
+  free  qne  [Mission.FlightSegment2.FlightState]
+  free  \bar{EI}[:]
+  free  \bar{M}[:]
+  free  \bar{\delta}[:]
+  free  \theta[:]
+  free  dx[:]
+  fixed Nsafety
+  fixed kappa
+  fixed CLmax  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  fixed E  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
+  fixed sigma  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
+  fixed deta  [Mission.Aircraft.Empennage.TailBoom]
+  cons  dx[0] = deta
+  cons  F ≥ qne·S
+  cons  \bar{EI}[0] ≤ E·I[0]/F/l²/2
+  cons  Mr[0] ≥ \bar{M}[0]·F·l
+  cons  sigma ≥ Mr[0]/Sy[0]
+  cons  th = \theta[1]
+  cons  kappa ≥ \bar{\delta}[1]·CLmax·Nsafety
+[Mission.FlightSegment2.TailBoomBending.Beam]
+  free  \bar{EI}[:]
+  free  \bar{M}[:]
+  free  \bar{\delta}[:]
+  free  \theta[:]
+  free  dx[:]
+  fixed \bar{M}_{tip}
+  fixed \bar{S}[:]
+  fixed \bar{\delta}_{root}
+  fixed \theta_{root}
+  cons  \bar{M}[0] ≥ \bar{M}[1] + dx[0]·0.5·(\bar{S}[0] + \bar{S}[1])
+  cons  \bar{M}[1] ≥ \bar{M}_{tip}
+  cons  \theta[0] ≥ \theta_{root}
+  cons  \theta[1] ≥ \theta[0] + dx[0]·0.5·(\bar{M}[1] + \bar{M}[0])/\bar{EI}[0]
+  cons  \bar{\delta}[0] ≥ \bar{\delta}_{root}
+  cons  \bar{\delta}[1] ≥ \bar{\delta}[0] + dx[0]·0.5·(\theta[1] + \theta[0])
+[Mission.FlightSegment2.TailBoomBending1]
+  free  F
+  free  Mr[:]
+  free  th
+  free  I[:]  [Mission.Aircraft.Empennage.TailBoom]
+  free  Sy[:]  [Mission.Aircraft.Empennage.TailBoom]
+  free  l  [Mission.Aircraft.Empennage.TailBoom]
+  free  S  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  free  qne  [Mission.FlightSegment2.FlightState]
+  free  \bar{EI}[:]
+  free  \bar{M}[:]
+  free  \bar{\delta}[:]
+  free  \theta[:]
+  free  dx[:]
+  fixed Nsafety
+  fixed kappa
+  fixed E  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
+  fixed sigma  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
+  fixed deta  [Mission.Aircraft.Empennage.TailBoom]
+  fixed CLmax  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  cons  dx[0] = deta
+  cons  F ≥ qne·S
+  cons  \bar{EI}[0] ≤ E·I[0]/F/l²/2
+  cons  Mr[0] ≥ \bar{M}[0]·F·l
+  cons  sigma ≥ Mr[0]/Sy[0]
+  cons  th = \theta[1]
+  cons  kappa ≥ \bar{\delta}[1]·CLmax·Nsafety
+[Mission.FlightSegment2.TailBoomBending1.Beam]
+  free  \bar{EI}[:]
+  free  \bar{M}[:]
+  free  \bar{\delta}[:]
+  free  \theta[:]
+  free  dx[:]
+  fixed \bar{M}_{tip}
+  fixed \bar{S}[:]
+  fixed \bar{\delta}_{root}
+  fixed \theta_{root}
+  cons  \bar{M}[0] ≥ \bar{M}[1] + dx[0]·0.5·(\bar{S}[0] + \bar{S}[1])
+  cons  \bar{M}[1] ≥ \bar{M}_{tip}
+  cons  \theta[0] ≥ \theta_{root}
+  cons  \theta[1] ≥ \theta[0] + dx[0]·0.5·(\bar{M}[1] + \bar{M}[0])/\bar{EI}[0]
+  cons  \bar{\delta}[0] ≥ \bar{\delta}_{root}
+  cons  \bar{\delta}[1] ≥ \bar{\delta}[0] + dx[0]·0.5·(\theta[1] + \theta[0])
+[Mission.FlightSegment3]
+  free  Wcent  [Mission.Aircraft]
+  free  Wwing  [Mission.Aircraft]
+  free  CL
+  free  V
+  free  Ww
+  free  GustL.W
+  free  cl
+  free  v
+  free  SparLoading.W
+  cons  SparLoading.W = Wcent
+  cons  GustL.W = Wcent
+  cons  Ww = Wwing
+  cons  v = V
+  cons  cl = CL
+[Mission.FlightSegment3.FlightState]
+  free  (E/S)_C
+  free  (E/S)_{day}
+  free  (P/S)_{min}
+  free  V_{wind}
+  free  V
+  free  \rho
+  free  qne
+  fixed (E/S)_{irr}
+  fixed (E/S)_{ref}
+  fixed (P/S)_{ref}
+  fixed V_{wind-ref}
+  fixed Vne
+  fixed \mu
+  fixed \rho_{ref}
+  fixed m_{fac--fit}
+  fixed m_{fac}
+  fixed p_{wind}
+  fixed rhosl
+  fixed t_{night}
+  cons  V_{wind} ≤ V/m_{fac}
+  cons  qne = 0.5·Vne²·rhosl
+[Mission.FlightSegment3.AircraftPerf]
+  free  CD
+  free  CDA
+  free  Poper
+  free  Pshaft
+  free  E  [Mission.Aircraft.Battery]
+  free  HorizontalTail.Planform.S  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  free  TailBoom.S  [Mission.Aircraft.Empennage.TailBoom]
+  free  VerticalTail.Planform.S  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  free  Pmax  [Mission.Aircraft.Motor]
+  free  SolarCells.S  [Mission.Aircraft.SolarCells]
+  free  _WingGP.Planform.S  [Mission.Aircraft._WingGP.Planform]
+  free  TailAero.Cd
+  free  TailAero1.Cd
+  free  Cf
+  free  WingAero.Cd
+  free  (E/S)_C  [Mission.FlightSegment3.FlightState]
+  free  (E/S)_{day}  [Mission.FlightSegment3.FlightState]
+  free  (P/S)_{min}  [Mission.FlightSegment3.FlightState]
+  fixed Pavn
+  fixed m_{fac}
+  fixed eta_charge  [Mission.Aircraft.Battery]
+  fixed eta_discharge  [Mission.Aircraft.Battery]
+  fixed Motor.eta  [Mission.Aircraft.Motor]
+  fixed SolarCells.eta  [Mission.Aircraft.SolarCells]
+  fixed (E/S)_{irr}  [Mission.FlightSegment3.FlightState]
+  fixed t_{night}  [Mission.FlightSegment3.FlightState]
+  cons  (E/S)_{irr} ≥ (E/S)_{day} + E/eta_charge/SolarCells.eta/SolarCells.S
+  cons  E·eta_discharge ≥ Poper·t_{night} + (E/S)_C·SolarCells.eta·SolarCells.S
+  cons  Poper ≥ Pavn + Pshaft/Motor.eta
+  cons  Poper = (P/S)_{min}·SolarCells.S·SolarCells.eta
+  cons  CDA/m_{fac} ≥ TailAero.Cd·HorizontalTail.Planform.S/_WingGP.Planform.S + TailAero1.Cd·VerticalTail.Planform.S/_WingGP.Planform.S + Cf·TailBoom.S/_WingGP.Planform.S
+  cons  CD ≥ CDA + WingAero.Cd
+  cons  Poper ≤ Pmax
+[Mission.FlightSegment3.AircraftPerf.WingAero]
+  free  CL
+  free  Cd
+  free  Re
+  free  cdp
+  free  AR  [Mission.Aircraft._WingGP.Planform]
+  free  cmac  [Mission.Aircraft._WingGP.Planform]
+  free  V  [Mission.FlightSegment3.FlightState]
+  free  \rho  [Mission.FlightSegment3.FlightState]
+  fixed CLstall
+  fixed e
+  fixed m_{fac-polar-fit}
+  fixed \mu  [Mission.FlightSegment3.FlightState]
+  cons  Cd ≥ cdp + CL²/3.14/AR/e
+  cons  Re = \rho·V·cmac/\mu
+  cons  CL ≤ CLstall
+[Mission.FlightSegment3.AircraftPerf.TailAero]
+  free  Cd
+  free  Re
+  free  S  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  free  b  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  free  V  [Mission.FlightSegment3.FlightState]
+  free  \rho  [Mission.FlightSegment3.FlightState]
+  fixed m_{fac--fit}
+  fixed \mu  [Mission.FlightSegment3.FlightState]
+  cons  Re = V·\rho·S/b/\mu
+[Mission.FlightSegment3.AircraftPerf.TailAero1]
+  free  Cd
+  free  Re
+  free  S  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  free  b  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  free  V  [Mission.FlightSegment3.FlightState]
+  free  \rho  [Mission.FlightSegment3.FlightState]
+  fixed m_{fac--fit}
+  fixed \mu  [Mission.FlightSegment3.FlightState]
+  cons  Re = V·\rho·S/b/\mu
+[Mission.FlightSegment3.AircraftPerf.TailBoomAero]
+  free  Cf
+  free  Re
+  free  l  [Mission.Aircraft.Empennage.TailBoom]
+  free  V  [Mission.FlightSegment3.FlightState]
+  free  \rho  [Mission.FlightSegment3.FlightState]
+  fixed \mu  [Mission.FlightSegment3.FlightState]
+  cons  Re = V·\rho·l/\mu
+  cons  Cf ≥ 0.455/Re^0.3
+[Mission.FlightSegment3.SteadyLevelFlight]
+  free  T
+  free  Wtotal  [Mission.Aircraft]
+  free  S  [Mission.Aircraft._WingGP.Planform]
+  free  CD  [Mission.FlightSegment3.AircraftPerf]
+  free  Pshaft  [Mission.FlightSegment3.AircraftPerf]
+  free  CL  [Mission.FlightSegment3.AircraftPerf.WingAero]
+  free  V  [Mission.FlightSegment3.FlightState]
+  free  \rho  [Mission.FlightSegment3.FlightState]
+  fixed \eta_{prop}
+  cons  Wtotal ≤ 0.5·\rho·V²·CL·S
+  cons  T ≥ 0.5·\rho·V²·CD·S
+  cons  Pshaft ≥ T·V/\eta_{prop}
+[Mission.FlightSegment3.SparLoading]
+  free  EIbar[:]
+  free  M[:]
+  free  Mtw[:]
+  free  N
+  free  S[:]
+  free  Sout[:]
+  free  W
+  free  q[:]
+  free  th[:]
+  free  theta[:]
+  free  w[:]
+  free  I[:]  [Mission.Aircraft._WingGP.CapSpar]
+  free  Sy[:]  [Mission.Aircraft._WingGP.CapSpar]
+  free  b  [Mission.Aircraft._WingGP.Planform]
+  fixed Mtip
+  fixed Nmax
+  fixed Nsafety
+  fixed Stip
+  fixed kappa
+  fixed throot
+  fixed twmax
+  fixed wroot
+  fixed E  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
+  fixed sigma  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
+  fixed cbar[:]  [Mission.Aircraft._WingGP.Planform]
+  fixed deta[:]  [Mission.Aircraft._WingGP.Planform]
+  cons  S[0] ≥ S[1] + deta[0]·0.5·b/2·(q[0] + q[1])
+  cons  S[1] ≥ S[2] + deta[1]·0.5·b/2·(q[1] + q[2])
+  cons  S[2] ≥ S[3] + deta[2]·0.5·b/2·(q[2] + q[3])
+  cons  S[3] ≥ S[4] + deta[3]·0.5·b/2·(q[3] + q[4])
+  cons  M[0] ≥ M[1] + deta[0]·0.5·b/2·(S[0] + S[1])
+  cons  M[1] ≥ M[2] + deta[1]·0.5·b/2·(S[1] + S[2])
+  cons  M[2] ≥ M[3] + deta[2]·0.5·b/2·(S[2] + S[3])
+  cons  M[3] ≥ M[4] + deta[3]·0.5·b/2·(S[3] + S[4])
+  cons  N = Nsafety·Nmax
+  cons  q[0] ≥ N·W/b·cbar[0]
+  cons  q[1] ≥ N·W/b·cbar[1]
+  cons  q[2] ≥ N·W/b·cbar[2]
+  cons  q[3] ≥ N·W/b·cbar[3]
+  cons  q[4] ≥ N·W/b·cbar[4]
+  cons  S[4] ≥ Stip
+  cons  M[4] ≥ Mtip
+  cons  th[0] ≥ throot
+  cons  th[1] ≥ th[0] + deta[0]·0.5·b/2·(M[1] + M[0])/E/I[0]
+  cons  th[2] ≥ th[1] + deta[1]·0.5·b/2·(M[2] + M[1])/E/I[1]
+  cons  th[3] ≥ th[2] + deta[2]·0.5·b/2·(M[3] + M[2])/E/I[2]
+  cons  th[4] ≥ th[3] + deta[3]·0.5·b/2·(M[4] + M[3])/E/I[3]
+  cons  w[0] ≥ wroot
+  cons  w[1] ≥ w[0] + deta[0]·0.5·b/2·(th[1] + th[0])
+  cons  w[2] ≥ w[1] + deta[1]·0.5·b/2·(th[2] + th[1])
+  cons  w[3] ≥ w[2] + deta[2]·0.5·b/2·(th[3] + th[2])
+  cons  w[4] ≥ w[3] + deta[3]·0.5·b/2·(th[4] + th[3])
+  cons  sigma ≥ M[0]/Sy[0]
+  cons  sigma ≥ M[1]/Sy[1]
+  cons  sigma ≥ M[2]/Sy[2]
+  cons  sigma ≥ M[3]/Sy[3]
+  cons  kappa ≥ w[4]/(b/2)
+[Mission.FlightSegment3.GustL]
+  free  EIbar[:]
+  free  M[:]
+  free  Mtw[:]
+  free  N
+  free  S[:]
+  free  Sout[:]
+  free  Ww
+  free  W
+  free  agust[:]
+  free  cl
+  free  q[:]
+  free  th[:]
+  free  theta[:]
+  free  v
+  free  w[:]
+  free  I[:]  [Mission.Aircraft._WingGP.CapSpar]
+  free  Sy[:]  [Mission.Aircraft._WingGP.CapSpar]
+  free  b  [Mission.Aircraft._WingGP.Planform]
+  fixed Mtip
+  fixed Nmax
+  fixed Nsafety
+  fixed Stip
+  fixed cosminus1[:]
+  fixed kappa
+  fixed m_{fac--fit}
+  fixed throot
+  fixed twmax
+  fixed vgust
+  fixed wroot
+  fixed E  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
+  fixed sigma  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
+  fixed cbar[:]  [Mission.Aircraft._WingGP.Planform]
+  fixed deta[:]  [Mission.Aircraft._WingGP.Planform]
+  cons  S[0] ≥ S[1] + deta[0]·0.5·b/2·(q[0] + q[1])
+  cons  S[1] ≥ S[2] + deta[1]·0.5·b/2·(q[1] + q[2])
+  cons  S[2] ≥ S[3] + deta[2]·0.5·b/2·(q[2] + q[3])
+  cons  S[3] ≥ S[4] + deta[3]·0.5·b/2·(q[3] + q[4])
+  cons  M[0] ≥ M[1] + deta[0]·0.5·b/2·(S[0] + S[1])
+  cons  M[1] ≥ M[2] + deta[1]·0.5·b/2·(S[1] + S[2])
+  cons  M[2] ≥ M[3] + deta[2]·0.5·b/2·(S[2] + S[3])
+  cons  M[3] ≥ M[4] + deta[3]·0.5·b/2·(S[3] + S[4])
+  cons  N = Nsafety·Nmax
+  cons  q[0] ≥ N·W/b·cbar[0]
+  cons  q[1] ≥ N·W/b·cbar[1]
+  cons  q[2] ≥ N·W/b·cbar[2]
+  cons  q[3] ≥ N·W/b·cbar[3]
+  cons  q[4] ≥ N·W/b·cbar[4]
+  cons  S[4] ≥ Stip
+  cons  M[4] ≥ Mtip
+  cons  th[0] ≥ throot
+  cons  th[1] ≥ th[0] + deta[0]·0.5·b/2·(M[1] + M[0])/E/I[0]
+  cons  th[2] ≥ th[1] + deta[1]·0.5·b/2·(M[2] + M[1])/E/I[1]
+  cons  th[3] ≥ th[2] + deta[2]·0.5·b/2·(M[3] + M[2])/E/I[2]
+  cons  th[4] ≥ th[3] + deta[3]·0.5·b/2·(M[4] + M[3])/E/I[3]
+  cons  w[0] ≥ wroot
+  cons  w[1] ≥ w[0] + deta[0]·0.5·b/2·(th[1] + th[0])
+  cons  w[2] ≥ w[1] + deta[1]·0.5·b/2·(th[2] + th[1])
+  cons  w[3] ≥ w[2] + deta[2]·0.5·b/2·(th[3] + th[2])
+  cons  w[4] ≥ w[3] + deta[3]·0.5·b/2·(th[4] + th[3])
+  cons  sigma ≥ M[0]/Sy[0]
+  cons  sigma ≥ M[1]/Sy[1]
+  cons  sigma ≥ M[2]/Sy[2]
+  cons  sigma ≥ M[3]/Sy[3]
+  cons  kappa ≥ w[4]/(b/2)
+  cons  q[0] ≥ W·N/b·cbar[0]·(agust[0]·6.28/cl·(1 + Ww/W) + 1)
+  cons  q[1] ≥ W·N/b·cbar[1]·(agust[1]·6.28/cl·(1 + Ww/W) + 1)
+  cons  q[2] ≥ W·N/b·cbar[2]·(agust[2]·6.28/cl·(1 + Ww/W) + 1)
+  cons  q[3] ≥ W·N/b·cbar[3]·(agust[3]·6.28/cl·(1 + Ww/W) + 1)
+  cons  q[4] ≥ W·N/b·cbar[4]·(agust[4]·6.28/cl·(1 + Ww/W) + 1)
+[Mission.FlightSegment3.TailBoomBending]
+  free  F
+  free  Mr[:]
+  free  th
+  free  S  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  free  I[:]  [Mission.Aircraft.Empennage.TailBoom]
+  free  Sy[:]  [Mission.Aircraft.Empennage.TailBoom]
+  free  l  [Mission.Aircraft.Empennage.TailBoom]
+  free  qne  [Mission.FlightSegment3.FlightState]
+  free  \bar{EI}[:]
+  free  \bar{M}[:]
+  free  \bar{\delta}[:]
+  free  \theta[:]
+  free  dx[:]
+  fixed Nsafety
+  fixed kappa
+  fixed CLmax  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  fixed E  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
+  fixed sigma  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
+  fixed deta  [Mission.Aircraft.Empennage.TailBoom]
+  cons  dx[0] = deta
+  cons  F ≥ qne·S
+  cons  \bar{EI}[0] ≤ E·I[0]/F/l²/2
+  cons  Mr[0] ≥ \bar{M}[0]·F·l
+  cons  sigma ≥ Mr[0]/Sy[0]
+  cons  th = \theta[1]
+  cons  kappa ≥ \bar{\delta}[1]·CLmax·Nsafety
+[Mission.FlightSegment3.TailBoomBending.Beam]
+  free  \bar{EI}[:]
+  free  \bar{M}[:]
+  free  \bar{\delta}[:]
+  free  \theta[:]
+  free  dx[:]
+  fixed \bar{M}_{tip}
+  fixed \bar{S}[:]
+  fixed \bar{\delta}_{root}
+  fixed \theta_{root}
+  cons  \bar{M}[0] ≥ \bar{M}[1] + dx[0]·0.5·(\bar{S}[0] + \bar{S}[1])
+  cons  \bar{M}[1] ≥ \bar{M}_{tip}
+  cons  \theta[0] ≥ \theta_{root}
+  cons  \theta[1] ≥ \theta[0] + dx[0]·0.5·(\bar{M}[1] + \bar{M}[0])/\bar{EI}[0]
+  cons  \bar{\delta}[0] ≥ \bar{\delta}_{root}
+  cons  \bar{\delta}[1] ≥ \bar{\delta}[0] + dx[0]·0.5·(\theta[1] + \theta[0])
+[Mission.FlightSegment3.TailBoomBending1]
+  free  F
+  free  Mr[:]
+  free  th
+  free  I[:]  [Mission.Aircraft.Empennage.TailBoom]
+  free  Sy[:]  [Mission.Aircraft.Empennage.TailBoom]
+  free  l  [Mission.Aircraft.Empennage.TailBoom]
+  free  S  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  free  qne  [Mission.FlightSegment3.FlightState]
+  free  \bar{EI}[:]
+  free  \bar{M}[:]
+  free  \bar{\delta}[:]
+  free  \theta[:]
+  free  dx[:]
+  fixed Nsafety
+  fixed kappa
+  fixed E  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
+  fixed sigma  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
+  fixed deta  [Mission.Aircraft.Empennage.TailBoom]
+  fixed CLmax  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  cons  dx[0] = deta
+  cons  F ≥ qne·S
+  cons  \bar{EI}[0] ≤ E·I[0]/F/l²/2
+  cons  Mr[0] ≥ \bar{M}[0]·F·l
+  cons  sigma ≥ Mr[0]/Sy[0]
+  cons  th = \theta[1]
+  cons  kappa ≥ \bar{\delta}[1]·CLmax·Nsafety
+[Mission.FlightSegment3.TailBoomBending1.Beam]
+  free  \bar{EI}[:]
+  free  \bar{M}[:]
+  free  \bar{\delta}[:]
+  free  \theta[:]
+  free  dx[:]
+  fixed \bar{M}_{tip}
+  fixed \bar{S}[:]
+  fixed \bar{\delta}_{root}
+  fixed \theta_{root}
+  cons  \bar{M}[0] ≥ \bar{M}[1] + dx[0]·0.5·(\bar{S}[0] + \bar{S}[1])
+  cons  \bar{M}[1] ≥ \bar{M}_{tip}
+  cons  \theta[0] ≥ \theta_{root}
+  cons  \theta[1] ≥ \theta[0] + dx[0]·0.5·(\bar{M}[1] + \bar{M}[0])/\bar{EI}[0]
+  cons  \bar{\delta}[0] ≥ \bar{\delta}_{root}
+  cons  \bar{\delta}[1] ≥ \bar{\delta}[0] + dx[0]·0.5·(\theta[1] + \theta[0])
+[Mission.FlightSegment4]
+  free  Wcent  [Mission.Aircraft]
+  free  Wwing  [Mission.Aircraft]
+  free  CL
+  free  V
+  free  Ww
+  free  GustL.W
+  free  cl
+  free  v
+  free  SparLoading.W
+  cons  SparLoading.W = Wcent
+  cons  GustL.W = Wcent
+  cons  Ww = Wwing
+  cons  v = V
+  cons  cl = CL
+[Mission.FlightSegment4.FlightState]
+  free  (E/S)_C
+  free  (E/S)_{day}
+  free  (P/S)_{min}
+  free  V_{wind}
+  free  V
+  free  \rho
+  free  qne
+  fixed (E/S)_{irr}
+  fixed (E/S)_{ref}
+  fixed (P/S)_{ref}
+  fixed V_{wind-ref}
+  fixed Vne
+  fixed \mu
+  fixed \rho_{ref}
+  fixed m_{fac--fit}
+  fixed m_{fac}
+  fixed p_{wind}
+  fixed rhosl
+  fixed t_{night}
+  cons  V_{wind} ≤ V/m_{fac}
+  cons  qne = 0.5·Vne²·rhosl
+[Mission.FlightSegment4.AircraftPerf]
+  free  CD
+  free  CDA
+  free  Poper
+  free  Pshaft
+  free  E  [Mission.Aircraft.Battery]
+  free  HorizontalTail.Planform.S  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  free  TailBoom.S  [Mission.Aircraft.Empennage.TailBoom]
+  free  VerticalTail.Planform.S  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  free  Pmax  [Mission.Aircraft.Motor]
+  free  SolarCells.S  [Mission.Aircraft.SolarCells]
+  free  _WingGP.Planform.S  [Mission.Aircraft._WingGP.Planform]
+  free  TailAero.Cd
+  free  TailAero1.Cd
+  free  Cf
+  free  WingAero.Cd
+  free  (E/S)_C  [Mission.FlightSegment4.FlightState]
+  free  (E/S)_{day}  [Mission.FlightSegment4.FlightState]
+  free  (P/S)_{min}  [Mission.FlightSegment4.FlightState]
+  fixed Pavn
+  fixed m_{fac}
+  fixed eta_charge  [Mission.Aircraft.Battery]
+  fixed eta_discharge  [Mission.Aircraft.Battery]
+  fixed Motor.eta  [Mission.Aircraft.Motor]
+  fixed SolarCells.eta  [Mission.Aircraft.SolarCells]
+  fixed (E/S)_{irr}  [Mission.FlightSegment4.FlightState]
+  fixed t_{night}  [Mission.FlightSegment4.FlightState]
+  cons  (E/S)_{irr} ≥ (E/S)_{day} + E/eta_charge/SolarCells.eta/SolarCells.S
+  cons  E·eta_discharge ≥ Poper·t_{night} + (E/S)_C·SolarCells.eta·SolarCells.S
+  cons  Poper ≥ Pavn + Pshaft/Motor.eta
+  cons  Poper = (P/S)_{min}·SolarCells.S·SolarCells.eta
+  cons  CDA/m_{fac} ≥ TailAero.Cd·HorizontalTail.Planform.S/_WingGP.Planform.S + TailAero1.Cd·VerticalTail.Planform.S/_WingGP.Planform.S + Cf·TailBoom.S/_WingGP.Planform.S
+  cons  CD ≥ CDA + WingAero.Cd
+  cons  Poper ≤ Pmax
+[Mission.FlightSegment4.AircraftPerf.WingAero]
+  free  CL
+  free  Cd
+  free  Re
+  free  cdp
+  free  AR  [Mission.Aircraft._WingGP.Planform]
+  free  cmac  [Mission.Aircraft._WingGP.Planform]
+  free  V  [Mission.FlightSegment4.FlightState]
+  free  \rho  [Mission.FlightSegment4.FlightState]
+  fixed CLstall
+  fixed e
+  fixed m_{fac-polar-fit}
+  fixed \mu  [Mission.FlightSegment4.FlightState]
+  cons  Cd ≥ cdp + CL²/3.14/AR/e
+  cons  Re = \rho·V·cmac/\mu
+  cons  CL ≤ CLstall
+[Mission.FlightSegment4.AircraftPerf.TailAero]
+  free  Cd
+  free  Re
+  free  S  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  free  b  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  free  V  [Mission.FlightSegment4.FlightState]
+  free  \rho  [Mission.FlightSegment4.FlightState]
+  fixed m_{fac--fit}
+  fixed \mu  [Mission.FlightSegment4.FlightState]
+  cons  Re = V·\rho·S/b/\mu
+[Mission.FlightSegment4.AircraftPerf.TailAero1]
+  free  Cd
+  free  Re
+  free  S  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  free  b  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  free  V  [Mission.FlightSegment4.FlightState]
+  free  \rho  [Mission.FlightSegment4.FlightState]
+  fixed m_{fac--fit}
+  fixed \mu  [Mission.FlightSegment4.FlightState]
+  cons  Re = V·\rho·S/b/\mu
+[Mission.FlightSegment4.AircraftPerf.TailBoomAero]
+  free  Cf
+  free  Re
+  free  l  [Mission.Aircraft.Empennage.TailBoom]
+  free  V  [Mission.FlightSegment4.FlightState]
+  free  \rho  [Mission.FlightSegment4.FlightState]
+  fixed \mu  [Mission.FlightSegment4.FlightState]
+  cons  Re = V·\rho·l/\mu
+  cons  Cf ≥ 0.455/Re^0.3
+[Mission.FlightSegment4.SteadyLevelFlight]
+  free  T
+  free  Wtotal  [Mission.Aircraft]
+  free  S  [Mission.Aircraft._WingGP.Planform]
+  free  CD  [Mission.FlightSegment4.AircraftPerf]
+  free  Pshaft  [Mission.FlightSegment4.AircraftPerf]
+  free  CL  [Mission.FlightSegment4.AircraftPerf.WingAero]
+  free  V  [Mission.FlightSegment4.FlightState]
+  free  \rho  [Mission.FlightSegment4.FlightState]
+  fixed \eta_{prop}
+  cons  Wtotal ≤ 0.5·\rho·V²·CL·S
+  cons  T ≥ 0.5·\rho·V²·CD·S
+  cons  Pshaft ≥ T·V/\eta_{prop}
+[Mission.FlightSegment4.SparLoading]
+  free  EIbar[:]
+  free  M[:]
+  free  Mtw[:]
+  free  N
+  free  S[:]
+  free  Sout[:]
+  free  W
+  free  q[:]
+  free  th[:]
+  free  theta[:]
+  free  w[:]
+  free  I[:]  [Mission.Aircraft._WingGP.CapSpar]
+  free  Sy[:]  [Mission.Aircraft._WingGP.CapSpar]
+  free  b  [Mission.Aircraft._WingGP.Planform]
+  fixed Mtip
+  fixed Nmax
+  fixed Nsafety
+  fixed Stip
+  fixed kappa
+  fixed throot
+  fixed twmax
+  fixed wroot
+  fixed E  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
+  fixed sigma  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
+  fixed cbar[:]  [Mission.Aircraft._WingGP.Planform]
+  fixed deta[:]  [Mission.Aircraft._WingGP.Planform]
+  cons  S[0] ≥ S[1] + deta[0]·0.5·b/2·(q[0] + q[1])
+  cons  S[1] ≥ S[2] + deta[1]·0.5·b/2·(q[1] + q[2])
+  cons  S[2] ≥ S[3] + deta[2]·0.5·b/2·(q[2] + q[3])
+  cons  S[3] ≥ S[4] + deta[3]·0.5·b/2·(q[3] + q[4])
+  cons  M[0] ≥ M[1] + deta[0]·0.5·b/2·(S[0] + S[1])
+  cons  M[1] ≥ M[2] + deta[1]·0.5·b/2·(S[1] + S[2])
+  cons  M[2] ≥ M[3] + deta[2]·0.5·b/2·(S[2] + S[3])
+  cons  M[3] ≥ M[4] + deta[3]·0.5·b/2·(S[3] + S[4])
+  cons  N = Nsafety·Nmax
+  cons  q[0] ≥ N·W/b·cbar[0]
+  cons  q[1] ≥ N·W/b·cbar[1]
+  cons  q[2] ≥ N·W/b·cbar[2]
+  cons  q[3] ≥ N·W/b·cbar[3]
+  cons  q[4] ≥ N·W/b·cbar[4]
+  cons  S[4] ≥ Stip
+  cons  M[4] ≥ Mtip
+  cons  th[0] ≥ throot
+  cons  th[1] ≥ th[0] + deta[0]·0.5·b/2·(M[1] + M[0])/E/I[0]
+  cons  th[2] ≥ th[1] + deta[1]·0.5·b/2·(M[2] + M[1])/E/I[1]
+  cons  th[3] ≥ th[2] + deta[2]·0.5·b/2·(M[3] + M[2])/E/I[2]
+  cons  th[4] ≥ th[3] + deta[3]·0.5·b/2·(M[4] + M[3])/E/I[3]
+  cons  w[0] ≥ wroot
+  cons  w[1] ≥ w[0] + deta[0]·0.5·b/2·(th[1] + th[0])
+  cons  w[2] ≥ w[1] + deta[1]·0.5·b/2·(th[2] + th[1])
+  cons  w[3] ≥ w[2] + deta[2]·0.5·b/2·(th[3] + th[2])
+  cons  w[4] ≥ w[3] + deta[3]·0.5·b/2·(th[4] + th[3])
+  cons  sigma ≥ M[0]/Sy[0]
+  cons  sigma ≥ M[1]/Sy[1]
+  cons  sigma ≥ M[2]/Sy[2]
+  cons  sigma ≥ M[3]/Sy[3]
+  cons  kappa ≥ w[4]/(b/2)
+[Mission.FlightSegment4.GustL]
+  free  EIbar[:]
+  free  M[:]
+  free  Mtw[:]
+  free  N
+  free  S[:]
+  free  Sout[:]
+  free  Ww
+  free  W
+  free  agust[:]
+  free  cl
+  free  q[:]
+  free  th[:]
+  free  theta[:]
+  free  v
+  free  w[:]
+  free  I[:]  [Mission.Aircraft._WingGP.CapSpar]
+  free  Sy[:]  [Mission.Aircraft._WingGP.CapSpar]
+  free  b  [Mission.Aircraft._WingGP.Planform]
+  fixed Mtip
+  fixed Nmax
+  fixed Nsafety
+  fixed Stip
+  fixed cosminus1[:]
+  fixed kappa
+  fixed m_{fac--fit}
+  fixed throot
+  fixed twmax
+  fixed vgust
+  fixed wroot
+  fixed E  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
+  fixed sigma  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
+  fixed cbar[:]  [Mission.Aircraft._WingGP.Planform]
+  fixed deta[:]  [Mission.Aircraft._WingGP.Planform]
+  cons  S[0] ≥ S[1] + deta[0]·0.5·b/2·(q[0] + q[1])
+  cons  S[1] ≥ S[2] + deta[1]·0.5·b/2·(q[1] + q[2])
+  cons  S[2] ≥ S[3] + deta[2]·0.5·b/2·(q[2] + q[3])
+  cons  S[3] ≥ S[4] + deta[3]·0.5·b/2·(q[3] + q[4])
+  cons  M[0] ≥ M[1] + deta[0]·0.5·b/2·(S[0] + S[1])
+  cons  M[1] ≥ M[2] + deta[1]·0.5·b/2·(S[1] + S[2])
+  cons  M[2] ≥ M[3] + deta[2]·0.5·b/2·(S[2] + S[3])
+  cons  M[3] ≥ M[4] + deta[3]·0.5·b/2·(S[3] + S[4])
+  cons  N = Nsafety·Nmax
+  cons  q[0] ≥ N·W/b·cbar[0]
+  cons  q[1] ≥ N·W/b·cbar[1]
+  cons  q[2] ≥ N·W/b·cbar[2]
+  cons  q[3] ≥ N·W/b·cbar[3]
+  cons  q[4] ≥ N·W/b·cbar[4]
+  cons  S[4] ≥ Stip
+  cons  M[4] ≥ Mtip
+  cons  th[0] ≥ throot
+  cons  th[1] ≥ th[0] + deta[0]·0.5·b/2·(M[1] + M[0])/E/I[0]
+  cons  th[2] ≥ th[1] + deta[1]·0.5·b/2·(M[2] + M[1])/E/I[1]
+  cons  th[3] ≥ th[2] + deta[2]·0.5·b/2·(M[3] + M[2])/E/I[2]
+  cons  th[4] ≥ th[3] + deta[3]·0.5·b/2·(M[4] + M[3])/E/I[3]
+  cons  w[0] ≥ wroot
+  cons  w[1] ≥ w[0] + deta[0]·0.5·b/2·(th[1] + th[0])
+  cons  w[2] ≥ w[1] + deta[1]·0.5·b/2·(th[2] + th[1])
+  cons  w[3] ≥ w[2] + deta[2]·0.5·b/2·(th[3] + th[2])
+  cons  w[4] ≥ w[3] + deta[3]·0.5·b/2·(th[4] + th[3])
+  cons  sigma ≥ M[0]/Sy[0]
+  cons  sigma ≥ M[1]/Sy[1]
+  cons  sigma ≥ M[2]/Sy[2]
+  cons  sigma ≥ M[3]/Sy[3]
+  cons  kappa ≥ w[4]/(b/2)
+  cons  q[0] ≥ W·N/b·cbar[0]·(agust[0]·6.28/cl·(1 + Ww/W) + 1)
+  cons  q[1] ≥ W·N/b·cbar[1]·(agust[1]·6.28/cl·(1 + Ww/W) + 1)
+  cons  q[2] ≥ W·N/b·cbar[2]·(agust[2]·6.28/cl·(1 + Ww/W) + 1)
+  cons  q[3] ≥ W·N/b·cbar[3]·(agust[3]·6.28/cl·(1 + Ww/W) + 1)
+  cons  q[4] ≥ W·N/b·cbar[4]·(agust[4]·6.28/cl·(1 + Ww/W) + 1)
+[Mission.FlightSegment4.TailBoomBending]
+  free  F
+  free  Mr[:]
+  free  th
+  free  S  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  free  I[:]  [Mission.Aircraft.Empennage.TailBoom]
+  free  Sy[:]  [Mission.Aircraft.Empennage.TailBoom]
+  free  l  [Mission.Aircraft.Empennage.TailBoom]
+  free  qne  [Mission.FlightSegment4.FlightState]
+  free  \bar{EI}[:]
+  free  \bar{M}[:]
+  free  \bar{\delta}[:]
+  free  \theta[:]
+  free  dx[:]
+  fixed Nsafety
+  fixed kappa
+  fixed CLmax  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  fixed E  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
+  fixed sigma  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
+  fixed deta  [Mission.Aircraft.Empennage.TailBoom]
+  cons  dx[0] = deta
+  cons  F ≥ qne·S
+  cons  \bar{EI}[0] ≤ E·I[0]/F/l²/2
+  cons  Mr[0] ≥ \bar{M}[0]·F·l
+  cons  sigma ≥ Mr[0]/Sy[0]
+  cons  th = \theta[1]
+  cons  kappa ≥ \bar{\delta}[1]·CLmax·Nsafety
+[Mission.FlightSegment4.TailBoomBending.Beam]
+  free  \bar{EI}[:]
+  free  \bar{M}[:]
+  free  \bar{\delta}[:]
+  free  \theta[:]
+  free  dx[:]
+  fixed \bar{M}_{tip}
+  fixed \bar{S}[:]
+  fixed \bar{\delta}_{root}
+  fixed \theta_{root}
+  cons  \bar{M}[0] ≥ \bar{M}[1] + dx[0]·0.5·(\bar{S}[0] + \bar{S}[1])
+  cons  \bar{M}[1] ≥ \bar{M}_{tip}
+  cons  \theta[0] ≥ \theta_{root}
+  cons  \theta[1] ≥ \theta[0] + dx[0]·0.5·(\bar{M}[1] + \bar{M}[0])/\bar{EI}[0]
+  cons  \bar{\delta}[0] ≥ \bar{\delta}_{root}
+  cons  \bar{\delta}[1] ≥ \bar{\delta}[0] + dx[0]·0.5·(\theta[1] + \theta[0])
+[Mission.FlightSegment4.TailBoomBending1]
+  free  F
+  free  Mr[:]
+  free  th
+  free  I[:]  [Mission.Aircraft.Empennage.TailBoom]
+  free  Sy[:]  [Mission.Aircraft.Empennage.TailBoom]
+  free  l  [Mission.Aircraft.Empennage.TailBoom]
+  free  S  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  free  qne  [Mission.FlightSegment4.FlightState]
+  free  \bar{EI}[:]
+  free  \bar{M}[:]
+  free  \bar{\delta}[:]
+  free  \theta[:]
+  free  dx[:]
+  fixed Nsafety
+  fixed kappa
+  fixed E  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
+  fixed sigma  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
+  fixed deta  [Mission.Aircraft.Empennage.TailBoom]
+  fixed CLmax  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  cons  dx[0] = deta
+  cons  F ≥ qne·S
+  cons  \bar{EI}[0] ≤ E·I[0]/F/l²/2
+  cons  Mr[0] ≥ \bar{M}[0]·F·l
+  cons  sigma ≥ Mr[0]/Sy[0]
+  cons  th = \theta[1]
+  cons  kappa ≥ \bar{\delta}[1]·CLmax·Nsafety
+[Mission.FlightSegment4.TailBoomBending1.Beam]
+  free  \bar{EI}[:]
+  free  \bar{M}[:]
+  free  \bar{\delta}[:]
+  free  \theta[:]
+  free  dx[:]
+  fixed \bar{M}_{tip}
+  fixed \bar{S}[:]
+  fixed \bar{\delta}_{root}
+  fixed \theta_{root}
+  cons  \bar{M}[0] ≥ \bar{M}[1] + dx[0]·0.5·(\bar{S}[0] + \bar{S}[1])
+  cons  \bar{M}[1] ≥ \bar{M}_{tip}
+  cons  \theta[0] ≥ \theta_{root}
+  cons  \theta[1] ≥ \theta[0] + dx[0]·0.5·(\bar{M}[1] + \bar{M}[0])/\bar{EI}[0]
+  cons  \bar{\delta}[0] ≥ \bar{\delta}_{root}
+  cons  \bar{\delta}[1] ≥ \bar{\delta}[0] + dx[0]·0.5·(\theta[1] + \theta[0])
+[Mission.FlightSegment5]
+  free  Wcent  [Mission.Aircraft]
+  free  Wwing  [Mission.Aircraft]
+  free  CL
+  free  V
+  free  Ww
+  free  GustL.W
+  free  cl
+  free  v
+  free  SparLoading.W
+  cons  SparLoading.W = Wcent
+  cons  GustL.W = Wcent
+  cons  Ww = Wwing
+  cons  v = V
+  cons  cl = CL
+[Mission.FlightSegment5.FlightState]
+  free  (E/S)_C
+  free  (E/S)_{day}
+  free  (P/S)_{min}
+  free  V_{wind}
+  free  V
+  free  \rho
+  free  qne
+  fixed (E/S)_{irr}
+  fixed (E/S)_{ref}
+  fixed (P/S)_{ref}
+  fixed V_{wind-ref}
+  fixed Vne
+  fixed \mu
+  fixed \rho_{ref}
+  fixed m_{fac--fit}
+  fixed m_{fac}
+  fixed p_{wind}
+  fixed rhosl
+  fixed t_{night}
+  cons  V_{wind} ≤ V/m_{fac}
+  cons  qne = 0.5·Vne²·rhosl
+[Mission.FlightSegment5.AircraftPerf]
+  free  CD
+  free  CDA
+  free  Poper
+  free  Pshaft
+  free  E  [Mission.Aircraft.Battery]
+  free  HorizontalTail.Planform.S  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  free  TailBoom.S  [Mission.Aircraft.Empennage.TailBoom]
+  free  VerticalTail.Planform.S  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  free  Pmax  [Mission.Aircraft.Motor]
+  free  SolarCells.S  [Mission.Aircraft.SolarCells]
+  free  _WingGP.Planform.S  [Mission.Aircraft._WingGP.Planform]
+  free  TailAero.Cd
+  free  TailAero1.Cd
+  free  Cf
+  free  WingAero.Cd
+  free  (E/S)_C  [Mission.FlightSegment5.FlightState]
+  free  (E/S)_{day}  [Mission.FlightSegment5.FlightState]
+  free  (P/S)_{min}  [Mission.FlightSegment5.FlightState]
+  fixed Pavn
+  fixed m_{fac}
+  fixed eta_charge  [Mission.Aircraft.Battery]
+  fixed eta_discharge  [Mission.Aircraft.Battery]
+  fixed Motor.eta  [Mission.Aircraft.Motor]
+  fixed SolarCells.eta  [Mission.Aircraft.SolarCells]
+  fixed (E/S)_{irr}  [Mission.FlightSegment5.FlightState]
+  fixed t_{night}  [Mission.FlightSegment5.FlightState]
+  cons  (E/S)_{irr} ≥ (E/S)_{day} + E/eta_charge/SolarCells.eta/SolarCells.S
+  cons  E·eta_discharge ≥ Poper·t_{night} + (E/S)_C·SolarCells.eta·SolarCells.S
+  cons  Poper ≥ Pavn + Pshaft/Motor.eta
+  cons  Poper = (P/S)_{min}·SolarCells.S·SolarCells.eta
+  cons  CDA/m_{fac} ≥ TailAero.Cd·HorizontalTail.Planform.S/_WingGP.Planform.S + TailAero1.Cd·VerticalTail.Planform.S/_WingGP.Planform.S + Cf·TailBoom.S/_WingGP.Planform.S
+  cons  CD ≥ CDA + WingAero.Cd
+  cons  Poper ≤ Pmax
+[Mission.FlightSegment5.AircraftPerf.WingAero]
+  free  CL
+  free  Cd
+  free  Re
+  free  cdp
+  free  AR  [Mission.Aircraft._WingGP.Planform]
+  free  cmac  [Mission.Aircraft._WingGP.Planform]
+  free  V  [Mission.FlightSegment5.FlightState]
+  free  \rho  [Mission.FlightSegment5.FlightState]
+  fixed CLstall
+  fixed e
+  fixed m_{fac-polar-fit}
+  fixed \mu  [Mission.FlightSegment5.FlightState]
+  cons  Cd ≥ cdp + CL²/3.14/AR/e
+  cons  Re = \rho·V·cmac/\mu
+  cons  CL ≤ CLstall
+[Mission.FlightSegment5.AircraftPerf.TailAero]
+  free  Cd
+  free  Re
+  free  S  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  free  b  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  free  V  [Mission.FlightSegment5.FlightState]
+  free  \rho  [Mission.FlightSegment5.FlightState]
+  fixed m_{fac--fit}
+  fixed \mu  [Mission.FlightSegment5.FlightState]
+  cons  Re = V·\rho·S/b/\mu
+[Mission.FlightSegment5.AircraftPerf.TailAero1]
+  free  Cd
+  free  Re
+  free  S  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  free  b  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  free  V  [Mission.FlightSegment5.FlightState]
+  free  \rho  [Mission.FlightSegment5.FlightState]
+  fixed m_{fac--fit}
+  fixed \mu  [Mission.FlightSegment5.FlightState]
+  cons  Re = V·\rho·S/b/\mu
+[Mission.FlightSegment5.AircraftPerf.TailBoomAero]
+  free  Cf
+  free  Re
+  free  l  [Mission.Aircraft.Empennage.TailBoom]
+  free  V  [Mission.FlightSegment5.FlightState]
+  free  \rho  [Mission.FlightSegment5.FlightState]
+  fixed \mu  [Mission.FlightSegment5.FlightState]
+  cons  Re = V·\rho·l/\mu
+  cons  Cf ≥ 0.455/Re^0.3
+[Mission.FlightSegment5.SteadyLevelFlight]
+  free  T
+  free  Wtotal  [Mission.Aircraft]
+  free  S  [Mission.Aircraft._WingGP.Planform]
+  free  CD  [Mission.FlightSegment5.AircraftPerf]
+  free  Pshaft  [Mission.FlightSegment5.AircraftPerf]
+  free  CL  [Mission.FlightSegment5.AircraftPerf.WingAero]
+  free  V  [Mission.FlightSegment5.FlightState]
+  free  \rho  [Mission.FlightSegment5.FlightState]
+  fixed \eta_{prop}
+  cons  Wtotal ≤ 0.5·\rho·V²·CL·S
+  cons  T ≥ 0.5·\rho·V²·CD·S
+  cons  Pshaft ≥ T·V/\eta_{prop}
+[Mission.FlightSegment5.SparLoading]
+  free  EIbar[:]
+  free  M[:]
+  free  Mtw[:]
+  free  N
+  free  S[:]
+  free  Sout[:]
+  free  W
+  free  q[:]
+  free  th[:]
+  free  theta[:]
+  free  w[:]
+  free  I[:]  [Mission.Aircraft._WingGP.CapSpar]
+  free  Sy[:]  [Mission.Aircraft._WingGP.CapSpar]
+  free  b  [Mission.Aircraft._WingGP.Planform]
+  fixed Mtip
+  fixed Nmax
+  fixed Nsafety
+  fixed Stip
+  fixed kappa
+  fixed throot
+  fixed twmax
+  fixed wroot
+  fixed E  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
+  fixed sigma  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
+  fixed cbar[:]  [Mission.Aircraft._WingGP.Planform]
+  fixed deta[:]  [Mission.Aircraft._WingGP.Planform]
+  cons  S[0] ≥ S[1] + deta[0]·0.5·b/2·(q[0] + q[1])
+  cons  S[1] ≥ S[2] + deta[1]·0.5·b/2·(q[1] + q[2])
+  cons  S[2] ≥ S[3] + deta[2]·0.5·b/2·(q[2] + q[3])
+  cons  S[3] ≥ S[4] + deta[3]·0.5·b/2·(q[3] + q[4])
+  cons  M[0] ≥ M[1] + deta[0]·0.5·b/2·(S[0] + S[1])
+  cons  M[1] ≥ M[2] + deta[1]·0.5·b/2·(S[1] + S[2])
+  cons  M[2] ≥ M[3] + deta[2]·0.5·b/2·(S[2] + S[3])
+  cons  M[3] ≥ M[4] + deta[3]·0.5·b/2·(S[3] + S[4])
+  cons  N = Nsafety·Nmax
+  cons  q[0] ≥ N·W/b·cbar[0]
+  cons  q[1] ≥ N·W/b·cbar[1]
+  cons  q[2] ≥ N·W/b·cbar[2]
+  cons  q[3] ≥ N·W/b·cbar[3]
+  cons  q[4] ≥ N·W/b·cbar[4]
+  cons  S[4] ≥ Stip
+  cons  M[4] ≥ Mtip
+  cons  th[0] ≥ throot
+  cons  th[1] ≥ th[0] + deta[0]·0.5·b/2·(M[1] + M[0])/E/I[0]
+  cons  th[2] ≥ th[1] + deta[1]·0.5·b/2·(M[2] + M[1])/E/I[1]
+  cons  th[3] ≥ th[2] + deta[2]·0.5·b/2·(M[3] + M[2])/E/I[2]
+  cons  th[4] ≥ th[3] + deta[3]·0.5·b/2·(M[4] + M[3])/E/I[3]
+  cons  w[0] ≥ wroot
+  cons  w[1] ≥ w[0] + deta[0]·0.5·b/2·(th[1] + th[0])
+  cons  w[2] ≥ w[1] + deta[1]·0.5·b/2·(th[2] + th[1])
+  cons  w[3] ≥ w[2] + deta[2]·0.5·b/2·(th[3] + th[2])
+  cons  w[4] ≥ w[3] + deta[3]·0.5·b/2·(th[4] + th[3])
+  cons  sigma ≥ M[0]/Sy[0]
+  cons  sigma ≥ M[1]/Sy[1]
+  cons  sigma ≥ M[2]/Sy[2]
+  cons  sigma ≥ M[3]/Sy[3]
+  cons  kappa ≥ w[4]/(b/2)
+[Mission.FlightSegment5.GustL]
+  free  EIbar[:]
+  free  M[:]
+  free  Mtw[:]
+  free  N
+  free  S[:]
+  free  Sout[:]
+  free  Ww
+  free  W
+  free  agust[:]
+  free  cl
+  free  q[:]
+  free  th[:]
+  free  theta[:]
+  free  v
+  free  w[:]
+  free  I[:]  [Mission.Aircraft._WingGP.CapSpar]
+  free  Sy[:]  [Mission.Aircraft._WingGP.CapSpar]
+  free  b  [Mission.Aircraft._WingGP.Planform]
+  fixed Mtip
+  fixed Nmax
+  fixed Nsafety
+  fixed Stip
+  fixed cosminus1[:]
+  fixed kappa
+  fixed m_{fac--fit}
+  fixed throot
+  fixed twmax
+  fixed vgust
+  fixed wroot
+  fixed E  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
+  fixed sigma  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
+  fixed cbar[:]  [Mission.Aircraft._WingGP.Planform]
+  fixed deta[:]  [Mission.Aircraft._WingGP.Planform]
+  cons  S[0] ≥ S[1] + deta[0]·0.5·b/2·(q[0] + q[1])
+  cons  S[1] ≥ S[2] + deta[1]·0.5·b/2·(q[1] + q[2])
+  cons  S[2] ≥ S[3] + deta[2]·0.5·b/2·(q[2] + q[3])
+  cons  S[3] ≥ S[4] + deta[3]·0.5·b/2·(q[3] + q[4])
+  cons  M[0] ≥ M[1] + deta[0]·0.5·b/2·(S[0] + S[1])
+  cons  M[1] ≥ M[2] + deta[1]·0.5·b/2·(S[1] + S[2])
+  cons  M[2] ≥ M[3] + deta[2]·0.5·b/2·(S[2] + S[3])
+  cons  M[3] ≥ M[4] + deta[3]·0.5·b/2·(S[3] + S[4])
+  cons  N = Nsafety·Nmax
+  cons  q[0] ≥ N·W/b·cbar[0]
+  cons  q[1] ≥ N·W/b·cbar[1]
+  cons  q[2] ≥ N·W/b·cbar[2]
+  cons  q[3] ≥ N·W/b·cbar[3]
+  cons  q[4] ≥ N·W/b·cbar[4]
+  cons  S[4] ≥ Stip
+  cons  M[4] ≥ Mtip
+  cons  th[0] ≥ throot
+  cons  th[1] ≥ th[0] + deta[0]·0.5·b/2·(M[1] + M[0])/E/I[0]
+  cons  th[2] ≥ th[1] + deta[1]·0.5·b/2·(M[2] + M[1])/E/I[1]
+  cons  th[3] ≥ th[2] + deta[2]·0.5·b/2·(M[3] + M[2])/E/I[2]
+  cons  th[4] ≥ th[3] + deta[3]·0.5·b/2·(M[4] + M[3])/E/I[3]
+  cons  w[0] ≥ wroot
+  cons  w[1] ≥ w[0] + deta[0]·0.5·b/2·(th[1] + th[0])
+  cons  w[2] ≥ w[1] + deta[1]·0.5·b/2·(th[2] + th[1])
+  cons  w[3] ≥ w[2] + deta[2]·0.5·b/2·(th[3] + th[2])
+  cons  w[4] ≥ w[3] + deta[3]·0.5·b/2·(th[4] + th[3])
+  cons  sigma ≥ M[0]/Sy[0]
+  cons  sigma ≥ M[1]/Sy[1]
+  cons  sigma ≥ M[2]/Sy[2]
+  cons  sigma ≥ M[3]/Sy[3]
+  cons  kappa ≥ w[4]/(b/2)
+  cons  q[0] ≥ W·N/b·cbar[0]·(agust[0]·6.28/cl·(1 + Ww/W) + 1)
+  cons  q[1] ≥ W·N/b·cbar[1]·(agust[1]·6.28/cl·(1 + Ww/W) + 1)
+  cons  q[2] ≥ W·N/b·cbar[2]·(agust[2]·6.28/cl·(1 + Ww/W) + 1)
+  cons  q[3] ≥ W·N/b·cbar[3]·(agust[3]·6.28/cl·(1 + Ww/W) + 1)
+  cons  q[4] ≥ W·N/b·cbar[4]·(agust[4]·6.28/cl·(1 + Ww/W) + 1)
+[Mission.FlightSegment5.TailBoomBending]
+  free  F
+  free  Mr[:]
+  free  th
+  free  S  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  free  I[:]  [Mission.Aircraft.Empennage.TailBoom]
+  free  Sy[:]  [Mission.Aircraft.Empennage.TailBoom]
+  free  l  [Mission.Aircraft.Empennage.TailBoom]
+  free  qne  [Mission.FlightSegment5.FlightState]
+  free  \bar{EI}[:]
+  free  \bar{M}[:]
+  free  \bar{\delta}[:]
+  free  \theta[:]
+  free  dx[:]
+  fixed Nsafety
+  fixed kappa
+  fixed CLmax  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  fixed E  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
+  fixed sigma  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
+  fixed deta  [Mission.Aircraft.Empennage.TailBoom]
+  cons  dx[0] = deta
+  cons  F ≥ qne·S
+  cons  \bar{EI}[0] ≤ E·I[0]/F/l²/2
+  cons  Mr[0] ≥ \bar{M}[0]·F·l
+  cons  sigma ≥ Mr[0]/Sy[0]
+  cons  th = \theta[1]
+  cons  kappa ≥ \bar{\delta}[1]·CLmax·Nsafety
+[Mission.FlightSegment5.TailBoomBending.Beam]
+  free  \bar{EI}[:]
+  free  \bar{M}[:]
+  free  \bar{\delta}[:]
+  free  \theta[:]
+  free  dx[:]
+  fixed \bar{M}_{tip}
+  fixed \bar{S}[:]
+  fixed \bar{\delta}_{root}
+  fixed \theta_{root}
+  cons  \bar{M}[0] ≥ \bar{M}[1] + dx[0]·0.5·(\bar{S}[0] + \bar{S}[1])
+  cons  \bar{M}[1] ≥ \bar{M}_{tip}
+  cons  \theta[0] ≥ \theta_{root}
+  cons  \theta[1] ≥ \theta[0] + dx[0]·0.5·(\bar{M}[1] + \bar{M}[0])/\bar{EI}[0]
+  cons  \bar{\delta}[0] ≥ \bar{\delta}_{root}
+  cons  \bar{\delta}[1] ≥ \bar{\delta}[0] + dx[0]·0.5·(\theta[1] + \theta[0])
+[Mission.FlightSegment5.TailBoomBending1]
+  free  F
+  free  Mr[:]
+  free  th
+  free  I[:]  [Mission.Aircraft.Empennage.TailBoom]
+  free  Sy[:]  [Mission.Aircraft.Empennage.TailBoom]
+  free  l  [Mission.Aircraft.Empennage.TailBoom]
+  free  S  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  free  qne  [Mission.FlightSegment5.FlightState]
+  free  \bar{EI}[:]
+  free  \bar{M}[:]
+  free  \bar{\delta}[:]
+  free  \theta[:]
+  free  dx[:]
+  fixed Nsafety
+  fixed kappa
+  fixed E  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
+  fixed sigma  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
+  fixed deta  [Mission.Aircraft.Empennage.TailBoom]
+  fixed CLmax  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  cons  dx[0] = deta
+  cons  F ≥ qne·S
+  cons  \bar{EI}[0] ≤ E·I[0]/F/l²/2
+  cons  Mr[0] ≥ \bar{M}[0]·F·l
+  cons  sigma ≥ Mr[0]/Sy[0]
+  cons  th = \theta[1]
+  cons  kappa ≥ \bar{\delta}[1]·CLmax·Nsafety
+[Mission.FlightSegment5.TailBoomBending1.Beam]
+  free  \bar{EI}[:]
+  free  \bar{M}[:]
+  free  \bar{\delta}[:]
+  free  \theta[:]
+  free  dx[:]
+  fixed \bar{M}_{tip}
+  fixed \bar{S}[:]
+  fixed \bar{\delta}_{root}
+  fixed \theta_{root}
+  cons  \bar{M}[0] ≥ \bar{M}[1] + dx[0]·0.5·(\bar{S}[0] + \bar{S}[1])
+  cons  \bar{M}[1] ≥ \bar{M}_{tip}
+  cons  \theta[0] ≥ \theta_{root}
+  cons  \theta[1] ≥ \theta[0] + dx[0]·0.5·(\bar{M}[1] + \bar{M}[0])/\bar{EI}[0]
+  cons  \bar{\delta}[0] ≥ \bar{\delta}_{root}
+  cons  \bar{\delta}[1] ≥ \bar{\delta}[0] + dx[0]·0.5·(\theta[1] + \theta[0])
+[Mission.FlightSegment6]
+  free  Wcent  [Mission.Aircraft]
+  free  Wwing  [Mission.Aircraft]
+  free  CL
+  free  V
+  free  Ww
+  free  GustL.W
+  free  cl
+  free  v
+  free  SparLoading.W
+  cons  SparLoading.W = Wcent
+  cons  GustL.W = Wcent
+  cons  Ww = Wwing
+  cons  v = V
+  cons  cl = CL
+[Mission.FlightSegment6.FlightState]
+  free  (E/S)_C
+  free  (E/S)_{day}
+  free  (P/S)_{min}
+  free  V_{wind}
+  free  V
+  free  \rho
+  free  qne
+  fixed (E/S)_{irr}
+  fixed (E/S)_{ref}
+  fixed (P/S)_{ref}
+  fixed V_{wind-ref}
+  fixed Vne
+  fixed \mu
+  fixed \rho_{ref}
+  fixed m_{fac--fit}
+  fixed m_{fac}
+  fixed p_{wind}
+  fixed rhosl
+  fixed t_{night}
+  cons  V_{wind} ≤ V/m_{fac}
+  cons  qne = 0.5·Vne²·rhosl
+[Mission.FlightSegment6.AircraftPerf]
+  free  CD
+  free  CDA
+  free  Poper
+  free  Pshaft
+  free  E  [Mission.Aircraft.Battery]
+  free  HorizontalTail.Planform.S  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  free  TailBoom.S  [Mission.Aircraft.Empennage.TailBoom]
+  free  VerticalTail.Planform.S  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  free  Pmax  [Mission.Aircraft.Motor]
+  free  SolarCells.S  [Mission.Aircraft.SolarCells]
+  free  _WingGP.Planform.S  [Mission.Aircraft._WingGP.Planform]
+  free  TailAero.Cd
+  free  TailAero1.Cd
+  free  Cf
+  free  WingAero.Cd
+  free  (E/S)_C  [Mission.FlightSegment6.FlightState]
+  free  (E/S)_{day}  [Mission.FlightSegment6.FlightState]
+  free  (P/S)_{min}  [Mission.FlightSegment6.FlightState]
+  fixed Pavn
+  fixed m_{fac}
+  fixed eta_charge  [Mission.Aircraft.Battery]
+  fixed eta_discharge  [Mission.Aircraft.Battery]
+  fixed Motor.eta  [Mission.Aircraft.Motor]
+  fixed SolarCells.eta  [Mission.Aircraft.SolarCells]
+  fixed (E/S)_{irr}  [Mission.FlightSegment6.FlightState]
+  fixed t_{night}  [Mission.FlightSegment6.FlightState]
+  cons  (E/S)_{irr} ≥ (E/S)_{day} + E/eta_charge/SolarCells.eta/SolarCells.S
+  cons  E·eta_discharge ≥ Poper·t_{night} + (E/S)_C·SolarCells.eta·SolarCells.S
+  cons  Poper ≥ Pavn + Pshaft/Motor.eta
+  cons  Poper = (P/S)_{min}·SolarCells.S·SolarCells.eta
+  cons  CDA/m_{fac} ≥ TailAero.Cd·HorizontalTail.Planform.S/_WingGP.Planform.S + TailAero1.Cd·VerticalTail.Planform.S/_WingGP.Planform.S + Cf·TailBoom.S/_WingGP.Planform.S
+  cons  CD ≥ CDA + WingAero.Cd
+  cons  Poper ≤ Pmax
+[Mission.FlightSegment6.AircraftPerf.WingAero]
+  free  CL
+  free  Cd
+  free  Re
+  free  cdp
+  free  AR  [Mission.Aircraft._WingGP.Planform]
+  free  cmac  [Mission.Aircraft._WingGP.Planform]
+  free  V  [Mission.FlightSegment6.FlightState]
+  free  \rho  [Mission.FlightSegment6.FlightState]
+  fixed CLstall
+  fixed e
+  fixed m_{fac-polar-fit}
+  fixed \mu  [Mission.FlightSegment6.FlightState]
+  cons  Cd ≥ cdp + CL²/3.14/AR/e
+  cons  Re = \rho·V·cmac/\mu
+  cons  CL ≤ CLstall
+[Mission.FlightSegment6.AircraftPerf.TailAero]
+  free  Cd
+  free  Re
+  free  S  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  free  b  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  free  V  [Mission.FlightSegment6.FlightState]
+  free  \rho  [Mission.FlightSegment6.FlightState]
+  fixed m_{fac--fit}
+  fixed \mu  [Mission.FlightSegment6.FlightState]
+  cons  Re = V·\rho·S/b/\mu
+[Mission.FlightSegment6.AircraftPerf.TailAero1]
+  free  Cd
+  free  Re
+  free  S  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  free  b  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  free  V  [Mission.FlightSegment6.FlightState]
+  free  \rho  [Mission.FlightSegment6.FlightState]
+  fixed m_{fac--fit}
+  fixed \mu  [Mission.FlightSegment6.FlightState]
+  cons  Re = V·\rho·S/b/\mu
+[Mission.FlightSegment6.AircraftPerf.TailBoomAero]
+  free  Cf
+  free  Re
+  free  l  [Mission.Aircraft.Empennage.TailBoom]
+  free  V  [Mission.FlightSegment6.FlightState]
+  free  \rho  [Mission.FlightSegment6.FlightState]
+  fixed \mu  [Mission.FlightSegment6.FlightState]
+  cons  Re = V·\rho·l/\mu
+  cons  Cf ≥ 0.455/Re^0.3
+[Mission.FlightSegment6.SteadyLevelFlight]
+  free  T
+  free  Wtotal  [Mission.Aircraft]
+  free  S  [Mission.Aircraft._WingGP.Planform]
+  free  CD  [Mission.FlightSegment6.AircraftPerf]
+  free  Pshaft  [Mission.FlightSegment6.AircraftPerf]
+  free  CL  [Mission.FlightSegment6.AircraftPerf.WingAero]
+  free  V  [Mission.FlightSegment6.FlightState]
+  free  \rho  [Mission.FlightSegment6.FlightState]
+  fixed \eta_{prop}
+  cons  Wtotal ≤ 0.5·\rho·V²·CL·S
+  cons  T ≥ 0.5·\rho·V²·CD·S
+  cons  Pshaft ≥ T·V/\eta_{prop}
+[Mission.FlightSegment6.SparLoading]
+  free  EIbar[:]
+  free  M[:]
+  free  Mtw[:]
+  free  N
+  free  S[:]
+  free  Sout[:]
+  free  W
+  free  q[:]
+  free  th[:]
+  free  theta[:]
+  free  w[:]
+  free  I[:]  [Mission.Aircraft._WingGP.CapSpar]
+  free  Sy[:]  [Mission.Aircraft._WingGP.CapSpar]
+  free  b  [Mission.Aircraft._WingGP.Planform]
+  fixed Mtip
+  fixed Nmax
+  fixed Nsafety
+  fixed Stip
+  fixed kappa
+  fixed throot
+  fixed twmax
+  fixed wroot
+  fixed E  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
+  fixed sigma  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
+  fixed cbar[:]  [Mission.Aircraft._WingGP.Planform]
+  fixed deta[:]  [Mission.Aircraft._WingGP.Planform]
+  cons  S[0] ≥ S[1] + deta[0]·0.5·b/2·(q[0] + q[1])
+  cons  S[1] ≥ S[2] + deta[1]·0.5·b/2·(q[1] + q[2])
+  cons  S[2] ≥ S[3] + deta[2]·0.5·b/2·(q[2] + q[3])
+  cons  S[3] ≥ S[4] + deta[3]·0.5·b/2·(q[3] + q[4])
+  cons  M[0] ≥ M[1] + deta[0]·0.5·b/2·(S[0] + S[1])
+  cons  M[1] ≥ M[2] + deta[1]·0.5·b/2·(S[1] + S[2])
+  cons  M[2] ≥ M[3] + deta[2]·0.5·b/2·(S[2] + S[3])
+  cons  M[3] ≥ M[4] + deta[3]·0.5·b/2·(S[3] + S[4])
+  cons  N = Nsafety·Nmax
+  cons  q[0] ≥ N·W/b·cbar[0]
+  cons  q[1] ≥ N·W/b·cbar[1]
+  cons  q[2] ≥ N·W/b·cbar[2]
+  cons  q[3] ≥ N·W/b·cbar[3]
+  cons  q[4] ≥ N·W/b·cbar[4]
+  cons  S[4] ≥ Stip
+  cons  M[4] ≥ Mtip
+  cons  th[0] ≥ throot
+  cons  th[1] ≥ th[0] + deta[0]·0.5·b/2·(M[1] + M[0])/E/I[0]
+  cons  th[2] ≥ th[1] + deta[1]·0.5·b/2·(M[2] + M[1])/E/I[1]
+  cons  th[3] ≥ th[2] + deta[2]·0.5·b/2·(M[3] + M[2])/E/I[2]
+  cons  th[4] ≥ th[3] + deta[3]·0.5·b/2·(M[4] + M[3])/E/I[3]
+  cons  w[0] ≥ wroot
+  cons  w[1] ≥ w[0] + deta[0]·0.5·b/2·(th[1] + th[0])
+  cons  w[2] ≥ w[1] + deta[1]·0.5·b/2·(th[2] + th[1])
+  cons  w[3] ≥ w[2] + deta[2]·0.5·b/2·(th[3] + th[2])
+  cons  w[4] ≥ w[3] + deta[3]·0.5·b/2·(th[4] + th[3])
+  cons  sigma ≥ M[0]/Sy[0]
+  cons  sigma ≥ M[1]/Sy[1]
+  cons  sigma ≥ M[2]/Sy[2]
+  cons  sigma ≥ M[3]/Sy[3]
+  cons  kappa ≥ w[4]/(b/2)
+[Mission.FlightSegment6.GustL]
+  free  EIbar[:]
+  free  M[:]
+  free  Mtw[:]
+  free  N
+  free  S[:]
+  free  Sout[:]
+  free  Ww
+  free  W
+  free  agust[:]
+  free  cl
+  free  q[:]
+  free  th[:]
+  free  theta[:]
+  free  v
+  free  w[:]
+  free  I[:]  [Mission.Aircraft._WingGP.CapSpar]
+  free  Sy[:]  [Mission.Aircraft._WingGP.CapSpar]
+  free  b  [Mission.Aircraft._WingGP.Planform]
+  fixed Mtip
+  fixed Nmax
+  fixed Nsafety
+  fixed Stip
+  fixed cosminus1[:]
+  fixed kappa
+  fixed m_{fac--fit}
+  fixed throot
+  fixed twmax
+  fixed vgust
+  fixed wroot
+  fixed E  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
+  fixed sigma  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
+  fixed cbar[:]  [Mission.Aircraft._WingGP.Planform]
+  fixed deta[:]  [Mission.Aircraft._WingGP.Planform]
+  cons  S[0] ≥ S[1] + deta[0]·0.5·b/2·(q[0] + q[1])
+  cons  S[1] ≥ S[2] + deta[1]·0.5·b/2·(q[1] + q[2])
+  cons  S[2] ≥ S[3] + deta[2]·0.5·b/2·(q[2] + q[3])
+  cons  S[3] ≥ S[4] + deta[3]·0.5·b/2·(q[3] + q[4])
+  cons  M[0] ≥ M[1] + deta[0]·0.5·b/2·(S[0] + S[1])
+  cons  M[1] ≥ M[2] + deta[1]·0.5·b/2·(S[1] + S[2])
+  cons  M[2] ≥ M[3] + deta[2]·0.5·b/2·(S[2] + S[3])
+  cons  M[3] ≥ M[4] + deta[3]·0.5·b/2·(S[3] + S[4])
+  cons  N = Nsafety·Nmax
+  cons  q[0] ≥ N·W/b·cbar[0]
+  cons  q[1] ≥ N·W/b·cbar[1]
+  cons  q[2] ≥ N·W/b·cbar[2]
+  cons  q[3] ≥ N·W/b·cbar[3]
+  cons  q[4] ≥ N·W/b·cbar[4]
+  cons  S[4] ≥ Stip
+  cons  M[4] ≥ Mtip
+  cons  th[0] ≥ throot
+  cons  th[1] ≥ th[0] + deta[0]·0.5·b/2·(M[1] + M[0])/E/I[0]
+  cons  th[2] ≥ th[1] + deta[1]·0.5·b/2·(M[2] + M[1])/E/I[1]
+  cons  th[3] ≥ th[2] + deta[2]·0.5·b/2·(M[3] + M[2])/E/I[2]
+  cons  th[4] ≥ th[3] + deta[3]·0.5·b/2·(M[4] + M[3])/E/I[3]
+  cons  w[0] ≥ wroot
+  cons  w[1] ≥ w[0] + deta[0]·0.5·b/2·(th[1] + th[0])
+  cons  w[2] ≥ w[1] + deta[1]·0.5·b/2·(th[2] + th[1])
+  cons  w[3] ≥ w[2] + deta[2]·0.5·b/2·(th[3] + th[2])
+  cons  w[4] ≥ w[3] + deta[3]·0.5·b/2·(th[4] + th[3])
+  cons  sigma ≥ M[0]/Sy[0]
+  cons  sigma ≥ M[1]/Sy[1]
+  cons  sigma ≥ M[2]/Sy[2]
+  cons  sigma ≥ M[3]/Sy[3]
+  cons  kappa ≥ w[4]/(b/2)
+  cons  q[0] ≥ W·N/b·cbar[0]·(agust[0]·6.28/cl·(1 + Ww/W) + 1)
+  cons  q[1] ≥ W·N/b·cbar[1]·(agust[1]·6.28/cl·(1 + Ww/W) + 1)
+  cons  q[2] ≥ W·N/b·cbar[2]·(agust[2]·6.28/cl·(1 + Ww/W) + 1)
+  cons  q[3] ≥ W·N/b·cbar[3]·(agust[3]·6.28/cl·(1 + Ww/W) + 1)
+  cons  q[4] ≥ W·N/b·cbar[4]·(agust[4]·6.28/cl·(1 + Ww/W) + 1)
+[Mission.FlightSegment6.TailBoomBending]
+  free  F
+  free  Mr[:]
+  free  th
+  free  S  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  free  I[:]  [Mission.Aircraft.Empennage.TailBoom]
+  free  Sy[:]  [Mission.Aircraft.Empennage.TailBoom]
+  free  l  [Mission.Aircraft.Empennage.TailBoom]
+  free  qne  [Mission.FlightSegment6.FlightState]
+  free  \bar{EI}[:]
+  free  \bar{M}[:]
+  free  \bar{\delta}[:]
+  free  \theta[:]
+  free  dx[:]
+  fixed Nsafety
+  fixed kappa
+  fixed CLmax  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  fixed E  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
+  fixed sigma  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
+  fixed deta  [Mission.Aircraft.Empennage.TailBoom]
+  cons  dx[0] = deta
+  cons  F ≥ qne·S
+  cons  \bar{EI}[0] ≤ E·I[0]/F/l²/2
+  cons  Mr[0] ≥ \bar{M}[0]·F·l
+  cons  sigma ≥ Mr[0]/Sy[0]
+  cons  th = \theta[1]
+  cons  kappa ≥ \bar{\delta}[1]·CLmax·Nsafety
+[Mission.FlightSegment6.TailBoomBending.Beam]
+  free  \bar{EI}[:]
+  free  \bar{M}[:]
+  free  \bar{\delta}[:]
+  free  \theta[:]
+  free  dx[:]
+  fixed \bar{M}_{tip}
+  fixed \bar{S}[:]
+  fixed \bar{\delta}_{root}
+  fixed \theta_{root}
+  cons  \bar{M}[0] ≥ \bar{M}[1] + dx[0]·0.5·(\bar{S}[0] + \bar{S}[1])
+  cons  \bar{M}[1] ≥ \bar{M}_{tip}
+  cons  \theta[0] ≥ \theta_{root}
+  cons  \theta[1] ≥ \theta[0] + dx[0]·0.5·(\bar{M}[1] + \bar{M}[0])/\bar{EI}[0]
+  cons  \bar{\delta}[0] ≥ \bar{\delta}_{root}
+  cons  \bar{\delta}[1] ≥ \bar{\delta}[0] + dx[0]·0.5·(\theta[1] + \theta[0])
+[Mission.FlightSegment6.TailBoomBending1]
+  free  F
+  free  Mr[:]
+  free  th
+  free  I[:]  [Mission.Aircraft.Empennage.TailBoom]
+  free  Sy[:]  [Mission.Aircraft.Empennage.TailBoom]
+  free  l  [Mission.Aircraft.Empennage.TailBoom]
+  free  S  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  free  qne  [Mission.FlightSegment6.FlightState]
+  free  \bar{EI}[:]
+  free  \bar{M}[:]
+  free  \bar{\delta}[:]
+  free  \theta[:]
+  free  dx[:]
+  fixed Nsafety
+  fixed kappa
+  fixed E  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
+  fixed sigma  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
+  fixed deta  [Mission.Aircraft.Empennage.TailBoom]
+  fixed CLmax  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  cons  dx[0] = deta
+  cons  F ≥ qne·S
+  cons  \bar{EI}[0] ≤ E·I[0]/F/l²/2
+  cons  Mr[0] ≥ \bar{M}[0]·F·l
+  cons  sigma ≥ Mr[0]/Sy[0]
+  cons  th = \theta[1]
+  cons  kappa ≥ \bar{\delta}[1]·CLmax·Nsafety
+[Mission.FlightSegment6.TailBoomBending1.Beam]
+  free  \bar{EI}[:]
+  free  \bar{M}[:]
+  free  \bar{\delta}[:]
+  free  \theta[:]
+  free  dx[:]
+  fixed \bar{M}_{tip}
+  fixed \bar{S}[:]
+  fixed \bar{\delta}_{root}
+  fixed \theta_{root}
+  cons  \bar{M}[0] ≥ \bar{M}[1] + dx[0]·0.5·(\bar{S}[0] + \bar{S}[1])
+  cons  \bar{M}[1] ≥ \bar{M}_{tip}
+  cons  \theta[0] ≥ \theta_{root}
+  cons  \theta[1] ≥ \theta[0] + dx[0]·0.5·(\bar{M}[1] + \bar{M}[0])/\bar{EI}[0]
+  cons  \bar{\delta}[0] ≥ \bar{\delta}_{root}
+  cons  \bar{\delta}[1] ≥ \bar{\delta}[0] + dx[0]·0.5·(\theta[1] + \theta[0])
+[Mission.FlightSegment7]
+  free  Wcent  [Mission.Aircraft]
+  free  Wwing  [Mission.Aircraft]
+  free  CL
+  free  V
+  free  Ww
+  free  GustL.W
+  free  cl
+  free  v
+  free  SparLoading.W
+  cons  SparLoading.W = Wcent
+  cons  GustL.W = Wcent
+  cons  Ww = Wwing
+  cons  v = V
+  cons  cl = CL
+[Mission.FlightSegment7.FlightState]
+  free  (E/S)_C
+  free  (E/S)_{day}
+  free  (P/S)_{min}
+  free  V_{wind}
+  free  V
+  free  \rho
+  free  qne
+  fixed (E/S)_{irr}
+  fixed (E/S)_{ref}
+  fixed (P/S)_{ref}
+  fixed V_{wind-ref}
+  fixed Vne
+  fixed \mu
+  fixed \rho_{ref}
+  fixed m_{fac--fit}
+  fixed m_{fac}
+  fixed p_{wind}
+  fixed rhosl
+  fixed t_{night}
+  cons  V_{wind} ≤ V/m_{fac}
+  cons  qne = 0.5·Vne²·rhosl
+[Mission.FlightSegment7.AircraftPerf]
+  free  CD
+  free  CDA
+  free  Poper
+  free  Pshaft
+  free  E  [Mission.Aircraft.Battery]
+  free  HorizontalTail.Planform.S  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  free  TailBoom.S  [Mission.Aircraft.Empennage.TailBoom]
+  free  VerticalTail.Planform.S  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  free  Pmax  [Mission.Aircraft.Motor]
+  free  SolarCells.S  [Mission.Aircraft.SolarCells]
+  free  _WingGP.Planform.S  [Mission.Aircraft._WingGP.Planform]
+  free  TailAero.Cd
+  free  TailAero1.Cd
+  free  Cf
+  free  WingAero.Cd
+  free  (E/S)_C  [Mission.FlightSegment7.FlightState]
+  free  (E/S)_{day}  [Mission.FlightSegment7.FlightState]
+  free  (P/S)_{min}  [Mission.FlightSegment7.FlightState]
+  fixed Pavn
+  fixed m_{fac}
+  fixed eta_charge  [Mission.Aircraft.Battery]
+  fixed eta_discharge  [Mission.Aircraft.Battery]
+  fixed Motor.eta  [Mission.Aircraft.Motor]
+  fixed SolarCells.eta  [Mission.Aircraft.SolarCells]
+  fixed (E/S)_{irr}  [Mission.FlightSegment7.FlightState]
+  fixed t_{night}  [Mission.FlightSegment7.FlightState]
+  cons  (E/S)_{irr} ≥ (E/S)_{day} + E/eta_charge/SolarCells.eta/SolarCells.S
+  cons  E·eta_discharge ≥ Poper·t_{night} + (E/S)_C·SolarCells.eta·SolarCells.S
+  cons  Poper ≥ Pavn + Pshaft/Motor.eta
+  cons  Poper = (P/S)_{min}·SolarCells.S·SolarCells.eta
+  cons  CDA/m_{fac} ≥ TailAero.Cd·HorizontalTail.Planform.S/_WingGP.Planform.S + TailAero1.Cd·VerticalTail.Planform.S/_WingGP.Planform.S + Cf·TailBoom.S/_WingGP.Planform.S
+  cons  CD ≥ CDA + WingAero.Cd
+  cons  Poper ≤ Pmax
+[Mission.FlightSegment7.AircraftPerf.WingAero]
+  free  CL
+  free  Cd
+  free  Re
+  free  cdp
+  free  AR  [Mission.Aircraft._WingGP.Planform]
+  free  cmac  [Mission.Aircraft._WingGP.Planform]
+  free  V  [Mission.FlightSegment7.FlightState]
+  free  \rho  [Mission.FlightSegment7.FlightState]
+  fixed CLstall
+  fixed e
+  fixed m_{fac-polar-fit}
+  fixed \mu  [Mission.FlightSegment7.FlightState]
+  cons  Cd ≥ cdp + CL²/3.14/AR/e
+  cons  Re = \rho·V·cmac/\mu
+  cons  CL ≤ CLstall
+[Mission.FlightSegment7.AircraftPerf.TailAero]
+  free  Cd
+  free  Re
+  free  S  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  free  b  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  free  V  [Mission.FlightSegment7.FlightState]
+  free  \rho  [Mission.FlightSegment7.FlightState]
+  fixed m_{fac--fit}
+  fixed \mu  [Mission.FlightSegment7.FlightState]
+  cons  Re = V·\rho·S/b/\mu
+[Mission.FlightSegment7.AircraftPerf.TailAero1]
+  free  Cd
+  free  Re
+  free  S  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  free  b  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  free  V  [Mission.FlightSegment7.FlightState]
+  free  \rho  [Mission.FlightSegment7.FlightState]
+  fixed m_{fac--fit}
+  fixed \mu  [Mission.FlightSegment7.FlightState]
+  cons  Re = V·\rho·S/b/\mu
+[Mission.FlightSegment7.AircraftPerf.TailBoomAero]
+  free  Cf
+  free  Re
+  free  l  [Mission.Aircraft.Empennage.TailBoom]
+  free  V  [Mission.FlightSegment7.FlightState]
+  free  \rho  [Mission.FlightSegment7.FlightState]
+  fixed \mu  [Mission.FlightSegment7.FlightState]
+  cons  Re = V·\rho·l/\mu
+  cons  Cf ≥ 0.455/Re^0.3
+[Mission.FlightSegment7.SteadyLevelFlight]
+  free  T
+  free  Wtotal  [Mission.Aircraft]
+  free  S  [Mission.Aircraft._WingGP.Planform]
+  free  CD  [Mission.FlightSegment7.AircraftPerf]
+  free  Pshaft  [Mission.FlightSegment7.AircraftPerf]
+  free  CL  [Mission.FlightSegment7.AircraftPerf.WingAero]
+  free  V  [Mission.FlightSegment7.FlightState]
+  free  \rho  [Mission.FlightSegment7.FlightState]
+  fixed \eta_{prop}
+  cons  Wtotal ≤ 0.5·\rho·V²·CL·S
+  cons  T ≥ 0.5·\rho·V²·CD·S
+  cons  Pshaft ≥ T·V/\eta_{prop}
+[Mission.FlightSegment7.SparLoading]
+  free  EIbar[:]
+  free  M[:]
+  free  Mtw[:]
+  free  N
+  free  S[:]
+  free  Sout[:]
+  free  W
+  free  q[:]
+  free  th[:]
+  free  theta[:]
+  free  w[:]
+  free  I[:]  [Mission.Aircraft._WingGP.CapSpar]
+  free  Sy[:]  [Mission.Aircraft._WingGP.CapSpar]
+  free  b  [Mission.Aircraft._WingGP.Planform]
+  fixed Mtip
+  fixed Nmax
+  fixed Nsafety
+  fixed Stip
+  fixed kappa
+  fixed throot
+  fixed twmax
+  fixed wroot
+  fixed E  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
+  fixed sigma  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
+  fixed cbar[:]  [Mission.Aircraft._WingGP.Planform]
+  fixed deta[:]  [Mission.Aircraft._WingGP.Planform]
+  cons  S[0] ≥ S[1] + deta[0]·0.5·b/2·(q[0] + q[1])
+  cons  S[1] ≥ S[2] + deta[1]·0.5·b/2·(q[1] + q[2])
+  cons  S[2] ≥ S[3] + deta[2]·0.5·b/2·(q[2] + q[3])
+  cons  S[3] ≥ S[4] + deta[3]·0.5·b/2·(q[3] + q[4])
+  cons  M[0] ≥ M[1] + deta[0]·0.5·b/2·(S[0] + S[1])
+  cons  M[1] ≥ M[2] + deta[1]·0.5·b/2·(S[1] + S[2])
+  cons  M[2] ≥ M[3] + deta[2]·0.5·b/2·(S[2] + S[3])
+  cons  M[3] ≥ M[4] + deta[3]·0.5·b/2·(S[3] + S[4])
+  cons  N = Nsafety·Nmax
+  cons  q[0] ≥ N·W/b·cbar[0]
+  cons  q[1] ≥ N·W/b·cbar[1]
+  cons  q[2] ≥ N·W/b·cbar[2]
+  cons  q[3] ≥ N·W/b·cbar[3]
+  cons  q[4] ≥ N·W/b·cbar[4]
+  cons  S[4] ≥ Stip
+  cons  M[4] ≥ Mtip
+  cons  th[0] ≥ throot
+  cons  th[1] ≥ th[0] + deta[0]·0.5·b/2·(M[1] + M[0])/E/I[0]
+  cons  th[2] ≥ th[1] + deta[1]·0.5·b/2·(M[2] + M[1])/E/I[1]
+  cons  th[3] ≥ th[2] + deta[2]·0.5·b/2·(M[3] + M[2])/E/I[2]
+  cons  th[4] ≥ th[3] + deta[3]·0.5·b/2·(M[4] + M[3])/E/I[3]
+  cons  w[0] ≥ wroot
+  cons  w[1] ≥ w[0] + deta[0]·0.5·b/2·(th[1] + th[0])
+  cons  w[2] ≥ w[1] + deta[1]·0.5·b/2·(th[2] + th[1])
+  cons  w[3] ≥ w[2] + deta[2]·0.5·b/2·(th[3] + th[2])
+  cons  w[4] ≥ w[3] + deta[3]·0.5·b/2·(th[4] + th[3])
+  cons  sigma ≥ M[0]/Sy[0]
+  cons  sigma ≥ M[1]/Sy[1]
+  cons  sigma ≥ M[2]/Sy[2]
+  cons  sigma ≥ M[3]/Sy[3]
+  cons  kappa ≥ w[4]/(b/2)
+[Mission.FlightSegment7.GustL]
+  free  EIbar[:]
+  free  M[:]
+  free  Mtw[:]
+  free  N
+  free  S[:]
+  free  Sout[:]
+  free  Ww
+  free  W
+  free  agust[:]
+  free  cl
+  free  q[:]
+  free  th[:]
+  free  theta[:]
+  free  v
+  free  w[:]
+  free  I[:]  [Mission.Aircraft._WingGP.CapSpar]
+  free  Sy[:]  [Mission.Aircraft._WingGP.CapSpar]
+  free  b  [Mission.Aircraft._WingGP.Planform]
+  fixed Mtip
+  fixed Nmax
+  fixed Nsafety
+  fixed Stip
+  fixed cosminus1[:]
+  fixed kappa
+  fixed m_{fac--fit}
+  fixed throot
+  fixed twmax
+  fixed vgust
+  fixed wroot
+  fixed E  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
+  fixed sigma  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
+  fixed cbar[:]  [Mission.Aircraft._WingGP.Planform]
+  fixed deta[:]  [Mission.Aircraft._WingGP.Planform]
+  cons  S[0] ≥ S[1] + deta[0]·0.5·b/2·(q[0] + q[1])
+  cons  S[1] ≥ S[2] + deta[1]·0.5·b/2·(q[1] + q[2])
+  cons  S[2] ≥ S[3] + deta[2]·0.5·b/2·(q[2] + q[3])
+  cons  S[3] ≥ S[4] + deta[3]·0.5·b/2·(q[3] + q[4])
+  cons  M[0] ≥ M[1] + deta[0]·0.5·b/2·(S[0] + S[1])
+  cons  M[1] ≥ M[2] + deta[1]·0.5·b/2·(S[1] + S[2])
+  cons  M[2] ≥ M[3] + deta[2]·0.5·b/2·(S[2] + S[3])
+  cons  M[3] ≥ M[4] + deta[3]·0.5·b/2·(S[3] + S[4])
+  cons  N = Nsafety·Nmax
+  cons  q[0] ≥ N·W/b·cbar[0]
+  cons  q[1] ≥ N·W/b·cbar[1]
+  cons  q[2] ≥ N·W/b·cbar[2]
+  cons  q[3] ≥ N·W/b·cbar[3]
+  cons  q[4] ≥ N·W/b·cbar[4]
+  cons  S[4] ≥ Stip
+  cons  M[4] ≥ Mtip
+  cons  th[0] ≥ throot
+  cons  th[1] ≥ th[0] + deta[0]·0.5·b/2·(M[1] + M[0])/E/I[0]
+  cons  th[2] ≥ th[1] + deta[1]·0.5·b/2·(M[2] + M[1])/E/I[1]
+  cons  th[3] ≥ th[2] + deta[2]·0.5·b/2·(M[3] + M[2])/E/I[2]
+  cons  th[4] ≥ th[3] + deta[3]·0.5·b/2·(M[4] + M[3])/E/I[3]
+  cons  w[0] ≥ wroot
+  cons  w[1] ≥ w[0] + deta[0]·0.5·b/2·(th[1] + th[0])
+  cons  w[2] ≥ w[1] + deta[1]·0.5·b/2·(th[2] + th[1])
+  cons  w[3] ≥ w[2] + deta[2]·0.5·b/2·(th[3] + th[2])
+  cons  w[4] ≥ w[3] + deta[3]·0.5·b/2·(th[4] + th[3])
+  cons  sigma ≥ M[0]/Sy[0]
+  cons  sigma ≥ M[1]/Sy[1]
+  cons  sigma ≥ M[2]/Sy[2]
+  cons  sigma ≥ M[3]/Sy[3]
+  cons  kappa ≥ w[4]/(b/2)
+  cons  q[0] ≥ W·N/b·cbar[0]·(agust[0]·6.28/cl·(1 + Ww/W) + 1)
+  cons  q[1] ≥ W·N/b·cbar[1]·(agust[1]·6.28/cl·(1 + Ww/W) + 1)
+  cons  q[2] ≥ W·N/b·cbar[2]·(agust[2]·6.28/cl·(1 + Ww/W) + 1)
+  cons  q[3] ≥ W·N/b·cbar[3]·(agust[3]·6.28/cl·(1 + Ww/W) + 1)
+  cons  q[4] ≥ W·N/b·cbar[4]·(agust[4]·6.28/cl·(1 + Ww/W) + 1)
+[Mission.FlightSegment7.TailBoomBending]
+  free  F
+  free  Mr[:]
+  free  th
+  free  S  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  free  I[:]  [Mission.Aircraft.Empennage.TailBoom]
+  free  Sy[:]  [Mission.Aircraft.Empennage.TailBoom]
+  free  l  [Mission.Aircraft.Empennage.TailBoom]
+  free  qne  [Mission.FlightSegment7.FlightState]
+  free  \bar{EI}[:]
+  free  \bar{M}[:]
+  free  \bar{\delta}[:]
+  free  \theta[:]
+  free  dx[:]
+  fixed Nsafety
+  fixed kappa
+  fixed CLmax  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  fixed E  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
+  fixed sigma  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
+  fixed deta  [Mission.Aircraft.Empennage.TailBoom]
+  cons  dx[0] = deta
+  cons  F ≥ qne·S
+  cons  \bar{EI}[0] ≤ E·I[0]/F/l²/2
+  cons  Mr[0] ≥ \bar{M}[0]·F·l
+  cons  sigma ≥ Mr[0]/Sy[0]
+  cons  th = \theta[1]
+  cons  kappa ≥ \bar{\delta}[1]·CLmax·Nsafety
+[Mission.FlightSegment7.TailBoomBending.Beam]
+  free  \bar{EI}[:]
+  free  \bar{M}[:]
+  free  \bar{\delta}[:]
+  free  \theta[:]
+  free  dx[:]
+  fixed \bar{M}_{tip}
+  fixed \bar{S}[:]
+  fixed \bar{\delta}_{root}
+  fixed \theta_{root}
+  cons  \bar{M}[0] ≥ \bar{M}[1] + dx[0]·0.5·(\bar{S}[0] + \bar{S}[1])
+  cons  \bar{M}[1] ≥ \bar{M}_{tip}
+  cons  \theta[0] ≥ \theta_{root}
+  cons  \theta[1] ≥ \theta[0] + dx[0]·0.5·(\bar{M}[1] + \bar{M}[0])/\bar{EI}[0]
+  cons  \bar{\delta}[0] ≥ \bar{\delta}_{root}
+  cons  \bar{\delta}[1] ≥ \bar{\delta}[0] + dx[0]·0.5·(\theta[1] + \theta[0])
+[Mission.FlightSegment7.TailBoomBending1]
+  free  F
+  free  Mr[:]
+  free  th
+  free  I[:]  [Mission.Aircraft.Empennage.TailBoom]
+  free  Sy[:]  [Mission.Aircraft.Empennage.TailBoom]
+  free  l  [Mission.Aircraft.Empennage.TailBoom]
+  free  S  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  free  qne  [Mission.FlightSegment7.FlightState]
+  free  \bar{EI}[:]
+  free  \bar{M}[:]
+  free  \bar{\delta}[:]
+  free  \theta[:]
+  free  dx[:]
+  fixed Nsafety
+  fixed kappa
+  fixed E  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
+  fixed sigma  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
+  fixed deta  [Mission.Aircraft.Empennage.TailBoom]
+  fixed CLmax  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  cons  dx[0] = deta
+  cons  F ≥ qne·S
+  cons  \bar{EI}[0] ≤ E·I[0]/F/l²/2
+  cons  Mr[0] ≥ \bar{M}[0]·F·l
+  cons  sigma ≥ Mr[0]/Sy[0]
+  cons  th = \theta[1]
+  cons  kappa ≥ \bar{\delta}[1]·CLmax·Nsafety
+[Mission.FlightSegment7.TailBoomBending1.Beam]
+  free  \bar{EI}[:]
+  free  \bar{M}[:]
+  free  \bar{\delta}[:]
+  free  \theta[:]
+  free  dx[:]
+  fixed \bar{M}_{tip}
+  fixed \bar{S}[:]
+  fixed \bar{\delta}_{root}
+  fixed \theta_{root}
+  cons  \bar{M}[0] ≥ \bar{M}[1] + dx[0]·0.5·(\bar{S}[0] + \bar{S}[1])
+  cons  \bar{M}[1] ≥ \bar{M}_{tip}
+  cons  \theta[0] ≥ \theta_{root}
+  cons  \theta[1] ≥ \theta[0] + dx[0]·0.5·(\bar{M}[1] + \bar{M}[0])/\bar{EI}[0]
+  cons  \bar{\delta}[0] ≥ \bar{\delta}_{root}
+  cons  \bar{\delta}[1] ≥ \bar{\delta}[0] + dx[0]·0.5·(\theta[1] + \theta[0])
+[Mission.FlightSegment8]
+  free  Wcent  [Mission.Aircraft]
+  free  Wwing  [Mission.Aircraft]
+  free  CL
+  free  V
+  free  Ww
+  free  GustL.W
+  free  cl
+  free  v
+  free  SparLoading.W
+  cons  SparLoading.W = Wcent
+  cons  GustL.W = Wcent
+  cons  Ww = Wwing
+  cons  v = V
+  cons  cl = CL
+[Mission.FlightSegment8.FlightState]
+  free  (E/S)_C
+  free  (E/S)_{day}
+  free  (P/S)_{min}
+  free  V_{wind}
+  free  V
+  free  \rho
+  free  qne
+  fixed (E/S)_{irr}
+  fixed (E/S)_{ref}
+  fixed (P/S)_{ref}
+  fixed V_{wind-ref}
+  fixed Vne
+  fixed \mu
+  fixed \rho_{ref}
+  fixed m_{fac--fit}
+  fixed m_{fac}
+  fixed p_{wind}
+  fixed rhosl
+  fixed t_{night}
+  cons  V_{wind} ≤ V/m_{fac}
+  cons  qne = 0.5·Vne²·rhosl
+[Mission.FlightSegment8.AircraftPerf]
+  free  CD
+  free  CDA
+  free  Poper
+  free  Pshaft
+  free  E  [Mission.Aircraft.Battery]
+  free  HorizontalTail.Planform.S  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  free  TailBoom.S  [Mission.Aircraft.Empennage.TailBoom]
+  free  VerticalTail.Planform.S  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  free  Pmax  [Mission.Aircraft.Motor]
+  free  SolarCells.S  [Mission.Aircraft.SolarCells]
+  free  _WingGP.Planform.S  [Mission.Aircraft._WingGP.Planform]
+  free  TailAero.Cd
+  free  TailAero1.Cd
+  free  Cf
+  free  WingAero.Cd
+  free  (E/S)_C  [Mission.FlightSegment8.FlightState]
+  free  (E/S)_{day}  [Mission.FlightSegment8.FlightState]
+  free  (P/S)_{min}  [Mission.FlightSegment8.FlightState]
+  fixed Pavn
+  fixed m_{fac}
+  fixed eta_charge  [Mission.Aircraft.Battery]
+  fixed eta_discharge  [Mission.Aircraft.Battery]
+  fixed Motor.eta  [Mission.Aircraft.Motor]
+  fixed SolarCells.eta  [Mission.Aircraft.SolarCells]
+  fixed (E/S)_{irr}  [Mission.FlightSegment8.FlightState]
+  fixed t_{night}  [Mission.FlightSegment8.FlightState]
+  cons  (E/S)_{irr} ≥ (E/S)_{day} + E/eta_charge/SolarCells.eta/SolarCells.S
+  cons  E·eta_discharge ≥ Poper·t_{night} + (E/S)_C·SolarCells.eta·SolarCells.S
+  cons  Poper ≥ Pavn + Pshaft/Motor.eta
+  cons  Poper = (P/S)_{min}·SolarCells.S·SolarCells.eta
+  cons  CDA/m_{fac} ≥ TailAero.Cd·HorizontalTail.Planform.S/_WingGP.Planform.S + TailAero1.Cd·VerticalTail.Planform.S/_WingGP.Planform.S + Cf·TailBoom.S/_WingGP.Planform.S
+  cons  CD ≥ CDA + WingAero.Cd
+  cons  Poper ≤ Pmax
+[Mission.FlightSegment8.AircraftPerf.WingAero]
+  free  CL
+  free  Cd
+  free  Re
+  free  cdp
+  free  AR  [Mission.Aircraft._WingGP.Planform]
+  free  cmac  [Mission.Aircraft._WingGP.Planform]
+  free  V  [Mission.FlightSegment8.FlightState]
+  free  \rho  [Mission.FlightSegment8.FlightState]
+  fixed CLstall
+  fixed e
+  fixed m_{fac-polar-fit}
+  fixed \mu  [Mission.FlightSegment8.FlightState]
+  cons  Cd ≥ cdp + CL²/3.14/AR/e
+  cons  Re = \rho·V·cmac/\mu
+  cons  CL ≤ CLstall
+[Mission.FlightSegment8.AircraftPerf.TailAero]
+  free  Cd
+  free  Re
+  free  S  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  free  b  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  free  V  [Mission.FlightSegment8.FlightState]
+  free  \rho  [Mission.FlightSegment8.FlightState]
+  fixed m_{fac--fit}
+  fixed \mu  [Mission.FlightSegment8.FlightState]
+  cons  Re = V·\rho·S/b/\mu
+[Mission.FlightSegment8.AircraftPerf.TailAero1]
+  free  Cd
+  free  Re
+  free  S  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  free  b  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  free  V  [Mission.FlightSegment8.FlightState]
+  free  \rho  [Mission.FlightSegment8.FlightState]
+  fixed m_{fac--fit}
+  fixed \mu  [Mission.FlightSegment8.FlightState]
+  cons  Re = V·\rho·S/b/\mu
+[Mission.FlightSegment8.AircraftPerf.TailBoomAero]
+  free  Cf
+  free  Re
+  free  l  [Mission.Aircraft.Empennage.TailBoom]
+  free  V  [Mission.FlightSegment8.FlightState]
+  free  \rho  [Mission.FlightSegment8.FlightState]
+  fixed \mu  [Mission.FlightSegment8.FlightState]
+  cons  Re = V·\rho·l/\mu
+  cons  Cf ≥ 0.455/Re^0.3
+[Mission.FlightSegment8.SteadyLevelFlight]
+  free  T
+  free  Wtotal  [Mission.Aircraft]
+  free  S  [Mission.Aircraft._WingGP.Planform]
+  free  CD  [Mission.FlightSegment8.AircraftPerf]
+  free  Pshaft  [Mission.FlightSegment8.AircraftPerf]
+  free  CL  [Mission.FlightSegment8.AircraftPerf.WingAero]
+  free  V  [Mission.FlightSegment8.FlightState]
+  free  \rho  [Mission.FlightSegment8.FlightState]
+  fixed \eta_{prop}
+  cons  Wtotal ≤ 0.5·\rho·V²·CL·S
+  cons  T ≥ 0.5·\rho·V²·CD·S
+  cons  Pshaft ≥ T·V/\eta_{prop}
+[Mission.FlightSegment8.SparLoading]
+  free  EIbar[:]
+  free  M[:]
+  free  Mtw[:]
+  free  N
+  free  S[:]
+  free  Sout[:]
+  free  W
+  free  q[:]
+  free  th[:]
+  free  theta[:]
+  free  w[:]
+  free  I[:]  [Mission.Aircraft._WingGP.CapSpar]
+  free  Sy[:]  [Mission.Aircraft._WingGP.CapSpar]
+  free  b  [Mission.Aircraft._WingGP.Planform]
+  fixed Mtip
+  fixed Nmax
+  fixed Nsafety
+  fixed Stip
+  fixed kappa
+  fixed throot
+  fixed twmax
+  fixed wroot
+  fixed E  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
+  fixed sigma  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
+  fixed cbar[:]  [Mission.Aircraft._WingGP.Planform]
+  fixed deta[:]  [Mission.Aircraft._WingGP.Planform]
+  cons  S[0] ≥ S[1] + deta[0]·0.5·b/2·(q[0] + q[1])
+  cons  S[1] ≥ S[2] + deta[1]·0.5·b/2·(q[1] + q[2])
+  cons  S[2] ≥ S[3] + deta[2]·0.5·b/2·(q[2] + q[3])
+  cons  S[3] ≥ S[4] + deta[3]·0.5·b/2·(q[3] + q[4])
+  cons  M[0] ≥ M[1] + deta[0]·0.5·b/2·(S[0] + S[1])
+  cons  M[1] ≥ M[2] + deta[1]·0.5·b/2·(S[1] + S[2])
+  cons  M[2] ≥ M[3] + deta[2]·0.5·b/2·(S[2] + S[3])
+  cons  M[3] ≥ M[4] + deta[3]·0.5·b/2·(S[3] + S[4])
+  cons  N = Nsafety·Nmax
+  cons  q[0] ≥ N·W/b·cbar[0]
+  cons  q[1] ≥ N·W/b·cbar[1]
+  cons  q[2] ≥ N·W/b·cbar[2]
+  cons  q[3] ≥ N·W/b·cbar[3]
+  cons  q[4] ≥ N·W/b·cbar[4]
+  cons  S[4] ≥ Stip
+  cons  M[4] ≥ Mtip
+  cons  th[0] ≥ throot
+  cons  th[1] ≥ th[0] + deta[0]·0.5·b/2·(M[1] + M[0])/E/I[0]
+  cons  th[2] ≥ th[1] + deta[1]·0.5·b/2·(M[2] + M[1])/E/I[1]
+  cons  th[3] ≥ th[2] + deta[2]·0.5·b/2·(M[3] + M[2])/E/I[2]
+  cons  th[4] ≥ th[3] + deta[3]·0.5·b/2·(M[4] + M[3])/E/I[3]
+  cons  w[0] ≥ wroot
+  cons  w[1] ≥ w[0] + deta[0]·0.5·b/2·(th[1] + th[0])
+  cons  w[2] ≥ w[1] + deta[1]·0.5·b/2·(th[2] + th[1])
+  cons  w[3] ≥ w[2] + deta[2]·0.5·b/2·(th[3] + th[2])
+  cons  w[4] ≥ w[3] + deta[3]·0.5·b/2·(th[4] + th[3])
+  cons  sigma ≥ M[0]/Sy[0]
+  cons  sigma ≥ M[1]/Sy[1]
+  cons  sigma ≥ M[2]/Sy[2]
+  cons  sigma ≥ M[3]/Sy[3]
+  cons  kappa ≥ w[4]/(b/2)
+[Mission.FlightSegment8.GustL]
+  free  EIbar[:]
+  free  M[:]
+  free  Mtw[:]
+  free  N
+  free  S[:]
+  free  Sout[:]
+  free  Ww
+  free  W
+  free  agust[:]
+  free  cl
+  free  q[:]
+  free  th[:]
+  free  theta[:]
+  free  v
+  free  w[:]
+  free  I[:]  [Mission.Aircraft._WingGP.CapSpar]
+  free  Sy[:]  [Mission.Aircraft._WingGP.CapSpar]
+  free  b  [Mission.Aircraft._WingGP.Planform]
+  fixed Mtip
+  fixed Nmax
+  fixed Nsafety
+  fixed Stip
+  fixed cosminus1[:]
+  fixed kappa
+  fixed m_{fac--fit}
+  fixed throot
+  fixed twmax
+  fixed vgust
+  fixed wroot
+  fixed E  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
+  fixed sigma  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
+  fixed cbar[:]  [Mission.Aircraft._WingGP.Planform]
+  fixed deta[:]  [Mission.Aircraft._WingGP.Planform]
+  cons  S[0] ≥ S[1] + deta[0]·0.5·b/2·(q[0] + q[1])
+  cons  S[1] ≥ S[2] + deta[1]·0.5·b/2·(q[1] + q[2])
+  cons  S[2] ≥ S[3] + deta[2]·0.5·b/2·(q[2] + q[3])
+  cons  S[3] ≥ S[4] + deta[3]·0.5·b/2·(q[3] + q[4])
+  cons  M[0] ≥ M[1] + deta[0]·0.5·b/2·(S[0] + S[1])
+  cons  M[1] ≥ M[2] + deta[1]·0.5·b/2·(S[1] + S[2])
+  cons  M[2] ≥ M[3] + deta[2]·0.5·b/2·(S[2] + S[3])
+  cons  M[3] ≥ M[4] + deta[3]·0.5·b/2·(S[3] + S[4])
+  cons  N = Nsafety·Nmax
+  cons  q[0] ≥ N·W/b·cbar[0]
+  cons  q[1] ≥ N·W/b·cbar[1]
+  cons  q[2] ≥ N·W/b·cbar[2]
+  cons  q[3] ≥ N·W/b·cbar[3]
+  cons  q[4] ≥ N·W/b·cbar[4]
+  cons  S[4] ≥ Stip
+  cons  M[4] ≥ Mtip
+  cons  th[0] ≥ throot
+  cons  th[1] ≥ th[0] + deta[0]·0.5·b/2·(M[1] + M[0])/E/I[0]
+  cons  th[2] ≥ th[1] + deta[1]·0.5·b/2·(M[2] + M[1])/E/I[1]
+  cons  th[3] ≥ th[2] + deta[2]·0.5·b/2·(M[3] + M[2])/E/I[2]
+  cons  th[4] ≥ th[3] + deta[3]·0.5·b/2·(M[4] + M[3])/E/I[3]
+  cons  w[0] ≥ wroot
+  cons  w[1] ≥ w[0] + deta[0]·0.5·b/2·(th[1] + th[0])
+  cons  w[2] ≥ w[1] + deta[1]·0.5·b/2·(th[2] + th[1])
+  cons  w[3] ≥ w[2] + deta[2]·0.5·b/2·(th[3] + th[2])
+  cons  w[4] ≥ w[3] + deta[3]·0.5·b/2·(th[4] + th[3])
+  cons  sigma ≥ M[0]/Sy[0]
+  cons  sigma ≥ M[1]/Sy[1]
+  cons  sigma ≥ M[2]/Sy[2]
+  cons  sigma ≥ M[3]/Sy[3]
+  cons  kappa ≥ w[4]/(b/2)
+  cons  q[0] ≥ W·N/b·cbar[0]·(agust[0]·6.28/cl·(1 + Ww/W) + 1)
+  cons  q[1] ≥ W·N/b·cbar[1]·(agust[1]·6.28/cl·(1 + Ww/W) + 1)
+  cons  q[2] ≥ W·N/b·cbar[2]·(agust[2]·6.28/cl·(1 + Ww/W) + 1)
+  cons  q[3] ≥ W·N/b·cbar[3]·(agust[3]·6.28/cl·(1 + Ww/W) + 1)
+  cons  q[4] ≥ W·N/b·cbar[4]·(agust[4]·6.28/cl·(1 + Ww/W) + 1)
+[Mission.FlightSegment8.TailBoomBending]
+  free  F
+  free  Mr[:]
+  free  th
+  free  S  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  free  I[:]  [Mission.Aircraft.Empennage.TailBoom]
+  free  Sy[:]  [Mission.Aircraft.Empennage.TailBoom]
+  free  l  [Mission.Aircraft.Empennage.TailBoom]
+  free  qne  [Mission.FlightSegment8.FlightState]
+  free  \bar{EI}[:]
+  free  \bar{M}[:]
+  free  \bar{\delta}[:]
+  free  \theta[:]
+  free  dx[:]
+  fixed Nsafety
+  fixed kappa
+  fixed CLmax  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  fixed E  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
+  fixed sigma  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
+  fixed deta  [Mission.Aircraft.Empennage.TailBoom]
+  cons  dx[0] = deta
+  cons  F ≥ qne·S
+  cons  \bar{EI}[0] ≤ E·I[0]/F/l²/2
+  cons  Mr[0] ≥ \bar{M}[0]·F·l
+  cons  sigma ≥ Mr[0]/Sy[0]
+  cons  th = \theta[1]
+  cons  kappa ≥ \bar{\delta}[1]·CLmax·Nsafety
+[Mission.FlightSegment8.TailBoomBending.Beam]
+  free  \bar{EI}[:]
+  free  \bar{M}[:]
+  free  \bar{\delta}[:]
+  free  \theta[:]
+  free  dx[:]
+  fixed \bar{M}_{tip}
+  fixed \bar{S}[:]
+  fixed \bar{\delta}_{root}
+  fixed \theta_{root}
+  cons  \bar{M}[0] ≥ \bar{M}[1] + dx[0]·0.5·(\bar{S}[0] + \bar{S}[1])
+  cons  \bar{M}[1] ≥ \bar{M}_{tip}
+  cons  \theta[0] ≥ \theta_{root}
+  cons  \theta[1] ≥ \theta[0] + dx[0]·0.5·(\bar{M}[1] + \bar{M}[0])/\bar{EI}[0]
+  cons  \bar{\delta}[0] ≥ \bar{\delta}_{root}
+  cons  \bar{\delta}[1] ≥ \bar{\delta}[0] + dx[0]·0.5·(\theta[1] + \theta[0])
+[Mission.FlightSegment8.TailBoomBending1]
+  free  F
+  free  Mr[:]
+  free  th
+  free  I[:]  [Mission.Aircraft.Empennage.TailBoom]
+  free  Sy[:]  [Mission.Aircraft.Empennage.TailBoom]
+  free  l  [Mission.Aircraft.Empennage.TailBoom]
+  free  S  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  free  qne  [Mission.FlightSegment8.FlightState]
+  free  \bar{EI}[:]
+  free  \bar{M}[:]
+  free  \bar{\delta}[:]
+  free  \theta[:]
+  free  dx[:]
+  fixed Nsafety
+  fixed kappa
+  fixed E  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
+  fixed sigma  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
+  fixed deta  [Mission.Aircraft.Empennage.TailBoom]
+  fixed CLmax  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  cons  dx[0] = deta
+  cons  F ≥ qne·S
+  cons  \bar{EI}[0] ≤ E·I[0]/F/l²/2
+  cons  Mr[0] ≥ \bar{M}[0]·F·l
+  cons  sigma ≥ Mr[0]/Sy[0]
+  cons  th = \theta[1]
+  cons  kappa ≥ \bar{\delta}[1]·CLmax·Nsafety
+[Mission.FlightSegment8.TailBoomBending1.Beam]
+  free  \bar{EI}[:]
+  free  \bar{M}[:]
+  free  \bar{\delta}[:]
+  free  \theta[:]
+  free  dx[:]
+  fixed \bar{M}_{tip}
+  fixed \bar{S}[:]
+  fixed \bar{\delta}_{root}
+  fixed \theta_{root}
+  cons  \bar{M}[0] ≥ \bar{M}[1] + dx[0]·0.5·(\bar{S}[0] + \bar{S}[1])
+  cons  \bar{M}[1] ≥ \bar{M}_{tip}
+  cons  \theta[0] ≥ \theta_{root}
+  cons  \theta[1] ≥ \theta[0] + dx[0]·0.5·(\bar{M}[1] + \bar{M}[0])/\bar{EI}[0]
+  cons  \bar{\delta}[0] ≥ \bar{\delta}_{root}
+  cons  \bar{\delta}[1] ≥ \bar{\delta}[0] + dx[0]·0.5·(\theta[1] + \theta[0])
+[Mission.FlightSegment9]
+  free  Wcent  [Mission.Aircraft]
+  free  Wwing  [Mission.Aircraft]
+  free  CL
+  free  V
+  free  Ww
+  free  GustL.W
+  free  cl
+  free  v
+  free  SparLoading.W
+  cons  SparLoading.W = Wcent
+  cons  GustL.W = Wcent
+  cons  Ww = Wwing
+  cons  v = V
+  cons  cl = CL
+[Mission.FlightSegment9.FlightState]
+  free  (E/S)_C
+  free  (E/S)_{day}
+  free  (P/S)_{min}
+  free  V_{wind}
+  free  V
+  free  \rho
+  free  qne
+  fixed (E/S)_{irr}
+  fixed (E/S)_{ref}
+  fixed (P/S)_{ref}
+  fixed V_{wind-ref}
+  fixed Vne
+  fixed \mu
+  fixed \rho_{ref}
+  fixed m_{fac--fit}
+  fixed m_{fac}
+  fixed p_{wind}
+  fixed rhosl
+  fixed t_{night}
+  cons  V_{wind} ≤ V/m_{fac}
+  cons  qne = 0.5·Vne²·rhosl
+[Mission.FlightSegment9.AircraftPerf]
+  free  CD
+  free  CDA
+  free  Poper
+  free  Pshaft
+  free  E  [Mission.Aircraft.Battery]
+  free  HorizontalTail.Planform.S  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  free  TailBoom.S  [Mission.Aircraft.Empennage.TailBoom]
+  free  VerticalTail.Planform.S  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  free  Pmax  [Mission.Aircraft.Motor]
+  free  SolarCells.S  [Mission.Aircraft.SolarCells]
+  free  _WingGP.Planform.S  [Mission.Aircraft._WingGP.Planform]
+  free  TailAero.Cd
+  free  TailAero1.Cd
+  free  Cf
+  free  WingAero.Cd
+  free  (E/S)_C  [Mission.FlightSegment9.FlightState]
+  free  (E/S)_{day}  [Mission.FlightSegment9.FlightState]
+  free  (P/S)_{min}  [Mission.FlightSegment9.FlightState]
+  fixed Pavn
+  fixed m_{fac}
+  fixed eta_charge  [Mission.Aircraft.Battery]
+  fixed eta_discharge  [Mission.Aircraft.Battery]
+  fixed Motor.eta  [Mission.Aircraft.Motor]
+  fixed SolarCells.eta  [Mission.Aircraft.SolarCells]
+  fixed (E/S)_{irr}  [Mission.FlightSegment9.FlightState]
+  fixed t_{night}  [Mission.FlightSegment9.FlightState]
+  cons  (E/S)_{irr} ≥ (E/S)_{day} + E/eta_charge/SolarCells.eta/SolarCells.S
+  cons  E·eta_discharge ≥ Poper·t_{night} + (E/S)_C·SolarCells.eta·SolarCells.S
+  cons  Poper ≥ Pavn + Pshaft/Motor.eta
+  cons  Poper = (P/S)_{min}·SolarCells.S·SolarCells.eta
+  cons  CDA/m_{fac} ≥ TailAero.Cd·HorizontalTail.Planform.S/_WingGP.Planform.S + TailAero1.Cd·VerticalTail.Planform.S/_WingGP.Planform.S + Cf·TailBoom.S/_WingGP.Planform.S
+  cons  CD ≥ CDA + WingAero.Cd
+  cons  Poper ≤ Pmax
+[Mission.FlightSegment9.AircraftPerf.WingAero]
+  free  CL
+  free  Cd
+  free  Re
+  free  cdp
+  free  AR  [Mission.Aircraft._WingGP.Planform]
+  free  cmac  [Mission.Aircraft._WingGP.Planform]
+  free  V  [Mission.FlightSegment9.FlightState]
+  free  \rho  [Mission.FlightSegment9.FlightState]
+  fixed CLstall
+  fixed e
+  fixed m_{fac-polar-fit}
+  fixed \mu  [Mission.FlightSegment9.FlightState]
+  cons  Cd ≥ cdp + CL²/3.14/AR/e
+  cons  Re = \rho·V·cmac/\mu
+  cons  CL ≤ CLstall
+[Mission.FlightSegment9.AircraftPerf.TailAero]
+  free  Cd
+  free  Re
+  free  S  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  free  b  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  free  V  [Mission.FlightSegment9.FlightState]
+  free  \rho  [Mission.FlightSegment9.FlightState]
+  fixed m_{fac--fit}
+  fixed \mu  [Mission.FlightSegment9.FlightState]
+  cons  Re = V·\rho·S/b/\mu
+[Mission.FlightSegment9.AircraftPerf.TailAero1]
+  free  Cd
+  free  Re
+  free  S  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  free  b  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  free  V  [Mission.FlightSegment9.FlightState]
+  free  \rho  [Mission.FlightSegment9.FlightState]
+  fixed m_{fac--fit}
+  fixed \mu  [Mission.FlightSegment9.FlightState]
+  cons  Re = V·\rho·S/b/\mu
+[Mission.FlightSegment9.AircraftPerf.TailBoomAero]
+  free  Cf
+  free  Re
+  free  l  [Mission.Aircraft.Empennage.TailBoom]
+  free  V  [Mission.FlightSegment9.FlightState]
+  free  \rho  [Mission.FlightSegment9.FlightState]
+  fixed \mu  [Mission.FlightSegment9.FlightState]
+  cons  Re = V·\rho·l/\mu
+  cons  Cf ≥ 0.455/Re^0.3
+[Mission.FlightSegment9.SteadyLevelFlight]
+  free  T
+  free  Wtotal  [Mission.Aircraft]
+  free  S  [Mission.Aircraft._WingGP.Planform]
+  free  CD  [Mission.FlightSegment9.AircraftPerf]
+  free  Pshaft  [Mission.FlightSegment9.AircraftPerf]
+  free  CL  [Mission.FlightSegment9.AircraftPerf.WingAero]
+  free  V  [Mission.FlightSegment9.FlightState]
+  free  \rho  [Mission.FlightSegment9.FlightState]
+  fixed \eta_{prop}
+  cons  Wtotal ≤ 0.5·\rho·V²·CL·S
+  cons  T ≥ 0.5·\rho·V²·CD·S
+  cons  Pshaft ≥ T·V/\eta_{prop}
+[Mission.FlightSegment9.SparLoading]
+  free  EIbar[:]
+  free  M[:]
+  free  Mtw[:]
+  free  N
+  free  S[:]
+  free  Sout[:]
+  free  W
+  free  q[:]
+  free  th[:]
+  free  theta[:]
+  free  w[:]
+  free  I[:]  [Mission.Aircraft._WingGP.CapSpar]
+  free  Sy[:]  [Mission.Aircraft._WingGP.CapSpar]
+  free  b  [Mission.Aircraft._WingGP.Planform]
+  fixed Mtip
+  fixed Nmax
+  fixed Nsafety
+  fixed Stip
+  fixed kappa
+  fixed throot
+  fixed twmax
+  fixed wroot
+  fixed E  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
+  fixed sigma  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
+  fixed cbar[:]  [Mission.Aircraft._WingGP.Planform]
+  fixed deta[:]  [Mission.Aircraft._WingGP.Planform]
+  cons  S[0] ≥ S[1] + deta[0]·0.5·b/2·(q[0] + q[1])
+  cons  S[1] ≥ S[2] + deta[1]·0.5·b/2·(q[1] + q[2])
+  cons  S[2] ≥ S[3] + deta[2]·0.5·b/2·(q[2] + q[3])
+  cons  S[3] ≥ S[4] + deta[3]·0.5·b/2·(q[3] + q[4])
+  cons  M[0] ≥ M[1] + deta[0]·0.5·b/2·(S[0] + S[1])
+  cons  M[1] ≥ M[2] + deta[1]·0.5·b/2·(S[1] + S[2])
+  cons  M[2] ≥ M[3] + deta[2]·0.5·b/2·(S[2] + S[3])
+  cons  M[3] ≥ M[4] + deta[3]·0.5·b/2·(S[3] + S[4])
+  cons  N = Nsafety·Nmax
+  cons  q[0] ≥ N·W/b·cbar[0]
+  cons  q[1] ≥ N·W/b·cbar[1]
+  cons  q[2] ≥ N·W/b·cbar[2]
+  cons  q[3] ≥ N·W/b·cbar[3]
+  cons  q[4] ≥ N·W/b·cbar[4]
+  cons  S[4] ≥ Stip
+  cons  M[4] ≥ Mtip
+  cons  th[0] ≥ throot
+  cons  th[1] ≥ th[0] + deta[0]·0.5·b/2·(M[1] + M[0])/E/I[0]
+  cons  th[2] ≥ th[1] + deta[1]·0.5·b/2·(M[2] + M[1])/E/I[1]
+  cons  th[3] ≥ th[2] + deta[2]·0.5·b/2·(M[3] + M[2])/E/I[2]
+  cons  th[4] ≥ th[3] + deta[3]·0.5·b/2·(M[4] + M[3])/E/I[3]
+  cons  w[0] ≥ wroot
+  cons  w[1] ≥ w[0] + deta[0]·0.5·b/2·(th[1] + th[0])
+  cons  w[2] ≥ w[1] + deta[1]·0.5·b/2·(th[2] + th[1])
+  cons  w[3] ≥ w[2] + deta[2]·0.5·b/2·(th[3] + th[2])
+  cons  w[4] ≥ w[3] + deta[3]·0.5·b/2·(th[4] + th[3])
+  cons  sigma ≥ M[0]/Sy[0]
+  cons  sigma ≥ M[1]/Sy[1]
+  cons  sigma ≥ M[2]/Sy[2]
+  cons  sigma ≥ M[3]/Sy[3]
+  cons  kappa ≥ w[4]/(b/2)
+[Mission.FlightSegment9.GustL]
+  free  EIbar[:]
+  free  M[:]
+  free  Mtw[:]
+  free  N
+  free  S[:]
+  free  Sout[:]
+  free  Ww
+  free  W
+  free  agust[:]
+  free  cl
+  free  q[:]
+  free  th[:]
+  free  theta[:]
+  free  v
+  free  w[:]
+  free  I[:]  [Mission.Aircraft._WingGP.CapSpar]
+  free  Sy[:]  [Mission.Aircraft._WingGP.CapSpar]
+  free  b  [Mission.Aircraft._WingGP.Planform]
+  fixed Mtip
+  fixed Nmax
+  fixed Nsafety
+  fixed Stip
+  fixed cosminus1[:]
+  fixed kappa
+  fixed m_{fac--fit}
+  fixed throot
+  fixed twmax
+  fixed vgust
+  fixed wroot
+  fixed E  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
+  fixed sigma  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
+  fixed cbar[:]  [Mission.Aircraft._WingGP.Planform]
+  fixed deta[:]  [Mission.Aircraft._WingGP.Planform]
+  cons  S[0] ≥ S[1] + deta[0]·0.5·b/2·(q[0] + q[1])
+  cons  S[1] ≥ S[2] + deta[1]·0.5·b/2·(q[1] + q[2])
+  cons  S[2] ≥ S[3] + deta[2]·0.5·b/2·(q[2] + q[3])
+  cons  S[3] ≥ S[4] + deta[3]·0.5·b/2·(q[3] + q[4])
+  cons  M[0] ≥ M[1] + deta[0]·0.5·b/2·(S[0] + S[1])
+  cons  M[1] ≥ M[2] + deta[1]·0.5·b/2·(S[1] + S[2])
+  cons  M[2] ≥ M[3] + deta[2]·0.5·b/2·(S[2] + S[3])
+  cons  M[3] ≥ M[4] + deta[3]·0.5·b/2·(S[3] + S[4])
+  cons  N = Nsafety·Nmax
+  cons  q[0] ≥ N·W/b·cbar[0]
+  cons  q[1] ≥ N·W/b·cbar[1]
+  cons  q[2] ≥ N·W/b·cbar[2]
+  cons  q[3] ≥ N·W/b·cbar[3]
+  cons  q[4] ≥ N·W/b·cbar[4]
+  cons  S[4] ≥ Stip
+  cons  M[4] ≥ Mtip
+  cons  th[0] ≥ throot
+  cons  th[1] ≥ th[0] + deta[0]·0.5·b/2·(M[1] + M[0])/E/I[0]
+  cons  th[2] ≥ th[1] + deta[1]·0.5·b/2·(M[2] + M[1])/E/I[1]
+  cons  th[3] ≥ th[2] + deta[2]·0.5·b/2·(M[3] + M[2])/E/I[2]
+  cons  th[4] ≥ th[3] + deta[3]·0.5·b/2·(M[4] + M[3])/E/I[3]
+  cons  w[0] ≥ wroot
+  cons  w[1] ≥ w[0] + deta[0]·0.5·b/2·(th[1] + th[0])
+  cons  w[2] ≥ w[1] + deta[1]·0.5·b/2·(th[2] + th[1])
+  cons  w[3] ≥ w[2] + deta[2]·0.5·b/2·(th[3] + th[2])
+  cons  w[4] ≥ w[3] + deta[3]·0.5·b/2·(th[4] + th[3])
+  cons  sigma ≥ M[0]/Sy[0]
+  cons  sigma ≥ M[1]/Sy[1]
+  cons  sigma ≥ M[2]/Sy[2]
+  cons  sigma ≥ M[3]/Sy[3]
+  cons  kappa ≥ w[4]/(b/2)
+  cons  q[0] ≥ W·N/b·cbar[0]·(agust[0]·6.28/cl·(1 + Ww/W) + 1)
+  cons  q[1] ≥ W·N/b·cbar[1]·(agust[1]·6.28/cl·(1 + Ww/W) + 1)
+  cons  q[2] ≥ W·N/b·cbar[2]·(agust[2]·6.28/cl·(1 + Ww/W) + 1)
+  cons  q[3] ≥ W·N/b·cbar[3]·(agust[3]·6.28/cl·(1 + Ww/W) + 1)
+  cons  q[4] ≥ W·N/b·cbar[4]·(agust[4]·6.28/cl·(1 + Ww/W) + 1)
+[Mission.FlightSegment9.TailBoomBending]
+  free  F
+  free  Mr[:]
+  free  th
+  free  S  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  free  I[:]  [Mission.Aircraft.Empennage.TailBoom]
+  free  Sy[:]  [Mission.Aircraft.Empennage.TailBoom]
+  free  l  [Mission.Aircraft.Empennage.TailBoom]
+  free  qne  [Mission.FlightSegment9.FlightState]
+  free  \bar{EI}[:]
+  free  \bar{M}[:]
+  free  \bar{\delta}[:]
+  free  \theta[:]
+  free  dx[:]
+  fixed Nsafety
+  fixed kappa
+  fixed CLmax  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  fixed E  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
+  fixed sigma  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
+  fixed deta  [Mission.Aircraft.Empennage.TailBoom]
+  cons  dx[0] = deta
+  cons  F ≥ qne·S
+  cons  \bar{EI}[0] ≤ E·I[0]/F/l²/2
+  cons  Mr[0] ≥ \bar{M}[0]·F·l
+  cons  sigma ≥ Mr[0]/Sy[0]
+  cons  th = \theta[1]
+  cons  kappa ≥ \bar{\delta}[1]·CLmax·Nsafety
+[Mission.FlightSegment9.TailBoomBending.Beam]
+  free  \bar{EI}[:]
+  free  \bar{M}[:]
+  free  \bar{\delta}[:]
+  free  \theta[:]
+  free  dx[:]
+  fixed \bar{M}_{tip}
+  fixed \bar{S}[:]
+  fixed \bar{\delta}_{root}
+  fixed \theta_{root}
+  cons  \bar{M}[0] ≥ \bar{M}[1] + dx[0]·0.5·(\bar{S}[0] + \bar{S}[1])
+  cons  \bar{M}[1] ≥ \bar{M}_{tip}
+  cons  \theta[0] ≥ \theta_{root}
+  cons  \theta[1] ≥ \theta[0] + dx[0]·0.5·(\bar{M}[1] + \bar{M}[0])/\bar{EI}[0]
+  cons  \bar{\delta}[0] ≥ \bar{\delta}_{root}
+  cons  \bar{\delta}[1] ≥ \bar{\delta}[0] + dx[0]·0.5·(\theta[1] + \theta[0])
+[Mission.FlightSegment9.TailBoomBending1]
+  free  F
+  free  Mr[:]
+  free  th
+  free  I[:]  [Mission.Aircraft.Empennage.TailBoom]
+  free  Sy[:]  [Mission.Aircraft.Empennage.TailBoom]
+  free  l  [Mission.Aircraft.Empennage.TailBoom]
+  free  S  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  free  qne  [Mission.FlightSegment9.FlightState]
+  free  \bar{EI}[:]
+  free  \bar{M}[:]
+  free  \bar{\delta}[:]
+  free  \theta[:]
+  free  dx[:]
+  fixed Nsafety
+  fixed kappa
+  fixed E  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
+  fixed sigma  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
+  fixed deta  [Mission.Aircraft.Empennage.TailBoom]
+  fixed CLmax  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  cons  dx[0] = deta
+  cons  F ≥ qne·S
+  cons  \bar{EI}[0] ≤ E·I[0]/F/l²/2
+  cons  Mr[0] ≥ \bar{M}[0]·F·l
+  cons  sigma ≥ Mr[0]/Sy[0]
+  cons  th = \theta[1]
+  cons  kappa ≥ \bar{\delta}[1]·CLmax·Nsafety
+[Mission.FlightSegment9.TailBoomBending1.Beam]
+  free  \bar{EI}[:]
+  free  \bar{M}[:]
+  free  \bar{\delta}[:]
+  free  \theta[:]
+  free  dx[:]
+  fixed \bar{M}_{tip}
+  fixed \bar{S}[:]
+  fixed \bar{\delta}_{root}
+  fixed \theta_{root}
+  cons  \bar{M}[0] ≥ \bar{M}[1] + dx[0]·0.5·(\bar{S}[0] + \bar{S}[1])
+  cons  \bar{M}[1] ≥ \bar{M}_{tip}
+  cons  \theta[0] ≥ \theta_{root}
+  cons  \theta[1] ≥ \theta[0] + dx[0]·0.5·(\bar{M}[1] + \bar{M}[0])/\bar{EI}[0]
+  cons  \bar{\delta}[0] ≥ \bar{\delta}_{root}
+  cons  \bar{\delta}[1] ≥ \bar{\delta}[0] + dx[0]·0.5·(\theta[1] + \theta[0])
+[Mission.FlightSegment10]
+  free  Wcent  [Mission.Aircraft]
+  free  Wwing  [Mission.Aircraft]
+  free  CL
+  free  V
+  free  Ww
+  free  GustL.W
+  free  cl
+  free  v
+  free  SparLoading.W
+  cons  SparLoading.W = Wcent
+  cons  GustL.W = Wcent
+  cons  Ww = Wwing
+  cons  v = V
+  cons  cl = CL
+[Mission.FlightSegment10.FlightState]
+  free  (E/S)_C
+  free  (E/S)_{day}
+  free  (P/S)_{min}
+  free  V_{wind}
+  free  V
+  free  \rho
+  free  qne
+  fixed (E/S)_{irr}
+  fixed (E/S)_{ref}
+  fixed (P/S)_{ref}
+  fixed V_{wind-ref}
+  fixed Vne
+  fixed \mu
+  fixed \rho_{ref}
+  fixed m_{fac--fit}
+  fixed m_{fac}
+  fixed p_{wind}
+  fixed rhosl
+  fixed t_{night}
+  cons  V_{wind} ≤ V/m_{fac}
+  cons  qne = 0.5·Vne²·rhosl
+[Mission.FlightSegment10.AircraftPerf]
+  free  CD
+  free  CDA
+  free  Poper
+  free  Pshaft
+  free  E  [Mission.Aircraft.Battery]
+  free  HorizontalTail.Planform.S  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  free  TailBoom.S  [Mission.Aircraft.Empennage.TailBoom]
+  free  VerticalTail.Planform.S  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  free  Pmax  [Mission.Aircraft.Motor]
+  free  SolarCells.S  [Mission.Aircraft.SolarCells]
+  free  _WingGP.Planform.S  [Mission.Aircraft._WingGP.Planform]
+  free  TailAero.Cd
+  free  TailAero1.Cd
+  free  Cf
+  free  WingAero.Cd
+  free  (E/S)_C  [Mission.FlightSegment10.FlightState]
+  free  (E/S)_{day}  [Mission.FlightSegment10.FlightState]
+  free  (P/S)_{min}  [Mission.FlightSegment10.FlightState]
+  fixed Pavn
+  fixed m_{fac}
+  fixed eta_charge  [Mission.Aircraft.Battery]
+  fixed eta_discharge  [Mission.Aircraft.Battery]
+  fixed Motor.eta  [Mission.Aircraft.Motor]
+  fixed SolarCells.eta  [Mission.Aircraft.SolarCells]
+  fixed (E/S)_{irr}  [Mission.FlightSegment10.FlightState]
+  fixed t_{night}  [Mission.FlightSegment10.FlightState]
+  cons  (E/S)_{irr} ≥ (E/S)_{day} + E/eta_charge/SolarCells.eta/SolarCells.S
+  cons  E·eta_discharge ≥ Poper·t_{night} + (E/S)_C·SolarCells.eta·SolarCells.S
+  cons  Poper ≥ Pavn + Pshaft/Motor.eta
+  cons  Poper = (P/S)_{min}·SolarCells.S·SolarCells.eta
+  cons  CDA/m_{fac} ≥ TailAero.Cd·HorizontalTail.Planform.S/_WingGP.Planform.S + TailAero1.Cd·VerticalTail.Planform.S/_WingGP.Planform.S + Cf·TailBoom.S/_WingGP.Planform.S
+  cons  CD ≥ CDA + WingAero.Cd
+  cons  Poper ≤ Pmax
+[Mission.FlightSegment10.AircraftPerf.WingAero]
+  free  CL
+  free  Cd
+  free  Re
+  free  cdp
+  free  AR  [Mission.Aircraft._WingGP.Planform]
+  free  cmac  [Mission.Aircraft._WingGP.Planform]
+  free  V  [Mission.FlightSegment10.FlightState]
+  free  \rho  [Mission.FlightSegment10.FlightState]
+  fixed CLstall
+  fixed e
+  fixed m_{fac-polar-fit}
+  fixed \mu  [Mission.FlightSegment10.FlightState]
+  cons  Cd ≥ cdp + CL²/3.14/AR/e
+  cons  Re = \rho·V·cmac/\mu
+  cons  CL ≤ CLstall
+[Mission.FlightSegment10.AircraftPerf.TailAero]
+  free  Cd
+  free  Re
+  free  S  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  free  b  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  free  V  [Mission.FlightSegment10.FlightState]
+  free  \rho  [Mission.FlightSegment10.FlightState]
+  fixed m_{fac--fit}
+  fixed \mu  [Mission.FlightSegment10.FlightState]
+  cons  Re = V·\rho·S/b/\mu
+[Mission.FlightSegment10.AircraftPerf.TailAero1]
+  free  Cd
+  free  Re
+  free  S  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  free  b  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  free  V  [Mission.FlightSegment10.FlightState]
+  free  \rho  [Mission.FlightSegment10.FlightState]
+  fixed m_{fac--fit}
+  fixed \mu  [Mission.FlightSegment10.FlightState]
+  cons  Re = V·\rho·S/b/\mu
+[Mission.FlightSegment10.AircraftPerf.TailBoomAero]
+  free  Cf
+  free  Re
+  free  l  [Mission.Aircraft.Empennage.TailBoom]
+  free  V  [Mission.FlightSegment10.FlightState]
+  free  \rho  [Mission.FlightSegment10.FlightState]
+  fixed \mu  [Mission.FlightSegment10.FlightState]
+  cons  Re = V·\rho·l/\mu
+  cons  Cf ≥ 0.455/Re^0.3
+[Mission.FlightSegment10.SteadyLevelFlight]
+  free  T
+  free  Wtotal  [Mission.Aircraft]
+  free  S  [Mission.Aircraft._WingGP.Planform]
+  free  CD  [Mission.FlightSegment10.AircraftPerf]
+  free  Pshaft  [Mission.FlightSegment10.AircraftPerf]
+  free  CL  [Mission.FlightSegment10.AircraftPerf.WingAero]
+  free  V  [Mission.FlightSegment10.FlightState]
+  free  \rho  [Mission.FlightSegment10.FlightState]
+  fixed \eta_{prop}
+  cons  Wtotal ≤ 0.5·\rho·V²·CL·S
+  cons  T ≥ 0.5·\rho·V²·CD·S
+  cons  Pshaft ≥ T·V/\eta_{prop}
+[Mission.FlightSegment10.SparLoading]
+  free  EIbar[:]
+  free  M[:]
+  free  Mtw[:]
+  free  N
+  free  S[:]
+  free  Sout[:]
+  free  W
+  free  q[:]
+  free  th[:]
+  free  theta[:]
+  free  w[:]
+  free  I[:]  [Mission.Aircraft._WingGP.CapSpar]
+  free  Sy[:]  [Mission.Aircraft._WingGP.CapSpar]
+  free  b  [Mission.Aircraft._WingGP.Planform]
+  fixed Mtip
+  fixed Nmax
+  fixed Nsafety
+  fixed Stip
+  fixed kappa
+  fixed throot
+  fixed twmax
+  fixed wroot
+  fixed E  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
+  fixed sigma  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
+  fixed cbar[:]  [Mission.Aircraft._WingGP.Planform]
+  fixed deta[:]  [Mission.Aircraft._WingGP.Planform]
+  cons  S[0] ≥ S[1] + deta[0]·0.5·b/2·(q[0] + q[1])
+  cons  S[1] ≥ S[2] + deta[1]·0.5·b/2·(q[1] + q[2])
+  cons  S[2] ≥ S[3] + deta[2]·0.5·b/2·(q[2] + q[3])
+  cons  S[3] ≥ S[4] + deta[3]·0.5·b/2·(q[3] + q[4])
+  cons  M[0] ≥ M[1] + deta[0]·0.5·b/2·(S[0] + S[1])
+  cons  M[1] ≥ M[2] + deta[1]·0.5·b/2·(S[1] + S[2])
+  cons  M[2] ≥ M[3] + deta[2]·0.5·b/2·(S[2] + S[3])
+  cons  M[3] ≥ M[4] + deta[3]·0.5·b/2·(S[3] + S[4])
+  cons  N = Nsafety·Nmax
+  cons  q[0] ≥ N·W/b·cbar[0]
+  cons  q[1] ≥ N·W/b·cbar[1]
+  cons  q[2] ≥ N·W/b·cbar[2]
+  cons  q[3] ≥ N·W/b·cbar[3]
+  cons  q[4] ≥ N·W/b·cbar[4]
+  cons  S[4] ≥ Stip
+  cons  M[4] ≥ Mtip
+  cons  th[0] ≥ throot
+  cons  th[1] ≥ th[0] + deta[0]·0.5·b/2·(M[1] + M[0])/E/I[0]
+  cons  th[2] ≥ th[1] + deta[1]·0.5·b/2·(M[2] + M[1])/E/I[1]
+  cons  th[3] ≥ th[2] + deta[2]·0.5·b/2·(M[3] + M[2])/E/I[2]
+  cons  th[4] ≥ th[3] + deta[3]·0.5·b/2·(M[4] + M[3])/E/I[3]
+  cons  w[0] ≥ wroot
+  cons  w[1] ≥ w[0] + deta[0]·0.5·b/2·(th[1] + th[0])
+  cons  w[2] ≥ w[1] + deta[1]·0.5·b/2·(th[2] + th[1])
+  cons  w[3] ≥ w[2] + deta[2]·0.5·b/2·(th[3] + th[2])
+  cons  w[4] ≥ w[3] + deta[3]·0.5·b/2·(th[4] + th[3])
+  cons  sigma ≥ M[0]/Sy[0]
+  cons  sigma ≥ M[1]/Sy[1]
+  cons  sigma ≥ M[2]/Sy[2]
+  cons  sigma ≥ M[3]/Sy[3]
+  cons  kappa ≥ w[4]/(b/2)
+[Mission.FlightSegment10.GustL]
+  free  EIbar[:]
+  free  M[:]
+  free  Mtw[:]
+  free  N
+  free  S[:]
+  free  Sout[:]
+  free  Ww
+  free  W
+  free  agust[:]
+  free  cl
+  free  q[:]
+  free  th[:]
+  free  theta[:]
+  free  v
+  free  w[:]
+  free  I[:]  [Mission.Aircraft._WingGP.CapSpar]
+  free  Sy[:]  [Mission.Aircraft._WingGP.CapSpar]
+  free  b  [Mission.Aircraft._WingGP.Planform]
+  fixed Mtip
+  fixed Nmax
+  fixed Nsafety
+  fixed Stip
+  fixed cosminus1[:]
+  fixed kappa
+  fixed m_{fac--fit}
+  fixed throot
+  fixed twmax
+  fixed vgust
+  fixed wroot
+  fixed E  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
+  fixed sigma  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
+  fixed cbar[:]  [Mission.Aircraft._WingGP.Planform]
+  fixed deta[:]  [Mission.Aircraft._WingGP.Planform]
+  cons  S[0] ≥ S[1] + deta[0]·0.5·b/2·(q[0] + q[1])
+  cons  S[1] ≥ S[2] + deta[1]·0.5·b/2·(q[1] + q[2])
+  cons  S[2] ≥ S[3] + deta[2]·0.5·b/2·(q[2] + q[3])
+  cons  S[3] ≥ S[4] + deta[3]·0.5·b/2·(q[3] + q[4])
+  cons  M[0] ≥ M[1] + deta[0]·0.5·b/2·(S[0] + S[1])
+  cons  M[1] ≥ M[2] + deta[1]·0.5·b/2·(S[1] + S[2])
+  cons  M[2] ≥ M[3] + deta[2]·0.5·b/2·(S[2] + S[3])
+  cons  M[3] ≥ M[4] + deta[3]·0.5·b/2·(S[3] + S[4])
+  cons  N = Nsafety·Nmax
+  cons  q[0] ≥ N·W/b·cbar[0]
+  cons  q[1] ≥ N·W/b·cbar[1]
+  cons  q[2] ≥ N·W/b·cbar[2]
+  cons  q[3] ≥ N·W/b·cbar[3]
+  cons  q[4] ≥ N·W/b·cbar[4]
+  cons  S[4] ≥ Stip
+  cons  M[4] ≥ Mtip
+  cons  th[0] ≥ throot
+  cons  th[1] ≥ th[0] + deta[0]·0.5·b/2·(M[1] + M[0])/E/I[0]
+  cons  th[2] ≥ th[1] + deta[1]·0.5·b/2·(M[2] + M[1])/E/I[1]
+  cons  th[3] ≥ th[2] + deta[2]·0.5·b/2·(M[3] + M[2])/E/I[2]
+  cons  th[4] ≥ th[3] + deta[3]·0.5·b/2·(M[4] + M[3])/E/I[3]
+  cons  w[0] ≥ wroot
+  cons  w[1] ≥ w[0] + deta[0]·0.5·b/2·(th[1] + th[0])
+  cons  w[2] ≥ w[1] + deta[1]·0.5·b/2·(th[2] + th[1])
+  cons  w[3] ≥ w[2] + deta[2]·0.5·b/2·(th[3] + th[2])
+  cons  w[4] ≥ w[3] + deta[3]·0.5·b/2·(th[4] + th[3])
+  cons  sigma ≥ M[0]/Sy[0]
+  cons  sigma ≥ M[1]/Sy[1]
+  cons  sigma ≥ M[2]/Sy[2]
+  cons  sigma ≥ M[3]/Sy[3]
+  cons  kappa ≥ w[4]/(b/2)
+  cons  q[0] ≥ W·N/b·cbar[0]·(agust[0]·6.28/cl·(1 + Ww/W) + 1)
+  cons  q[1] ≥ W·N/b·cbar[1]·(agust[1]·6.28/cl·(1 + Ww/W) + 1)
+  cons  q[2] ≥ W·N/b·cbar[2]·(agust[2]·6.28/cl·(1 + Ww/W) + 1)
+  cons  q[3] ≥ W·N/b·cbar[3]·(agust[3]·6.28/cl·(1 + Ww/W) + 1)
+  cons  q[4] ≥ W·N/b·cbar[4]·(agust[4]·6.28/cl·(1 + Ww/W) + 1)
+[Mission.FlightSegment10.TailBoomBending]
+  free  F
+  free  Mr[:]
+  free  th
+  free  S  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  free  I[:]  [Mission.Aircraft.Empennage.TailBoom]
+  free  Sy[:]  [Mission.Aircraft.Empennage.TailBoom]
+  free  l  [Mission.Aircraft.Empennage.TailBoom]
+  free  qne  [Mission.FlightSegment10.FlightState]
+  free  \bar{EI}[:]
+  free  \bar{M}[:]
+  free  \bar{\delta}[:]
+  free  \theta[:]
+  free  dx[:]
+  fixed Nsafety
+  fixed kappa
+  fixed CLmax  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  fixed E  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
+  fixed sigma  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
+  fixed deta  [Mission.Aircraft.Empennage.TailBoom]
+  cons  dx[0] = deta
+  cons  F ≥ qne·S
+  cons  \bar{EI}[0] ≤ E·I[0]/F/l²/2
+  cons  Mr[0] ≥ \bar{M}[0]·F·l
+  cons  sigma ≥ Mr[0]/Sy[0]
+  cons  th = \theta[1]
+  cons  kappa ≥ \bar{\delta}[1]·CLmax·Nsafety
+[Mission.FlightSegment10.TailBoomBending.Beam]
+  free  \bar{EI}[:]
+  free  \bar{M}[:]
+  free  \bar{\delta}[:]
+  free  \theta[:]
+  free  dx[:]
+  fixed \bar{M}_{tip}
+  fixed \bar{S}[:]
+  fixed \bar{\delta}_{root}
+  fixed \theta_{root}
+  cons  \bar{M}[0] ≥ \bar{M}[1] + dx[0]·0.5·(\bar{S}[0] + \bar{S}[1])
+  cons  \bar{M}[1] ≥ \bar{M}_{tip}
+  cons  \theta[0] ≥ \theta_{root}
+  cons  \theta[1] ≥ \theta[0] + dx[0]·0.5·(\bar{M}[1] + \bar{M}[0])/\bar{EI}[0]
+  cons  \bar{\delta}[0] ≥ \bar{\delta}_{root}
+  cons  \bar{\delta}[1] ≥ \bar{\delta}[0] + dx[0]·0.5·(\theta[1] + \theta[0])
+[Mission.FlightSegment10.TailBoomBending1]
+  free  F
+  free  Mr[:]
+  free  th
+  free  I[:]  [Mission.Aircraft.Empennage.TailBoom]
+  free  Sy[:]  [Mission.Aircraft.Empennage.TailBoom]
+  free  l  [Mission.Aircraft.Empennage.TailBoom]
+  free  S  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  free  qne  [Mission.FlightSegment10.FlightState]
+  free  \bar{EI}[:]
+  free  \bar{M}[:]
+  free  \bar{\delta}[:]
+  free  \theta[:]
+  free  dx[:]
+  fixed Nsafety
+  fixed kappa
+  fixed E  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
+  fixed sigma  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
+  fixed deta  [Mission.Aircraft.Empennage.TailBoom]
+  fixed CLmax  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  cons  dx[0] = deta
+  cons  F ≥ qne·S
+  cons  \bar{EI}[0] ≤ E·I[0]/F/l²/2
+  cons  Mr[0] ≥ \bar{M}[0]·F·l
+  cons  sigma ≥ Mr[0]/Sy[0]
+  cons  th = \theta[1]
+  cons  kappa ≥ \bar{\delta}[1]·CLmax·Nsafety
+[Mission.FlightSegment10.TailBoomBending1.Beam]
+  free  \bar{EI}[:]
+  free  \bar{M}[:]
+  free  \bar{\delta}[:]
+  free  \theta[:]
+  free  dx[:]
+  fixed \bar{M}_{tip}
+  fixed \bar{S}[:]
+  fixed \bar{\delta}_{root}
+  fixed \theta_{root}
+  cons  \bar{M}[0] ≥ \bar{M}[1] + dx[0]·0.5·(\bar{S}[0] + \bar{S}[1])
+  cons  \bar{M}[1] ≥ \bar{M}_{tip}
+  cons  \theta[0] ≥ \theta_{root}
+  cons  \theta[1] ≥ \theta[0] + dx[0]·0.5·(\bar{M}[1] + \bar{M}[0])/\bar{EI}[0]
+  cons  \bar{\delta}[0] ≥ \bar{\delta}_{root}
+  cons  \bar{\delta}[1] ≥ \bar{\delta}[0] + dx[0]·0.5·(\theta[1] + \theta[0])

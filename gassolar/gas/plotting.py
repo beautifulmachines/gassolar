@@ -46,7 +46,7 @@ def plot_sweep(model, xvarname, xsweep, yvarnames=None, ylim=None, fig=None, axi
 
     if not fig and not axis:
         fig, axis = plt.subplots(len(yvarnames))
-        if not isinstance(axis, np.ndarray) == 1:
+        if not isinstance(axis, np.ndarray):
             axis = [axis]
     for yvarname, ax in zip(yvarnames, axis):
         if yvarname:

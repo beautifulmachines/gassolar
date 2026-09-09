@@ -53,7 +53,7 @@ def plot_objectivecomp(path=None):  # noqa: PLR0915
     ax.set_xlabel("Latitude Requirement [deg]")
     ax2.set_xlabel("Latitude Requirement [deg]")
     ax.set_ylabel("Wing Span $b$ [ft]")
-    ax2.set_ylabel("Solar Cell Area $S_{\\\mathrm{solar}}$ [ft$^2$]")
+    ax2.set_ylabel("Solar Cell Area $S_{\\\\mathrm{solar}}$ [ft$^2$]")
     labels = ["$\\pm$%d" % item for item in ax.get_xticks()]
     # labels = ["$\\pm$%d" % l for l in np.linspace(20, 34, len(labels))]
     ax.set_xticklabels(labels)

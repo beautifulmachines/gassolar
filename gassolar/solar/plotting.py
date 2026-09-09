@@ -51,7 +51,7 @@ def altitude(density):
     return h
 
 
-from math import atan2, degrees  # noqa: E402
+from math import atan2, degrees
 
 
 # Label line with line2D label data
@@ -112,7 +112,9 @@ def labelLine(line, x, label=None, align=True, **kwargs):
     ax.text(x, y, label, rotation=trans_angle, **kwargs)
 
 
-def labelLines(lines, align=True, xvals=None, zorder=[], **kwargs):
+def labelLines(lines, align=True, xvals=None, zorder=None, **kwargs):
+    if zorder is None:
+        zorder = []
 
     ax = lines[0].get_axes()
     labLines = []
