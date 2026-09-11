@@ -68,9 +68,9 @@ Mission.Aircraft.Battery
 ...constants
 eta_discharge : 0.98               (-1.768)  discharging efficiency
             g : 9.81      [m/s²]   (+1.449)  gravitational constant
-        hbatt : 350       [h·W/kg] (-1.449)  battery specific energy
+        hbatt : 350       [h⋅W/kg] (-1.449)  battery specific energy
    eta_charge : 0.98               (-0.3192) charging efficiency
-        vbatt : 800       [h·W/l]  (~0)      volume battery energy density
+        vbatt : 800       [h⋅W/l]  (~0)      volume battery energy density
 
 Mission.Aircraft.Empennage
    W : 2.872 [lbf]           empennage weight
@@ -350,8 +350,8 @@ m_{fac-polar-fit} : 1          (+0.004207) fit factor
           CLstall : 1.3        (~0)        stall CL
 
 Mission.FlightSegment.FlightState
-     (E/S)_C : 347.1    [h·W/m²]              energy for batteries during sunrise/set
- (E/S)_{day} : 3661     [h·W/m²]              solar cells energy during daytime
+     (E/S)_C : 347.1    [h⋅W/m²]              energy for batteries during sunrise/set
+ (E/S)_{day} : 3661     [h⋅W/m²]              solar cells energy during daytime
  (P/S)_{min} : 341.8    [W/m²]                minimum necessary solar power
            V : 23.16    [m/s]                 true airspeed
     V_{wind} : 23.16    [m/s]                 wind velocity
@@ -365,9 +365,9 @@ V_{wind-ref} : 100      [m/s]     (+0.004515) reference wind speed
 m_{fac--fit} : 1                  (+0.004515) fit factor
      m_{fac} : 1                  (+0.004515) wind speed margin factor
   \rho_{ref} : 1        [kg/m³]   (-0.003389) reference air density
-         \mu : 1.42e-05 [N·s/m²]  (+0.003232) viscosity
- (E/S)_{irr} : 9621     [h·W/m²]  (~0)        solar energy
- (E/S)_{ref} : 1        [h·W/m²]  (~0)        energy units variable
+         \mu : 1.42e-05 [N⋅s/m²]  (+0.003232) viscosity
+ (E/S)_{irr} : 9621     [h⋅W/m²]  (~0)        solar energy
+ (E/S)_{ref} : 1        [h⋅W/m²]  (~0)        energy units variable
  (P/S)_{ref} : 1        [W/m²]    (~0)        power units variable
    t_{night} : 12.06    [h]       (~0)        night duration
 
@@ -377,7 +377,7 @@ Mission.FlightSegment.GustL
           Ww : 25     [lbf]              wing weight
           cl : 1.197                     wing lift coefficient
            v : 23.16  [m/s]              vehicle speed
-        M[:] : [ 379       234       113       30        8.49e-05 ] [m·N] wing section root moment
+        M[:] : [ 379       234       113       30        8.49e-05 ] [m⋅N] wing section root moment
         S[:] : [ 155       136       106       60        5.59e-05 ] [N]   shear along wing
     agust[:] : [ 4.49e-11  0.0315    0.121     0.254     0.41     ]       gust angle of attack
         q[:] : [ 16.3      22        37.6      54.6      65.6     ] [N/m] distributed wing loading
@@ -389,7 +389,7 @@ Mission.FlightSegment.GustL
        kappa : 0.2          (-0.001175)  max tip deflection ratio
 m_{fac--fit} : 1            (+0.0009454) fit factor
        vgust : 10     [m/s] (+0.0009416) gust velocity
-        Mtip : 1e-10  [m·N] (~0)         tip moment
+        Mtip : 1e-10  [m⋅N] (~0)         tip moment
         Stip : 1e-10  [N]   (~0)         tip loading
       throot : 1e-10        (~0)         root deflection angle
        twmax : 0.2618       (~0)         max tip twist
@@ -400,7 +400,7 @@ cosminus1[:] : [ 1e-10  0.0761  0.293  0.617  1   ]       1 minus cosine factor
 Mission.FlightSegment.SparLoading
       N : 5                 loading factor
       W : 10.97  [lbf]      loading weight
-   M[:] : [ 374       164       65.9      16.2      0.0975   ] [m·N] wing section root moment
+   M[:] : [ 374       164       65.9      16.2      0.0975   ] [m⋅N] wing section root moment
    S[:] : [ 243       115       62.3      27.1      0.0589   ] [N]   shear along wing
    q[:] : [ 102       49.5      35.5      27.6      23.3     ] [N/m] distributed wing loading
   th[:] : [ 0.000315  0.0932    0.17      0.243     0.344    ]       deflection angle
@@ -409,7 +409,7 @@ Mission.FlightSegment.SparLoading
    Nmax : 5            (~0) max loading
 Nsafety : 1            (~0) safety load factor
   kappa : 0.2          (~0) max tip deflection ratio
-   Mtip : 1e-10  [m·N] (~0) tip moment
+   Mtip : 1e-10  [m⋅N] (~0) tip moment
    Stip : 1e-10  [N]   (~0) tip loading
  throot : 1e-10        (~0) root deflection angle
   twmax : 0.2618       (~0) max tip twist
@@ -423,7 +423,7 @@ Mission.FlightSegment.SteadyLevelFlight
 Mission.FlightSegment.TailBoomBending
       F : 159    [N]      tail force
      th : 0.1044          tail boom deflection angle
-  Mr[:] : [ 697 ] [m·N] section root moment
+  Mr[:] : [ 697 ] [m⋅N] section root moment
 ...constants
 Nsafety : 1          (~0) safety load factor
   kappa : 0.1        (~0) max tail boom deflection
@@ -444,7 +444,7 @@ Mission.FlightSegment.TailBoomBending.Beam
 Mission.FlightSegment.TailBoomBending1
       F : 342.9  [N]           tail force
      th : 0.1439               tail boom deflection angle
-  Mr[:] : [ 960 ] [m·N] section root moment
+  Mr[:] : [ 960 ] [m⋅N] section root moment
 ...constants
 Nsafety : 1          (+0.0114) safety load factor
   kappa : 0.1        (-0.0114) max tail boom deflection
@@ -498,8 +498,8 @@ m_{fac-polar-fit} : 1          (+1.361e-06) fit factor
           CLstall : 1.3        (~0)         stall CL
 
 Mission.FlightSegment1.FlightState
-     (E/S)_C : 347.5    [h·W/m²]               energy for batteries during sunrise/set
- (E/S)_{day} : 3641     [h·W/m²]               solar cells energy during daytime
+     (E/S)_C : 347.5    [h⋅W/m²]               energy for batteries during sunrise/set
+ (E/S)_{day} : 3641     [h⋅W/m²]               solar cells energy during daytime
  (P/S)_{min} : 341.8    [W/m²]                 minimum necessary solar power
            V : 22.96    [m/s]                  true airspeed
     V_{wind} : 22.96    [m/s]                  wind velocity
@@ -512,10 +512,10 @@ Mission.FlightSegment1.FlightState
 V_{wind-ref} : 100      [m/s]     (+1.424e-06) reference wind speed
 m_{fac--fit} : 1                  (+1.425e-06) fit factor
      m_{fac} : 1                  (+1.424e-06) wind speed margin factor
-         \mu : 1.42e-05 [N·s/m²]  (+1.021e-06) viscosity
+         \mu : 1.42e-05 [N⋅s/m²]  (+1.021e-06) viscosity
   \rho_{ref} : 1        [kg/m³]   (-9.502e-07) reference air density
- (E/S)_{irr} : 9502     [h·W/m²]  (~0)         solar energy
- (E/S)_{ref} : 1        [h·W/m²]  (~0)         energy units variable
+ (E/S)_{irr} : 9502     [h⋅W/m²]  (~0)         solar energy
+ (E/S)_{ref} : 1        [h⋅W/m²]  (~0)         energy units variable
  (P/S)_{ref} : 1        [W/m²]    (~0)         power units variable
    t_{night} : 12.12    [h]       (~0)         night duration
 
@@ -525,7 +525,7 @@ Mission.FlightSegment1.GustL
           Ww : 25     [lbf]              wing weight
           cl : 1.221                     wing lift coefficient
            v : 22.96  [m/s]              vehicle speed
-        M[:] : [ 379       233       112       29.8      0.00249  ] [m·N] wing section root moment
+        M[:] : [ 379       233       112       29.8      0.00249  ] [m⋅N] wing section root moment
         S[:] : [ 158       135       105       59.5      0.00163  ] [N]   shear along wing
     agust[:] : [ 4.53e-11  0.0318    0.122     0.256     0.413    ]       gust angle of attack
         q[:] : [ 20.3      22.2      37.4      54.1      65       ] [N/m] distributed wing loading
@@ -537,7 +537,7 @@ Mission.FlightSegment1.GustL
        kappa : 0.2          (-7.829e-07) max tip deflection ratio
 m_{fac--fit} : 1            (+6.284e-07) fit factor
        vgust : 10     [m/s] (+6.259e-07) gust velocity
-        Mtip : 1e-10  [m·N] (~0)         tip moment
+        Mtip : 1e-10  [m⋅N] (~0)         tip moment
         Stip : 1e-10  [N]   (~0)         tip loading
       throot : 1e-10        (~0)         root deflection angle
        twmax : 0.2618       (~0)         max tip twist
@@ -548,7 +548,7 @@ cosminus1[:] : [ 1e-10  0.0761  0.293  0.617  1   ]       1 minus cosine factor
 Mission.FlightSegment1.SparLoading
       N : 5                 loading factor
       W : 10.97  [lbf]      loading weight
-   M[:] : [ 374       164       65.9      16.2      0.0975   ] [m·N] wing section root moment
+   M[:] : [ 374       164       65.9      16.2      0.0975   ] [m⋅N] wing section root moment
    S[:] : [ 243       115       62.3      27.1      0.0589   ] [N]   shear along wing
    q[:] : [ 102       49.5      35.5      27.6      23.3     ] [N/m] distributed wing loading
   th[:] : [ 0.000315  0.0932    0.17      0.243     0.344    ]       deflection angle
@@ -557,7 +557,7 @@ Mission.FlightSegment1.SparLoading
    Nmax : 5            (~0) max loading
 Nsafety : 1            (~0) safety load factor
   kappa : 0.2          (~0) max tip deflection ratio
-   Mtip : 1e-10  [m·N] (~0) tip moment
+   Mtip : 1e-10  [m⋅N] (~0) tip moment
    Stip : 1e-10  [N]   (~0) tip loading
  throot : 1e-10        (~0) root deflection angle
   twmax : 0.2618       (~0) max tip twist
@@ -571,7 +571,7 @@ Mission.FlightSegment1.SteadyLevelFlight
 Mission.FlightSegment1.TailBoomBending
       F : 159    [N]      tail force
      th : 0.1044          tail boom deflection angle
-  Mr[:] : [ 697 ] [m·N] section root moment
+  Mr[:] : [ 697 ] [m⋅N] section root moment
 ...constants
 Nsafety : 1          (~0) safety load factor
   kappa : 0.1        (~0) max tail boom deflection
@@ -592,7 +592,7 @@ Mission.FlightSegment1.TailBoomBending.Beam
 Mission.FlightSegment1.TailBoomBending1
       F : 342.9  [N]           tail force
      th : 0.1439               tail boom deflection angle
-  Mr[:] : [ 960 ] [m·N] section root moment
+  Mr[:] : [ 960 ] [m⋅N] section root moment
 ...constants
 Nsafety : 1          (+0.0114) safety load factor
   kappa : 0.1        (-0.0114) max tail boom deflection
@@ -646,8 +646,8 @@ m_{fac-polar-fit} : 1          (+0.9874) fit factor
           CLstall : 1.3        (~0)      stall CL
 
 Mission.FlightSegment10.FlightState
-     (E/S)_C : 357.5    [h·W/m²]            energy for batteries during sunrise/set
- (E/S)_{day} : 3458     [h·W/m²]            solar cells energy during daytime
+     (E/S)_C : 357.5    [h⋅W/m²]            energy for batteries during sunrise/set
+ (E/S)_{day} : 3458     [h⋅W/m²]            solar cells energy during daytime
  (P/S)_{min} : 341.6    [W/m²]              minimum necessary solar power
            V : 23.14    [m/s]               true airspeed
     V_{wind} : 23.14    [m/s]               wind velocity
@@ -660,10 +660,10 @@ m_{fac--fit} : 1                  (+1.308)  fit factor
 V_{wind-ref} : 100      [m/s]     (+0.9458) reference wind speed
      m_{fac} : 1                  (+0.9458) wind speed margin factor
   \rho_{ref} : 1        [kg/m³]   (-0.9057) reference air density
-         \mu : 1.42e-05 [N·s/m²]  (+0.7582) viscosity
- (E/S)_{irr} : 8329     [h·W/m²]  (-0.5459) solar energy
+         \mu : 1.42e-05 [N⋅s/m²]  (+0.7582) viscosity
+ (E/S)_{irr} : 8329     [h⋅W/m²]  (-0.5459) solar energy
  (P/S)_{ref} : 1        [W/m²]    (-0.4807) power units variable
- (E/S)_{ref} : 1        [h·W/m²]  (+0.3618) energy units variable
+ (E/S)_{ref} : 1        [h⋅W/m²]  (+0.3618) energy units variable
          Vne : 40       [m/s]     (+0.0228) never exceed velocity
        rhosl : 1.225    [kg/m³]   (+0.0114) air density at sea level
 
@@ -673,7 +673,7 @@ Mission.FlightSegment10.GustL
           Ww : 25     [lbf]           wing weight
           cl : 1.198                  wing lift coefficient
            v : 23.14  [m/s]           vehicle speed
-        M[:] : [ 379       234       113       30        1.02e-06 ] [m·N] wing section root moment
+        M[:] : [ 379       234       113       30        1.02e-06 ] [m⋅N] wing section root moment
         S[:] : [ 155       136       106       60        6.8e-07  ] [N]   shear along wing
     agust[:] : [ 4.49e-11  0.0315    0.121     0.254     0.41     ]       gust angle of attack
         q[:] : [ 16.3      22        37.6      54.6      65.6     ] [N/m] distributed wing loading
@@ -685,7 +685,7 @@ Mission.FlightSegment10.GustL
        kappa : 0.2          (-0.1431) max tip deflection ratio
 m_{fac--fit} : 1            (+0.1152) fit factor
        vgust : 10     [m/s] (+0.1147) gust velocity
-        Mtip : 1e-10  [m·N] (~0)      tip moment
+        Mtip : 1e-10  [m⋅N] (~0)      tip moment
         Stip : 1e-10  [N]   (~0)      tip loading
       throot : 1e-10        (~0)      root deflection angle
        twmax : 0.2618       (~0)      max tip twist
@@ -696,7 +696,7 @@ cosminus1[:] : [ 1e-10  0.0761  0.293  0.617  1   ]       1 minus cosine factor
 Mission.FlightSegment10.SparLoading
       N : 5                 loading factor
       W : 10.97  [lbf]      loading weight
-   M[:] : [ 374       164       65.9      16.2      0.0975   ] [m·N] wing section root moment
+   M[:] : [ 374       164       65.9      16.2      0.0975   ] [m⋅N] wing section root moment
    S[:] : [ 243       115       62.3      27.1      0.0589   ] [N]   shear along wing
    q[:] : [ 102       49.5      35.5      27.6      23.3     ] [N/m] distributed wing loading
   th[:] : [ 0.000315  0.0932    0.17      0.243     0.344    ]       deflection angle
@@ -705,7 +705,7 @@ Mission.FlightSegment10.SparLoading
    Nmax : 5            (~0) max loading
 Nsafety : 1            (~0) safety load factor
   kappa : 0.2          (~0) max tip deflection ratio
-   Mtip : 1e-10  [m·N] (~0) tip moment
+   Mtip : 1e-10  [m⋅N] (~0) tip moment
    Stip : 1e-10  [N]   (~0) tip loading
  throot : 1e-10        (~0) root deflection angle
   twmax : 0.2618       (~0) max tip twist
@@ -719,7 +719,7 @@ Mission.FlightSegment10.SteadyLevelFlight
 Mission.FlightSegment10.TailBoomBending
       F : 159    [N]      tail force
      th : 0.1044          tail boom deflection angle
-  Mr[:] : [ 697 ] [m·N] section root moment
+  Mr[:] : [ 697 ] [m⋅N] section root moment
 ...constants
 Nsafety : 1          (~0) safety load factor
   kappa : 0.1        (~0) max tail boom deflection
@@ -740,7 +740,7 @@ Mission.FlightSegment10.TailBoomBending.Beam
 Mission.FlightSegment10.TailBoomBending1
       F : 342.9  [N]           tail force
      th : 0.1439               tail boom deflection angle
-  Mr[:] : [ 960 ] [m·N] section root moment
+  Mr[:] : [ 960 ] [m⋅N] section root moment
 ...constants
 Nsafety : 1          (+0.0114) safety load factor
   kappa : 0.1        (-0.0114) max tail boom deflection
@@ -794,8 +794,8 @@ m_{fac-polar-fit} : 1          (+3.859e-07) fit factor
           CLstall : 1.3        (~0)         stall CL
 
 Mission.FlightSegment2.FlightState
-     (E/S)_C : 348      [h·W/m²]               energy for batteries during sunrise/set
- (E/S)_{day} : 3621     [h·W/m²]               solar cells energy during daytime
+     (E/S)_C : 348      [h⋅W/m²]               energy for batteries during sunrise/set
+ (E/S)_{day} : 3621     [h⋅W/m²]               solar cells energy during daytime
  (P/S)_{min} : 341.7    [W/m²]                 minimum necessary solar power
            V : 22.7     [m/s]                  true airspeed
     V_{wind} : 22.68    [m/s]                  wind velocity
@@ -808,11 +808,11 @@ Mission.FlightSegment2.FlightState
 V_{wind-ref} : 100      [m/s]     (+3.533e-07) reference wind speed
 m_{fac--fit} : 1                  (+3.548e-07) fit factor
      m_{fac} : 1                  (+3.533e-07) wind speed margin factor
-         \mu : 1.42e-05 [N·s/m²]  (+2.792e-07) viscosity
+         \mu : 1.42e-05 [N⋅s/m²]  (+2.792e-07) viscosity
   \rho_{ref} : 1        [kg/m³]   (-2.365e-07) reference air density
    t_{night} : 12.17    [h]       (~0)         night duration
- (E/S)_{irr} : 9380     [h·W/m²]  (~0)         solar energy
- (E/S)_{ref} : 1        [h·W/m²]  (~0)         energy units variable
+ (E/S)_{irr} : 9380     [h⋅W/m²]  (~0)         solar energy
+ (E/S)_{ref} : 1        [h⋅W/m²]  (~0)         energy units variable
  (P/S)_{ref} : 1        [W/m²]    (~0)         power units variable
 
 Mission.FlightSegment2.GustL
@@ -821,7 +821,7 @@ Mission.FlightSegment2.GustL
           Ww : 25     [lbf]              wing weight
           cl : 1.247                     wing lift coefficient
            v : 22.7   [m/s]              vehicle speed
-        M[:] : [ 380       232       112       29.6      0.00425  ] [m·N] wing section root moment
+        M[:] : [ 380       232       112       29.6      0.00425  ] [m⋅N] wing section root moment
         S[:] : [ 160       135       105       59.1      0.00278  ] [N]   shear along wing
     agust[:] : [ 4.58e-11  0.0322    0.123     0.259     0.418    ]       gust angle of attack
         q[:] : [ 23.1      22.5      37.2      53.7      64.5     ] [N/m] distributed wing loading
@@ -833,7 +833,7 @@ Mission.FlightSegment2.GustL
        kappa : 0.2          (-3.634e-07) max tip deflection ratio
 m_{fac--fit} : 1            (+2.908e-07) fit factor
        vgust : 10     [m/s] (+2.896e-07) gust velocity
-        Mtip : 1e-10  [m·N] (~0)         tip moment
+        Mtip : 1e-10  [m⋅N] (~0)         tip moment
         Stip : 1e-10  [N]   (~0)         tip loading
       throot : 1e-10        (~0)         root deflection angle
        twmax : 0.2618       (~0)         max tip twist
@@ -844,7 +844,7 @@ cosminus1[:] : [ 1e-10  0.0761  0.293  0.617  1   ]       1 minus cosine factor
 Mission.FlightSegment2.SparLoading
       N : 5                 loading factor
       W : 10.97  [lbf]      loading weight
-   M[:] : [ 374       164       65.9      16.2      0.0975   ] [m·N] wing section root moment
+   M[:] : [ 374       164       65.9      16.2      0.0975   ] [m⋅N] wing section root moment
    S[:] : [ 243       115       62.3      27.1      0.0589   ] [N]   shear along wing
    q[:] : [ 102       49.5      35.5      27.6      23.3     ] [N/m] distributed wing loading
   th[:] : [ 0.000315  0.0932    0.17      0.243     0.344    ]       deflection angle
@@ -853,7 +853,7 @@ Mission.FlightSegment2.SparLoading
    Nmax : 5            (~0) max loading
 Nsafety : 1            (~0) safety load factor
   kappa : 0.2          (~0) max tip deflection ratio
-   Mtip : 1e-10  [m·N] (~0) tip moment
+   Mtip : 1e-10  [m⋅N] (~0) tip moment
    Stip : 1e-10  [N]   (~0) tip loading
  throot : 1e-10        (~0) root deflection angle
   twmax : 0.2618       (~0) max tip twist
@@ -867,7 +867,7 @@ Mission.FlightSegment2.SteadyLevelFlight
 Mission.FlightSegment2.TailBoomBending
       F : 159    [N]      tail force
      th : 0.1044          tail boom deflection angle
-  Mr[:] : [ 697 ] [m·N] section root moment
+  Mr[:] : [ 697 ] [m⋅N] section root moment
 ...constants
 Nsafety : 1          (~0) safety load factor
   kappa : 0.1        (~0) max tail boom deflection
@@ -888,7 +888,7 @@ Mission.FlightSegment2.TailBoomBending.Beam
 Mission.FlightSegment2.TailBoomBending1
       F : 342.9  [N]           tail force
      th : 0.1439               tail boom deflection angle
-  Mr[:] : [ 960 ] [m·N] section root moment
+  Mr[:] : [ 960 ] [m⋅N] section root moment
 ...constants
 Nsafety : 1          (+0.0114) safety load factor
   kappa : 0.1        (-0.0114) max tail boom deflection
@@ -942,8 +942,8 @@ m_{fac-polar-fit} : 1          (+2.315e-07) fit factor
           CLstall : 1.3        (~0)         stall CL
 
 Mission.FlightSegment3.FlightState
-     (E/S)_C : 348.5    [h·W/m²]               energy for batteries during sunrise/set
- (E/S)_{day} : 3601     [h·W/m²]               solar cells energy during daytime
+     (E/S)_C : 348.5    [h⋅W/m²]               energy for batteries during sunrise/set
+ (E/S)_{day} : 3601     [h⋅W/m²]               solar cells energy during daytime
  (P/S)_{min} : 341.6    [W/m²]                 minimum necessary solar power
            V : 22.51    [m/s]                  true airspeed
     V_{wind} : 22.47    [m/s]                  wind velocity
@@ -956,11 +956,11 @@ Mission.FlightSegment3.FlightState
 V_{wind-ref} : 100      [m/s]     (+1.863e-07) reference wind speed
 m_{fac--fit} : 1                  (+1.878e-07) fit factor
      m_{fac} : 1                  (+1.863e-07) wind speed margin factor
-         \mu : 1.42e-05 [N·s/m²]  (+1.627e-07) viscosity
+         \mu : 1.42e-05 [N⋅s/m²]  (+1.627e-07) viscosity
   \rho_{ref} : 1        [kg/m³]   (-1.256e-07) reference air density
    t_{night} : 12.23    [h]       (~0)         night duration
- (E/S)_{irr} : 9256     [h·W/m²]  (~0)         solar energy
- (E/S)_{ref} : 1        [h·W/m²]  (~0)         energy units variable
+ (E/S)_{irr} : 9256     [h⋅W/m²]  (~0)         solar energy
+ (E/S)_{ref} : 1        [h⋅W/m²]  (~0)         energy units variable
  (P/S)_{ref} : 1        [W/m²]    (~0)         power units variable
 
 Mission.FlightSegment3.GustL
@@ -969,7 +969,7 @@ Mission.FlightSegment3.GustL
           Ww : 25     [lbf]              wing weight
           cl : 1.263                     wing lift coefficient
            v : 22.51  [m/s]              vehicle speed
-        M[:] : [ 380       231       111       29.6      0.00505  ] [m·N] wing section root moment
+        M[:] : [ 380       231       111       29.6      0.00505  ] [m⋅N] wing section root moment
         S[:] : [ 161       135       104       58.9      0.0033   ] [N]   shear along wing
     agust[:] : [ 4.62e-11  0.0324    0.124     0.261     0.422    ]       gust angle of attack
         q[:] : [ 24.3      22.6      37.2      53.6      64.3     ] [N/m] distributed wing loading
@@ -981,7 +981,7 @@ Mission.FlightSegment3.GustL
        kappa : 0.2          (-2.884e-07) max tip deflection ratio
 m_{fac--fit} : 1            (+2.304e-07) fit factor
        vgust : 10     [m/s] (+2.295e-07) gust velocity
-        Mtip : 1e-10  [m·N] (~0)         tip moment
+        Mtip : 1e-10  [m⋅N] (~0)         tip moment
         Stip : 1e-10  [N]   (~0)         tip loading
       throot : 1e-10        (~0)         root deflection angle
        twmax : 0.2618       (~0)         max tip twist
@@ -992,7 +992,7 @@ cosminus1[:] : [ 1e-10  0.0761  0.293  0.617  1   ]       1 minus cosine factor
 Mission.FlightSegment3.SparLoading
       N : 5                 loading factor
       W : 10.97  [lbf]      loading weight
-   M[:] : [ 374       164       65.9      16.2      0.0975   ] [m·N] wing section root moment
+   M[:] : [ 374       164       65.9      16.2      0.0975   ] [m⋅N] wing section root moment
    S[:] : [ 243       115       62.3      27.1      0.0589   ] [N]   shear along wing
    q[:] : [ 102       49.5      35.5      27.6      23.3     ] [N/m] distributed wing loading
   th[:] : [ 0.000315  0.0932    0.17      0.243     0.344    ]       deflection angle
@@ -1001,7 +1001,7 @@ Mission.FlightSegment3.SparLoading
    Nmax : 5            (~0) max loading
 Nsafety : 1            (~0) safety load factor
   kappa : 0.2          (~0) max tip deflection ratio
-   Mtip : 1e-10  [m·N] (~0) tip moment
+   Mtip : 1e-10  [m⋅N] (~0) tip moment
    Stip : 1e-10  [N]   (~0) tip loading
  throot : 1e-10        (~0) root deflection angle
   twmax : 0.2618       (~0) max tip twist
@@ -1015,7 +1015,7 @@ Mission.FlightSegment3.SteadyLevelFlight
 Mission.FlightSegment3.TailBoomBending
       F : 159    [N]      tail force
      th : 0.1044          tail boom deflection angle
-  Mr[:] : [ 697 ] [m·N] section root moment
+  Mr[:] : [ 697 ] [m⋅N] section root moment
 ...constants
 Nsafety : 1          (~0) safety load factor
   kappa : 0.1        (~0) max tail boom deflection
@@ -1036,7 +1036,7 @@ Mission.FlightSegment3.TailBoomBending.Beam
 Mission.FlightSegment3.TailBoomBending1
       F : 342.9  [N]           tail force
      th : 0.1439               tail boom deflection angle
-  Mr[:] : [ 960 ] [m·N] section root moment
+  Mr[:] : [ 960 ] [m⋅N] section root moment
 ...constants
 Nsafety : 1          (+0.0114) safety load factor
   kappa : 0.1        (-0.0114) max tail boom deflection
@@ -1090,8 +1090,8 @@ m_{fac-polar-fit} : 1          (+1.776e-07) fit factor
           CLstall : 1.3        (~0)         stall CL
 
 Mission.FlightSegment4.FlightState
-     (E/S)_C : 349.3    [h·W/m²]               energy for batteries during sunrise/set
- (E/S)_{day} : 3581     [h·W/m²]               solar cells energy during daytime
+     (E/S)_C : 349.3    [h⋅W/m²]               energy for batteries during sunrise/set
+ (E/S)_{day} : 3581     [h⋅W/m²]               solar cells energy during daytime
  (P/S)_{min} : 341.6    [W/m²]                 minimum necessary solar power
            V : 22.37    [m/s]                  true airspeed
     V_{wind} : 22.33    [m/s]                  wind velocity
@@ -1104,11 +1104,11 @@ Mission.FlightSegment4.FlightState
 V_{wind-ref} : 100      [m/s]     (+1.272e-07) reference wind speed
 m_{fac--fit} : 1                  (+1.29e-07)  fit factor
      m_{fac} : 1                  (+1.272e-07) wind speed margin factor
-         \mu : 1.42e-05 [N·s/m²]  (+1.222e-07) viscosity
+         \mu : 1.42e-05 [N⋅s/m²]  (+1.222e-07) viscosity
   \rho_{ref} : 1        [kg/m³]   (~0)         reference air density
    t_{night} : 12.29    [h]       (~0)         night duration
- (E/S)_{irr} : 9130     [h·W/m²]  (~0)         solar energy
- (E/S)_{ref} : 1        [h·W/m²]  (~0)         energy units variable
+ (E/S)_{irr} : 9130     [h⋅W/m²]  (~0)         solar energy
+ (E/S)_{ref} : 1        [h⋅W/m²]  (~0)         energy units variable
  (P/S)_{ref} : 1        [W/m²]    (~0)         power units variable
 
 Mission.FlightSegment4.GustL
@@ -1117,7 +1117,7 @@ Mission.FlightSegment4.GustL
           Ww : 25     [lbf]              wing weight
           cl : 1.273                     wing lift coefficient
            v : 22.37  [m/s]              vehicle speed
-        M[:] : [ 380       231       111       29.5      0.00541  ] [m·N] wing section root moment
+        M[:] : [ 380       231       111       29.5      0.00541  ] [m⋅N] wing section root moment
         S[:] : [ 161       135       104       58.9      0.00353  ] [N]   shear along wing
     agust[:] : [ 4.65e-11  0.0326    0.125     0.262     0.424    ]       gust angle of attack
         q[:] : [ 24.8      22.7      37.1      53.5      64.2     ] [N/m] distributed wing loading
@@ -1129,7 +1129,7 @@ Mission.FlightSegment4.GustL
        kappa : 0.2          (-2.627e-07) max tip deflection ratio
 m_{fac--fit} : 1            (+2.098e-07) fit factor
        vgust : 10     [m/s] (+2.09e-07)  gust velocity
-        Mtip : 1e-10  [m·N] (~0)         tip moment
+        Mtip : 1e-10  [m⋅N] (~0)         tip moment
         Stip : 1e-10  [N]   (~0)         tip loading
       throot : 1e-10        (~0)         root deflection angle
        twmax : 0.2618       (~0)         max tip twist
@@ -1140,7 +1140,7 @@ cosminus1[:] : [ 1e-10  0.0761  0.293  0.617  1   ]       1 minus cosine factor
 Mission.FlightSegment4.SparLoading
       N : 5                 loading factor
       W : 10.97  [lbf]      loading weight
-   M[:] : [ 374       164       65.9      16.2      0.0975   ] [m·N] wing section root moment
+   M[:] : [ 374       164       65.9      16.2      0.0975   ] [m⋅N] wing section root moment
    S[:] : [ 243       115       62.3      27.1      0.0589   ] [N]   shear along wing
    q[:] : [ 102       49.5      35.5      27.6      23.3     ] [N/m] distributed wing loading
   th[:] : [ 0.000315  0.0932    0.17      0.243     0.344    ]       deflection angle
@@ -1149,7 +1149,7 @@ Mission.FlightSegment4.SparLoading
    Nmax : 5            (~0) max loading
 Nsafety : 1            (~0) safety load factor
   kappa : 0.2          (~0) max tip deflection ratio
-   Mtip : 1e-10  [m·N] (~0) tip moment
+   Mtip : 1e-10  [m⋅N] (~0) tip moment
    Stip : 1e-10  [N]   (~0) tip loading
  throot : 1e-10        (~0) root deflection angle
   twmax : 0.2618       (~0) max tip twist
@@ -1163,7 +1163,7 @@ Mission.FlightSegment4.SteadyLevelFlight
 Mission.FlightSegment4.TailBoomBending
       F : 159    [N]      tail force
      th : 0.1044          tail boom deflection angle
-  Mr[:] : [ 697 ] [m·N] section root moment
+  Mr[:] : [ 697 ] [m⋅N] section root moment
 ...constants
 Nsafety : 1          (~0) safety load factor
   kappa : 0.1        (~0) max tail boom deflection
@@ -1184,7 +1184,7 @@ Mission.FlightSegment4.TailBoomBending.Beam
 Mission.FlightSegment4.TailBoomBending1
       F : 342.9  [N]           tail force
      th : 0.1439               tail boom deflection angle
-  Mr[:] : [ 960 ] [m·N] section root moment
+  Mr[:] : [ 960 ] [m⋅N] section root moment
 ...constants
 Nsafety : 1          (+0.0114) safety load factor
   kappa : 0.1        (-0.0114) max tail boom deflection
@@ -1238,8 +1238,8 @@ m_{fac-polar-fit} : 1          (+1.389e-07) fit factor
           CLstall : 1.3        (~0)         stall CL
 
 Mission.FlightSegment5.FlightState
-     (E/S)_C : 350.2    [h·W/m²]              energy for batteries during sunrise/set
- (E/S)_{day} : 3560     [h·W/m²]              solar cells energy during daytime
+     (E/S)_C : 350.2    [h⋅W/m²]              energy for batteries during sunrise/set
+ (E/S)_{day} : 3560     [h⋅W/m²]              solar cells energy during daytime
  (P/S)_{min} : 341.5    [W/m²]                minimum necessary solar power
            V : 22.22    [m/s]                 true airspeed
     V_{wind} : 22.15    [m/s]                 wind velocity
@@ -1249,14 +1249,14 @@ Mission.FlightSegment5.FlightState
          Vne : 40       [m/s]     (+0.0228)   never exceed velocity
        rhosl : 1.225    [kg/m³]   (+0.0114)   air density at sea level
     p_{wind} : 0.9                (+1.48e-07) percentile wind speeds
-         \mu : 1.42e-05 [N·s/m²]  (~0)        viscosity
+         \mu : 1.42e-05 [N⋅s/m²]  (~0)        viscosity
 V_{wind-ref} : 100      [m/s]     (~0)        reference wind speed
 m_{fac--fit} : 1                  (~0)        fit factor
      m_{fac} : 1                  (~0)        wind speed margin factor
   \rho_{ref} : 1        [kg/m³]   (~0)        reference air density
    t_{night} : 12.35    [h]       (~0)        night duration
- (E/S)_{irr} : 9002     [h·W/m²]  (~0)        solar energy
- (E/S)_{ref} : 1        [h·W/m²]  (~0)        energy units variable
+ (E/S)_{irr} : 9002     [h⋅W/m²]  (~0)        solar energy
+ (E/S)_{ref} : 1        [h⋅W/m²]  (~0)        energy units variable
  (P/S)_{ref} : 1        [W/m²]    (~0)        power units variable
 
 Mission.FlightSegment5.GustL
@@ -1265,7 +1265,7 @@ Mission.FlightSegment5.GustL
           Ww : 25     [lbf]              wing weight
           cl : 1.283                     wing lift coefficient
            v : 22.22  [m/s]              vehicle speed
-        M[:] : [ 380       231       111       29.5      0.00564  ] [m·N] wing section root moment
+        M[:] : [ 380       231       111       29.5      0.00564  ] [m⋅N] wing section root moment
         S[:] : [ 161       135       104       58.8      0.00369  ] [N]   shear along wing
     agust[:] : [ 4.68e-11  0.0328    0.126     0.264     0.427    ]       gust angle of attack
         q[:] : [ 25.2      22.7      37.1      53.4      64.1     ] [N/m] distributed wing loading
@@ -1277,7 +1277,7 @@ Mission.FlightSegment5.GustL
        kappa : 0.2          (-2.468e-07) max tip deflection ratio
 m_{fac--fit} : 1            (+1.97e-07)  fit factor
        vgust : 10     [m/s] (+1.962e-07) gust velocity
-        Mtip : 1e-10  [m·N] (~0)         tip moment
+        Mtip : 1e-10  [m⋅N] (~0)         tip moment
         Stip : 1e-10  [N]   (~0)         tip loading
       throot : 1e-10        (~0)         root deflection angle
        twmax : 0.2618       (~0)         max tip twist
@@ -1288,7 +1288,7 @@ cosminus1[:] : [ 1e-10  0.0761  0.293  0.617  1   ]       1 minus cosine factor
 Mission.FlightSegment5.SparLoading
       N : 5                 loading factor
       W : 10.97  [lbf]      loading weight
-   M[:] : [ 374       164       65.9      16.2      0.0975   ] [m·N] wing section root moment
+   M[:] : [ 374       164       65.9      16.2      0.0975   ] [m⋅N] wing section root moment
    S[:] : [ 243       115       62.3      27.1      0.0589   ] [N]   shear along wing
    q[:] : [ 102       49.5      35.5      27.6      23.3     ] [N/m] distributed wing loading
   th[:] : [ 0.000315  0.0932    0.17      0.243     0.344    ]       deflection angle
@@ -1297,7 +1297,7 @@ Mission.FlightSegment5.SparLoading
    Nmax : 5            (~0) max loading
 Nsafety : 1            (~0) safety load factor
   kappa : 0.2          (~0) max tip deflection ratio
-   Mtip : 1e-10  [m·N] (~0) tip moment
+   Mtip : 1e-10  [m⋅N] (~0) tip moment
    Stip : 1e-10  [N]   (~0) tip loading
  throot : 1e-10        (~0) root deflection angle
   twmax : 0.2618       (~0) max tip twist
@@ -1311,7 +1311,7 @@ Mission.FlightSegment5.SteadyLevelFlight
 Mission.FlightSegment5.TailBoomBending
       F : 159    [N]      tail force
      th : 0.1044          tail boom deflection angle
-  Mr[:] : [ 697 ] [m·N] section root moment
+  Mr[:] : [ 697 ] [m⋅N] section root moment
 ...constants
 Nsafety : 1          (~0) safety load factor
   kappa : 0.1        (~0) max tail boom deflection
@@ -1332,7 +1332,7 @@ Mission.FlightSegment5.TailBoomBending.Beam
 Mission.FlightSegment5.TailBoomBending1
       F : 342.9  [N]           tail force
      th : 0.1439               tail boom deflection angle
-  Mr[:] : [ 960 ] [m·N] section root moment
+  Mr[:] : [ 960 ] [m⋅N] section root moment
 ...constants
 Nsafety : 1          (+0.0114) safety load factor
   kappa : 0.1        (-0.0114) max tail boom deflection
@@ -1386,8 +1386,8 @@ m_{fac-polar-fit} : 1          (+1.598e-07) fit factor
           CLstall : 1.3        (~0)         stall CL
 
 Mission.FlightSegment6.FlightState
-     (E/S)_C : 351.4    [h·W/m²]               energy for batteries during sunrise/set
- (E/S)_{day} : 3540     [h·W/m²]               solar cells energy during daytime
+     (E/S)_C : 351.4    [h⋅W/m²]               energy for batteries during sunrise/set
+ (E/S)_{day} : 3540     [h⋅W/m²]               solar cells energy during daytime
  (P/S)_{min} : 341.6    [W/m²]                 minimum necessary solar power
            V : 22.31    [m/s]                  true airspeed
     V_{wind} : 22.25    [m/s]                  wind velocity
@@ -1397,14 +1397,14 @@ Mission.FlightSegment6.FlightState
          Vne : 40       [m/s]     (+0.0228)    never exceed velocity
        rhosl : 1.225    [kg/m³]   (+0.0114)    air density at sea level
     p_{wind} : 0.9                (+2.44e-07)  percentile wind speeds
-         \mu : 1.42e-05 [N·s/m²]  (+1.088e-07) viscosity
+         \mu : 1.42e-05 [N⋅s/m²]  (+1.088e-07) viscosity
 m_{fac--fit} : 1                  (+1.068e-07) fit factor
 V_{wind-ref} : 100      [m/s]     (+1.042e-07) reference wind speed
      m_{fac} : 1                  (+1.042e-07) wind speed margin factor
   \rho_{ref} : 1        [kg/m³]   (~0)         reference air density
    t_{night} : 12.41    [h]       (~0)         night duration
- (E/S)_{irr} : 8871     [h·W/m²]  (~0)         solar energy
- (E/S)_{ref} : 1        [h·W/m²]  (~0)         energy units variable
+ (E/S)_{irr} : 8871     [h⋅W/m²]  (~0)         solar energy
+ (E/S)_{ref} : 1        [h⋅W/m²]  (~0)         energy units variable
  (P/S)_{ref} : 1        [W/m²]    (~0)         power units variable
 
 Mission.FlightSegment6.GustL
@@ -1413,7 +1413,7 @@ Mission.FlightSegment6.GustL
           Ww : 25     [lbf]              wing weight
           cl : 1.278                     wing lift coefficient
            v : 22.31  [m/s]              vehicle speed
-        M[:] : [ 380       231       111       29.5      0.00555  ] [m·N] wing section root moment
+        M[:] : [ 380       231       111       29.5      0.00555  ] [m⋅N] wing section root moment
         S[:] : [ 161       135       104       58.8      0.00363  ] [N]   shear along wing
     agust[:] : [ 4.66e-11  0.0327    0.125     0.263     0.425    ]       gust angle of attack
         q[:] : [ 25        22.7      37.1      53.5      64.2     ] [N/m] distributed wing loading
@@ -1425,7 +1425,7 @@ Mission.FlightSegment6.GustL
        kappa : 0.2          (-2.535e-07) max tip deflection ratio
 m_{fac--fit} : 1            (+2.024e-07) fit factor
        vgust : 10     [m/s] (+2.016e-07) gust velocity
-        Mtip : 1e-10  [m·N] (~0)         tip moment
+        Mtip : 1e-10  [m⋅N] (~0)         tip moment
         Stip : 1e-10  [N]   (~0)         tip loading
       throot : 1e-10        (~0)         root deflection angle
        twmax : 0.2618       (~0)         max tip twist
@@ -1436,7 +1436,7 @@ cosminus1[:] : [ 1e-10  0.0761  0.293  0.617  1   ]       1 minus cosine factor
 Mission.FlightSegment6.SparLoading
       N : 5                 loading factor
       W : 10.97  [lbf]      loading weight
-   M[:] : [ 374       164       65.9      16.2      0.0975   ] [m·N] wing section root moment
+   M[:] : [ 374       164       65.9      16.2      0.0975   ] [m⋅N] wing section root moment
    S[:] : [ 243       115       62.3      27.1      0.0589   ] [N]   shear along wing
    q[:] : [ 102       49.5      35.5      27.6      23.3     ] [N/m] distributed wing loading
   th[:] : [ 0.000315  0.0932    0.17      0.243     0.344    ]       deflection angle
@@ -1445,7 +1445,7 @@ Mission.FlightSegment6.SparLoading
    Nmax : 5            (~0) max loading
 Nsafety : 1            (~0) safety load factor
   kappa : 0.2          (~0) max tip deflection ratio
-   Mtip : 1e-10  [m·N] (~0) tip moment
+   Mtip : 1e-10  [m⋅N] (~0) tip moment
    Stip : 1e-10  [N]   (~0) tip loading
  throot : 1e-10        (~0) root deflection angle
   twmax : 0.2618       (~0) max tip twist
@@ -1459,7 +1459,7 @@ Mission.FlightSegment6.SteadyLevelFlight
 Mission.FlightSegment6.TailBoomBending
       F : 159    [N]      tail force
      th : 0.1044          tail boom deflection angle
-  Mr[:] : [ 697 ] [m·N] section root moment
+  Mr[:] : [ 697 ] [m⋅N] section root moment
 ...constants
 Nsafety : 1          (~0) safety load factor
   kappa : 0.1        (~0) max tail boom deflection
@@ -1480,7 +1480,7 @@ Mission.FlightSegment6.TailBoomBending.Beam
 Mission.FlightSegment6.TailBoomBending1
       F : 342.9  [N]           tail force
      th : 0.1439               tail boom deflection angle
-  Mr[:] : [ 960 ] [m·N] section root moment
+  Mr[:] : [ 960 ] [m⋅N] section root moment
 ...constants
 Nsafety : 1          (+0.0114) safety load factor
   kappa : 0.1        (-0.0114) max tail boom deflection
@@ -1534,8 +1534,8 @@ m_{fac-polar-fit} : 1          (+1.789e-07) fit factor
           CLstall : 1.3        (~0)         stall CL
 
 Mission.FlightSegment7.FlightState
-     (E/S)_C : 352.7    [h·W/m²]               energy for batteries during sunrise/set
- (E/S)_{day} : 3520     [h·W/m²]               solar cells energy during daytime
+     (E/S)_C : 352.7    [h⋅W/m²]               energy for batteries during sunrise/set
+ (E/S)_{day} : 3520     [h⋅W/m²]               solar cells energy during daytime
  (P/S)_{min} : 341.6    [W/m²]                 minimum necessary solar power
            V : 22.37    [m/s]                  true airspeed
     V_{wind} : 22.32    [m/s]                  wind velocity
@@ -1546,13 +1546,13 @@ Mission.FlightSegment7.FlightState
        rhosl : 1.225    [kg/m³]   (+0.0114)    air density at sea level
     p_{wind} : 0.9                (+2.769e-07) percentile wind speeds
 V_{wind-ref} : 100      [m/s]     (+1.211e-07) reference wind speed
-         \mu : 1.42e-05 [N·s/m²]  (+1.23e-07)  viscosity
+         \mu : 1.42e-05 [N⋅s/m²]  (+1.23e-07)  viscosity
 m_{fac--fit} : 1                  (+1.244e-07) fit factor
      m_{fac} : 1                  (+1.211e-07) wind speed margin factor
   \rho_{ref} : 1        [kg/m³]   (~0)         reference air density
- (E/S)_{irr} : 8739     [h·W/m²]  (~0)         solar energy
+ (E/S)_{irr} : 8739     [h⋅W/m²]  (~0)         solar energy
    t_{night} : 12.47    [h]       (~0)         night duration
- (E/S)_{ref} : 1        [h·W/m²]  (~0)         energy units variable
+ (E/S)_{ref} : 1        [h⋅W/m²]  (~0)         energy units variable
  (P/S)_{ref} : 1        [W/m²]    (~0)         power units variable
 
 Mission.FlightSegment7.GustL
@@ -1561,7 +1561,7 @@ Mission.FlightSegment7.GustL
           Ww : 25     [lbf]              wing weight
           cl : 1.274                     wing lift coefficient
            v : 22.37  [m/s]              vehicle speed
-        M[:] : [ 380       231       111       29.5      0.00546  ] [m·N] wing section root moment
+        M[:] : [ 380       231       111       29.5      0.00546  ] [m⋅N] wing section root moment
         S[:] : [ 161       135       104       58.9      0.00357  ] [N]   shear along wing
     agust[:] : [ 4.65e-11  0.0326    0.125     0.262     0.424    ]       gust angle of attack
         q[:] : [ 24.9      22.7      37.1      53.5      64.2     ] [N/m] distributed wing loading
@@ -1573,7 +1573,7 @@ Mission.FlightSegment7.GustL
        kappa : 0.2          (-2.591e-07) max tip deflection ratio
 m_{fac--fit} : 1            (+2.069e-07) fit factor
        vgust : 10     [m/s] (+2.061e-07) gust velocity
-        Mtip : 1e-10  [m·N] (~0)         tip moment
+        Mtip : 1e-10  [m⋅N] (~0)         tip moment
         Stip : 1e-10  [N]   (~0)         tip loading
       throot : 1e-10        (~0)         root deflection angle
        twmax : 0.2618       (~0)         max tip twist
@@ -1584,7 +1584,7 @@ cosminus1[:] : [ 1e-10  0.0761  0.293  0.617  1   ]       1 minus cosine factor
 Mission.FlightSegment7.SparLoading
       N : 5                 loading factor
       W : 10.97  [lbf]      loading weight
-   M[:] : [ 374       164       65.9      16.2      0.0975   ] [m·N] wing section root moment
+   M[:] : [ 374       164       65.9      16.2      0.0975   ] [m⋅N] wing section root moment
    S[:] : [ 243       115       62.3      27.1      0.0589   ] [N]   shear along wing
    q[:] : [ 102       49.5      35.5      27.6      23.3     ] [N/m] distributed wing loading
   th[:] : [ 0.000315  0.0932    0.17      0.243     0.344    ]       deflection angle
@@ -1593,7 +1593,7 @@ Mission.FlightSegment7.SparLoading
    Nmax : 5            (~0) max loading
 Nsafety : 1            (~0) safety load factor
   kappa : 0.2          (~0) max tip deflection ratio
-   Mtip : 1e-10  [m·N] (~0) tip moment
+   Mtip : 1e-10  [m⋅N] (~0) tip moment
    Stip : 1e-10  [N]   (~0) tip loading
  throot : 1e-10        (~0) root deflection angle
   twmax : 0.2618       (~0) max tip twist
@@ -1607,7 +1607,7 @@ Mission.FlightSegment7.SteadyLevelFlight
 Mission.FlightSegment7.TailBoomBending
       F : 159    [N]      tail force
      th : 0.1044          tail boom deflection angle
-  Mr[:] : [ 697 ] [m·N] section root moment
+  Mr[:] : [ 697 ] [m⋅N] section root moment
 ...constants
 Nsafety : 1          (~0) safety load factor
   kappa : 0.1        (~0) max tail boom deflection
@@ -1628,7 +1628,7 @@ Mission.FlightSegment7.TailBoomBending.Beam
 Mission.FlightSegment7.TailBoomBending1
       F : 342.9  [N]           tail force
      th : 0.1439               tail boom deflection angle
-  Mr[:] : [ 960 ] [m·N] section root moment
+  Mr[:] : [ 960 ] [m⋅N] section root moment
 ...constants
 Nsafety : 1          (+0.0114) safety load factor
   kappa : 0.1        (-0.0114) max tail boom deflection
@@ -1682,8 +1682,8 @@ m_{fac-polar-fit} : 1          (+1.884e-07) fit factor
           CLstall : 1.3        (~0)         stall CL
 
 Mission.FlightSegment8.FlightState
-     (E/S)_C : 354.2    [h·W/m²]               energy for batteries during sunrise/set
- (E/S)_{day} : 3500     [h·W/m²]               solar cells energy during daytime
+     (E/S)_C : 354.2    [h⋅W/m²]               energy for batteries during sunrise/set
+ (E/S)_{day} : 3500     [h⋅W/m²]               solar cells energy during daytime
  (P/S)_{min} : 341.6    [W/m²]                 minimum necessary solar power
            V : 22.38    [m/s]                  true airspeed
     V_{wind} : 22.33    [m/s]                  wind velocity
@@ -1693,15 +1693,15 @@ Mission.FlightSegment8.FlightState
          Vne : 40       [m/s]     (+0.0228)    never exceed velocity
        rhosl : 1.225    [kg/m³]   (+0.0114)    air density at sea level
     p_{wind} : 0.9                (+2.083e-07) percentile wind speeds
-         \mu : 1.42e-05 [N·s/m²]  (+1.296e-07) viscosity
+         \mu : 1.42e-05 [N⋅s/m²]  (+1.296e-07) viscosity
 V_{wind-ref} : 100      [m/s]     (+1.184e-07) reference wind speed
 m_{fac--fit} : 1                  (+1.229e-07) fit factor
      m_{fac} : 1                  (+1.184e-07) wind speed margin factor
   \rho_{ref} : 1        [kg/m³]   (-1.093e-07) reference air density
- (E/S)_{irr} : 8604     [h·W/m²]  (~0)         solar energy
+ (E/S)_{irr} : 8604     [h⋅W/m²]  (~0)         solar energy
  (P/S)_{ref} : 1        [W/m²]    (~0)         power units variable
    t_{night} : 12.52    [h]       (~0)         night duration
- (E/S)_{ref} : 1        [h·W/m²]  (~0)         energy units variable
+ (E/S)_{ref} : 1        [h⋅W/m²]  (~0)         energy units variable
 
 Mission.FlightSegment8.GustL
            N : 2                         loading factor
@@ -1709,7 +1709,7 @@ Mission.FlightSegment8.GustL
           Ww : 25     [lbf]              wing weight
           cl : 1.273                     wing lift coefficient
            v : 22.38  [m/s]              vehicle speed
-        M[:] : [ 380       231       111       29.5      0.00551  ] [m·N] wing section root moment
+        M[:] : [ 380       231       111       29.5      0.00551  ] [m⋅N] wing section root moment
         S[:] : [ 161       135       104       58.8      0.0036   ] [N]   shear along wing
     agust[:] : [ 4.65e-11  0.0326    0.125     0.262     0.424    ]       gust angle of attack
         q[:] : [ 25        22.7      37.1      53.5      64.2     ] [N/m] distributed wing loading
@@ -1721,7 +1721,7 @@ Mission.FlightSegment8.GustL
        kappa : 0.2          (-2.566e-07) max tip deflection ratio
 m_{fac--fit} : 1            (+2.049e-07) fit factor
        vgust : 10     [m/s] (+2.041e-07) gust velocity
-        Mtip : 1e-10  [m·N] (~0)         tip moment
+        Mtip : 1e-10  [m⋅N] (~0)         tip moment
         Stip : 1e-10  [N]   (~0)         tip loading
       throot : 1e-10        (~0)         root deflection angle
        twmax : 0.2618       (~0)         max tip twist
@@ -1732,7 +1732,7 @@ cosminus1[:] : [ 1e-10  0.0761  0.293  0.617  1   ]       1 minus cosine factor
 Mission.FlightSegment8.SparLoading
       N : 5                 loading factor
       W : 10.97  [lbf]      loading weight
-   M[:] : [ 374       164       65.9      16.2      0.0975   ] [m·N] wing section root moment
+   M[:] : [ 374       164       65.9      16.2      0.0975   ] [m⋅N] wing section root moment
    S[:] : [ 243       115       62.3      27.1      0.0589   ] [N]   shear along wing
    q[:] : [ 102       49.5      35.5      27.6      23.3     ] [N/m] distributed wing loading
   th[:] : [ 0.000315  0.0932    0.17      0.243     0.344    ]       deflection angle
@@ -1741,7 +1741,7 @@ Mission.FlightSegment8.SparLoading
    Nmax : 5            (~0) max loading
 Nsafety : 1            (~0) safety load factor
   kappa : 0.2          (~0) max tip deflection ratio
-   Mtip : 1e-10  [m·N] (~0) tip moment
+   Mtip : 1e-10  [m⋅N] (~0) tip moment
    Stip : 1e-10  [N]   (~0) tip loading
  throot : 1e-10        (~0) root deflection angle
   twmax : 0.2618       (~0) max tip twist
@@ -1755,7 +1755,7 @@ Mission.FlightSegment8.SteadyLevelFlight
 Mission.FlightSegment8.TailBoomBending
       F : 159    [N]      tail force
      th : 0.1044          tail boom deflection angle
-  Mr[:] : [ 697 ] [m·N] section root moment
+  Mr[:] : [ 697 ] [m⋅N] section root moment
 ...constants
 Nsafety : 1          (~0) safety load factor
   kappa : 0.1        (~0) max tail boom deflection
@@ -1776,7 +1776,7 @@ Mission.FlightSegment8.TailBoomBending.Beam
 Mission.FlightSegment8.TailBoomBending1
       F : 342.9  [N]           tail force
      th : 0.1439               tail boom deflection angle
-  Mr[:] : [ 960 ] [m·N] section root moment
+  Mr[:] : [ 960 ] [m⋅N] section root moment
 ...constants
 Nsafety : 1          (+0.0114) safety load factor
   kappa : 0.1        (-0.0114) max tail boom deflection
@@ -1830,8 +1830,8 @@ m_{fac-polar-fit} : 1          (+2.977e-07) fit factor
           CLstall : 1.3        (~0)         stall CL
 
 Mission.FlightSegment9.FlightState
-     (E/S)_C : 355.9    [h·W/m²]               energy for batteries during sunrise/set
- (E/S)_{day} : 3480     [h·W/m²]               solar cells energy during daytime
+     (E/S)_C : 355.9    [h⋅W/m²]               energy for batteries during sunrise/set
+ (E/S)_{day} : 3480     [h⋅W/m²]               solar cells energy during daytime
  (P/S)_{min} : 341.7    [W/m²]                 minimum necessary solar power
            V : 22.58    [m/s]                  true airspeed
     V_{wind} : 22.55    [m/s]                  wind velocity
@@ -1843,12 +1843,12 @@ Mission.FlightSegment9.FlightState
     p_{wind} : 0.9                (+3.481e-07) percentile wind speeds
 m_{fac--fit} : 1                  (+2.162e-07) fit factor
 V_{wind-ref} : 100      [m/s]     (+2.075e-07) reference wind speed
-         \mu : 1.42e-05 [N·s/m²]  (+2.109e-07) viscosity
+         \mu : 1.42e-05 [N⋅s/m²]  (+2.109e-07) viscosity
   \rho_{ref} : 1        [kg/m³]   (-2.096e-07) reference air density
      m_{fac} : 1                  (+2.075e-07) wind speed margin factor
    t_{night} : 12.58    [h]       (~0)         night duration
- (E/S)_{irr} : 8467     [h·W/m²]  (~0)         solar energy
- (E/S)_{ref} : 1        [h·W/m²]  (~0)         energy units variable
+ (E/S)_{irr} : 8467     [h⋅W/m²]  (~0)         solar energy
+ (E/S)_{ref} : 1        [h⋅W/m²]  (~0)         energy units variable
  (P/S)_{ref} : 1        [W/m²]    (~0)         power units variable
 
 Mission.FlightSegment9.GustL
@@ -1857,7 +1857,7 @@ Mission.FlightSegment9.GustL
           Ww : 25     [lbf]              wing weight
           cl : 1.259                     wing lift coefficient
            v : 22.58  [m/s]              vehicle speed
-        M[:] : [ 380       231       111       29.6      0.00501  ] [m·N] wing section root moment
+        M[:] : [ 380       231       111       29.6      0.00501  ] [m⋅N] wing section root moment
         S[:] : [ 161       135       104       59        0.00327  ] [N]   shear along wing
     agust[:] : [ 4.61e-11  0.0323    0.124     0.26      0.42     ]       gust angle of attack
         q[:] : [ 24.3      22.6      37.2      53.6      64.3     ] [N/m] distributed wing loading
@@ -1869,7 +1869,7 @@ Mission.FlightSegment9.GustL
        kappa : 0.2          (-2.913e-07) max tip deflection ratio
 m_{fac--fit} : 1            (+2.328e-07) fit factor
        vgust : 10     [m/s] (+2.319e-07) gust velocity
-        Mtip : 1e-10  [m·N] (~0)         tip moment
+        Mtip : 1e-10  [m⋅N] (~0)         tip moment
         Stip : 1e-10  [N]   (~0)         tip loading
       throot : 1e-10        (~0)         root deflection angle
        twmax : 0.2618       (~0)         max tip twist
@@ -1880,7 +1880,7 @@ cosminus1[:] : [ 1e-10  0.0761  0.293  0.617  1   ]       1 minus cosine factor
 Mission.FlightSegment9.SparLoading
       N : 5                 loading factor
       W : 10.97  [lbf]      loading weight
-   M[:] : [ 374       164       65.9      16.2      0.0975   ] [m·N] wing section root moment
+   M[:] : [ 374       164       65.9      16.2      0.0975   ] [m⋅N] wing section root moment
    S[:] : [ 243       115       62.3      27.1      0.0589   ] [N]   shear along wing
    q[:] : [ 102       49.5      35.5      27.6      23.3     ] [N/m] distributed wing loading
   th[:] : [ 0.000315  0.0932    0.17      0.243     0.344    ]       deflection angle
@@ -1889,7 +1889,7 @@ Mission.FlightSegment9.SparLoading
    Nmax : 5            (~0) max loading
 Nsafety : 1            (~0) safety load factor
   kappa : 0.2          (~0) max tip deflection ratio
-   Mtip : 1e-10  [m·N] (~0) tip moment
+   Mtip : 1e-10  [m⋅N] (~0) tip moment
    Stip : 1e-10  [N]   (~0) tip loading
  throot : 1e-10        (~0) root deflection angle
   twmax : 0.2618       (~0) max tip twist
@@ -1903,7 +1903,7 @@ Mission.FlightSegment9.SteadyLevelFlight
 Mission.FlightSegment9.TailBoomBending
       F : 159    [N]      tail force
      th : 0.1044          tail boom deflection angle
-  Mr[:] : [ 697 ] [m·N] section root moment
+  Mr[:] : [ 697 ] [m⋅N] section root moment
 ...constants
 Nsafety : 1          (~0) safety load factor
   kappa : 0.1        (~0) max tail boom deflection
@@ -1924,7 +1924,7 @@ Mission.FlightSegment9.TailBoomBending.Beam
 Mission.FlightSegment9.TailBoomBending1
       F : 342.9  [N]           tail force
      th : 0.1439               tail boom deflection angle
-  Mr[:] : [ 960 ] [m·N] section root moment
+  Mr[:] : [ 960 ] [m⋅N] section root moment
 ...constants
 Nsafety : 1          (+0.0114) safety load factor
   kappa : 0.1        (-0.0114) max tail boom deflection
@@ -1947,14 +1947,14 @@ Most Sensitive Constraints
 Mission.Aircraft
 +3.27    : Wtotal ≥ Wpay + Wavn + W + W + W + W + W
 +0.5344  : S ≤ S
-+0.3319  : Vv ≤ S·lv/S/b
-+0.1909  : d[0] ≤ tau·croot
-+0.08613 : Vh ≤ S·lh/S²·b
++0.3319  : Vv ≤ S⋅lv/S/b
++0.1909  : d[0] ≤ tau⋅croot
++0.08613 : Vh ≤ S⋅lh/S²⋅b
 +0.08071 : Wwing ≥ W + W + W
 +0.06356 : Wcent ≥ Wpay + Wavn + W + W
 
 Mission.Aircraft.Battery
-+1.449 : W ≥ E/hbatt·g
++1.449 : W ≥ E/hbatt⋅g
 
 Mission.Aircraft.Empennage
 +0.3319  : l ≥ lv
@@ -1965,91 +1965,91 @@ Mission.Aircraft.Empennage.HorizontalTail
 +0.04032 : W/mfac ≥ W + W
 
 Mission.Aircraft.Empennage.HorizontalTail.WingSkin
-+0.03281 : W ≥ rho·S·2·t·g
++0.03281 : W ≥ rho⋅S⋅2⋅t⋅g
 +0.03281 : t ≥ tmin
 
 Mission.Aircraft.Empennage.TailBoom
-+0.1254  : I[0] ≤ t[0]·3.14·d[0]³/8
-+0.1254  : W/mfac ≥ g·dm[:].sum()
-+0.1254  : dm[0] ≥ 3.14·rho·d[0]·deta·t[0]·kfac·l
--0.05986 : S = l·3.14·d[0]
++0.1254  : I[0] ≤ t[0]⋅3.14⋅d[0]³/8
++0.1254  : W/mfac ≥ g⋅dm[:].sum()
++0.1254  : dm[0] ≥ 3.14⋅rho⋅d[0]⋅deta⋅t[0]⋅kfac⋅l
+-0.05986 : S = l⋅3.14⋅d[0]
 
 Mission.Aircraft.Empennage.VerticalTail
 +0.1121 : W/mfac ≥ W + W
 
 Mission.Aircraft.Empennage.VerticalTail.Planform
--0.03558 : cave[0] = cbave[0]·S/b
--0.02849 : cave[1] = cbave[1]·S/b
+-0.03558 : cave[0] = cbave[0]⋅S/b
+-0.02849 : cave[1] = cbave[1]⋅S/b
 
 Mission.Aircraft.Empennage.VerticalTail.WingCore
-+0.03204 : W ≥ 2·(g·rho·Abar·cave[:]²·b/2·deta[:]).sum()
++0.03204 : W ≥ 2⋅(g⋅rho⋅Abar⋅cave[:]²⋅b/2⋅deta[:]).sum()
 
 Mission.Aircraft.Empennage.VerticalTail.WingSkin
-+0.08008 : W ≥ rho·S·2·t·g
++0.08008 : W ≥ rho⋅S⋅2⋅t⋅g
 +0.08008 : t ≥ tmin
 
 Mission.Aircraft.SolarCells
-+0.1304 : W ≥ rho_solar·S·g
++0.1304 : W ≥ rho_solar⋅S⋅g
 
 Mission.Aircraft._WingGP
 +0.7746 : W/mfac ≥ W + W
 
 Mission.Aircraft._WingGP.CapSpar
-+0.2093  : W ≥ 2·dm[:].sum()·g
-+0.1049  : cave[0]·tau ≥ hin[0] + t[0]·2
-+0.08293 : dm[0] ≥ (rho·w[0]·2·t[0] + tshear[0]·2·rho·(hin[0] + t[0]·2) + rho·w[0]·hin[0])·b/2·deta[0]
-+0.07426 : cave[1]·tau ≥ hin[1] + t[1]·2
-+0.06354 : dm[1] ≥ (rho·w[1]·2·t[1] + tshear[1]·2·rho·(hin[1] + t[1]·2) + rho·w[1]·hin[1])·b/2·deta[1]
-+0.06262 : I[0]/mfac ≤ w[0]·2·t[0]·(hin[0]/2)²
-+0.04593 : I[1]/mfac ≤ w[1]·2·t[1]·(hin[1]/2)²
-+0.0419  : dm[2] ≥ (rho·w[2]·2·t[2] + tshear[2]·2·rho·(hin[2] + t[2]·2) + rho·w[2]·hin[2])·b/2·deta[2]
-+0.0391  : cave[2]·tau ≥ hin[2] + t[2]·2
-+0.027   : I[2]/mfac ≤ w[2]·2·t[2]·(hin[2]/2)²
-+0.02092 : dm[3] ≥ (rho·w[3]·2·t[3] + tshear[3]·2·rho·(hin[3] + t[3]·2) + rho·w[3]·hin[3])·b/2·deta[3]
++0.2093  : W ≥ 2⋅dm[:].sum()⋅g
++0.1049  : cave[0]⋅tau ≥ hin[0] + t[0]⋅2
++0.08293 : dm[0] ≥ (rho⋅w[0]⋅2⋅t[0] + tshear[0]⋅2⋅rho⋅(hin[0] + t[0]⋅2) + rho⋅w[0]⋅hin[0])⋅b/2⋅deta[0]
++0.07426 : cave[1]⋅tau ≥ hin[1] + t[1]⋅2
++0.06354 : dm[1] ≥ (rho⋅w[1]⋅2⋅t[1] + tshear[1]⋅2⋅rho⋅(hin[1] + t[1]⋅2) + rho⋅w[1]⋅hin[1])⋅b/2⋅deta[1]
++0.06262 : I[0]/mfac ≤ w[0]⋅2⋅t[0]⋅(hin[0]/2)²
++0.04593 : I[1]/mfac ≤ w[1]⋅2⋅t[1]⋅(hin[1]/2)²
++0.0419  : dm[2] ≥ (rho⋅w[2]⋅2⋅t[2] + tshear[2]⋅2⋅rho⋅(hin[2] + t[2]⋅2) + rho⋅w[2]⋅hin[2])⋅b/2⋅deta[2]
++0.0391  : cave[2]⋅tau ≥ hin[2] + t[2]⋅2
++0.027   : I[2]/mfac ≤ w[2]⋅2⋅t[2]⋅(hin[2]/2)²
++0.02092 : dm[3] ≥ (rho⋅w[3]⋅2⋅t[3] + tshear[3]⋅2⋅rho⋅(hin[3] + t[3]⋅2) + rho⋅w[3]⋅hin[3])⋅b/2⋅deta[3]
 +0.02032 : tshear[0] ≥ tmin
 +0.01761 : tshear[1] ≥ tmin
 +0.0149  : tshear[2] ≥ tmin
 +0.01219 : tshear[3] ≥ tmin
 
 Mission.Aircraft._WingGP.Planform
--0.9125  : b² = S·AR
-+0.8578  : croot = S/b·cbar[0]
-+0.6669  : cmac = croot·cbarmac
-+0.1049  : cave[0] = cbave[0]·S/b
-+0.07426 : cave[1] = cbave[1]·S/b
-+0.0391  : cave[2] = cbave[2]·S/b
+-0.9125  : b² = S⋅AR
++0.8578  : croot = S/b⋅cbar[0]
++0.6669  : cmac = croot⋅cbarmac
++0.1049  : cave[0] = cbave[0]⋅S/b
++0.07426 : cave[1] = cbave[1]⋅S/b
++0.0391  : cave[2] = cbave[2]⋅S/b
 
 Mission.Aircraft._WingGP.WingSkin
-+0.5653 : W ≥ rho·S·2·t·g
++0.5653 : W ≥ rho⋅S⋅2⋅t⋅g
 +0.5653 : t ≥ tmin
 
 Mission.FlightSegment.FlightState
--0.0114 : qne = 0.5·Vne²·rhosl
+-0.0114 : qne = 0.5⋅Vne²⋅rhosl
 
 Mission.FlightSegment.TailBoomBending1
 -0.0342 : dx[0] = deta
-+0.0114 : \bar{EI}[0] ≤ E·I[0]/F/l²/2
-+0.0114 : F ≥ qne·S
-+0.0114 : kappa ≥ \bar{\delta}[1]·CLmax·Nsafety
++0.0114 : \bar{EI}[0] ≤ E⋅I[0]/F/l²/2
++0.0114 : F ≥ qne⋅S
++0.0114 : kappa ≥ \bar{\delta}[1]⋅CLmax⋅Nsafety
 
 Mission.FlightSegment.TailBoomBending1.Beam
-+0.0114 : \bar{M}[0] ≥ \bar{M}[1] + dx[0]·0.5·(\bar{S}[0] + \bar{S}[1])
-+0.0114 : \bar{\delta}[1] ≥ \bar{\delta}[0] + dx[0]·0.5·(\theta[1] + \theta[0])
-+0.0114 : \theta[1] ≥ \theta[0] + dx[0]·0.5·(\bar{M}[1] + \bar{M}[0])/\bar{EI}[0]
++0.0114 : \bar{M}[0] ≥ \bar{M}[1] + dx[0]⋅0.5⋅(\bar{S}[0] + \bar{S}[1])
++0.0114 : \bar{\delta}[1] ≥ \bar{\delta}[0] + dx[0]⋅0.5⋅(\theta[1] + \theta[0])
++0.0114 : \theta[1] ≥ \theta[0] + dx[0]⋅0.5⋅(\bar{M}[1] + \bar{M}[0])/\bar{EI}[0]
 
 Mission.FlightSegment1.FlightState
--0.0114 : qne = 0.5·Vne²·rhosl
+-0.0114 : qne = 0.5⋅Vne²⋅rhosl
 
 Mission.FlightSegment1.TailBoomBending1
 -0.0342 : dx[0] = deta
-+0.0114 : \bar{EI}[0] ≤ E·I[0]/F/l²/2
-+0.0114 : F ≥ qne·S
-+0.0114 : kappa ≥ \bar{\delta}[1]·CLmax·Nsafety
++0.0114 : \bar{EI}[0] ≤ E⋅I[0]/F/l²/2
++0.0114 : F ≥ qne⋅S
++0.0114 : kappa ≥ \bar{\delta}[1]⋅CLmax⋅Nsafety
 
 Mission.FlightSegment1.TailBoomBending1.Beam
-+0.0114 : \bar{M}[0] ≥ \bar{M}[1] + dx[0]·0.5·(\bar{S}[0] + \bar{S}[1])
-+0.0114 : \bar{\delta}[1] ≥ \bar{\delta}[0] + dx[0]·0.5·(\theta[1] + \theta[0])
-+0.0114 : \theta[1] ≥ \theta[0] + dx[0]·0.5·(\bar{M}[1] + \bar{M}[0])/\bar{EI}[0]
++0.0114 : \bar{M}[0] ≥ \bar{M}[1] + dx[0]⋅0.5⋅(\bar{S}[0] + \bar{S}[1])
++0.0114 : \bar{\delta}[1] ≥ \bar{\delta}[0] + dx[0]⋅0.5⋅(\theta[1] + \theta[0])
++0.0114 : \theta[1] ≥ \theta[0] + dx[0]⋅0.5⋅(\bar{M}[1] + \bar{M}[0])/\bar{EI}[0]
 
 Mission.FlightSegment10
 +0.1152  : cl = CL
@@ -2060,183 +2060,183 @@ Mission.FlightSegment10
 Mission.FlightSegment10.AircraftPerf
 +2.114  : CD ≥ CDA + Cd
 +2.114  : Poper ≥ Pavn + Pshaft/eta
-+1.768  : E·eta_discharge ≥ Poper·t_{night} + (E/S)_C·eta·S
++1.768  : E⋅eta_discharge ≥ Poper⋅t_{night} + (E/S)_C⋅eta⋅S
 +0.5459 : (E/S)_{irr} ≥ (E/S)_{day} + E/eta_charge/eta/S
-+0.4807 : Poper = (P/S)_{min}·S·eta
-+0.2177 : CDA/m_{fac} ≥ Cd·S/S + Cd·S/S + Cf·S/S
++0.4807 : Poper = (P/S)_{min}⋅S⋅eta
++0.2177 : CDA/m_{fac} ≥ Cd⋅S/S + Cd⋅S/S + Cf⋅S/S
 
 Mission.FlightSegment10.AircraftPerf.TailAero
-+0.05518 : 9.51·Re^-0.4823·tau^0.4675 ≤ Cd/m_{fac--fit}
-+0.02661 : Re = V·\rho·S/b/\mu
++0.05518 : 9.51⋅Re^-0.4823⋅tau^0.4675 ≤ Cd/m_{fac--fit}
++0.02661 : Re = V⋅\rho⋅S/b/\mu
 
 Mission.FlightSegment10.AircraftPerf.TailAero1
-+0.1029  : 9.51·Re^-0.4823·tau^0.4675 ≤ Cd/m_{fac--fit}
-+0.04964 : Re = V·\rho·S/b/\mu
++0.1029  : 9.51⋅Re^-0.4823⋅tau^0.4675 ≤ Cd/m_{fac--fit}
++0.04964 : Re = V⋅\rho⋅S/b/\mu
 
 Mission.FlightSegment10.AircraftPerf.TailBoomAero
 +0.05961 : Cf ≥ 0.455/Re^0.3
-+0.01788 : Re = V·\rho·l/\mu
++0.01788 : Re = V⋅\rho⋅l/\mu
 
 Mission.FlightSegment10.AircraftPerf.WingAero
 +1.896  : Cd ≥ cdp + CL²/3.14/AR/e
-+0.6641 : Re = \rho·V·cmac/\mu
-+0.3195 : (cdp/m_{fac-polar-fit})^3.09 ≥ 1.02e-07·CL^18.86·Re^-0.1833 + 0.00168·CL^2.963·Re^-0.6675 + 2.28e-06·CL^-1.653·Re^-0.3496 + 1.76e+08·CL^-0.1787·Re^-2.713
++0.6641 : Re = \rho⋅V⋅cmac/\mu
++0.3195 : (cdp/m_{fac-polar-fit})^3.09 ≥ 1.02e-07⋅CL^18.86⋅Re^-0.1833 + 0.00168⋅CL^2.963⋅Re^-0.6675 + 2.28e-06⋅CL^-1.653⋅Re^-0.3496 + 1.76e+08⋅CL^-0.1787⋅Re^-2.713
 
 Mission.FlightSegment10.FlightState
 +0.9458 : V_{wind} ≤ V/m_{fac}
-+0.2267 : 16.3·(P/S)_{min}/(P/S)_{ref}^0.9186 = (E/S)_{day}/(E/S)_{ref}/m_{fac--fit}
-+0.1351 : 0.00278·(P/S)_{min}/(P/S)_{ref}^2.016 = (E/S)_C/(E/S)_{ref}/m_{fac--fit}
-+0.1069 : (V_{wind}/V_{wind-ref}/m_{fac--fit})^8.845 ≥ 4.53·(\rho/\rho_{ref})^8.474·p_{wind}^14.22 + 9.77e-12·(\rho/\rho_{ref})^-8.293·p_{wind}^920.1 + 5.82e-19·(\rho/\rho_{ref})^-10.89·p_{wind}^14.19 + 55.7·(\rho/\rho_{ref})^8.426·p_{wind}^61.02
--0.0114 : qne = 0.5·Vne²·rhosl
++0.2267 : 16.3⋅(P/S)_{min}/(P/S)_{ref}^0.9186 = (E/S)_{day}/(E/S)_{ref}/m_{fac--fit}
++0.1351 : 0.00278⋅(P/S)_{min}/(P/S)_{ref}^2.016 = (E/S)_C/(E/S)_{ref}/m_{fac--fit}
++0.1069 : (V_{wind}/V_{wind-ref}/m_{fac--fit})^8.845 ≥ 4.53⋅(\rho/\rho_{ref})^8.474⋅p_{wind}^14.22 + 9.77e-12⋅(\rho/\rho_{ref})^-8.293⋅p_{wind}^920.1 + 5.82e-19⋅(\rho/\rho_{ref})^-10.89⋅p_{wind}^14.19 + 55.7⋅(\rho/\rho_{ref})^8.426⋅p_{wind}^61.02
+-0.0114 : qne = 0.5⋅Vne²⋅rhosl
 
 Mission.FlightSegment10.GustL
--0.1431  : N = Nsafety·Nmax
+-0.1431  : N = Nsafety⋅Nmax
 +0.1431  : kappa ≥ w[4]/(b/2)
-+0.1431  : w[4] ≥ w[3] + deta[3]·0.5·b/2·(th[4] + th[3])
-+0.09911 : S[3] ≥ S[4] + deta[3]·0.5·b/2·(q[3] + q[4])
-+0.08992 : th[2] ≥ th[1] + deta[1]·0.5·b/2·(M[2] + M[1])/E/I[1]
-+0.08073 : S[2] ≥ S[3] + deta[2]·0.5·b/2·(q[2] + q[3])
-+0.08073 : th[3] ≥ th[2] + deta[2]·0.5·b/2·(M[3] + M[2])/E/I[2]
-+0.08062 : w[3] ≥ w[2] + deta[2]·0.5·b/2·(th[3] + th[2])
-+0.0781  : M[1] ≥ M[2] + deta[1]·0.5·b/2·(S[1] + S[2])
-+0.07374 : M[2] ≥ M[3] + deta[2]·0.5·b/2·(S[2] + S[3])
-+0.06578 : q[3] ≥ W·N/b·cbar[3]·(agust[3]·6.28/cl·(1 + Ww/W) + 1)
-+0.06211 : th[1] ≥ th[0] + deta[0]·0.5·b/2·(M[1] + M[0])/E/I[0]
-+0.05409 : q[4] ≥ W·N/b·cbar[4]·(agust[4]·6.28/cl·(1 + Ww/W) + 1)
-+0.05352 : (cosminus1[3]·vgust/v)^0.996·0.946 = agust[3]/m_{fac--fit}
-+0.04738 : (cosminus1[4]·vgust/v)^0.996·0.946 = agust[4]/m_{fac--fit}
-+0.03841 : M[0] ≥ M[1] + deta[0]·0.5·b/2·(S[0] + S[1])
-+0.03642 : S[1] ≥ S[2] + deta[1]·0.5·b/2·(q[1] + q[2])
-+0.03573 : w[2] ≥ w[1] + deta[1]·0.5·b/2·(th[2] + th[1])
-+0.03556 : th[4] ≥ th[3] + deta[3]·0.5·b/2·(M[4] + M[3])/E/I[3]
-+0.03385 : M[3] ≥ M[4] + deta[3]·0.5·b/2·(S[3] + S[4])
-+0.01932 : q[2] ≥ W·N/b·cbar[2]·(agust[2]·6.28/cl·(1 + Ww/W) + 1)
-+0.01304 : (cosminus1[2]·vgust/v)^0.996·0.946 = agust[2]/m_{fac--fit}
++0.1431  : w[4] ≥ w[3] + deta[3]⋅0.5⋅b/2⋅(th[4] + th[3])
++0.09911 : S[3] ≥ S[4] + deta[3]⋅0.5⋅b/2⋅(q[3] + q[4])
++0.08992 : th[2] ≥ th[1] + deta[1]⋅0.5⋅b/2⋅(M[2] + M[1])/E/I[1]
++0.08073 : S[2] ≥ S[3] + deta[2]⋅0.5⋅b/2⋅(q[2] + q[3])
++0.08073 : th[3] ≥ th[2] + deta[2]⋅0.5⋅b/2⋅(M[3] + M[2])/E/I[2]
++0.08062 : w[3] ≥ w[2] + deta[2]⋅0.5⋅b/2⋅(th[3] + th[2])
++0.0781  : M[1] ≥ M[2] + deta[1]⋅0.5⋅b/2⋅(S[1] + S[2])
++0.07374 : M[2] ≥ M[3] + deta[2]⋅0.5⋅b/2⋅(S[2] + S[3])
++0.06578 : q[3] ≥ W⋅N/b⋅cbar[3]⋅(agust[3]⋅6.28/cl⋅(1 + Ww/W) + 1)
++0.06211 : th[1] ≥ th[0] + deta[0]⋅0.5⋅b/2⋅(M[1] + M[0])/E/I[0]
++0.05409 : q[4] ≥ W⋅N/b⋅cbar[4]⋅(agust[4]⋅6.28/cl⋅(1 + Ww/W) + 1)
++0.05352 : (cosminus1[3]⋅vgust/v)^0.996⋅0.946 = agust[3]/m_{fac--fit}
++0.04738 : (cosminus1[4]⋅vgust/v)^0.996⋅0.946 = agust[4]/m_{fac--fit}
++0.03841 : M[0] ≥ M[1] + deta[0]⋅0.5⋅b/2⋅(S[0] + S[1])
++0.03642 : S[1] ≥ S[2] + deta[1]⋅0.5⋅b/2⋅(q[1] + q[2])
++0.03573 : w[2] ≥ w[1] + deta[1]⋅0.5⋅b/2⋅(th[2] + th[1])
++0.03556 : th[4] ≥ th[3] + deta[3]⋅0.5⋅b/2⋅(M[4] + M[3])/E/I[3]
++0.03385 : M[3] ≥ M[4] + deta[3]⋅0.5⋅b/2⋅(S[3] + S[4])
++0.01932 : q[2] ≥ W⋅N/b⋅cbar[2]⋅(agust[2]⋅6.28/cl⋅(1 + Ww/W) + 1)
++0.01304 : (cosminus1[2]⋅vgust/v)^0.996⋅0.946 = agust[2]/m_{fac--fit}
 
 Mission.FlightSegment10.SteadyLevelFlight
-+2.261 : Wtotal ≤ 0.5·\rho·V²·CL·S
-+2.114 : Pshaft ≥ T·V/\eta_{prop}
-+2.114 : T ≥ 0.5·\rho·V²·CD·S
++2.261 : Wtotal ≤ 0.5⋅\rho⋅V²⋅CL⋅S
++2.114 : Pshaft ≥ T⋅V/\eta_{prop}
++2.114 : T ≥ 0.5⋅\rho⋅V²⋅CD⋅S
 
 Mission.FlightSegment10.TailBoomBending1
 -0.0342 : dx[0] = deta
-+0.0114 : \bar{EI}[0] ≤ E·I[0]/F/l²/2
-+0.0114 : F ≥ qne·S
-+0.0114 : kappa ≥ \bar{\delta}[1]·CLmax·Nsafety
++0.0114 : \bar{EI}[0] ≤ E⋅I[0]/F/l²/2
++0.0114 : F ≥ qne⋅S
++0.0114 : kappa ≥ \bar{\delta}[1]⋅CLmax⋅Nsafety
 
 Mission.FlightSegment10.TailBoomBending1.Beam
-+0.0114 : \bar{M}[0] ≥ \bar{M}[1] + dx[0]·0.5·(\bar{S}[0] + \bar{S}[1])
-+0.0114 : \bar{\delta}[1] ≥ \bar{\delta}[0] + dx[0]·0.5·(\theta[1] + \theta[0])
-+0.0114 : \theta[1] ≥ \theta[0] + dx[0]·0.5·(\bar{M}[1] + \bar{M}[0])/\bar{EI}[0]
++0.0114 : \bar{M}[0] ≥ \bar{M}[1] + dx[0]⋅0.5⋅(\bar{S}[0] + \bar{S}[1])
++0.0114 : \bar{\delta}[1] ≥ \bar{\delta}[0] + dx[0]⋅0.5⋅(\theta[1] + \theta[0])
++0.0114 : \theta[1] ≥ \theta[0] + dx[0]⋅0.5⋅(\bar{M}[1] + \bar{M}[0])/\bar{EI}[0]
 
 Mission.FlightSegment2.FlightState
--0.0114 : qne = 0.5·Vne²·rhosl
+-0.0114 : qne = 0.5⋅Vne²⋅rhosl
 
 Mission.FlightSegment2.TailBoomBending1
 -0.0342 : dx[0] = deta
-+0.0114 : \bar{EI}[0] ≤ E·I[0]/F/l²/2
-+0.0114 : F ≥ qne·S
-+0.0114 : kappa ≥ \bar{\delta}[1]·CLmax·Nsafety
++0.0114 : \bar{EI}[0] ≤ E⋅I[0]/F/l²/2
++0.0114 : F ≥ qne⋅S
++0.0114 : kappa ≥ \bar{\delta}[1]⋅CLmax⋅Nsafety
 
 Mission.FlightSegment2.TailBoomBending1.Beam
-+0.0114 : \bar{M}[0] ≥ \bar{M}[1] + dx[0]·0.5·(\bar{S}[0] + \bar{S}[1])
-+0.0114 : \bar{\delta}[1] ≥ \bar{\delta}[0] + dx[0]·0.5·(\theta[1] + \theta[0])
-+0.0114 : \theta[1] ≥ \theta[0] + dx[0]·0.5·(\bar{M}[1] + \bar{M}[0])/\bar{EI}[0]
++0.0114 : \bar{M}[0] ≥ \bar{M}[1] + dx[0]⋅0.5⋅(\bar{S}[0] + \bar{S}[1])
++0.0114 : \bar{\delta}[1] ≥ \bar{\delta}[0] + dx[0]⋅0.5⋅(\theta[1] + \theta[0])
++0.0114 : \theta[1] ≥ \theta[0] + dx[0]⋅0.5⋅(\bar{M}[1] + \bar{M}[0])/\bar{EI}[0]
 
 Mission.FlightSegment3.FlightState
--0.0114 : qne = 0.5·Vne²·rhosl
+-0.0114 : qne = 0.5⋅Vne²⋅rhosl
 
 Mission.FlightSegment3.TailBoomBending1
 -0.0342 : dx[0] = deta
-+0.0114 : \bar{EI}[0] ≤ E·I[0]/F/l²/2
-+0.0114 : F ≥ qne·S
-+0.0114 : kappa ≥ \bar{\delta}[1]·CLmax·Nsafety
++0.0114 : \bar{EI}[0] ≤ E⋅I[0]/F/l²/2
++0.0114 : F ≥ qne⋅S
++0.0114 : kappa ≥ \bar{\delta}[1]⋅CLmax⋅Nsafety
 
 Mission.FlightSegment3.TailBoomBending1.Beam
-+0.0114 : \bar{M}[0] ≥ \bar{M}[1] + dx[0]·0.5·(\bar{S}[0] + \bar{S}[1])
-+0.0114 : \bar{\delta}[1] ≥ \bar{\delta}[0] + dx[0]·0.5·(\theta[1] + \theta[0])
-+0.0114 : \theta[1] ≥ \theta[0] + dx[0]·0.5·(\bar{M}[1] + \bar{M}[0])/\bar{EI}[0]
++0.0114 : \bar{M}[0] ≥ \bar{M}[1] + dx[0]⋅0.5⋅(\bar{S}[0] + \bar{S}[1])
++0.0114 : \bar{\delta}[1] ≥ \bar{\delta}[0] + dx[0]⋅0.5⋅(\theta[1] + \theta[0])
++0.0114 : \theta[1] ≥ \theta[0] + dx[0]⋅0.5⋅(\bar{M}[1] + \bar{M}[0])/\bar{EI}[0]
 
 Mission.FlightSegment4.FlightState
--0.0114 : qne = 0.5·Vne²·rhosl
+-0.0114 : qne = 0.5⋅Vne²⋅rhosl
 
 Mission.FlightSegment4.TailBoomBending1
 -0.0342 : dx[0] = deta
-+0.0114 : \bar{EI}[0] ≤ E·I[0]/F/l²/2
-+0.0114 : F ≥ qne·S
-+0.0114 : kappa ≥ \bar{\delta}[1]·CLmax·Nsafety
++0.0114 : \bar{EI}[0] ≤ E⋅I[0]/F/l²/2
++0.0114 : F ≥ qne⋅S
++0.0114 : kappa ≥ \bar{\delta}[1]⋅CLmax⋅Nsafety
 
 Mission.FlightSegment4.TailBoomBending1.Beam
-+0.0114 : \bar{M}[0] ≥ \bar{M}[1] + dx[0]·0.5·(\bar{S}[0] + \bar{S}[1])
-+0.0114 : \bar{\delta}[1] ≥ \bar{\delta}[0] + dx[0]·0.5·(\theta[1] + \theta[0])
-+0.0114 : \theta[1] ≥ \theta[0] + dx[0]·0.5·(\bar{M}[1] + \bar{M}[0])/\bar{EI}[0]
++0.0114 : \bar{M}[0] ≥ \bar{M}[1] + dx[0]⋅0.5⋅(\bar{S}[0] + \bar{S}[1])
++0.0114 : \bar{\delta}[1] ≥ \bar{\delta}[0] + dx[0]⋅0.5⋅(\theta[1] + \theta[0])
++0.0114 : \theta[1] ≥ \theta[0] + dx[0]⋅0.5⋅(\bar{M}[1] + \bar{M}[0])/\bar{EI}[0]
 
 Mission.FlightSegment5.FlightState
--0.0114 : qne = 0.5·Vne²·rhosl
+-0.0114 : qne = 0.5⋅Vne²⋅rhosl
 
 Mission.FlightSegment5.TailBoomBending1
 -0.0342 : dx[0] = deta
-+0.0114 : \bar{EI}[0] ≤ E·I[0]/F/l²/2
-+0.0114 : F ≥ qne·S
-+0.0114 : kappa ≥ \bar{\delta}[1]·CLmax·Nsafety
++0.0114 : \bar{EI}[0] ≤ E⋅I[0]/F/l²/2
++0.0114 : F ≥ qne⋅S
++0.0114 : kappa ≥ \bar{\delta}[1]⋅CLmax⋅Nsafety
 
 Mission.FlightSegment5.TailBoomBending1.Beam
-+0.0114 : \bar{M}[0] ≥ \bar{M}[1] + dx[0]·0.5·(\bar{S}[0] + \bar{S}[1])
-+0.0114 : \bar{\delta}[1] ≥ \bar{\delta}[0] + dx[0]·0.5·(\theta[1] + \theta[0])
-+0.0114 : \theta[1] ≥ \theta[0] + dx[0]·0.5·(\bar{M}[1] + \bar{M}[0])/\bar{EI}[0]
++0.0114 : \bar{M}[0] ≥ \bar{M}[1] + dx[0]⋅0.5⋅(\bar{S}[0] + \bar{S}[1])
++0.0114 : \bar{\delta}[1] ≥ \bar{\delta}[0] + dx[0]⋅0.5⋅(\theta[1] + \theta[0])
++0.0114 : \theta[1] ≥ \theta[0] + dx[0]⋅0.5⋅(\bar{M}[1] + \bar{M}[0])/\bar{EI}[0]
 
 Mission.FlightSegment6.FlightState
--0.0114 : qne = 0.5·Vne²·rhosl
+-0.0114 : qne = 0.5⋅Vne²⋅rhosl
 
 Mission.FlightSegment6.TailBoomBending1
 -0.0342 : dx[0] = deta
-+0.0114 : \bar{EI}[0] ≤ E·I[0]/F/l²/2
-+0.0114 : F ≥ qne·S
-+0.0114 : kappa ≥ \bar{\delta}[1]·CLmax·Nsafety
++0.0114 : \bar{EI}[0] ≤ E⋅I[0]/F/l²/2
++0.0114 : F ≥ qne⋅S
++0.0114 : kappa ≥ \bar{\delta}[1]⋅CLmax⋅Nsafety
 
 Mission.FlightSegment6.TailBoomBending1.Beam
-+0.0114 : \bar{M}[0] ≥ \bar{M}[1] + dx[0]·0.5·(\bar{S}[0] + \bar{S}[1])
-+0.0114 : \bar{\delta}[1] ≥ \bar{\delta}[0] + dx[0]·0.5·(\theta[1] + \theta[0])
-+0.0114 : \theta[1] ≥ \theta[0] + dx[0]·0.5·(\bar{M}[1] + \bar{M}[0])/\bar{EI}[0]
++0.0114 : \bar{M}[0] ≥ \bar{M}[1] + dx[0]⋅0.5⋅(\bar{S}[0] + \bar{S}[1])
++0.0114 : \bar{\delta}[1] ≥ \bar{\delta}[0] + dx[0]⋅0.5⋅(\theta[1] + \theta[0])
++0.0114 : \theta[1] ≥ \theta[0] + dx[0]⋅0.5⋅(\bar{M}[1] + \bar{M}[0])/\bar{EI}[0]
 
 Mission.FlightSegment7.FlightState
--0.0114 : qne = 0.5·Vne²·rhosl
+-0.0114 : qne = 0.5⋅Vne²⋅rhosl
 
 Mission.FlightSegment7.TailBoomBending1
 -0.0342 : dx[0] = deta
-+0.0114 : \bar{EI}[0] ≤ E·I[0]/F/l²/2
-+0.0114 : F ≥ qne·S
-+0.0114 : kappa ≥ \bar{\delta}[1]·CLmax·Nsafety
++0.0114 : \bar{EI}[0] ≤ E⋅I[0]/F/l²/2
++0.0114 : F ≥ qne⋅S
++0.0114 : kappa ≥ \bar{\delta}[1]⋅CLmax⋅Nsafety
 
 Mission.FlightSegment7.TailBoomBending1.Beam
-+0.0114 : \bar{M}[0] ≥ \bar{M}[1] + dx[0]·0.5·(\bar{S}[0] + \bar{S}[1])
-+0.0114 : \bar{\delta}[1] ≥ \bar{\delta}[0] + dx[0]·0.5·(\theta[1] + \theta[0])
-+0.0114 : \theta[1] ≥ \theta[0] + dx[0]·0.5·(\bar{M}[1] + \bar{M}[0])/\bar{EI}[0]
++0.0114 : \bar{M}[0] ≥ \bar{M}[1] + dx[0]⋅0.5⋅(\bar{S}[0] + \bar{S}[1])
++0.0114 : \bar{\delta}[1] ≥ \bar{\delta}[0] + dx[0]⋅0.5⋅(\theta[1] + \theta[0])
++0.0114 : \theta[1] ≥ \theta[0] + dx[0]⋅0.5⋅(\bar{M}[1] + \bar{M}[0])/\bar{EI}[0]
 
 Mission.FlightSegment8.FlightState
--0.0114 : qne = 0.5·Vne²·rhosl
+-0.0114 : qne = 0.5⋅Vne²⋅rhosl
 
 Mission.FlightSegment8.TailBoomBending1
 -0.0342 : dx[0] = deta
-+0.0114 : \bar{EI}[0] ≤ E·I[0]/F/l²/2
-+0.0114 : F ≥ qne·S
-+0.0114 : kappa ≥ \bar{\delta}[1]·CLmax·Nsafety
++0.0114 : \bar{EI}[0] ≤ E⋅I[0]/F/l²/2
++0.0114 : F ≥ qne⋅S
++0.0114 : kappa ≥ \bar{\delta}[1]⋅CLmax⋅Nsafety
 
 Mission.FlightSegment8.TailBoomBending1.Beam
-+0.0114 : \bar{M}[0] ≥ \bar{M}[1] + dx[0]·0.5·(\bar{S}[0] + \bar{S}[1])
-+0.0114 : \bar{\delta}[1] ≥ \bar{\delta}[0] + dx[0]·0.5·(\theta[1] + \theta[0])
-+0.0114 : \theta[1] ≥ \theta[0] + dx[0]·0.5·(\bar{M}[1] + \bar{M}[0])/\bar{EI}[0]
++0.0114 : \bar{M}[0] ≥ \bar{M}[1] + dx[0]⋅0.5⋅(\bar{S}[0] + \bar{S}[1])
++0.0114 : \bar{\delta}[1] ≥ \bar{\delta}[0] + dx[0]⋅0.5⋅(\theta[1] + \theta[0])
++0.0114 : \theta[1] ≥ \theta[0] + dx[0]⋅0.5⋅(\bar{M}[1] + \bar{M}[0])/\bar{EI}[0]
 
 Mission.FlightSegment9.FlightState
--0.0114 : qne = 0.5·Vne²·rhosl
+-0.0114 : qne = 0.5⋅Vne²⋅rhosl
 
 Mission.FlightSegment9.TailBoomBending1
 -0.0342 : dx[0] = deta
-+0.0114 : \bar{EI}[0] ≤ E·I[0]/F/l²/2
-+0.0114 : F ≥ qne·S
-+0.0114 : kappa ≥ \bar{\delta}[1]·CLmax·Nsafety
++0.0114 : \bar{EI}[0] ≤ E⋅I[0]/F/l²/2
++0.0114 : F ≥ qne⋅S
++0.0114 : kappa ≥ \bar{\delta}[1]⋅CLmax⋅Nsafety
 
 Mission.FlightSegment9.TailBoomBending1.Beam
-+0.0114 : \bar{M}[0] ≥ \bar{M}[1] + dx[0]·0.5·(\bar{S}[0] + \bar{S}[1])
-+0.0114 : \bar{\delta}[1] ≥ \bar{\delta}[0] + dx[0]·0.5·(\theta[1] + \theta[0])
-+0.0114 : \theta[1] ≥ \theta[0] + dx[0]·0.5·(\bar{M}[1] + \bar{M}[0])/\bar{EI}[0]
++0.0114 : \bar{M}[0] ≥ \bar{M}[1] + dx[0]⋅0.5⋅(\bar{S}[0] + \bar{S}[1])
++0.0114 : \bar{\delta}[1] ≥ \bar{\delta}[0] + dx[0]⋅0.5⋅(\theta[1] + \theta[0])
++0.0114 : \theta[1] ≥ \theta[0] + dx[0]⋅0.5⋅(\bar{M}[1] + \bar{M}[0])/\bar{EI}[0]
