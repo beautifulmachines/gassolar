@@ -2084,8 +2084,8 @@ Mission.FlightSegment10.AircraftPerf.WingAero
 
 Mission.FlightSegment10.FlightState
 +0.9458 : V_{wind} ≤ V/m_{fac}
-+0.2267 : 16.3⋅(P/S)_{min}/(P/S)_{ref}^0.9186 = (E/S)_{day}/(E/S)_{ref}/m_{fac--fit}
-+0.1351 : 0.00278⋅(P/S)_{min}/(P/S)_{ref}^2.016 = (E/S)_C/(E/S)_{ref}/m_{fac--fit}
++0.2267 : 16.3⋅((P/S)_{min}/(P/S)_{ref})^0.9186 = (E/S)_{day}/(E/S)_{ref}/m_{fac--fit}
++0.1351 : 0.00278⋅((P/S)_{min}/(P/S)_{ref})^2.016 = (E/S)_C/(E/S)_{ref}/m_{fac--fit}
 +0.1069 : (V_{wind}/V_{wind-ref}/m_{fac--fit})^8.845 ≥ 4.53⋅(\rho/\rho_{ref})^8.474⋅p_{wind}^14.22 + 9.77e-12⋅(\rho/\rho_{ref})^-8.293⋅p_{wind}^920.1 + 5.82e-19⋅(\rho/\rho_{ref})^-10.89⋅p_{wind}^14.19 + 55.7⋅(\rho/\rho_{ref})^8.426⋅p_{wind}^61.02
 -0.0114 : qne = 0.5⋅Vne²⋅rhosl
 
