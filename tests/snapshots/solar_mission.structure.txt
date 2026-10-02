@@ -385,6 +385,13 @@
   fixed rhosl
   fixed t_{night}
   cons  V_{wind} ≤ V/m_{fac}
+  cons  0.773⋅(\rho/\rho_{ref})^0.4602⋅p_{wind}^6.088 ≤ V_{wind}/V_{wind-ref}/m_{fac--fit}
+  cons  0.0523⋅(\rho/\rho_{ref})^-0.7284⋅p_{wind}^3.385 ≤ V_{wind}/V_{wind-ref}/m_{fac--fit}
+  cons  0.0261⋅(\rho/\rho_{ref})^-0.9413⋅p_{wind}^1.289 ≤ V_{wind}/V_{wind-ref}/m_{fac--fit}
+  cons  0.9⋅(\rho/\rho_{ref})^0.7507⋅p_{wind}^1.911 ≤ V_{wind}/V_{wind-ref}/m_{fac--fit}
+  cons  0.18⋅(\rho/\rho_{ref})^-0.1296⋅p_{wind}^1.72 ≤ V_{wind}/V_{wind-ref}/m_{fac--fit}
+  cons  17.2⋅((P/S)_{min}/(P/S)_{ref})^0.9187 = (E/S)_{day}/(E/S)_{ref}/m_{fac--fit}
+  cons  0.00277⋅((P/S)_{min}/(P/S)_{ref})^2.012 = (E/S)_C/(E/S)_{ref}/m_{fac--fit}
   cons  qne = 0.5⋅Vne²⋅rhosl
 [Mission.FlightSegment.AircraftPerf]
   free  CD
@@ -435,27 +442,40 @@
   fixed \mu  [Mission.FlightSegment.FlightState]
   cons  Cd ≥ cdp + CL²/3.14/AR/e
   cons  Re = \rho⋅V⋅cmac/\mu
+  cons  (cdp/m_{fac-polar-fit})^3.09 ≥ 1.02e-07⋅CL^18.86⋅Re^-0.1833 + 0.00168⋅CL^2.963⋅Re^-0.6675 + 2.28e-06⋅CL^-1.653⋅Re^-0.3496 + 1.76e+08⋅CL^-0.1787⋅Re^-2.713
   cons  CL ≤ CLstall
 [Mission.FlightSegment.AircraftPerf.TailAero]
   free  Cd
   free  Re
   free  S  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
   free  b  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  free  tau  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
   free  V  [Mission.FlightSegment.FlightState]
   free  \rho  [Mission.FlightSegment.FlightState]
   fixed m_{fac--fit}
   fixed \mu  [Mission.FlightSegment.FlightState]
   cons  Re = V⋅\rho⋅S/b/\mu
+  cons  0.34⋅Re^-0.182⋅tau^0.7746 ≤ Cd/m_{fac--fit}
+  cons  5.45⋅Re^-0.4849⋅tau^0.2463 ≤ Cd/m_{fac--fit}
+  cons  16.3⋅Re^-0.5399⋅tau^0.4664 ≤ Cd/m_{fac--fit}
+  cons  9.51⋅Re^-0.4823⋅tau^0.4675 ≤ Cd/m_{fac--fit}
+  cons  219⋅Re^-0.6039⋅tau^1.312 ≤ Cd/m_{fac--fit}
 [Mission.FlightSegment.AircraftPerf.TailAero1]
   free  Cd
   free  Re
   free  S  [Mission.Aircraft.Empennage.VerticalTail.Planform]
   free  b  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  free  tau  [Mission.Aircraft.Empennage.VerticalTail.Planform]
   free  V  [Mission.FlightSegment.FlightState]
   free  \rho  [Mission.FlightSegment.FlightState]
   fixed m_{fac--fit}
   fixed \mu  [Mission.FlightSegment.FlightState]
   cons  Re = V⋅\rho⋅S/b/\mu
+  cons  0.34⋅Re^-0.182⋅tau^0.7746 ≤ Cd/m_{fac--fit}
+  cons  5.45⋅Re^-0.4849⋅tau^0.2463 ≤ Cd/m_{fac--fit}
+  cons  16.3⋅Re^-0.5399⋅tau^0.4664 ≤ Cd/m_{fac--fit}
+  cons  9.51⋅Re^-0.4823⋅tau^0.4675 ≤ Cd/m_{fac--fit}
+  cons  219⋅Re^-0.6039⋅tau^1.312 ≤ Cd/m_{fac--fit}
 [Mission.FlightSegment.AircraftPerf.TailBoomAero]
   free  Cf
   free  Re
@@ -601,6 +621,11 @@
   cons  sigma ≥ M[2]/Sy[2]
   cons  sigma ≥ M[3]/Sy[3]
   cons  kappa ≥ w[4]/(b/2)
+  cons  (cosminus1[0]⋅vgust/v)^0.996⋅0.946 = agust[0]/m_{fac--fit}
+  cons  (cosminus1[1]⋅vgust/v)^0.996⋅0.946 = agust[1]/m_{fac--fit}
+  cons  (cosminus1[2]⋅vgust/v)^0.996⋅0.946 = agust[2]/m_{fac--fit}
+  cons  (cosminus1[3]⋅vgust/v)^0.996⋅0.946 = agust[3]/m_{fac--fit}
+  cons  (cosminus1[4]⋅vgust/v)^0.996⋅0.946 = agust[4]/m_{fac--fit}
   cons  q[0] ≥ W⋅N/b⋅cbar[0]⋅(agust[0]⋅6.28/cl⋅(1 + Ww/W) + 1)
   cons  q[1] ≥ W⋅N/b⋅cbar[1]⋅(agust[1]⋅6.28/cl⋅(1 + Ww/W) + 1)
   cons  q[2] ≥ W⋅N/b⋅cbar[2]⋅(agust[2]⋅6.28/cl⋅(1 + Ww/W) + 1)
@@ -728,6 +753,9 @@
   fixed rhosl
   fixed t_{night}
   cons  V_{wind} ≤ V/m_{fac}
+  cons  (V_{wind}/V_{wind-ref}/m_{fac--fit})^2.95 ≥ 0.33⋅(\rho/\rho_{ref})^1.755⋅p_{wind}^11.54 + 2.13e-06⋅(\rho/\rho_{ref})^-3.347⋅p_{wind}^20.85 + 0.64⋅(\rho/\rho_{ref})^2.894⋅p_{wind}^2.605 + 0.604⋅(\rho/\rho_{ref})^1.955⋅p_{wind}^51.73 + 1.11e-05⋅(\rho/\rho_{ref})^-2.902⋅p_{wind}^2.803
+  cons  17.1⋅((P/S)_{min}/(P/S)_{ref})^0.9187 = (E/S)_{day}/(E/S)_{ref}/m_{fac--fit}
+  cons  0.00277⋅((P/S)_{min}/(P/S)_{ref})^2.012 = (E/S)_C/(E/S)_{ref}/m_{fac--fit}
   cons  qne = 0.5⋅Vne²⋅rhosl
 [Mission.FlightSegment1.AircraftPerf]
   free  CD
@@ -778,27 +806,40 @@
   fixed \mu  [Mission.FlightSegment1.FlightState]
   cons  Cd ≥ cdp + CL²/3.14/AR/e
   cons  Re = \rho⋅V⋅cmac/\mu
+  cons  (cdp/m_{fac-polar-fit})^3.09 ≥ 1.02e-07⋅CL^18.86⋅Re^-0.1833 + 0.00168⋅CL^2.963⋅Re^-0.6675 + 2.28e-06⋅CL^-1.653⋅Re^-0.3496 + 1.76e+08⋅CL^-0.1787⋅Re^-2.713
   cons  CL ≤ CLstall
 [Mission.FlightSegment1.AircraftPerf.TailAero]
   free  Cd
   free  Re
   free  S  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
   free  b  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  free  tau  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
   free  V  [Mission.FlightSegment1.FlightState]
   free  \rho  [Mission.FlightSegment1.FlightState]
   fixed m_{fac--fit}
   fixed \mu  [Mission.FlightSegment1.FlightState]
   cons  Re = V⋅\rho⋅S/b/\mu
+  cons  0.34⋅Re^-0.182⋅tau^0.7746 ≤ Cd/m_{fac--fit}
+  cons  5.45⋅Re^-0.4849⋅tau^0.2463 ≤ Cd/m_{fac--fit}
+  cons  16.3⋅Re^-0.5399⋅tau^0.4664 ≤ Cd/m_{fac--fit}
+  cons  9.51⋅Re^-0.4823⋅tau^0.4675 ≤ Cd/m_{fac--fit}
+  cons  219⋅Re^-0.6039⋅tau^1.312 ≤ Cd/m_{fac--fit}
 [Mission.FlightSegment1.AircraftPerf.TailAero1]
   free  Cd
   free  Re
   free  S  [Mission.Aircraft.Empennage.VerticalTail.Planform]
   free  b  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  free  tau  [Mission.Aircraft.Empennage.VerticalTail.Planform]
   free  V  [Mission.FlightSegment1.FlightState]
   free  \rho  [Mission.FlightSegment1.FlightState]
   fixed m_{fac--fit}
   fixed \mu  [Mission.FlightSegment1.FlightState]
   cons  Re = V⋅\rho⋅S/b/\mu
+  cons  0.34⋅Re^-0.182⋅tau^0.7746 ≤ Cd/m_{fac--fit}
+  cons  5.45⋅Re^-0.4849⋅tau^0.2463 ≤ Cd/m_{fac--fit}
+  cons  16.3⋅Re^-0.5399⋅tau^0.4664 ≤ Cd/m_{fac--fit}
+  cons  9.51⋅Re^-0.4823⋅tau^0.4675 ≤ Cd/m_{fac--fit}
+  cons  219⋅Re^-0.6039⋅tau^1.312 ≤ Cd/m_{fac--fit}
 [Mission.FlightSegment1.AircraftPerf.TailBoomAero]
   free  Cf
   free  Re
@@ -944,6 +985,11 @@
   cons  sigma ≥ M[2]/Sy[2]
   cons  sigma ≥ M[3]/Sy[3]
   cons  kappa ≥ w[4]/(b/2)
+  cons  (cosminus1[0]⋅vgust/v)^0.996⋅0.946 = agust[0]/m_{fac--fit}
+  cons  (cosminus1[1]⋅vgust/v)^0.996⋅0.946 = agust[1]/m_{fac--fit}
+  cons  (cosminus1[2]⋅vgust/v)^0.996⋅0.946 = agust[2]/m_{fac--fit}
+  cons  (cosminus1[3]⋅vgust/v)^0.996⋅0.946 = agust[3]/m_{fac--fit}
+  cons  (cosminus1[4]⋅vgust/v)^0.996⋅0.946 = agust[4]/m_{fac--fit}
   cons  q[0] ≥ W⋅N/b⋅cbar[0]⋅(agust[0]⋅6.28/cl⋅(1 + Ww/W) + 1)
   cons  q[1] ≥ W⋅N/b⋅cbar[1]⋅(agust[1]⋅6.28/cl⋅(1 + Ww/W) + 1)
   cons  q[2] ≥ W⋅N/b⋅cbar[2]⋅(agust[2]⋅6.28/cl⋅(1 + Ww/W) + 1)
@@ -1071,6 +1117,9 @@
   fixed rhosl
   fixed t_{night}
   cons  V_{wind} ≤ V/m_{fac}
+  cons  (V_{wind}/V_{wind-ref}/m_{fac--fit})^2.949 ≥ 1.15e-06⋅(\rho/\rho_{ref})^-3.552⋅p_{wind}^22.91 + 1.03e-05⋅(\rho/\rho_{ref})^-2.92⋅p_{wind}^2.834 + 0.579⋅(\rho/\rho_{ref})^2.91⋅p_{wind}^2.363 + 0.323⋅(\rho/\rho_{ref})^1.782⋅p_{wind}^10.91 + 0.61⋅(\rho/\rho_{ref})^1.982⋅p_{wind}^49
+  cons  17⋅((P/S)_{min}/(P/S)_{ref})^0.9187 = (E/S)_{day}/(E/S)_{ref}/m_{fac--fit}
+  cons  0.00276⋅((P/S)_{min}/(P/S)_{ref})^2.013 = (E/S)_C/(E/S)_{ref}/m_{fac--fit}
   cons  qne = 0.5⋅Vne²⋅rhosl
 [Mission.FlightSegment2.AircraftPerf]
   free  CD
@@ -1121,27 +1170,40 @@
   fixed \mu  [Mission.FlightSegment2.FlightState]
   cons  Cd ≥ cdp + CL²/3.14/AR/e
   cons  Re = \rho⋅V⋅cmac/\mu
+  cons  (cdp/m_{fac-polar-fit})^3.09 ≥ 1.02e-07⋅CL^18.86⋅Re^-0.1833 + 0.00168⋅CL^2.963⋅Re^-0.6675 + 2.28e-06⋅CL^-1.653⋅Re^-0.3496 + 1.76e+08⋅CL^-0.1787⋅Re^-2.713
   cons  CL ≤ CLstall
 [Mission.FlightSegment2.AircraftPerf.TailAero]
   free  Cd
   free  Re
   free  S  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
   free  b  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  free  tau  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
   free  V  [Mission.FlightSegment2.FlightState]
   free  \rho  [Mission.FlightSegment2.FlightState]
   fixed m_{fac--fit}
   fixed \mu  [Mission.FlightSegment2.FlightState]
   cons  Re = V⋅\rho⋅S/b/\mu
+  cons  0.34⋅Re^-0.182⋅tau^0.7746 ≤ Cd/m_{fac--fit}
+  cons  5.45⋅Re^-0.4849⋅tau^0.2463 ≤ Cd/m_{fac--fit}
+  cons  16.3⋅Re^-0.5399⋅tau^0.4664 ≤ Cd/m_{fac--fit}
+  cons  9.51⋅Re^-0.4823⋅tau^0.4675 ≤ Cd/m_{fac--fit}
+  cons  219⋅Re^-0.6039⋅tau^1.312 ≤ Cd/m_{fac--fit}
 [Mission.FlightSegment2.AircraftPerf.TailAero1]
   free  Cd
   free  Re
   free  S  [Mission.Aircraft.Empennage.VerticalTail.Planform]
   free  b  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  free  tau  [Mission.Aircraft.Empennage.VerticalTail.Planform]
   free  V  [Mission.FlightSegment2.FlightState]
   free  \rho  [Mission.FlightSegment2.FlightState]
   fixed m_{fac--fit}
   fixed \mu  [Mission.FlightSegment2.FlightState]
   cons  Re = V⋅\rho⋅S/b/\mu
+  cons  0.34⋅Re^-0.182⋅tau^0.7746 ≤ Cd/m_{fac--fit}
+  cons  5.45⋅Re^-0.4849⋅tau^0.2463 ≤ Cd/m_{fac--fit}
+  cons  16.3⋅Re^-0.5399⋅tau^0.4664 ≤ Cd/m_{fac--fit}
+  cons  9.51⋅Re^-0.4823⋅tau^0.4675 ≤ Cd/m_{fac--fit}
+  cons  219⋅Re^-0.6039⋅tau^1.312 ≤ Cd/m_{fac--fit}
 [Mission.FlightSegment2.AircraftPerf.TailBoomAero]
   free  Cf
   free  Re
@@ -1287,6 +1349,11 @@
   cons  sigma ≥ M[2]/Sy[2]
   cons  sigma ≥ M[3]/Sy[3]
   cons  kappa ≥ w[4]/(b/2)
+  cons  (cosminus1[0]⋅vgust/v)^0.996⋅0.946 = agust[0]/m_{fac--fit}
+  cons  (cosminus1[1]⋅vgust/v)^0.996⋅0.946 = agust[1]/m_{fac--fit}
+  cons  (cosminus1[2]⋅vgust/v)^0.996⋅0.946 = agust[2]/m_{fac--fit}
+  cons  (cosminus1[3]⋅vgust/v)^0.996⋅0.946 = agust[3]/m_{fac--fit}
+  cons  (cosminus1[4]⋅vgust/v)^0.996⋅0.946 = agust[4]/m_{fac--fit}
   cons  q[0] ≥ W⋅N/b⋅cbar[0]⋅(agust[0]⋅6.28/cl⋅(1 + Ww/W) + 1)
   cons  q[1] ≥ W⋅N/b⋅cbar[1]⋅(agust[1]⋅6.28/cl⋅(1 + Ww/W) + 1)
   cons  q[2] ≥ W⋅N/b⋅cbar[2]⋅(agust[2]⋅6.28/cl⋅(1 + Ww/W) + 1)
@@ -1414,6 +1481,9 @@
   fixed rhosl
   fixed t_{night}
   cons  V_{wind} ≤ V/m_{fac}
+  cons  (V_{wind}/V_{wind-ref}/m_{fac--fit})^2.91 ≥ 0.337⋅(\rho/\rho_{ref})^1.818⋅p_{wind}^10.13 + 8.87e-06⋅(\rho/\rho_{ref})^-2.977⋅p_{wind}^2.835 + 0.47⋅(\rho/\rho_{ref})^2.814⋅p_{wind}^2.095 + 7.99e-07⋅(\rho/\rho_{ref})^-3.676⋅p_{wind}^24.42 + 0.662⋅(\rho/\rho_{ref})^2.007⋅p_{wind}^48.16
+  cons  16.9⋅((P/S)_{min}/(P/S)_{ref})^0.9187 = (E/S)_{day}/(E/S)_{ref}/m_{fac--fit}
+  cons  0.00276⋅((P/S)_{min}/(P/S)_{ref})^2.013 = (E/S)_C/(E/S)_{ref}/m_{fac--fit}
   cons  qne = 0.5⋅Vne²⋅rhosl
 [Mission.FlightSegment3.AircraftPerf]
   free  CD
@@ -1464,27 +1534,40 @@
   fixed \mu  [Mission.FlightSegment3.FlightState]
   cons  Cd ≥ cdp + CL²/3.14/AR/e
   cons  Re = \rho⋅V⋅cmac/\mu
+  cons  (cdp/m_{fac-polar-fit})^3.09 ≥ 1.02e-07⋅CL^18.86⋅Re^-0.1833 + 0.00168⋅CL^2.963⋅Re^-0.6675 + 2.28e-06⋅CL^-1.653⋅Re^-0.3496 + 1.76e+08⋅CL^-0.1787⋅Re^-2.713
   cons  CL ≤ CLstall
 [Mission.FlightSegment3.AircraftPerf.TailAero]
   free  Cd
   free  Re
   free  S  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
   free  b  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  free  tau  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
   free  V  [Mission.FlightSegment3.FlightState]
   free  \rho  [Mission.FlightSegment3.FlightState]
   fixed m_{fac--fit}
   fixed \mu  [Mission.FlightSegment3.FlightState]
   cons  Re = V⋅\rho⋅S/b/\mu
+  cons  0.34⋅Re^-0.182⋅tau^0.7746 ≤ Cd/m_{fac--fit}
+  cons  5.45⋅Re^-0.4849⋅tau^0.2463 ≤ Cd/m_{fac--fit}
+  cons  16.3⋅Re^-0.5399⋅tau^0.4664 ≤ Cd/m_{fac--fit}
+  cons  9.51⋅Re^-0.4823⋅tau^0.4675 ≤ Cd/m_{fac--fit}
+  cons  219⋅Re^-0.6039⋅tau^1.312 ≤ Cd/m_{fac--fit}
 [Mission.FlightSegment3.AircraftPerf.TailAero1]
   free  Cd
   free  Re
   free  S  [Mission.Aircraft.Empennage.VerticalTail.Planform]
   free  b  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  free  tau  [Mission.Aircraft.Empennage.VerticalTail.Planform]
   free  V  [Mission.FlightSegment3.FlightState]
   free  \rho  [Mission.FlightSegment3.FlightState]
   fixed m_{fac--fit}
   fixed \mu  [Mission.FlightSegment3.FlightState]
   cons  Re = V⋅\rho⋅S/b/\mu
+  cons  0.34⋅Re^-0.182⋅tau^0.7746 ≤ Cd/m_{fac--fit}
+  cons  5.45⋅Re^-0.4849⋅tau^0.2463 ≤ Cd/m_{fac--fit}
+  cons  16.3⋅Re^-0.5399⋅tau^0.4664 ≤ Cd/m_{fac--fit}
+  cons  9.51⋅Re^-0.4823⋅tau^0.4675 ≤ Cd/m_{fac--fit}
+  cons  219⋅Re^-0.6039⋅tau^1.312 ≤ Cd/m_{fac--fit}
 [Mission.FlightSegment3.AircraftPerf.TailBoomAero]
   free  Cf
   free  Re
@@ -1630,6 +1713,11 @@
   cons  sigma ≥ M[2]/Sy[2]
   cons  sigma ≥ M[3]/Sy[3]
   cons  kappa ≥ w[4]/(b/2)
+  cons  (cosminus1[0]⋅vgust/v)^0.996⋅0.946 = agust[0]/m_{fac--fit}
+  cons  (cosminus1[1]⋅vgust/v)^0.996⋅0.946 = agust[1]/m_{fac--fit}
+  cons  (cosminus1[2]⋅vgust/v)^0.996⋅0.946 = agust[2]/m_{fac--fit}
+  cons  (cosminus1[3]⋅vgust/v)^0.996⋅0.946 = agust[3]/m_{fac--fit}
+  cons  (cosminus1[4]⋅vgust/v)^0.996⋅0.946 = agust[4]/m_{fac--fit}
   cons  q[0] ≥ W⋅N/b⋅cbar[0]⋅(agust[0]⋅6.28/cl⋅(1 + Ww/W) + 1)
   cons  q[1] ≥ W⋅N/b⋅cbar[1]⋅(agust[1]⋅6.28/cl⋅(1 + Ww/W) + 1)
   cons  q[2] ≥ W⋅N/b⋅cbar[2]⋅(agust[2]⋅6.28/cl⋅(1 + Ww/W) + 1)
@@ -1757,6 +1845,9 @@
   fixed rhosl
   fixed t_{night}
   cons  V_{wind} ≤ V/m_{fac}
+  cons  (V_{wind}/V_{wind-ref}/m_{fac--fit})^2.882 ≥ 0.368⋅(\rho/\rho_{ref})^1.873⋅p_{wind}^9.498 + 7.98e-07⋅(\rho/\rho_{ref})^-3.664⋅p_{wind}^25.54 + 0.355⋅(\rho/\rho_{ref})^2.69⋅p_{wind}^1.759 + 6.03e-06⋅(\rho/\rho_{ref})^-3.109⋅p_{wind}^2.867 + 0.824⋅(\rho/\rho_{ref})^2.129⋅p_{wind}^48.33
+  cons  16.8⋅((P/S)_{min}/(P/S)_{ref})^0.9187 = (E/S)_{day}/(E/S)_{ref}/m_{fac--fit}
+  cons  0.00276⋅((P/S)_{min}/(P/S)_{ref})^2.014 = (E/S)_C/(E/S)_{ref}/m_{fac--fit}
   cons  qne = 0.5⋅Vne²⋅rhosl
 [Mission.FlightSegment4.AircraftPerf]
   free  CD
@@ -1807,27 +1898,40 @@
   fixed \mu  [Mission.FlightSegment4.FlightState]
   cons  Cd ≥ cdp + CL²/3.14/AR/e
   cons  Re = \rho⋅V⋅cmac/\mu
+  cons  (cdp/m_{fac-polar-fit})^3.09 ≥ 1.02e-07⋅CL^18.86⋅Re^-0.1833 + 0.00168⋅CL^2.963⋅Re^-0.6675 + 2.28e-06⋅CL^-1.653⋅Re^-0.3496 + 1.76e+08⋅CL^-0.1787⋅Re^-2.713
   cons  CL ≤ CLstall
 [Mission.FlightSegment4.AircraftPerf.TailAero]
   free  Cd
   free  Re
   free  S  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
   free  b  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  free  tau  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
   free  V  [Mission.FlightSegment4.FlightState]
   free  \rho  [Mission.FlightSegment4.FlightState]
   fixed m_{fac--fit}
   fixed \mu  [Mission.FlightSegment4.FlightState]
   cons  Re = V⋅\rho⋅S/b/\mu
+  cons  0.34⋅Re^-0.182⋅tau^0.7746 ≤ Cd/m_{fac--fit}
+  cons  5.45⋅Re^-0.4849⋅tau^0.2463 ≤ Cd/m_{fac--fit}
+  cons  16.3⋅Re^-0.5399⋅tau^0.4664 ≤ Cd/m_{fac--fit}
+  cons  9.51⋅Re^-0.4823⋅tau^0.4675 ≤ Cd/m_{fac--fit}
+  cons  219⋅Re^-0.6039⋅tau^1.312 ≤ Cd/m_{fac--fit}
 [Mission.FlightSegment4.AircraftPerf.TailAero1]
   free  Cd
   free  Re
   free  S  [Mission.Aircraft.Empennage.VerticalTail.Planform]
   free  b  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  free  tau  [Mission.Aircraft.Empennage.VerticalTail.Planform]
   free  V  [Mission.FlightSegment4.FlightState]
   free  \rho  [Mission.FlightSegment4.FlightState]
   fixed m_{fac--fit}
   fixed \mu  [Mission.FlightSegment4.FlightState]
   cons  Re = V⋅\rho⋅S/b/\mu
+  cons  0.34⋅Re^-0.182⋅tau^0.7746 ≤ Cd/m_{fac--fit}
+  cons  5.45⋅Re^-0.4849⋅tau^0.2463 ≤ Cd/m_{fac--fit}
+  cons  16.3⋅Re^-0.5399⋅tau^0.4664 ≤ Cd/m_{fac--fit}
+  cons  9.51⋅Re^-0.4823⋅tau^0.4675 ≤ Cd/m_{fac--fit}
+  cons  219⋅Re^-0.6039⋅tau^1.312 ≤ Cd/m_{fac--fit}
 [Mission.FlightSegment4.AircraftPerf.TailBoomAero]
   free  Cf
   free  Re
@@ -1973,6 +2077,11 @@
   cons  sigma ≥ M[2]/Sy[2]
   cons  sigma ≥ M[3]/Sy[3]
   cons  kappa ≥ w[4]/(b/2)
+  cons  (cosminus1[0]⋅vgust/v)^0.996⋅0.946 = agust[0]/m_{fac--fit}
+  cons  (cosminus1[1]⋅vgust/v)^0.996⋅0.946 = agust[1]/m_{fac--fit}
+  cons  (cosminus1[2]⋅vgust/v)^0.996⋅0.946 = agust[2]/m_{fac--fit}
+  cons  (cosminus1[3]⋅vgust/v)^0.996⋅0.946 = agust[3]/m_{fac--fit}
+  cons  (cosminus1[4]⋅vgust/v)^0.996⋅0.946 = agust[4]/m_{fac--fit}
   cons  q[0] ≥ W⋅N/b⋅cbar[0]⋅(agust[0]⋅6.28/cl⋅(1 + Ww/W) + 1)
   cons  q[1] ≥ W⋅N/b⋅cbar[1]⋅(agust[1]⋅6.28/cl⋅(1 + Ww/W) + 1)
   cons  q[2] ≥ W⋅N/b⋅cbar[2]⋅(agust[2]⋅6.28/cl⋅(1 + Ww/W) + 1)
@@ -2100,6 +2209,13 @@
   fixed rhosl
   fixed t_{night}
   cons  V_{wind} ≤ V/m_{fac}
+  cons  0.878⋅(\rho/\rho_{ref})^0.5797⋅p_{wind}^6.332 ≤ V_{wind}/V_{wind-ref}/m_{fac--fit}
+  cons  0.0189⋅(\rho/\rho_{ref})^-1.019⋅p_{wind}^1.244 ≤ V_{wind}/V_{wind-ref}/m_{fac--fit}
+  cons  0.875⋅(\rho/\rho_{ref})^0.7806⋅p_{wind}^1.767 ≤ V_{wind}/V_{wind-ref}/m_{fac--fit}
+  cons  0.222⋅(\rho/\rho_{ref})^0.01982⋅p_{wind}^1.722 ≤ V_{wind}/V_{wind-ref}/m_{fac--fit}
+  cons  0.0347⋅(\rho/\rho_{ref})^-0.8428⋅p_{wind}^3.574 ≤ V_{wind}/V_{wind-ref}/m_{fac--fit}
+  cons  16.8⋅((P/S)_{min}/(P/S)_{ref})^0.9186 = (E/S)_{day}/(E/S)_{ref}/m_{fac--fit}
+  cons  0.00276⋅((P/S)_{min}/(P/S)_{ref})^2.014 = (E/S)_C/(E/S)_{ref}/m_{fac--fit}
   cons  qne = 0.5⋅Vne²⋅rhosl
 [Mission.FlightSegment5.AircraftPerf]
   free  CD
@@ -2150,27 +2266,40 @@
   fixed \mu  [Mission.FlightSegment5.FlightState]
   cons  Cd ≥ cdp + CL²/3.14/AR/e
   cons  Re = \rho⋅V⋅cmac/\mu
+  cons  (cdp/m_{fac-polar-fit})^3.09 ≥ 1.02e-07⋅CL^18.86⋅Re^-0.1833 + 0.00168⋅CL^2.963⋅Re^-0.6675 + 2.28e-06⋅CL^-1.653⋅Re^-0.3496 + 1.76e+08⋅CL^-0.1787⋅Re^-2.713
   cons  CL ≤ CLstall
 [Mission.FlightSegment5.AircraftPerf.TailAero]
   free  Cd
   free  Re
   free  S  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
   free  b  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  free  tau  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
   free  V  [Mission.FlightSegment5.FlightState]
   free  \rho  [Mission.FlightSegment5.FlightState]
   fixed m_{fac--fit}
   fixed \mu  [Mission.FlightSegment5.FlightState]
   cons  Re = V⋅\rho⋅S/b/\mu
+  cons  0.34⋅Re^-0.182⋅tau^0.7746 ≤ Cd/m_{fac--fit}
+  cons  5.45⋅Re^-0.4849⋅tau^0.2463 ≤ Cd/m_{fac--fit}
+  cons  16.3⋅Re^-0.5399⋅tau^0.4664 ≤ Cd/m_{fac--fit}
+  cons  9.51⋅Re^-0.4823⋅tau^0.4675 ≤ Cd/m_{fac--fit}
+  cons  219⋅Re^-0.6039⋅tau^1.312 ≤ Cd/m_{fac--fit}
 [Mission.FlightSegment5.AircraftPerf.TailAero1]
   free  Cd
   free  Re
   free  S  [Mission.Aircraft.Empennage.VerticalTail.Planform]
   free  b  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  free  tau  [Mission.Aircraft.Empennage.VerticalTail.Planform]
   free  V  [Mission.FlightSegment5.FlightState]
   free  \rho  [Mission.FlightSegment5.FlightState]
   fixed m_{fac--fit}
   fixed \mu  [Mission.FlightSegment5.FlightState]
   cons  Re = V⋅\rho⋅S/b/\mu
+  cons  0.34⋅Re^-0.182⋅tau^0.7746 ≤ Cd/m_{fac--fit}
+  cons  5.45⋅Re^-0.4849⋅tau^0.2463 ≤ Cd/m_{fac--fit}
+  cons  16.3⋅Re^-0.5399⋅tau^0.4664 ≤ Cd/m_{fac--fit}
+  cons  9.51⋅Re^-0.4823⋅tau^0.4675 ≤ Cd/m_{fac--fit}
+  cons  219⋅Re^-0.6039⋅tau^1.312 ≤ Cd/m_{fac--fit}
 [Mission.FlightSegment5.AircraftPerf.TailBoomAero]
   free  Cf
   free  Re
@@ -2316,6 +2445,11 @@
   cons  sigma ≥ M[2]/Sy[2]
   cons  sigma ≥ M[3]/Sy[3]
   cons  kappa ≥ w[4]/(b/2)
+  cons  (cosminus1[0]⋅vgust/v)^0.996⋅0.946 = agust[0]/m_{fac--fit}
+  cons  (cosminus1[1]⋅vgust/v)^0.996⋅0.946 = agust[1]/m_{fac--fit}
+  cons  (cosminus1[2]⋅vgust/v)^0.996⋅0.946 = agust[2]/m_{fac--fit}
+  cons  (cosminus1[3]⋅vgust/v)^0.996⋅0.946 = agust[3]/m_{fac--fit}
+  cons  (cosminus1[4]⋅vgust/v)^0.996⋅0.946 = agust[4]/m_{fac--fit}
   cons  q[0] ≥ W⋅N/b⋅cbar[0]⋅(agust[0]⋅6.28/cl⋅(1 + Ww/W) + 1)
   cons  q[1] ≥ W⋅N/b⋅cbar[1]⋅(agust[1]⋅6.28/cl⋅(1 + Ww/W) + 1)
   cons  q[2] ≥ W⋅N/b⋅cbar[2]⋅(agust[2]⋅6.28/cl⋅(1 + Ww/W) + 1)
@@ -2443,6 +2577,9 @@
   fixed rhosl
   fixed t_{night}
   cons  V_{wind} ≤ V/m_{fac}
+  cons  (V_{wind}/V_{wind-ref}/m_{fac--fit})^3.149 ≥ 0.488⋅(\rho/\rho_{ref})^2.252⋅p_{wind}^9.04 + 0.191⋅(\rho/\rho_{ref})^2.765⋅p_{wind}^1.184 + 1.57e-06⋅(\rho/\rho_{ref})^-3.292⋅p_{wind}^28.31 + 1.88⋅(\rho/\rho_{ref})^2.793⋅p_{wind}^50.65 + 5.69e-07⋅(\rho/\rho_{ref})^-3.801⋅p_{wind}^3.394
+  cons  16.7⋅((P/S)_{min}/(P/S)_{ref})^0.9186 = (E/S)_{day}/(E/S)_{ref}/m_{fac--fit}
+  cons  0.00276⋅((P/S)_{min}/(P/S)_{ref})^2.015 = (E/S)_C/(E/S)_{ref}/m_{fac--fit}
   cons  qne = 0.5⋅Vne²⋅rhosl
 [Mission.FlightSegment6.AircraftPerf]
   free  CD
@@ -2493,27 +2630,40 @@
   fixed \mu  [Mission.FlightSegment6.FlightState]
   cons  Cd ≥ cdp + CL²/3.14/AR/e
   cons  Re = \rho⋅V⋅cmac/\mu
+  cons  (cdp/m_{fac-polar-fit})^3.09 ≥ 1.02e-07⋅CL^18.86⋅Re^-0.1833 + 0.00168⋅CL^2.963⋅Re^-0.6675 + 2.28e-06⋅CL^-1.653⋅Re^-0.3496 + 1.76e+08⋅CL^-0.1787⋅Re^-2.713
   cons  CL ≤ CLstall
 [Mission.FlightSegment6.AircraftPerf.TailAero]
   free  Cd
   free  Re
   free  S  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
   free  b  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  free  tau  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
   free  V  [Mission.FlightSegment6.FlightState]
   free  \rho  [Mission.FlightSegment6.FlightState]
   fixed m_{fac--fit}
   fixed \mu  [Mission.FlightSegment6.FlightState]
   cons  Re = V⋅\rho⋅S/b/\mu
+  cons  0.34⋅Re^-0.182⋅tau^0.7746 ≤ Cd/m_{fac--fit}
+  cons  5.45⋅Re^-0.4849⋅tau^0.2463 ≤ Cd/m_{fac--fit}
+  cons  16.3⋅Re^-0.5399⋅tau^0.4664 ≤ Cd/m_{fac--fit}
+  cons  9.51⋅Re^-0.4823⋅tau^0.4675 ≤ Cd/m_{fac--fit}
+  cons  219⋅Re^-0.6039⋅tau^1.312 ≤ Cd/m_{fac--fit}
 [Mission.FlightSegment6.AircraftPerf.TailAero1]
   free  Cd
   free  Re
   free  S  [Mission.Aircraft.Empennage.VerticalTail.Planform]
   free  b  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  free  tau  [Mission.Aircraft.Empennage.VerticalTail.Planform]
   free  V  [Mission.FlightSegment6.FlightState]
   free  \rho  [Mission.FlightSegment6.FlightState]
   fixed m_{fac--fit}
   fixed \mu  [Mission.FlightSegment6.FlightState]
   cons  Re = V⋅\rho⋅S/b/\mu
+  cons  0.34⋅Re^-0.182⋅tau^0.7746 ≤ Cd/m_{fac--fit}
+  cons  5.45⋅Re^-0.4849⋅tau^0.2463 ≤ Cd/m_{fac--fit}
+  cons  16.3⋅Re^-0.5399⋅tau^0.4664 ≤ Cd/m_{fac--fit}
+  cons  9.51⋅Re^-0.4823⋅tau^0.4675 ≤ Cd/m_{fac--fit}
+  cons  219⋅Re^-0.6039⋅tau^1.312 ≤ Cd/m_{fac--fit}
 [Mission.FlightSegment6.AircraftPerf.TailBoomAero]
   free  Cf
   free  Re
@@ -2659,6 +2809,11 @@
   cons  sigma ≥ M[2]/Sy[2]
   cons  sigma ≥ M[3]/Sy[3]
   cons  kappa ≥ w[4]/(b/2)
+  cons  (cosminus1[0]⋅vgust/v)^0.996⋅0.946 = agust[0]/m_{fac--fit}
+  cons  (cosminus1[1]⋅vgust/v)^0.996⋅0.946 = agust[1]/m_{fac--fit}
+  cons  (cosminus1[2]⋅vgust/v)^0.996⋅0.946 = agust[2]/m_{fac--fit}
+  cons  (cosminus1[3]⋅vgust/v)^0.996⋅0.946 = agust[3]/m_{fac--fit}
+  cons  (cosminus1[4]⋅vgust/v)^0.996⋅0.946 = agust[4]/m_{fac--fit}
   cons  q[0] ≥ W⋅N/b⋅cbar[0]⋅(agust[0]⋅6.28/cl⋅(1 + Ww/W) + 1)
   cons  q[1] ≥ W⋅N/b⋅cbar[1]⋅(agust[1]⋅6.28/cl⋅(1 + Ww/W) + 1)
   cons  q[2] ≥ W⋅N/b⋅cbar[2]⋅(agust[2]⋅6.28/cl⋅(1 + Ww/W) + 1)
@@ -2786,6 +2941,9 @@
   fixed rhosl
   fixed t_{night}
   cons  V_{wind} ≤ V/m_{fac}
+  cons  (V_{wind}/V_{wind-ref}/m_{fac--fit})^3.598 ≥ 0.588⋅(\rho/\rho_{ref})^2.715⋅p_{wind}^9.189 + 9.44e-07⋅(\rho/\rho_{ref})^-3.303⋅p_{wind}^29.96 + 4.36e-08⋅(\rho/\rho_{ref})^-4.494⋅p_{wind}^4.059 + 3.58⋅(\rho/\rho_{ref})^3.437⋅p_{wind}^51.92 + 0.131⋅(\rho/\rho_{ref})^3.201⋅p_{wind}^0.6927
+  cons  16.6⋅((P/S)_{min}/(P/S)_{ref})^0.9186 = (E/S)_{day}/(E/S)_{ref}/m_{fac--fit}
+  cons  0.00277⋅((P/S)_{min}/(P/S)_{ref})^2.015 = (E/S)_C/(E/S)_{ref}/m_{fac--fit}
   cons  qne = 0.5⋅Vne²⋅rhosl
 [Mission.FlightSegment7.AircraftPerf]
   free  CD
@@ -2836,27 +2994,40 @@
   fixed \mu  [Mission.FlightSegment7.FlightState]
   cons  Cd ≥ cdp + CL²/3.14/AR/e
   cons  Re = \rho⋅V⋅cmac/\mu
+  cons  (cdp/m_{fac-polar-fit})^3.09 ≥ 1.02e-07⋅CL^18.86⋅Re^-0.1833 + 0.00168⋅CL^2.963⋅Re^-0.6675 + 2.28e-06⋅CL^-1.653⋅Re^-0.3496 + 1.76e+08⋅CL^-0.1787⋅Re^-2.713
   cons  CL ≤ CLstall
 [Mission.FlightSegment7.AircraftPerf.TailAero]
   free  Cd
   free  Re
   free  S  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
   free  b  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  free  tau  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
   free  V  [Mission.FlightSegment7.FlightState]
   free  \rho  [Mission.FlightSegment7.FlightState]
   fixed m_{fac--fit}
   fixed \mu  [Mission.FlightSegment7.FlightState]
   cons  Re = V⋅\rho⋅S/b/\mu
+  cons  0.34⋅Re^-0.182⋅tau^0.7746 ≤ Cd/m_{fac--fit}
+  cons  5.45⋅Re^-0.4849⋅tau^0.2463 ≤ Cd/m_{fac--fit}
+  cons  16.3⋅Re^-0.5399⋅tau^0.4664 ≤ Cd/m_{fac--fit}
+  cons  9.51⋅Re^-0.4823⋅tau^0.4675 ≤ Cd/m_{fac--fit}
+  cons  219⋅Re^-0.6039⋅tau^1.312 ≤ Cd/m_{fac--fit}
 [Mission.FlightSegment7.AircraftPerf.TailAero1]
   free  Cd
   free  Re
   free  S  [Mission.Aircraft.Empennage.VerticalTail.Planform]
   free  b  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  free  tau  [Mission.Aircraft.Empennage.VerticalTail.Planform]
   free  V  [Mission.FlightSegment7.FlightState]
   free  \rho  [Mission.FlightSegment7.FlightState]
   fixed m_{fac--fit}
   fixed \mu  [Mission.FlightSegment7.FlightState]
   cons  Re = V⋅\rho⋅S/b/\mu
+  cons  0.34⋅Re^-0.182⋅tau^0.7746 ≤ Cd/m_{fac--fit}
+  cons  5.45⋅Re^-0.4849⋅tau^0.2463 ≤ Cd/m_{fac--fit}
+  cons  16.3⋅Re^-0.5399⋅tau^0.4664 ≤ Cd/m_{fac--fit}
+  cons  9.51⋅Re^-0.4823⋅tau^0.4675 ≤ Cd/m_{fac--fit}
+  cons  219⋅Re^-0.6039⋅tau^1.312 ≤ Cd/m_{fac--fit}
 [Mission.FlightSegment7.AircraftPerf.TailBoomAero]
   free  Cf
   free  Re
@@ -3002,6 +3173,11 @@
   cons  sigma ≥ M[2]/Sy[2]
   cons  sigma ≥ M[3]/Sy[3]
   cons  kappa ≥ w[4]/(b/2)
+  cons  (cosminus1[0]⋅vgust/v)^0.996⋅0.946 = agust[0]/m_{fac--fit}
+  cons  (cosminus1[1]⋅vgust/v)^0.996⋅0.946 = agust[1]/m_{fac--fit}
+  cons  (cosminus1[2]⋅vgust/v)^0.996⋅0.946 = agust[2]/m_{fac--fit}
+  cons  (cosminus1[3]⋅vgust/v)^0.996⋅0.946 = agust[3]/m_{fac--fit}
+  cons  (cosminus1[4]⋅vgust/v)^0.996⋅0.946 = agust[4]/m_{fac--fit}
   cons  q[0] ≥ W⋅N/b⋅cbar[0]⋅(agust[0]⋅6.28/cl⋅(1 + Ww/W) + 1)
   cons  q[1] ≥ W⋅N/b⋅cbar[1]⋅(agust[1]⋅6.28/cl⋅(1 + Ww/W) + 1)
   cons  q[2] ≥ W⋅N/b⋅cbar[2]⋅(agust[2]⋅6.28/cl⋅(1 + Ww/W) + 1)
@@ -3129,6 +3305,13 @@
   fixed rhosl
   fixed t_{night}
   cons  V_{wind} ≤ V/m_{fac}
+  cons  1.21⋅(\rho/\rho_{ref})^0.7885⋅p_{wind}^6.263 ≤ V_{wind}/V_{wind-ref}/m_{fac--fit}
+  cons  0.393⋅(\rho/\rho_{ref})^0.3464⋅p_{wind}^1.814 ≤ V_{wind}/V_{wind-ref}/m_{fac--fit}
+  cons  1.12⋅(\rho/\rho_{ref})^0.9384⋅p_{wind}^1.704 ≤ V_{wind}/V_{wind-ref}/m_{fac--fit}
+  cons  0.0245⋅(\rho/\rho_{ref})^-0.9339⋅p_{wind}^4.059 ≤ V_{wind}/V_{wind-ref}/m_{fac--fit}
+  cons  0.0112⋅(\rho/\rho_{ref})^-1.17⋅p_{wind}^1.367 ≤ V_{wind}/V_{wind-ref}/m_{fac--fit}
+  cons  16.5⋅((P/S)_{min}/(P/S)_{ref})^0.9186 = (E/S)_{day}/(E/S)_{ref}/m_{fac--fit}
+  cons  0.00277⋅((P/S)_{min}/(P/S)_{ref})^2.016 = (E/S)_C/(E/S)_{ref}/m_{fac--fit}
   cons  qne = 0.5⋅Vne²⋅rhosl
 [Mission.FlightSegment8.AircraftPerf]
   free  CD
@@ -3179,27 +3362,40 @@
   fixed \mu  [Mission.FlightSegment8.FlightState]
   cons  Cd ≥ cdp + CL²/3.14/AR/e
   cons  Re = \rho⋅V⋅cmac/\mu
+  cons  (cdp/m_{fac-polar-fit})^3.09 ≥ 1.02e-07⋅CL^18.86⋅Re^-0.1833 + 0.00168⋅CL^2.963⋅Re^-0.6675 + 2.28e-06⋅CL^-1.653⋅Re^-0.3496 + 1.76e+08⋅CL^-0.1787⋅Re^-2.713
   cons  CL ≤ CLstall
 [Mission.FlightSegment8.AircraftPerf.TailAero]
   free  Cd
   free  Re
   free  S  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
   free  b  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  free  tau  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
   free  V  [Mission.FlightSegment8.FlightState]
   free  \rho  [Mission.FlightSegment8.FlightState]
   fixed m_{fac--fit}
   fixed \mu  [Mission.FlightSegment8.FlightState]
   cons  Re = V⋅\rho⋅S/b/\mu
+  cons  0.34⋅Re^-0.182⋅tau^0.7746 ≤ Cd/m_{fac--fit}
+  cons  5.45⋅Re^-0.4849⋅tau^0.2463 ≤ Cd/m_{fac--fit}
+  cons  16.3⋅Re^-0.5399⋅tau^0.4664 ≤ Cd/m_{fac--fit}
+  cons  9.51⋅Re^-0.4823⋅tau^0.4675 ≤ Cd/m_{fac--fit}
+  cons  219⋅Re^-0.6039⋅tau^1.312 ≤ Cd/m_{fac--fit}
 [Mission.FlightSegment8.AircraftPerf.TailAero1]
   free  Cd
   free  Re
   free  S  [Mission.Aircraft.Empennage.VerticalTail.Planform]
   free  b  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  free  tau  [Mission.Aircraft.Empennage.VerticalTail.Planform]
   free  V  [Mission.FlightSegment8.FlightState]
   free  \rho  [Mission.FlightSegment8.FlightState]
   fixed m_{fac--fit}
   fixed \mu  [Mission.FlightSegment8.FlightState]
   cons  Re = V⋅\rho⋅S/b/\mu
+  cons  0.34⋅Re^-0.182⋅tau^0.7746 ≤ Cd/m_{fac--fit}
+  cons  5.45⋅Re^-0.4849⋅tau^0.2463 ≤ Cd/m_{fac--fit}
+  cons  16.3⋅Re^-0.5399⋅tau^0.4664 ≤ Cd/m_{fac--fit}
+  cons  9.51⋅Re^-0.4823⋅tau^0.4675 ≤ Cd/m_{fac--fit}
+  cons  219⋅Re^-0.6039⋅tau^1.312 ≤ Cd/m_{fac--fit}
 [Mission.FlightSegment8.AircraftPerf.TailBoomAero]
   free  Cf
   free  Re
@@ -3345,6 +3541,11 @@
   cons  sigma ≥ M[2]/Sy[2]
   cons  sigma ≥ M[3]/Sy[3]
   cons  kappa ≥ w[4]/(b/2)
+  cons  (cosminus1[0]⋅vgust/v)^0.996⋅0.946 = agust[0]/m_{fac--fit}
+  cons  (cosminus1[1]⋅vgust/v)^0.996⋅0.946 = agust[1]/m_{fac--fit}
+  cons  (cosminus1[2]⋅vgust/v)^0.996⋅0.946 = agust[2]/m_{fac--fit}
+  cons  (cosminus1[3]⋅vgust/v)^0.996⋅0.946 = agust[3]/m_{fac--fit}
+  cons  (cosminus1[4]⋅vgust/v)^0.996⋅0.946 = agust[4]/m_{fac--fit}
   cons  q[0] ≥ W⋅N/b⋅cbar[0]⋅(agust[0]⋅6.28/cl⋅(1 + Ww/W) + 1)
   cons  q[1] ≥ W⋅N/b⋅cbar[1]⋅(agust[1]⋅6.28/cl⋅(1 + Ww/W) + 1)
   cons  q[2] ≥ W⋅N/b⋅cbar[2]⋅(agust[2]⋅6.28/cl⋅(1 + Ww/W) + 1)
@@ -3472,6 +3673,9 @@
   fixed rhosl
   fixed t_{night}
   cons  V_{wind} ≤ V/m_{fac}
+  cons  (V_{wind}/V_{wind-ref}/m_{fac--fit})^40.78 ≥ 3.87e+05⋅(\rho/\rho_{ref})^35.25⋅p_{wind}^249.1 + 1.81e-83⋅(\rho/\rho_{ref})^-49.58⋅p_{wind}^56.75 + 1.97e+04⋅(\rho/\rho_{ref})^41.25⋅p_{wind}^68.21 + 7.22e-68⋅(\rho/\rho_{ref})^-38.64⋅p_{wind}^181.1 + 2.31e-13⋅(\rho/\rho_{ref})^19.48⋅p_{wind}^73.71
+  cons  16.4⋅((P/S)_{min}/(P/S)_{ref})^0.9186 = (E/S)_{day}/(E/S)_{ref}/m_{fac--fit}
+  cons  0.00278⋅((P/S)_{min}/(P/S)_{ref})^2.016 = (E/S)_C/(E/S)_{ref}/m_{fac--fit}
   cons  qne = 0.5⋅Vne²⋅rhosl
 [Mission.FlightSegment9.AircraftPerf]
   free  CD
@@ -3522,27 +3726,40 @@
   fixed \mu  [Mission.FlightSegment9.FlightState]
   cons  Cd ≥ cdp + CL²/3.14/AR/e
   cons  Re = \rho⋅V⋅cmac/\mu
+  cons  (cdp/m_{fac-polar-fit})^3.09 ≥ 1.02e-07⋅CL^18.86⋅Re^-0.1833 + 0.00168⋅CL^2.963⋅Re^-0.6675 + 2.28e-06⋅CL^-1.653⋅Re^-0.3496 + 1.76e+08⋅CL^-0.1787⋅Re^-2.713
   cons  CL ≤ CLstall
 [Mission.FlightSegment9.AircraftPerf.TailAero]
   free  Cd
   free  Re
   free  S  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
   free  b  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  free  tau  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
   free  V  [Mission.FlightSegment9.FlightState]
   free  \rho  [Mission.FlightSegment9.FlightState]
   fixed m_{fac--fit}
   fixed \mu  [Mission.FlightSegment9.FlightState]
   cons  Re = V⋅\rho⋅S/b/\mu
+  cons  0.34⋅Re^-0.182⋅tau^0.7746 ≤ Cd/m_{fac--fit}
+  cons  5.45⋅Re^-0.4849⋅tau^0.2463 ≤ Cd/m_{fac--fit}
+  cons  16.3⋅Re^-0.5399⋅tau^0.4664 ≤ Cd/m_{fac--fit}
+  cons  9.51⋅Re^-0.4823⋅tau^0.4675 ≤ Cd/m_{fac--fit}
+  cons  219⋅Re^-0.6039⋅tau^1.312 ≤ Cd/m_{fac--fit}
 [Mission.FlightSegment9.AircraftPerf.TailAero1]
   free  Cd
   free  Re
   free  S  [Mission.Aircraft.Empennage.VerticalTail.Planform]
   free  b  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  free  tau  [Mission.Aircraft.Empennage.VerticalTail.Planform]
   free  V  [Mission.FlightSegment9.FlightState]
   free  \rho  [Mission.FlightSegment9.FlightState]
   fixed m_{fac--fit}
   fixed \mu  [Mission.FlightSegment9.FlightState]
   cons  Re = V⋅\rho⋅S/b/\mu
+  cons  0.34⋅Re^-0.182⋅tau^0.7746 ≤ Cd/m_{fac--fit}
+  cons  5.45⋅Re^-0.4849⋅tau^0.2463 ≤ Cd/m_{fac--fit}
+  cons  16.3⋅Re^-0.5399⋅tau^0.4664 ≤ Cd/m_{fac--fit}
+  cons  9.51⋅Re^-0.4823⋅tau^0.4675 ≤ Cd/m_{fac--fit}
+  cons  219⋅Re^-0.6039⋅tau^1.312 ≤ Cd/m_{fac--fit}
 [Mission.FlightSegment9.AircraftPerf.TailBoomAero]
   free  Cf
   free  Re
@@ -3688,6 +3905,11 @@
   cons  sigma ≥ M[2]/Sy[2]
   cons  sigma ≥ M[3]/Sy[3]
   cons  kappa ≥ w[4]/(b/2)
+  cons  (cosminus1[0]⋅vgust/v)^0.996⋅0.946 = agust[0]/m_{fac--fit}
+  cons  (cosminus1[1]⋅vgust/v)^0.996⋅0.946 = agust[1]/m_{fac--fit}
+  cons  (cosminus1[2]⋅vgust/v)^0.996⋅0.946 = agust[2]/m_{fac--fit}
+  cons  (cosminus1[3]⋅vgust/v)^0.996⋅0.946 = agust[3]/m_{fac--fit}
+  cons  (cosminus1[4]⋅vgust/v)^0.996⋅0.946 = agust[4]/m_{fac--fit}
   cons  q[0] ≥ W⋅N/b⋅cbar[0]⋅(agust[0]⋅6.28/cl⋅(1 + Ww/W) + 1)
   cons  q[1] ≥ W⋅N/b⋅cbar[1]⋅(agust[1]⋅6.28/cl⋅(1 + Ww/W) + 1)
   cons  q[2] ≥ W⋅N/b⋅cbar[2]⋅(agust[2]⋅6.28/cl⋅(1 + Ww/W) + 1)
@@ -3815,6 +4037,9 @@
   fixed rhosl
   fixed t_{night}
   cons  V_{wind} ≤ V/m_{fac}
+  cons  (V_{wind}/V_{wind-ref}/m_{fac--fit})^8.845 ≥ 4.53⋅(\rho/\rho_{ref})^8.474⋅p_{wind}^14.22 + 9.77e-12⋅(\rho/\rho_{ref})^-8.293⋅p_{wind}^920.1 + 5.82e-19⋅(\rho/\rho_{ref})^-10.89⋅p_{wind}^14.19 + 55.7⋅(\rho/\rho_{ref})^8.426⋅p_{wind}^61.02
+  cons  16.3⋅((P/S)_{min}/(P/S)_{ref})^0.9186 = (E/S)_{day}/(E/S)_{ref}/m_{fac--fit}
+  cons  0.00278⋅((P/S)_{min}/(P/S)_{ref})^2.016 = (E/S)_C/(E/S)_{ref}/m_{fac--fit}
   cons  qne = 0.5⋅Vne²⋅rhosl
 [Mission.FlightSegment10.AircraftPerf]
   free  CD
@@ -3865,27 +4090,40 @@
   fixed \mu  [Mission.FlightSegment10.FlightState]
   cons  Cd ≥ cdp + CL²/3.14/AR/e
   cons  Re = \rho⋅V⋅cmac/\mu
+  cons  (cdp/m_{fac-polar-fit})^3.09 ≥ 1.02e-07⋅CL^18.86⋅Re^-0.1833 + 0.00168⋅CL^2.963⋅Re^-0.6675 + 2.28e-06⋅CL^-1.653⋅Re^-0.3496 + 1.76e+08⋅CL^-0.1787⋅Re^-2.713
   cons  CL ≤ CLstall
 [Mission.FlightSegment10.AircraftPerf.TailAero]
   free  Cd
   free  Re
   free  S  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
   free  b  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  free  tau  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
   free  V  [Mission.FlightSegment10.FlightState]
   free  \rho  [Mission.FlightSegment10.FlightState]
   fixed m_{fac--fit}
   fixed \mu  [Mission.FlightSegment10.FlightState]
   cons  Re = V⋅\rho⋅S/b/\mu
+  cons  0.34⋅Re^-0.182⋅tau^0.7746 ≤ Cd/m_{fac--fit}
+  cons  5.45⋅Re^-0.4849⋅tau^0.2463 ≤ Cd/m_{fac--fit}
+  cons  16.3⋅Re^-0.5399⋅tau^0.4664 ≤ Cd/m_{fac--fit}
+  cons  9.51⋅Re^-0.4823⋅tau^0.4675 ≤ Cd/m_{fac--fit}
+  cons  219⋅Re^-0.6039⋅tau^1.312 ≤ Cd/m_{fac--fit}
 [Mission.FlightSegment10.AircraftPerf.TailAero1]
   free  Cd
   free  Re
   free  S  [Mission.Aircraft.Empennage.VerticalTail.Planform]
   free  b  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  free  tau  [Mission.Aircraft.Empennage.VerticalTail.Planform]
   free  V  [Mission.FlightSegment10.FlightState]
   free  \rho  [Mission.FlightSegment10.FlightState]
   fixed m_{fac--fit}
   fixed \mu  [Mission.FlightSegment10.FlightState]
   cons  Re = V⋅\rho⋅S/b/\mu
+  cons  0.34⋅Re^-0.182⋅tau^0.7746 ≤ Cd/m_{fac--fit}
+  cons  5.45⋅Re^-0.4849⋅tau^0.2463 ≤ Cd/m_{fac--fit}
+  cons  16.3⋅Re^-0.5399⋅tau^0.4664 ≤ Cd/m_{fac--fit}
+  cons  9.51⋅Re^-0.4823⋅tau^0.4675 ≤ Cd/m_{fac--fit}
+  cons  219⋅Re^-0.6039⋅tau^1.312 ≤ Cd/m_{fac--fit}
 [Mission.FlightSegment10.AircraftPerf.TailBoomAero]
   free  Cf
   free  Re
@@ -4031,6 +4269,11 @@
   cons  sigma ≥ M[2]/Sy[2]
   cons  sigma ≥ M[3]/Sy[3]
   cons  kappa ≥ w[4]/(b/2)
+  cons  (cosminus1[0]⋅vgust/v)^0.996⋅0.946 = agust[0]/m_{fac--fit}
+  cons  (cosminus1[1]⋅vgust/v)^0.996⋅0.946 = agust[1]/m_{fac--fit}
+  cons  (cosminus1[2]⋅vgust/v)^0.996⋅0.946 = agust[2]/m_{fac--fit}
+  cons  (cosminus1[3]⋅vgust/v)^0.996⋅0.946 = agust[3]/m_{fac--fit}
+  cons  (cosminus1[4]⋅vgust/v)^0.996⋅0.946 = agust[4]/m_{fac--fit}
   cons  q[0] ≥ W⋅N/b⋅cbar[0]⋅(agust[0]⋅6.28/cl⋅(1 + Ww/W) + 1)
   cons  q[1] ≥ W⋅N/b⋅cbar[1]⋅(agust[1]⋅6.28/cl⋅(1 + Ww/W) + 1)
   cons  q[2] ≥ W⋅N/b⋅cbar[2]⋅(agust[2]⋅6.28/cl⋅(1 + Ww/W) + 1)
