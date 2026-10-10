@@ -2,28 +2,28 @@
   free  MTOW
   free  W_{cent}
   free  W_{fuel-tot}
-  free  DF70.W
-  free  Fuselage.W
-  free  Wzfw
-  free  SparLoading.W
-  free  Climb.FlightSegment.AircraftPerf.Wend[:]
-  free  Climb.FlightSegment.AircraftPerf.Wstart[:]
-  free  Climb.FlightSegment.Wfuelfs
-  free  Cruise.FlightSegment.AircraftPerf.Wend[:]
-  free  Cruise.FlightSegment.AircraftPerf.Wstart[:]
-  free  Cruise.FlightSegment.Wfuelfs
-  free  Cruise1.FlightSegment.AircraftPerf.Wend[:]
-  free  Cruise1.FlightSegment.AircraftPerf.Wstart[:]
-  free  Cruise1.FlightSegment.Wfuelfs
   free  P_shaft[:]
   free  P_total[:]
+  free  DF70.W
+  free  Fuselage.W
+  free  SparLoading.W
+  free  Climb.FlightSegment.AircraftPerf.Wend[:]
+  free  Cruise.FlightSegment.AircraftPerf.Wend[:]
+  free  Cruise1.FlightSegment.AircraftPerf.Wend[:]
   free  Loiter.FlightSegment.AircraftPerf.Wend[:]
-  free  Loiter.FlightSegment.AircraftPerf.Wstart[:]
+  free  Climb.FlightSegment.Wfuelfs
+  free  Cruise.FlightSegment.Wfuelfs
+  free  Cruise1.FlightSegment.Wfuelfs
   free  Loiter.FlightSegment.Wfuelfs
+  free  Climb.FlightSegment.AircraftPerf.Wstart[:]
+  free  Cruise.FlightSegment.AircraftPerf.Wstart[:]
+  free  Cruise1.FlightSegment.AircraftPerf.Wstart[:]
+  free  Loiter.FlightSegment.AircraftPerf.Wstart[:]
+  free  Wzfw
+  fixed eta_alternator[:]
+  fixed P_avn[:]
   fixed Ppay
   fixed Pylon.W
-  fixed P_avn[:]
-  fixed eta_alternator[:]
   cons  MTOW = Climb.FlightSegment.AircraftPerf.Wstart[0]
   cons  W_{fuel-tot} ≥ Climb.FlightSegment.Wfuelfs + Cruise.FlightSegment.Wfuelfs + Loiter.FlightSegment.Wfuelfs + Cruise1.FlightSegment.Wfuelfs
   cons  Cruise1.FlightSegment.AircraftPerf.Wend[0] ≥ Wzfw
@@ -39,40 +39,40 @@
   cons  Loiter.FlightSegment.AircraftPerf.Wend[4] = Cruise1.FlightSegment.AircraftPerf.Wstart[0]
 [Mission.Aircraft]
   free  Wzfw
-  free  DF70.W
-  free  HorizontalTail.Planform.S
-  free  HorizontalTail.Planform.croot
-  free  Vh
-  free  lh
-  free  mh
-  free  l
-  free  VerticalTail.Planform.S
   free  VerticalTail.Planform.b
-  free  VerticalTail.Planform.croot
-  free  Vv
-  free  lv
-  free  Empennage.W
-  free  Vol
-  free  R
-  free  Vol_body
-  free  Fuselage.W
-  free  k_nose
-  free  Wing.Planform.S
   free  Wing.Planform.b
-  free  Wing.W
+  free  HorizontalTail.Planform.croot
+  free  VerticalTail.Planform.croot
+  free  k_nose
+  free  l
+  free  lh
+  free  lv
+  free  mh
   free  mw
-  fixed Ppay
-  fixed Wavn
-  fixed Wpay
+  free  R
+  free  HorizontalTail.Planform.S
+  free  VerticalTail.Planform.S
+  free  Wing.Planform.S
+  free  Vh
+  free  Vol
+  free  Vol_body
+  free  Vv
+  free  DF70.W
+  free  Empennage.W
+  free  Fuselage.W
+  free  Wing.W
   fixed \mathcal{V}_{avn}
   fixed \mathcal{V}_{pay}
   fixed l_{antenna}
+  fixed Ppay
   fixed w_{antenna}
-  fixed h
+  fixed Wavn
+  fixed Wpay
   fixed HorizontalTail.Planform.CLmax
+  fixed Wing.Planform.CLmax
+  fixed h
   fixed lam
   fixed Pylon.W
-  fixed Wing.Planform.CLmax
   cons  Wzfw ≥ Fuselage.W + Wing.W + DF70.W + Empennage.W + Pylon.W + Wpay + Wavn
   cons  Vh ≤ HorizontalTail.Planform.S⋅lh/Wing.Planform.S²⋅Wing.Planform.b
   cons  Vv = VerticalTail.Planform.S⋅lv/Wing.Planform.S/Wing.Planform.b
@@ -84,19 +84,19 @@
   cons  Vol_body ≥ Vol + \mathcal{V}_{avn}
   cons  h ≤ 2⋅R
 [Mission.Aircraft.Fuselage]
+  free  k_body
+  free  k_bulk
+  free  k_nose
+  free  l
+  free  l_body
   free  R
+  free  S
   free  S_body
   free  S_bulk
   free  S_nose
   free  S_wet
-  free  S
   free  Vol_body
   free  W
-  free  k_body
-  free  k_bulk
-  free  k_nose
-  free  l_body
-  free  l
   free  Vol
   free  FuelTank.W
   free  FuselageSkin.W
@@ -121,11 +121,11 @@
   cons  W ≥ f⋅W_{fuel-tot}
   cons  Vol/mfac ≥ W_{fuel-tot}/rho_fuel
 [Mission.Aircraft.Fuselage.FuselageSkin]
-  free  I_g
   free  I
-  free  W
+  free  I_g
   free  m
   free  t
+  free  W
   free  R  [Mission.Aircraft.Fuselage]
   free  S_wet  [Mission.Aircraft.Fuselage]
   fixed E
@@ -138,10 +138,10 @@
   cons  I ≤ 3.14⋅R³⋅t
   cons  I_g ≥ m⋅(4⋅R² + 4⋅R⋅t + t²)
 [Mission.Aircraft.Wing]
-  free  W
   free  mw
-  free  CapSpar.W
+  free  W
   free  AR
+  free  CapSpar.W
   free  WingCore.W
   free  WingSkin.W
   fixed mfac
@@ -149,17 +149,17 @@
   cons  mw⋅(1 + 2/AR) ≥ 6.28
 [Mission.Aircraft.Wing.Planform]
   free  AR
-  free  S
   free  b
   free  cave[:]
   free  cmac
   free  croot
+  free  S
   free  tau
-  fixed CLmax
-  fixed CM
   fixed cbar[:]
   fixed cbarmac
   fixed cbave[:]
+  fixed CLmax
+  fixed CM
   fixed deta[:]
   fixed eta[:]
   fixed lam
@@ -178,18 +178,18 @@
   cons  croot = S/b⋅cbar[0]
   cons  cmac = croot⋅cbarmac
 [Mission.Aircraft.Wing.WingSkin]
-  free  W
   free  t
-  free  S  [Mission.Aircraft.Wing.Planform]
+  free  W
   free  croot  [Mission.Aircraft.Wing.Planform]
+  free  S  [Mission.Aircraft.Wing.Planform]
   fixed Cmw
   fixed Jtbar
-  fixed Vne
   fixed rhosl
+  fixed Vne
+  fixed g
   fixed rho
   fixed tau
   fixed tmin
-  fixed g
   cons  W ≥ rho⋅S⋅2⋅t⋅g
   cons  t ≥ tmin
   cons  tau ≥ 1/Jtbar/croot²/t⋅Cmw⋅S⋅rhosl⋅Vne²
@@ -201,13 +201,13 @@
   fixed tau
   fixed tmin
 [Mission.Aircraft.Wing.CapSpar]
-  free  I[:]
-  free  Sy[:]
-  free  W
   free  dm[:]
   free  hin[:]
+  free  I[:]
+  free  Sy[:]
   free  t[:]
   free  tshear[:]
+  free  W
   free  w[:]
   free  b  [Mission.Aircraft.Wing.Planform]
   free  cave[:]  [Mission.Aircraft.Wing.Planform]
@@ -215,12 +215,12 @@
   fixed E
   fixed mfac
   fixed wlim
-  fixed CFRPFabric.rho
-  fixed tmin
-  fixed CFRPUD.rho
-  fixed FoamHD.rho
   fixed deta[:]  [Mission.Aircraft.Wing.Planform]
   fixed g
+  fixed CFRPFabric.rho
+  fixed CFRPUD.rho
+  fixed FoamHD.rho
+  fixed tmin
   cons  I[0]/mfac ≤ w[0]⋅2⋅t[0]⋅(hin[0]/2)²
   cons  I[1]/mfac ≤ w[1]⋅2⋅t[1]⋅(hin[1]/2)²
   cons  I[2]/mfac ≤ w[2]⋅2⋅t[2]⋅(hin[2]/2)²
@@ -308,36 +308,36 @@
   free  cave[:]  [Mission.Aircraft.Wing.Planform]
   fixed Abar
   fixed deta[:]  [Mission.Aircraft.Wing.Planform]
-  fixed rho
   fixed g
+  fixed rho
   cons  W ≥ 2⋅(g⋅rho⋅Abar⋅cave[:]²⋅b/2⋅deta[:]).sum()
 [Mission.Aircraft.Wing.WingCore.FoamHD]
   fixed rho
 [Mission.Aircraft.DF70]
   free  W
-  fixed P_sl_max
-  fixed W_df70
   fixed bsfc_min
   fixed h
   fixed mfac
+  fixed P_sl_max
+  fixed W_df70
   cons  W_df70 ≤ W/mfac
 [Mission.Aircraft.Empennage]
   free  W
-  free  HorizontalTail.W
-  free  lh
-  free  TailBoom.W
   free  l
-  free  VerticalTail.W
+  free  lh
   free  lv
+  free  HorizontalTail.W
+  free  TailBoom.W
+  free  VerticalTail.W
   fixed mfac
   cons  W/mfac ≥ HorizontalTail.W + VerticalTail.W + TailBoom.W
   cons  l ≥ lh
   cons  l ≥ lv
 [Mission.Aircraft.Empennage.HorizontalTail]
-  free  Vh
-  free  W
   free  lh
   free  mh
+  free  Vh
+  free  W
   free  WingCore.W
   free  WingSkin.W
   fixed CLhmin
@@ -346,18 +346,18 @@
   cons  W/mfac ≥ WingSkin.W + WingCore.W
   cons  mh⋅(1 + 2/AR) ≤ 6.28
 [Mission.Aircraft.Empennage.HorizontalTail.Planform]
-  free  S
   free  b
   free  cave[:]
   free  cmac
   free  croot
+  free  S
   free  tau
   fixed AR
-  fixed CLmax
-  fixed CM
   fixed cbar[:]
   fixed cbarmac
   fixed cbave[:]
+  fixed CLmax
+  fixed CM
   fixed deta[:]
   fixed eta[:]
   fixed lam
@@ -367,18 +367,18 @@
   cons  croot = S/b⋅cbar[0]
   cons  cmac = croot⋅cbarmac
 [Mission.Aircraft.Empennage.HorizontalTail.WingSkin]
-  free  W
   free  t
-  free  S  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  free  W
   free  croot  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  free  S  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
   fixed Cmw
   fixed Jtbar
-  fixed Vne
   fixed rhosl
+  fixed Vne
+  fixed g
   fixed rho
   fixed tau
   fixed tmin
-  fixed g
   cons  W ≥ rho⋅S⋅2⋅t⋅g
   cons  t ≥ tmin
   cons  tau ≥ 1/Jtbar/croot²/t⋅Cmw⋅S⋅rhosl⋅Vne²
@@ -395,32 +395,32 @@
   free  cave[:]  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
   fixed Abar
   fixed deta[:]  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
-  fixed rho
   fixed g
+  fixed rho
   cons  W ≥ 2⋅(g⋅rho⋅Abar⋅cave[:]²⋅b/2⋅deta[:]).sum()
 [Mission.Aircraft.Empennage.HorizontalTail.WingCore.FoamHD]
   fixed rho
 [Mission.Aircraft.Empennage.VerticalTail]
+  free  lv
   free  Vv
   free  W
-  free  lv
   free  WingCore.W
   free  WingSkin.W
   fixed mfac
   cons  W/mfac ≥ WingSkin.W + WingCore.W
 [Mission.Aircraft.Empennage.VerticalTail.Planform]
-  free  S
   free  b
   free  cave[:]
   free  cmac
   free  croot
+  free  S
   free  tau
   fixed AR
-  fixed CLmax
-  fixed CM
   fixed cbar[:]
   fixed cbarmac
   fixed cbave[:]
+  fixed CLmax
+  fixed CM
   fixed deta[:]
   fixed eta[:]
   fixed lam
@@ -430,18 +430,18 @@
   cons  croot = S/b⋅cbar[0]
   cons  cmac = croot⋅cbarmac
 [Mission.Aircraft.Empennage.VerticalTail.WingSkin]
-  free  W
   free  t
-  free  S  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  free  W
   free  croot  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  free  S  [Mission.Aircraft.Empennage.VerticalTail.Planform]
   fixed Cmw
   fixed Jtbar
-  fixed Vne
   fixed rhosl
+  fixed Vne
+  fixed g
   fixed rho
   fixed tau
   fixed tmin
-  fixed g
   cons  W ≥ rho⋅S⋅2⋅t⋅g
   cons  t ≥ tmin
   cons  tau ≥ 1/Jtbar/croot²/t⋅Cmw⋅S⋅rhosl⋅Vne²
@@ -458,31 +458,31 @@
   free  cave[:]  [Mission.Aircraft.Empennage.VerticalTail.Planform]
   fixed Abar
   fixed deta[:]  [Mission.Aircraft.Empennage.VerticalTail.Planform]
-  fixed rho
   fixed g
+  fixed rho
   cons  W ≥ 2⋅(g⋅rho⋅Abar⋅cave[:]²⋅b/2⋅deta[:]).sum()
 [Mission.Aircraft.Empennage.VerticalTail.WingCore.FoamHD]
   fixed rho
 [Mission.Aircraft.Empennage.TailBoom]
-  free  I[:]
-  free  Sy[:]
-  free  S
-  free  W
   free  b
   free  cave[:]
   free  d[:]
   free  dm[:]
+  free  I[:]
   free  l
+  free  S
+  free  Sy[:]
   free  t[:]
+  free  W
   fixed deta
   fixed k
   fixed kfac
   fixed mfac
   fixed rhoA
   fixed tau
+  fixed g
   fixed rho
   fixed tmin
-  fixed g
   cons  I[0] ≤ t[0]⋅3.14⋅d[0]³/8
   cons  Sy[0] ≤ I[0]⋅2/d[0]
   cons  dm[0] ≥ 3.14⋅rho⋅d[0]⋅deta⋅t[0]⋅kfac⋅l
@@ -499,19 +499,19 @@
   fixed tmin
 [Mission.Aircraft.Pylon]
   free  S
-  fixed W
   fixed h
   fixed l
+  fixed W
   cons  S ≥ 2⋅l⋅h
 [Mission.Climb]
   free  \dot{h}[:]
-  free  S  [Mission.Aircraft.Wing.Planform]
   free  CD[:]
-  free  Wstart[:]
-  free  t[:]
-  free  V[:]
   free  rho[:]
+  free  S  [Mission.Aircraft.Wing.Planform]
+  free  t[:]
   free  T[:]
+  free  V[:]
+  free  Wstart[:]
   fixed \Delta h
   fixed \dot{h}_{min}
   cons  \dot{h}[0]⋅t[0] ≥ \Delta h/10
@@ -546,9 +546,9 @@
   cons  T[9] ≥ rho[9]⋅0.5⋅V[9]²⋅CD[9]⋅S + Wstart[9]⋅\dot{h}[9]/V[9]
 [Mission.Climb.FlightSegment]
   free  Wfuelfs
+  free  W_fuel[:]
   free  Wend[:]
   free  Wstart[:]
-  free  W_fuel[:]
   cons  Wfuelfs ≥ W_fuel[:].sum()
   cons  Wend[0] ≥ Wstart[1]
   cons  Wend[1] ≥ Wstart[2]
@@ -560,23 +560,23 @@
   cons  Wend[7] ≥ Wstart[8]
   cons  Wend[8] ≥ Wstart[9]
 [Mission.Climb.FlightSegment.FlightState]
-  free  V[:]
-  free  V_{wind}[:]
   free  mu[:]
   free  qne[:]
   free  rho[:]
-  fixed L_{atm}[:]
-  fixed R_{spec}[:]
-  fixed T_{sl}[:]
-  fixed V_{ref}[:]
-  fixed Vne[:]
+  free  V[:]
+  free  V_{wind}[:]
   fixed \mu_{sl}[:]
   fixed h[:]
   fixed h_{ref}[:]
+  fixed L_{atm}[:]
   fixed m_{fac}[:]
   fixed p_{sl}[:]
+  fixed R_{spec}[:]
   fixed rhosl[:]
   fixed t_{atm}[:]
+  fixed T_{sl}[:]
+  fixed V_{ref}[:]
+  fixed Vne[:]
   cons  rho[0] = p_{sl}[0]⋅t_{atm}[0]^4.257/R_{spec}[0]/T_{sl}[0]^5.257
   cons  rho[1] = p_{sl}[1]⋅t_{atm}[1]^4.257/R_{spec}[1]/T_{sl}[1]^5.257
   cons  rho[2] = p_{sl}[2]⋅t_{atm}[2]^4.257/R_{spec}[2]/T_{sl}[2]^5.257
@@ -628,23 +628,23 @@
   cons  V_{wind}[8] ≤ V[8]/m_{fac}[8]
   cons  V_{wind}[9] ≤ V[9]/m_{fac}[9]
 [Mission.Climb.FlightSegment.AircraftPerf]
-  free  CDA[:]
   free  CD[:]
+  free  CDA[:]
   free  Wend[:]
   free  Wstart[:]
+  free  C_f[:]
+  free  FuselageAero.Cd[:]
+  free  TailAero.Cd[:]
+  free  TailAero1.Cd[:]
+  free  WingAero.Cd[:]
+  free  FuselageAero.Cf[:]
+  free  TailBoomAero.Cf[:]
   free  HorizontalTail.Planform.S  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
   free  TailBoom.S  [Mission.Aircraft.Empennage.TailBoom]
   free  VerticalTail.Planform.S  [Mission.Aircraft.Empennage.VerticalTail.Planform]
   free  Fuselage.S  [Mission.Aircraft.Fuselage]
   free  Pylon.S  [Mission.Aircraft.Pylon]
   free  Wing.Planform.S  [Mission.Aircraft.Wing.Planform]
-  free  FuselageAero.Cd[:]
-  free  FuselageAero.Cf[:]
-  free  C_f[:]
-  free  TailAero.Cd[:]
-  free  TailAero1.Cd[:]
-  free  TailBoomAero.Cf[:]
-  free  WingAero.Cd[:]
   fixed m_{fac}[:]
   cons  CDA[0] ≥ FuselageAero.Cd[0]⋅Fuselage.S/Wing.Planform.S + FuselageAero.Cf[0]⋅Fuselage.S/Wing.Planform.S + TailAero.Cd[0]⋅HorizontalTail.Planform.S/Wing.Planform.S + TailAero1.Cd[0]⋅VerticalTail.Planform.S/Wing.Planform.S + TailBoomAero.Cf[0]⋅TailBoom.S/Wing.Planform.S + C_f[0]⋅Pylon.S/Wing.Planform.S
   cons  CDA[1] ≥ FuselageAero.Cd[1]⋅Fuselage.S/Wing.Planform.S + FuselageAero.Cf[1]⋅Fuselage.S/Wing.Planform.S + TailAero.Cd[1]⋅HorizontalTail.Planform.S/Wing.Planform.S + TailAero1.Cd[1]⋅VerticalTail.Planform.S/Wing.Planform.S + TailBoomAero.Cf[1]⋅TailBoom.S/Wing.Planform.S + C_f[1]⋅Pylon.S/Wing.Planform.S
@@ -667,15 +667,15 @@
   cons  CD[8]/m_{fac}[8] ≥ CDA[8] + WingAero.Cd[8]
   cons  CD[9]/m_{fac}[9] ≥ CDA[9] + WingAero.Cd[9]
 [Mission.Climb.FlightSegment.AircraftPerf.WingAero]
-  free  CL[:]
   free  Cd[:]
-  free  Re[:]
   free  cdp[:]
+  free  CL[:]
+  free  Re[:]
   free  AR  [Mission.Aircraft.Wing.Planform]
   free  cmac  [Mission.Aircraft.Wing.Planform]
-  free  V[:]  [Mission.Climb.FlightSegment.FlightState]
   free  mu[:]  [Mission.Climb.FlightSegment.FlightState]
   free  rho[:]  [Mission.Climb.FlightSegment.FlightState]
+  free  V[:]  [Mission.Climb.FlightSegment.FlightState]
   fixed CLstall[:]
   fixed e[:]
   fixed m_{fac-polar-fit}[:]
@@ -728,9 +728,9 @@
   free  k_bulk  [Mission.Aircraft.Fuselage]
   free  k_nose  [Mission.Aircraft.Fuselage]
   free  l  [Mission.Aircraft.Fuselage]
-  free  V[:]  [Mission.Climb.FlightSegment.FlightState]
   free  mu[:]  [Mission.Climb.FlightSegment.FlightState]
   free  rho[:]  [Mission.Climb.FlightSegment.FlightState]
+  free  V[:]  [Mission.Climb.FlightSegment.FlightState]
   fixed Re_ref[:]
   cons  Re[0] = V[0]⋅rho[0]⋅l/mu[0]
   cons  Re[1] = V[1]⋅rho[1]⋅l/mu[1]
@@ -778,14 +778,14 @@
   free  P_total[:]
   free  P_{shaft-max}[:]
   free  RPM[:]
-  fixed L_{eng}[:]
-  fixed P_avn[:]
-  fixed RPM_{max}[:]
   fixed eta_alternator[:]
   fixed h_{ref}[:]
+  fixed L_{eng}[:]
   fixed m_{fac}[:]
-  fixed P_sl_max  [Mission.Aircraft.DF70]
+  fixed P_avn[:]
+  fixed RPM_{max}[:]
   fixed bsfc_min  [Mission.Aircraft.DF70]
+  fixed P_sl_max  [Mission.Aircraft.DF70]
   cons  (BSFC[0]/m_{fac}[0]/bsfc_min)^36.22 ≥ (RPM[0]/RPM_{max}[0])^8.065⋅2.32 + (RPM[0]/RPM_{max}[0])^-38.85⋅0.00103
   cons  (BSFC[1]/m_{fac}[1]/bsfc_min)^36.22 ≥ (RPM[1]/RPM_{max}[1])^8.065⋅2.32 + (RPM[1]/RPM_{max}[1])^-38.85⋅0.00103
   cons  (BSFC[2]/m_{fac}[2]/bsfc_min)^36.22 ≥ (RPM[2]/RPM_{max}[2])^8.065⋅2.32 + (RPM[2]/RPM_{max}[2])^-38.85⋅0.00103
@@ -849,12 +849,12 @@
 [Mission.Climb.FlightSegment.AircraftPerf.TailAero]
   free  Cd[:]
   free  Re[:]
-  free  S  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
   free  b  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
-  free  tau  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
-  free  V[:]  [Mission.Climb.FlightSegment.FlightState]
   free  mu[:]  [Mission.Climb.FlightSegment.FlightState]
   free  rho[:]  [Mission.Climb.FlightSegment.FlightState]
+  free  S  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  free  tau  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  free  V[:]  [Mission.Climb.FlightSegment.FlightState]
   fixed m_{fac--fit}[:]
   cons  Re[0] = V[0]⋅rho[0]⋅S/b/mu[0]
   cons  Re[1] = V[1]⋅rho[1]⋅S/b/mu[1]
@@ -919,12 +919,12 @@
 [Mission.Climb.FlightSegment.AircraftPerf.TailAero1]
   free  Cd[:]
   free  Re[:]
-  free  S  [Mission.Aircraft.Empennage.VerticalTail.Planform]
   free  b  [Mission.Aircraft.Empennage.VerticalTail.Planform]
-  free  tau  [Mission.Aircraft.Empennage.VerticalTail.Planform]
-  free  V[:]  [Mission.Climb.FlightSegment.FlightState]
   free  mu[:]  [Mission.Climb.FlightSegment.FlightState]
   free  rho[:]  [Mission.Climb.FlightSegment.FlightState]
+  free  S  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  free  tau  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  free  V[:]  [Mission.Climb.FlightSegment.FlightState]
   fixed m_{fac--fit}[:]
   cons  Re[0] = V[0]⋅rho[0]⋅S/b/mu[0]
   cons  Re[1] = V[1]⋅rho[1]⋅S/b/mu[1]
@@ -990,9 +990,9 @@
   free  Cf[:]
   free  Re[:]
   free  l  [Mission.Aircraft.Empennage.TailBoom]
-  free  V[:]  [Mission.Climb.FlightSegment.FlightState]
   free  mu[:]  [Mission.Climb.FlightSegment.FlightState]
   free  rho[:]  [Mission.Climb.FlightSegment.FlightState]
+  free  V[:]  [Mission.Climb.FlightSegment.FlightState]
   cons  Re[0] = V[0]⋅rho[0]⋅l/mu[0]
   cons  Re[1] = V[1]⋅rho[1]⋅l/mu[1]
   cons  Re[2] = V[2]⋅rho[2]⋅l/mu[2]
@@ -1016,9 +1016,9 @@
 [Mission.Climb.FlightSegment.AircraftPerf.PylonAero]
   free  C_f[:]
   free  Re[:]
-  free  V[:]  [Mission.Climb.FlightSegment.FlightState]
   free  mu[:]  [Mission.Climb.FlightSegment.FlightState]
   free  rho[:]  [Mission.Climb.FlightSegment.FlightState]
+  free  V[:]  [Mission.Climb.FlightSegment.FlightState]
   fixed l  [Mission.Aircraft.Pylon]
   cons  Re[0] = V[0]⋅rho[0]⋅l/mu[0]
   cons  Re[1] = V[1]⋅rho[1]⋅l/mu[1]
@@ -1042,14 +1042,14 @@
   cons  C_f[9] ≥ Re[9]^0.3^-1⋅0.455
 [Mission.Climb.FlightSegment.SteadyLevelFlight]
   free  T[:]
-  free  S  [Mission.Aircraft.Wing.Planform]
   free  CD[:]  [Mission.Climb.FlightSegment.AircraftPerf]
-  free  P_shaft[:]  [Mission.Climb.FlightSegment.AircraftPerf.DF70Perf]
-  free  Wend[:]  [Mission.Climb.FlightSegment.AircraftPerf]
   free  CL[:]  [Mission.Climb.FlightSegment.AircraftPerf.WingAero]
-  free  Wstart[:]  [Mission.Climb.FlightSegment.AircraftPerf]
-  free  V[:]  [Mission.Climb.FlightSegment.FlightState]
+  free  P_shaft[:]  [Mission.Climb.FlightSegment.AircraftPerf.DF70Perf]
   free  rho[:]  [Mission.Climb.FlightSegment.FlightState]
+  free  S  [Mission.Aircraft.Wing.Planform]
+  free  V[:]  [Mission.Climb.FlightSegment.FlightState]
+  free  Wend[:]  [Mission.Climb.FlightSegment.AircraftPerf]
+  free  Wstart[:]  [Mission.Climb.FlightSegment.AircraftPerf]
   fixed \eta_{prop}[:]
   cons  (Wend[0]⋅Wstart[0])^0.5 ≤ rho[0]⋅0.5⋅V[0]²⋅CL[0]⋅S
   cons  (Wend[1]⋅Wstart[1])^0.5 ≤ rho[1]⋅0.5⋅V[1]²⋅CL[1]⋅S
@@ -1082,8 +1082,8 @@
   cons  P_shaft[8] ≥ T[8]⋅V[8]/\eta_{prop}[8]
   cons  P_shaft[9] ≥ T[9]⋅V[9]/\eta_{prop}[9]
 [Mission.Climb.FlightSegment.BreguetEndurance]
-  free  W_fuel[:]
   free  t[:]
+  free  W_fuel[:]
   free  z_bre[:]
   free  BSFC[:]  [Mission.Climb.FlightSegment.AircraftPerf.DF70Perf]
   free  P_total[:]  [Mission.Climb.FlightSegment.AircraftPerf.DF70Perf]
@@ -1131,59 +1131,59 @@
   free  W_fuel[:]
   cons  Wfuelfs ≥ W_fuel[:].sum()
 [Mission.Cruise.FlightSegment.FlightState]
-  free  V[:]
-  free  V_{wind}[:]
   free  mu[:]
   free  qne[:]
   free  rho[:]
-  fixed L_{atm}[:]
-  fixed R_{spec}[:]
-  fixed T_{sl}[:]
-  fixed V_{ref}[:]
-  fixed Vne[:]
+  free  V[:]
+  free  V_{wind}[:]
   fixed \mu_{sl}[:]
   fixed h[:]
   fixed h_{ref}[:]
+  fixed L_{atm}[:]
   fixed m_{fac}[:]
   fixed p_{sl}[:]
+  fixed R_{spec}[:]
   fixed rhosl[:]
   fixed t_{atm}[:]
+  fixed T_{sl}[:]
+  fixed V_{ref}[:]
+  fixed Vne[:]
   cons  rho[0] = p_{sl}[0]⋅t_{atm}[0]^4.257/R_{spec}[0]/T_{sl}[0]^5.257
   cons  (mu[0]/\mu_{sl}[0])^0.1 = (h[0]/h_{ref}[0])^-0.00529⋅0.991
   cons  qne[0] = rhosl[0]⋅0.5⋅Vne[0]²
   cons  V_{wind}[0]/V_{ref}[0] ≥ h[0]/h_{ref}[0]⋅0.646 + 0.354
   cons  V_{wind}[0] ≤ V[0]/m_{fac}[0]
 [Mission.Cruise.FlightSegment.AircraftPerf]
-  free  CDA[:]
   free  CD[:]
+  free  CDA[:]
   free  Wend[:]
   free  Wstart[:]
+  free  C_f[:]
+  free  FuselageAero.Cd[:]
+  free  TailAero.Cd[:]
+  free  TailAero1.Cd[:]
+  free  WingAero.Cd[:]
+  free  FuselageAero.Cf[:]
+  free  TailBoomAero.Cf[:]
   free  HorizontalTail.Planform.S  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
   free  TailBoom.S  [Mission.Aircraft.Empennage.TailBoom]
   free  VerticalTail.Planform.S  [Mission.Aircraft.Empennage.VerticalTail.Planform]
   free  Fuselage.S  [Mission.Aircraft.Fuselage]
   free  Pylon.S  [Mission.Aircraft.Pylon]
   free  Wing.Planform.S  [Mission.Aircraft.Wing.Planform]
-  free  FuselageAero.Cd[:]
-  free  FuselageAero.Cf[:]
-  free  C_f[:]
-  free  TailAero.Cd[:]
-  free  TailAero1.Cd[:]
-  free  TailBoomAero.Cf[:]
-  free  WingAero.Cd[:]
   fixed m_{fac}[:]
   cons  CDA[0] ≥ FuselageAero.Cd[0]⋅Fuselage.S/Wing.Planform.S + FuselageAero.Cf[0]⋅Fuselage.S/Wing.Planform.S + TailAero.Cd[0]⋅HorizontalTail.Planform.S/Wing.Planform.S + TailAero1.Cd[0]⋅VerticalTail.Planform.S/Wing.Planform.S + TailBoomAero.Cf[0]⋅TailBoom.S/Wing.Planform.S + C_f[0]⋅Pylon.S/Wing.Planform.S
   cons  CD[0]/m_{fac}[0] ≥ CDA[0] + WingAero.Cd[0]
 [Mission.Cruise.FlightSegment.AircraftPerf.WingAero]
-  free  CL[:]
   free  Cd[:]
-  free  Re[:]
   free  cdp[:]
+  free  CL[:]
+  free  Re[:]
   free  AR  [Mission.Aircraft.Wing.Planform]
   free  cmac  [Mission.Aircraft.Wing.Planform]
-  free  V[:]  [Mission.Cruise.FlightSegment.FlightState]
   free  mu[:]  [Mission.Cruise.FlightSegment.FlightState]
   free  rho[:]  [Mission.Cruise.FlightSegment.FlightState]
+  free  V[:]  [Mission.Cruise.FlightSegment.FlightState]
   fixed CLstall[:]
   fixed e[:]
   fixed m_{fac-polar-fit}[:]
@@ -1200,9 +1200,9 @@
   free  k_bulk  [Mission.Aircraft.Fuselage]
   free  k_nose  [Mission.Aircraft.Fuselage]
   free  l  [Mission.Aircraft.Fuselage]
-  free  V[:]  [Mission.Cruise.FlightSegment.FlightState]
   free  mu[:]  [Mission.Cruise.FlightSegment.FlightState]
   free  rho[:]  [Mission.Cruise.FlightSegment.FlightState]
+  free  V[:]  [Mission.Cruise.FlightSegment.FlightState]
   fixed Re_ref[:]
   cons  Re[0] = V[0]⋅rho[0]⋅l/mu[0]
   cons  Cf[0] ≥ Re[0]^0.3^-1⋅0.455
@@ -1214,14 +1214,14 @@
   free  P_total[:]
   free  P_{shaft-max}[:]
   free  RPM[:]
-  fixed L_{eng}[:]
-  fixed P_avn[:]
-  fixed RPM_{max}[:]
   fixed eta_alternator[:]
   fixed h_{ref}[:]
+  fixed L_{eng}[:]
   fixed m_{fac}[:]
-  fixed P_sl_max  [Mission.Aircraft.DF70]
+  fixed P_avn[:]
+  fixed RPM_{max}[:]
   fixed bsfc_min  [Mission.Aircraft.DF70]
+  fixed P_sl_max  [Mission.Aircraft.DF70]
   cons  (BSFC[0]/m_{fac}[0]/bsfc_min)^36.22 ≥ (RPM[0]/RPM_{max}[0])^8.065⋅2.32 + (RPM[0]/RPM_{max}[0])^-38.85⋅0.00103
   cons  (P_total[0]/P_{shaft-max}[0])^0.1 = (RPM[0]/RPM_{max}[0])^0.2944⋅0.999
   cons  RPM[0] ≤ RPM_{max}[0]
@@ -1231,12 +1231,12 @@
 [Mission.Cruise.FlightSegment.AircraftPerf.TailAero]
   free  Cd[:]
   free  Re[:]
-  free  S  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
   free  b  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
-  free  tau  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
-  free  V[:]  [Mission.Cruise.FlightSegment.FlightState]
   free  mu[:]  [Mission.Cruise.FlightSegment.FlightState]
   free  rho[:]  [Mission.Cruise.FlightSegment.FlightState]
+  free  S  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  free  tau  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  free  V[:]  [Mission.Cruise.FlightSegment.FlightState]
   fixed m_{fac--fit}[:]
   cons  Re[0] = V[0]⋅rho[0]⋅S/b/mu[0]
   cons  Re[0]^-0.182⋅0.34⋅tau^0.7746 ≤ Cd[0]/m_{fac--fit}[0]
@@ -1247,12 +1247,12 @@
 [Mission.Cruise.FlightSegment.AircraftPerf.TailAero1]
   free  Cd[:]
   free  Re[:]
-  free  S  [Mission.Aircraft.Empennage.VerticalTail.Planform]
   free  b  [Mission.Aircraft.Empennage.VerticalTail.Planform]
-  free  tau  [Mission.Aircraft.Empennage.VerticalTail.Planform]
-  free  V[:]  [Mission.Cruise.FlightSegment.FlightState]
   free  mu[:]  [Mission.Cruise.FlightSegment.FlightState]
   free  rho[:]  [Mission.Cruise.FlightSegment.FlightState]
+  free  S  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  free  tau  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  free  V[:]  [Mission.Cruise.FlightSegment.FlightState]
   fixed m_{fac--fit}[:]
   cons  Re[0] = V[0]⋅rho[0]⋅S/b/mu[0]
   cons  Re[0]^-0.182⋅0.34⋅tau^0.7746 ≤ Cd[0]/m_{fac--fit}[0]
@@ -1264,37 +1264,37 @@
   free  Cf[:]
   free  Re[:]
   free  l  [Mission.Aircraft.Empennage.TailBoom]
-  free  V[:]  [Mission.Cruise.FlightSegment.FlightState]
   free  mu[:]  [Mission.Cruise.FlightSegment.FlightState]
   free  rho[:]  [Mission.Cruise.FlightSegment.FlightState]
+  free  V[:]  [Mission.Cruise.FlightSegment.FlightState]
   cons  Re[0] = V[0]⋅rho[0]⋅l/mu[0]
   cons  Cf[0] ≥ Re[0]^0.3^-1⋅0.455
 [Mission.Cruise.FlightSegment.AircraftPerf.PylonAero]
   free  C_f[:]
   free  Re[:]
-  free  V[:]  [Mission.Cruise.FlightSegment.FlightState]
   free  mu[:]  [Mission.Cruise.FlightSegment.FlightState]
   free  rho[:]  [Mission.Cruise.FlightSegment.FlightState]
+  free  V[:]  [Mission.Cruise.FlightSegment.FlightState]
   fixed l  [Mission.Aircraft.Pylon]
   cons  Re[0] = V[0]⋅rho[0]⋅l/mu[0]
   cons  C_f[0] ≥ Re[0]^0.3^-1⋅0.455
 [Mission.Cruise.FlightSegment.SteadyLevelFlight]
   free  T[:]
-  free  S  [Mission.Aircraft.Wing.Planform]
   free  CD[:]  [Mission.Cruise.FlightSegment.AircraftPerf]
-  free  P_shaft[:]  [Mission.Cruise.FlightSegment.AircraftPerf.DF70Perf]
-  free  Wend[:]  [Mission.Cruise.FlightSegment.AircraftPerf]
   free  CL[:]  [Mission.Cruise.FlightSegment.AircraftPerf.WingAero]
-  free  Wstart[:]  [Mission.Cruise.FlightSegment.AircraftPerf]
-  free  V[:]  [Mission.Cruise.FlightSegment.FlightState]
+  free  P_shaft[:]  [Mission.Cruise.FlightSegment.AircraftPerf.DF70Perf]
   free  rho[:]  [Mission.Cruise.FlightSegment.FlightState]
+  free  S  [Mission.Aircraft.Wing.Planform]
+  free  V[:]  [Mission.Cruise.FlightSegment.FlightState]
+  free  Wend[:]  [Mission.Cruise.FlightSegment.AircraftPerf]
+  free  Wstart[:]  [Mission.Cruise.FlightSegment.AircraftPerf]
   fixed \eta_{prop}[:]
   cons  (Wend[0]⋅Wstart[0])^0.5 ≤ rho[0]⋅0.5⋅V[0]²⋅CL[0]⋅S
   cons  T[0] ≥ rho[0]⋅0.5⋅V[0]²⋅CD[0]⋅S
   cons  P_shaft[0] ≥ T[0]⋅V[0]/\eta_{prop}[0]
 [Mission.Cruise.FlightSegment.BreguetEndurance]
-  free  W_fuel[:]
   free  t[:]
+  free  W_fuel[:]
   free  z_bre[:]
   free  BSFC[:]  [Mission.Cruise.FlightSegment.AircraftPerf.DF70Perf]
   free  P_total[:]  [Mission.Cruise.FlightSegment.AircraftPerf.DF70Perf]
@@ -1315,32 +1315,32 @@
   cons  BreguetEndurance.t[4] ≥ t/5
 [Mission.Loiter.FlightSegment]
   free  Wfuelfs
+  free  W_fuel[:]
   free  Wend[:]
   free  Wstart[:]
-  free  W_fuel[:]
   cons  Wfuelfs ≥ W_fuel[:].sum()
   cons  Wend[0] ≥ Wstart[1]
   cons  Wend[1] ≥ Wstart[2]
   cons  Wend[2] ≥ Wstart[3]
   cons  Wend[3] ≥ Wstart[4]
 [Mission.Loiter.FlightSegment.FlightState]
-  free  V[:]
-  free  V_{wind}[:]
   free  mu[:]
   free  qne[:]
   free  rho[:]
-  fixed L_{atm}[:]
-  fixed R_{spec}[:]
-  fixed T_{sl}[:]
-  fixed V_{ref}[:]
-  fixed Vne[:]
+  free  V[:]
+  free  V_{wind}[:]
   fixed \mu_{sl}[:]
   fixed h[:]
   fixed h_{ref}[:]
+  fixed L_{atm}[:]
   fixed m_{fac}[:]
   fixed p_{sl}[:]
+  fixed R_{spec}[:]
   fixed rhosl[:]
   fixed t_{atm}[:]
+  fixed T_{sl}[:]
+  fixed V_{ref}[:]
+  fixed Vne[:]
   cons  rho[0] = p_{sl}[0]⋅t_{atm}[0]^4.257/R_{spec}[0]/T_{sl}[0]^5.257
   cons  rho[1] = p_{sl}[1]⋅t_{atm}[1]^4.257/R_{spec}[1]/T_{sl}[1]^5.257
   cons  rho[2] = p_{sl}[2]⋅t_{atm}[2]^4.257/R_{spec}[2]/T_{sl}[2]^5.257
@@ -1367,23 +1367,23 @@
   cons  V_{wind}[3] ≤ V[3]/m_{fac}[3]
   cons  V_{wind}[4] ≤ V[4]/m_{fac}[4]
 [Mission.Loiter.FlightSegment.AircraftPerf]
-  free  CDA[:]
   free  CD[:]
+  free  CDA[:]
   free  Wend[:]
   free  Wstart[:]
+  free  C_f[:]
+  free  FuselageAero.Cd[:]
+  free  TailAero.Cd[:]
+  free  TailAero1.Cd[:]
+  free  WingAero.Cd[:]
+  free  FuselageAero.Cf[:]
+  free  TailBoomAero.Cf[:]
   free  HorizontalTail.Planform.S  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
   free  TailBoom.S  [Mission.Aircraft.Empennage.TailBoom]
   free  VerticalTail.Planform.S  [Mission.Aircraft.Empennage.VerticalTail.Planform]
   free  Fuselage.S  [Mission.Aircraft.Fuselage]
   free  Pylon.S  [Mission.Aircraft.Pylon]
   free  Wing.Planform.S  [Mission.Aircraft.Wing.Planform]
-  free  FuselageAero.Cd[:]
-  free  FuselageAero.Cf[:]
-  free  C_f[:]
-  free  TailAero.Cd[:]
-  free  TailAero1.Cd[:]
-  free  TailBoomAero.Cf[:]
-  free  WingAero.Cd[:]
   fixed m_{fac}[:]
   cons  CDA[0] ≥ FuselageAero.Cd[0]⋅Fuselage.S/Wing.Planform.S + FuselageAero.Cf[0]⋅Fuselage.S/Wing.Planform.S + TailAero.Cd[0]⋅HorizontalTail.Planform.S/Wing.Planform.S + TailAero1.Cd[0]⋅VerticalTail.Planform.S/Wing.Planform.S + TailBoomAero.Cf[0]⋅TailBoom.S/Wing.Planform.S + C_f[0]⋅Pylon.S/Wing.Planform.S
   cons  CDA[1] ≥ FuselageAero.Cd[1]⋅Fuselage.S/Wing.Planform.S + FuselageAero.Cf[1]⋅Fuselage.S/Wing.Planform.S + TailAero.Cd[1]⋅HorizontalTail.Planform.S/Wing.Planform.S + TailAero1.Cd[1]⋅VerticalTail.Planform.S/Wing.Planform.S + TailBoomAero.Cf[1]⋅TailBoom.S/Wing.Planform.S + C_f[1]⋅Pylon.S/Wing.Planform.S
@@ -1396,15 +1396,15 @@
   cons  CD[3]/m_{fac}[3] ≥ CDA[3] + WingAero.Cd[3]
   cons  CD[4]/m_{fac}[4] ≥ CDA[4] + WingAero.Cd[4]
 [Mission.Loiter.FlightSegment.AircraftPerf.WingAero]
-  free  CL[:]
   free  Cd[:]
-  free  Re[:]
   free  cdp[:]
+  free  CL[:]
+  free  Re[:]
   free  AR  [Mission.Aircraft.Wing.Planform]
   free  cmac  [Mission.Aircraft.Wing.Planform]
-  free  V[:]  [Mission.Loiter.FlightSegment.FlightState]
   free  mu[:]  [Mission.Loiter.FlightSegment.FlightState]
   free  rho[:]  [Mission.Loiter.FlightSegment.FlightState]
+  free  V[:]  [Mission.Loiter.FlightSegment.FlightState]
   fixed CLstall[:]
   fixed e[:]
   fixed m_{fac-polar-fit}[:]
@@ -1437,9 +1437,9 @@
   free  k_bulk  [Mission.Aircraft.Fuselage]
   free  k_nose  [Mission.Aircraft.Fuselage]
   free  l  [Mission.Aircraft.Fuselage]
-  free  V[:]  [Mission.Loiter.FlightSegment.FlightState]
   free  mu[:]  [Mission.Loiter.FlightSegment.FlightState]
   free  rho[:]  [Mission.Loiter.FlightSegment.FlightState]
+  free  V[:]  [Mission.Loiter.FlightSegment.FlightState]
   fixed Re_ref[:]
   cons  Re[0] = V[0]⋅rho[0]⋅l/mu[0]
   cons  Re[1] = V[1]⋅rho[1]⋅l/mu[1]
@@ -1467,14 +1467,14 @@
   free  P_total[:]
   free  P_{shaft-max}[:]
   free  RPM[:]
-  fixed L_{eng}[:]
-  fixed P_avn[:]
-  fixed RPM_{max}[:]
   fixed eta_alternator[:]
   fixed h_{ref}[:]
+  fixed L_{eng}[:]
   fixed m_{fac}[:]
-  fixed P_sl_max  [Mission.Aircraft.DF70]
+  fixed P_avn[:]
+  fixed RPM_{max}[:]
   fixed bsfc_min  [Mission.Aircraft.DF70]
+  fixed P_sl_max  [Mission.Aircraft.DF70]
   cons  (BSFC[0]/m_{fac}[0]/bsfc_min)^36.22 ≥ (RPM[0]/RPM_{max}[0])^8.065⋅2.32 + (RPM[0]/RPM_{max}[0])^-38.85⋅0.00103
   cons  (BSFC[1]/m_{fac}[1]/bsfc_min)^36.22 ≥ (RPM[1]/RPM_{max}[1])^8.065⋅2.32 + (RPM[1]/RPM_{max}[1])^-38.85⋅0.00103
   cons  (BSFC[2]/m_{fac}[2]/bsfc_min)^36.22 ≥ (RPM[2]/RPM_{max}[2])^8.065⋅2.32 + (RPM[2]/RPM_{max}[2])^-38.85⋅0.00103
@@ -1508,12 +1508,12 @@
 [Mission.Loiter.FlightSegment.AircraftPerf.TailAero]
   free  Cd[:]
   free  Re[:]
-  free  S  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
   free  b  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
-  free  tau  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
-  free  V[:]  [Mission.Loiter.FlightSegment.FlightState]
   free  mu[:]  [Mission.Loiter.FlightSegment.FlightState]
   free  rho[:]  [Mission.Loiter.FlightSegment.FlightState]
+  free  S  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  free  tau  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  free  V[:]  [Mission.Loiter.FlightSegment.FlightState]
   fixed m_{fac--fit}[:]
   cons  Re[0] = V[0]⋅rho[0]⋅S/b/mu[0]
   cons  Re[1] = V[1]⋅rho[1]⋅S/b/mu[1]
@@ -1548,12 +1548,12 @@
 [Mission.Loiter.FlightSegment.AircraftPerf.TailAero1]
   free  Cd[:]
   free  Re[:]
-  free  S  [Mission.Aircraft.Empennage.VerticalTail.Planform]
   free  b  [Mission.Aircraft.Empennage.VerticalTail.Planform]
-  free  tau  [Mission.Aircraft.Empennage.VerticalTail.Planform]
-  free  V[:]  [Mission.Loiter.FlightSegment.FlightState]
   free  mu[:]  [Mission.Loiter.FlightSegment.FlightState]
   free  rho[:]  [Mission.Loiter.FlightSegment.FlightState]
+  free  S  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  free  tau  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  free  V[:]  [Mission.Loiter.FlightSegment.FlightState]
   fixed m_{fac--fit}[:]
   cons  Re[0] = V[0]⋅rho[0]⋅S/b/mu[0]
   cons  Re[1] = V[1]⋅rho[1]⋅S/b/mu[1]
@@ -1589,9 +1589,9 @@
   free  Cf[:]
   free  Re[:]
   free  l  [Mission.Aircraft.Empennage.TailBoom]
-  free  V[:]  [Mission.Loiter.FlightSegment.FlightState]
   free  mu[:]  [Mission.Loiter.FlightSegment.FlightState]
   free  rho[:]  [Mission.Loiter.FlightSegment.FlightState]
+  free  V[:]  [Mission.Loiter.FlightSegment.FlightState]
   cons  Re[0] = V[0]⋅rho[0]⋅l/mu[0]
   cons  Re[1] = V[1]⋅rho[1]⋅l/mu[1]
   cons  Re[2] = V[2]⋅rho[2]⋅l/mu[2]
@@ -1605,9 +1605,9 @@
 [Mission.Loiter.FlightSegment.AircraftPerf.PylonAero]
   free  C_f[:]
   free  Re[:]
-  free  V[:]  [Mission.Loiter.FlightSegment.FlightState]
   free  mu[:]  [Mission.Loiter.FlightSegment.FlightState]
   free  rho[:]  [Mission.Loiter.FlightSegment.FlightState]
+  free  V[:]  [Mission.Loiter.FlightSegment.FlightState]
   fixed l  [Mission.Aircraft.Pylon]
   cons  Re[0] = V[0]⋅rho[0]⋅l/mu[0]
   cons  Re[1] = V[1]⋅rho[1]⋅l/mu[1]
@@ -1621,14 +1621,14 @@
   cons  C_f[4] ≥ Re[4]^0.3^-1⋅0.455
 [Mission.Loiter.FlightSegment.SteadyLevelFlight]
   free  T[:]
-  free  S  [Mission.Aircraft.Wing.Planform]
   free  CD[:]  [Mission.Loiter.FlightSegment.AircraftPerf]
-  free  P_shaft[:]  [Mission.Loiter.FlightSegment.AircraftPerf.DF70Perf]
-  free  Wend[:]  [Mission.Loiter.FlightSegment.AircraftPerf]
   free  CL[:]  [Mission.Loiter.FlightSegment.AircraftPerf.WingAero]
-  free  Wstart[:]  [Mission.Loiter.FlightSegment.AircraftPerf]
-  free  V[:]  [Mission.Loiter.FlightSegment.FlightState]
+  free  P_shaft[:]  [Mission.Loiter.FlightSegment.AircraftPerf.DF70Perf]
   free  rho[:]  [Mission.Loiter.FlightSegment.FlightState]
+  free  S  [Mission.Aircraft.Wing.Planform]
+  free  V[:]  [Mission.Loiter.FlightSegment.FlightState]
+  free  Wend[:]  [Mission.Loiter.FlightSegment.AircraftPerf]
+  free  Wstart[:]  [Mission.Loiter.FlightSegment.AircraftPerf]
   fixed \eta_{prop}[:]
   cons  (Wend[0]⋅Wstart[0])^0.5 ≤ rho[0]⋅0.5⋅V[0]²⋅CL[0]⋅S
   cons  (Wend[1]⋅Wstart[1])^0.5 ≤ rho[1]⋅0.5⋅V[1]²⋅CL[1]⋅S
@@ -1646,8 +1646,8 @@
   cons  P_shaft[3] ≥ T[3]⋅V[3]/\eta_{prop}[3]
   cons  P_shaft[4] ≥ T[4]⋅V[4]/\eta_{prop}[4]
 [Mission.Loiter.FlightSegment.BreguetEndurance]
-  free  W_fuel[:]
   free  t[:]
+  free  W_fuel[:]
   free  z_bre[:]
   free  BSFC[:]  [Mission.Loiter.FlightSegment.AircraftPerf.DF70Perf]
   free  P_total[:]  [Mission.Loiter.FlightSegment.AircraftPerf.DF70Perf]
@@ -1680,59 +1680,59 @@
   free  W_fuel[:]
   cons  Wfuelfs ≥ W_fuel[:].sum()
 [Mission.Cruise1.FlightSegment.FlightState]
-  free  V[:]
-  free  V_{wind}[:]
   free  mu[:]
   free  qne[:]
   free  rho[:]
-  fixed L_{atm}[:]
-  fixed R_{spec}[:]
-  fixed T_{sl}[:]
-  fixed V_{ref}[:]
-  fixed Vne[:]
+  free  V[:]
+  free  V_{wind}[:]
   fixed \mu_{sl}[:]
   fixed h[:]
   fixed h_{ref}[:]
+  fixed L_{atm}[:]
   fixed m_{fac}[:]
   fixed p_{sl}[:]
+  fixed R_{spec}[:]
   fixed rhosl[:]
   fixed t_{atm}[:]
+  fixed T_{sl}[:]
+  fixed V_{ref}[:]
+  fixed Vne[:]
   cons  rho[0] = p_{sl}[0]⋅t_{atm}[0]^4.257/R_{spec}[0]/T_{sl}[0]^5.257
   cons  (mu[0]/\mu_{sl}[0])^0.1 = (h[0]/h_{ref}[0])^-0.00529⋅0.991
   cons  qne[0] = rhosl[0]⋅0.5⋅Vne[0]²
   cons  V_{wind}[0]/V_{ref}[0] ≥ h[0]/h_{ref}[0]⋅0.646 + 0.354
   cons  V_{wind}[0] ≤ V[0]/m_{fac}[0]
 [Mission.Cruise1.FlightSegment.AircraftPerf]
-  free  CDA[:]
   free  CD[:]
+  free  CDA[:]
   free  Wend[:]
   free  Wstart[:]
+  free  C_f[:]
+  free  FuselageAero.Cd[:]
+  free  TailAero.Cd[:]
+  free  TailAero1.Cd[:]
+  free  WingAero.Cd[:]
+  free  FuselageAero.Cf[:]
+  free  TailBoomAero.Cf[:]
   free  HorizontalTail.Planform.S  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
   free  TailBoom.S  [Mission.Aircraft.Empennage.TailBoom]
   free  VerticalTail.Planform.S  [Mission.Aircraft.Empennage.VerticalTail.Planform]
   free  Fuselage.S  [Mission.Aircraft.Fuselage]
   free  Pylon.S  [Mission.Aircraft.Pylon]
   free  Wing.Planform.S  [Mission.Aircraft.Wing.Planform]
-  free  FuselageAero.Cd[:]
-  free  FuselageAero.Cf[:]
-  free  C_f[:]
-  free  TailAero.Cd[:]
-  free  TailAero1.Cd[:]
-  free  TailBoomAero.Cf[:]
-  free  WingAero.Cd[:]
   fixed m_{fac}[:]
   cons  CDA[0] ≥ FuselageAero.Cd[0]⋅Fuselage.S/Wing.Planform.S + FuselageAero.Cf[0]⋅Fuselage.S/Wing.Planform.S + TailAero.Cd[0]⋅HorizontalTail.Planform.S/Wing.Planform.S + TailAero1.Cd[0]⋅VerticalTail.Planform.S/Wing.Planform.S + TailBoomAero.Cf[0]⋅TailBoom.S/Wing.Planform.S + C_f[0]⋅Pylon.S/Wing.Planform.S
   cons  CD[0]/m_{fac}[0] ≥ CDA[0] + WingAero.Cd[0]
 [Mission.Cruise1.FlightSegment.AircraftPerf.WingAero]
-  free  CL[:]
   free  Cd[:]
-  free  Re[:]
   free  cdp[:]
+  free  CL[:]
+  free  Re[:]
   free  AR  [Mission.Aircraft.Wing.Planform]
   free  cmac  [Mission.Aircraft.Wing.Planform]
-  free  V[:]  [Mission.Cruise1.FlightSegment.FlightState]
   free  mu[:]  [Mission.Cruise1.FlightSegment.FlightState]
   free  rho[:]  [Mission.Cruise1.FlightSegment.FlightState]
+  free  V[:]  [Mission.Cruise1.FlightSegment.FlightState]
   fixed CLstall[:]
   fixed e[:]
   fixed m_{fac-polar-fit}[:]
@@ -1749,9 +1749,9 @@
   free  k_bulk  [Mission.Aircraft.Fuselage]
   free  k_nose  [Mission.Aircraft.Fuselage]
   free  l  [Mission.Aircraft.Fuselage]
-  free  V[:]  [Mission.Cruise1.FlightSegment.FlightState]
   free  mu[:]  [Mission.Cruise1.FlightSegment.FlightState]
   free  rho[:]  [Mission.Cruise1.FlightSegment.FlightState]
+  free  V[:]  [Mission.Cruise1.FlightSegment.FlightState]
   fixed Re_ref[:]
   cons  Re[0] = V[0]⋅rho[0]⋅l/mu[0]
   cons  Cf[0] ≥ Re[0]^0.3^-1⋅0.455
@@ -1763,14 +1763,14 @@
   free  P_total[:]
   free  P_{shaft-max}[:]
   free  RPM[:]
-  fixed L_{eng}[:]
-  fixed P_avn[:]
-  fixed RPM_{max}[:]
   fixed eta_alternator[:]
   fixed h_{ref}[:]
+  fixed L_{eng}[:]
   fixed m_{fac}[:]
-  fixed P_sl_max  [Mission.Aircraft.DF70]
+  fixed P_avn[:]
+  fixed RPM_{max}[:]
   fixed bsfc_min  [Mission.Aircraft.DF70]
+  fixed P_sl_max  [Mission.Aircraft.DF70]
   cons  (BSFC[0]/m_{fac}[0]/bsfc_min)^36.22 ≥ (RPM[0]/RPM_{max}[0])^8.065⋅2.32 + (RPM[0]/RPM_{max}[0])^-38.85⋅0.00103
   cons  (P_total[0]/P_{shaft-max}[0])^0.1 = (RPM[0]/RPM_{max}[0])^0.2944⋅0.999
   cons  RPM[0] ≤ RPM_{max}[0]
@@ -1780,12 +1780,12 @@
 [Mission.Cruise1.FlightSegment.AircraftPerf.TailAero]
   free  Cd[:]
   free  Re[:]
-  free  S  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
   free  b  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
-  free  tau  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
-  free  V[:]  [Mission.Cruise1.FlightSegment.FlightState]
   free  mu[:]  [Mission.Cruise1.FlightSegment.FlightState]
   free  rho[:]  [Mission.Cruise1.FlightSegment.FlightState]
+  free  S  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  free  tau  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  free  V[:]  [Mission.Cruise1.FlightSegment.FlightState]
   fixed m_{fac--fit}[:]
   cons  Re[0] = V[0]⋅rho[0]⋅S/b/mu[0]
   cons  Re[0]^-0.182⋅0.34⋅tau^0.7746 ≤ Cd[0]/m_{fac--fit}[0]
@@ -1796,12 +1796,12 @@
 [Mission.Cruise1.FlightSegment.AircraftPerf.TailAero1]
   free  Cd[:]
   free  Re[:]
-  free  S  [Mission.Aircraft.Empennage.VerticalTail.Planform]
   free  b  [Mission.Aircraft.Empennage.VerticalTail.Planform]
-  free  tau  [Mission.Aircraft.Empennage.VerticalTail.Planform]
-  free  V[:]  [Mission.Cruise1.FlightSegment.FlightState]
   free  mu[:]  [Mission.Cruise1.FlightSegment.FlightState]
   free  rho[:]  [Mission.Cruise1.FlightSegment.FlightState]
+  free  S  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  free  tau  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  free  V[:]  [Mission.Cruise1.FlightSegment.FlightState]
   fixed m_{fac--fit}[:]
   cons  Re[0] = V[0]⋅rho[0]⋅S/b/mu[0]
   cons  Re[0]^-0.182⋅0.34⋅tau^0.7746 ≤ Cd[0]/m_{fac--fit}[0]
@@ -1813,37 +1813,37 @@
   free  Cf[:]
   free  Re[:]
   free  l  [Mission.Aircraft.Empennage.TailBoom]
-  free  V[:]  [Mission.Cruise1.FlightSegment.FlightState]
   free  mu[:]  [Mission.Cruise1.FlightSegment.FlightState]
   free  rho[:]  [Mission.Cruise1.FlightSegment.FlightState]
+  free  V[:]  [Mission.Cruise1.FlightSegment.FlightState]
   cons  Re[0] = V[0]⋅rho[0]⋅l/mu[0]
   cons  Cf[0] ≥ Re[0]^0.3^-1⋅0.455
 [Mission.Cruise1.FlightSegment.AircraftPerf.PylonAero]
   free  C_f[:]
   free  Re[:]
-  free  V[:]  [Mission.Cruise1.FlightSegment.FlightState]
   free  mu[:]  [Mission.Cruise1.FlightSegment.FlightState]
   free  rho[:]  [Mission.Cruise1.FlightSegment.FlightState]
+  free  V[:]  [Mission.Cruise1.FlightSegment.FlightState]
   fixed l  [Mission.Aircraft.Pylon]
   cons  Re[0] = V[0]⋅rho[0]⋅l/mu[0]
   cons  C_f[0] ≥ Re[0]^0.3^-1⋅0.455
 [Mission.Cruise1.FlightSegment.SteadyLevelFlight]
   free  T[:]
-  free  S  [Mission.Aircraft.Wing.Planform]
   free  CD[:]  [Mission.Cruise1.FlightSegment.AircraftPerf]
-  free  P_shaft[:]  [Mission.Cruise1.FlightSegment.AircraftPerf.DF70Perf]
-  free  Wend[:]  [Mission.Cruise1.FlightSegment.AircraftPerf]
   free  CL[:]  [Mission.Cruise1.FlightSegment.AircraftPerf.WingAero]
-  free  Wstart[:]  [Mission.Cruise1.FlightSegment.AircraftPerf]
-  free  V[:]  [Mission.Cruise1.FlightSegment.FlightState]
+  free  P_shaft[:]  [Mission.Cruise1.FlightSegment.AircraftPerf.DF70Perf]
   free  rho[:]  [Mission.Cruise1.FlightSegment.FlightState]
+  free  S  [Mission.Aircraft.Wing.Planform]
+  free  V[:]  [Mission.Cruise1.FlightSegment.FlightState]
+  free  Wend[:]  [Mission.Cruise1.FlightSegment.AircraftPerf]
+  free  Wstart[:]  [Mission.Cruise1.FlightSegment.AircraftPerf]
   fixed \eta_{prop}[:]
   cons  (Wend[0]⋅Wstart[0])^0.5 ≤ rho[0]⋅0.5⋅V[0]²⋅CL[0]⋅S
   cons  T[0] ≥ rho[0]⋅0.5⋅V[0]²⋅CD[0]⋅S
   cons  P_shaft[0] ≥ T[0]⋅V[0]/\eta_{prop}[0]
 [Mission.Cruise1.FlightSegment.BreguetEndurance]
-  free  W_fuel[:]
   free  t[:]
+  free  W_fuel[:]
   free  z_bre[:]
   free  BSFC[:]  [Mission.Cruise1.FlightSegment.AircraftPerf.DF70Perf]
   free  P_total[:]  [Mission.Cruise1.FlightSegment.AircraftPerf.DF70Perf]
@@ -1859,22 +1859,22 @@
   free  F
   free  Mr[:]
   free  th
-  free  S  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
-  free  I[:]  [Mission.Aircraft.Empennage.TailBoom]
-  free  Sy[:]  [Mission.Aircraft.Empennage.TailBoom]
-  free  l  [Mission.Aircraft.Empennage.TailBoom]
+  free  \bar{\delta}[:]
   free  \bar{EI}[:]
   free  \bar{M}[:]
-  free  \bar{\delta}[:]
   free  \theta[:]
   free  dx[:]
+  free  I[:]  [Mission.Aircraft.Empennage.TailBoom]
+  free  l  [Mission.Aircraft.Empennage.TailBoom]
   free  qne[:]  [Mission.Loiter.FlightSegment.FlightState]
-  fixed Nsafety
+  free  S  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  free  Sy[:]  [Mission.Aircraft.Empennage.TailBoom]
   fixed kappa
+  fixed Nsafety
   fixed CLmax  [Mission.Aircraft.Empennage.HorizontalTail.Planform]
+  fixed deta  [Mission.Aircraft.Empennage.TailBoom]
   fixed E  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
   fixed sigma  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
-  fixed deta  [Mission.Aircraft.Empennage.TailBoom]
   cons  dx[0] = deta
   cons  F ≥ qne[0]⋅S
   cons  F ≥ qne[1]⋅S
@@ -1887,14 +1887,14 @@
   cons  th = \theta[1]
   cons  kappa ≥ \bar{\delta}[1]⋅CLmax⋅Nsafety
 [Mission.AircraftLoading.TailBoomBending.Beam]
+  free  \bar{\delta}[:]
   free  \bar{EI}[:]
   free  \bar{M}[:]
-  free  \bar{\delta}[:]
   free  \theta[:]
   free  dx[:]
+  fixed \bar{\delta}_{root}
   fixed \bar{M}_{tip}
   fixed \bar{S}[:]
-  fixed \bar{\delta}_{root}
   fixed \theta_{root}
   cons  \bar{M}[0] ≥ \bar{M}[1] + dx[0]⋅0.5⋅(\bar{S}[0] + \bar{S}[1])
   cons  \bar{M}[1] ≥ \bar{M}_{tip}
@@ -1906,22 +1906,22 @@
   free  F
   free  Mr[:]
   free  th
-  free  I[:]  [Mission.Aircraft.Empennage.TailBoom]
-  free  Sy[:]  [Mission.Aircraft.Empennage.TailBoom]
-  free  l  [Mission.Aircraft.Empennage.TailBoom]
-  free  S  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  free  \bar{\delta}[:]
   free  \bar{EI}[:]
   free  \bar{M}[:]
-  free  \bar{\delta}[:]
   free  \theta[:]
   free  dx[:]
+  free  I[:]  [Mission.Aircraft.Empennage.TailBoom]
+  free  l  [Mission.Aircraft.Empennage.TailBoom]
   free  qne[:]  [Mission.Loiter.FlightSegment.FlightState]
-  fixed Nsafety
+  free  S  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  free  Sy[:]  [Mission.Aircraft.Empennage.TailBoom]
   fixed kappa
+  fixed Nsafety
+  fixed CLmax  [Mission.Aircraft.Empennage.VerticalTail.Planform]
+  fixed deta  [Mission.Aircraft.Empennage.TailBoom]
   fixed E  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
   fixed sigma  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
-  fixed deta  [Mission.Aircraft.Empennage.TailBoom]
-  fixed CLmax  [Mission.Aircraft.Empennage.VerticalTail.Planform]
   cons  dx[0] = deta
   cons  F ≥ qne[0]⋅S
   cons  F ≥ qne[1]⋅S
@@ -1934,14 +1934,14 @@
   cons  th = \theta[1]
   cons  kappa ≥ \bar{\delta}[1]⋅CLmax⋅Nsafety
 [Mission.AircraftLoading.TailBoomBending1.Beam]
+  free  \bar{\delta}[:]
   free  \bar{EI}[:]
   free  \bar{M}[:]
-  free  \bar{\delta}[:]
   free  \theta[:]
   free  dx[:]
+  fixed \bar{\delta}_{root}
   fixed \bar{M}_{tip}
   fixed \bar{S}[:]
-  fixed \bar{\delta}_{root}
   fixed \theta_{root}
   cons  \bar{M}[0] ≥ \bar{M}[1] + dx[0]⋅0.5⋅(\bar{S}[0] + \bar{S}[1])
   cons  \bar{M}[1] ≥ \bar{M}_{tip}
@@ -1954,28 +1954,28 @@
   free  M[:]
   free  Mtw[:]
   free  N
+  free  q[:]
   free  S[:]
   free  Sout[:]
-  free  W
-  free  q[:]
   free  th[:]
   free  theta[:]
+  free  W
   free  w[:]
+  free  b  [Mission.Aircraft.Wing.Planform]
   free  I[:]  [Mission.Aircraft.Wing.CapSpar]
   free  Sy[:]  [Mission.Aircraft.Wing.CapSpar]
-  free  b  [Mission.Aircraft.Wing.Planform]
+  fixed kappa
   fixed Mtip
   fixed Nmax
   fixed Nsafety
   fixed Stip
-  fixed kappa
   fixed throot
   fixed twmax
   fixed wroot
-  fixed E  [Mission.Aircraft.Wing.CapSpar.CFRPUD]
-  fixed sigma  [Mission.Aircraft.Wing.CapSpar.CFRPUD]
   fixed cbar[:]  [Mission.Aircraft.Wing.Planform]
   fixed deta[:]  [Mission.Aircraft.Wing.Planform]
+  fixed E  [Mission.Aircraft.Wing.CapSpar.CFRPUD]
+  fixed sigma  [Mission.Aircraft.Wing.CapSpar.CFRPUD]
   cons  S[0] ≥ S[1] + deta[0]⋅0.5⋅b/2⋅(q[0] + q[1])
   cons  S[1] ≥ S[2] + deta[1]⋅0.5⋅b/2⋅(q[1] + q[2])
   cons  S[2] ≥ S[3] + deta[2]⋅0.5⋅b/2⋅(q[2] + q[3])
@@ -2054,11 +2054,11 @@
   free  M_h
   free  q
   free  I  [Mission.Aircraft.Fuselage.FuselageSkin]
-  free  R  [Mission.Aircraft.Fuselage]
   free  l_body  [Mission.Aircraft.Fuselage]
+  free  R  [Mission.Aircraft.Fuselage]
   free  W_{cent}  [Mission]
-  fixed N_max
   fixed kappa
+  fixed N_max
   fixed sigma_kevlar
   fixed E  [Mission.Aircraft.Fuselage.FuselageSkin]
   cons  M_h ≥ N_max⋅W_{cent}/4⋅l_body
@@ -2066,15 +2066,15 @@
   cons  q ≥ W_{cent}⋅N_max/l_body
   cons  kappa⋅l_body/2 ≥ q⋅(l_body/2)⁴/(8⋅E⋅I)
 [Mission.AircraftLoading.FuselageLoading.FuselageLanding]
+  free  a
   free  F
   free  M_g
-  free  a
   free  omegadot
-  free  I_g  [Mission.Aircraft.Fuselage.FuselageSkin]
   free  I  [Mission.Aircraft.Fuselage.FuselageSkin]
+  free  I_g  [Mission.Aircraft.Fuselage.FuselageSkin]
+  free  l_body  [Mission.Aircraft.Fuselage]
   free  m  [Mission.Aircraft.Fuselage.FuselageSkin]
   free  R  [Mission.Aircraft.Fuselage]
-  free  l_body  [Mission.Aircraft.Fuselage]
   free  W_{cent}  [Mission]
   fixed N_max
   fixed sigma_kevlar
@@ -2084,17 +2084,17 @@
   cons  M_g ≥ I_g⋅omegadot
   cons  sigma_kevlar ≥ M_g⋅R/I
 [Mission.AircraftLoading.TailBoomFlexibility]
-  free  Fne
   free  deda
+  free  Fne
   free  sph1
   free  sph2
-  free  Vh  [Mission.Aircraft.Empennage.HorizontalTail]
+  free  b  [Mission.Aircraft.Wing.Planform]
   free  lh  [Mission.Aircraft.Empennage.HorizontalTail]
   free  mh  [Mission.Aircraft.Empennage.HorizontalTail]
-  free  S  [Mission.Aircraft.Wing.Planform]
-  free  b  [Mission.Aircraft.Wing.Planform]
   free  mw  [Mission.Aircraft.Wing]
+  free  S  [Mission.Aircraft.Wing.Planform]
   free  th  [Mission.AircraftLoading.TailBoomBending]
+  free  Vh  [Mission.Aircraft.Empennage.HorizontalTail]
   fixed SMcorr
   fixed CLhmin  [Mission.Aircraft.Empennage.HorizontalTail]
   fixed CLmax  [Mission.Aircraft.Wing.Planform]
