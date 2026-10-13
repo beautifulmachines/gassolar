@@ -226,7 +226,7 @@
   fixed P_ref
   fixed W_engref
   cons  1.28⋅(P_sl_max/P_ref)^0.7724 = W_eng/W_engref/m_{fac--fit}
-  cons  W/mfac ≥ 2.57⋅W_eng^0.922
+  cons  W/mfac ≥ 2.57⋅[lbf]⋅(W_eng/[lbf])^0.922
 [Mission.Aircraft.Empennage]
   free  W
   free  l
