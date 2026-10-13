@@ -653,7 +653,7 @@ Mission.Aircraft.Empennage.TailBoom
 +0.02124 : dm[0] ≥ 3.14⋅rho⋅d[0]⋅deta⋅t[0]⋅kfac⋅l
 
 Mission.Aircraft.Engine
-+0.3259 : W/mfac ≥ 2.57⋅W_eng^0.922
++0.3259 : W/mfac ≥ 2.57⋅[lbf]⋅(W_eng/[lbf])^0.922
 +0.3005 : 1.28⋅(P_sl_max/P_ref)^0.7724 = W_eng/W_engref/m_{fac--fit}
 
 Mission.Aircraft.Fuselage
