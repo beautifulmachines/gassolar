@@ -2,6 +2,7 @@
 
 import pytest
 from gpkit import Variable
+from gpkit.util.small_scripts import mag
 
 from gassolar.jho.jho import Mission
 
@@ -49,4 +50,4 @@ def test_jho_solves():
     sol = model.localsolve(verbosity=0)
 
     # JHO as-built was ~150 lbf; baseline from localsolve: 138.458 lbf
-    assert sol.cost == pytest.approx(138.458, rel=1e-2)
+    assert mag(sol.cost) == pytest.approx(138.458, rel=1e-2)
