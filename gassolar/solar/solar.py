@@ -427,4 +427,4 @@ if __name__ == "__main__":
     M = Mission(latitude=11)
     M.cost = M.solar.Wtotal
     sol = M.solve()
-    print(sol.table())
+    print(M.table(sol))
