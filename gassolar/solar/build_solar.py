@@ -15,18 +15,7 @@ def build_solar(lat=15, day=140, sp=True):
         M.substitutions.update({"h_{batt}": h})
         try:
             sol = M.localsolve("mosek", verbosity=2) if sp else M.solve("mosek")
-            print(
-                sol.table(
-                    [
-                        "W_{total}",
-                        "b_Mission/Aircraft/Wing",
-                        "S",
-                        "W_Mission/Aircraft/Wing",
-                        "W_Mission/Aircraft/Battery",
-                        "P_{oper}",
-                    ]
-                )
-            )
+            print(M.table(sol))
         except RuntimeWarning:
             print("Not feasible")
 

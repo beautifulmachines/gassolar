@@ -34,19 +34,16 @@ def relaxed_constants(model, include_only=None, exclude=None):  # noqa: ARG001
 
 
 def post_process(sol):
-    """
-    Model to print relevant info for a solved model with relaxed constants
-
-    ARGUMENTS
-    --------
-    sol: the solution to the solved model
-    """
-
-    varkeys = [
-        k
-        for k in sol.program.varlocs
-        if "Relax" in k.models and sol.program.result(k) >= 1.00001
-    ]
-    if varkeys:
+    """Print any constants relaxed beyond 0.1% and return their keys."""
+    bdvars = []
+    for k, v in sol.variables.items():
+        if "Relax" not in str(k) or "before" in str(k):
+            continue
+        val = v.magnitude if hasattr(v, "magnitude") else float(v)
+        if val >= 1.001:
+            bdvars.append((k, val))
+    if bdvars:
         print("GP iteration has relaxed constants")
-        print(sol.program.result.table(varkeys))
+        for k, val in bdvars:
+            print(f"  {k}: {val:.4g}")
+    return [k for k, _ in bdvars]
