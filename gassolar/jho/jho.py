@@ -400,4 +400,4 @@ if __name__ == "__main__":
     model.substitutions[model.JHO.emp.vtail.Vv] = 0.04
     model.cost = 1 / model.loiter.t
     sol = model.localsolve()
-    print(sol.table())
+    print(model.table(sol))

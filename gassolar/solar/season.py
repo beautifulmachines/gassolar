@@ -3,7 +3,6 @@ import sys
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-from relaxed_constants import relaxed_constants
 
 from gassolar.solar.solar import Mission
 
@@ -27,19 +26,9 @@ def season():
                 sol = M.solve("mosek")
                 mtow = sol("W_{total}").magnitude
                 mtows.append(mtow)
-            except RuntimeWarning:
-                feas = relaxed_constants(M)
-                sol = feas.solve("mosek")
-                bdvars = [
-                    d
-                    for d in sol.program.varlocs
-                    if "Relax" in d.models and sol.program.result(d) >= 1.00001
-                ]
-                if not bdvars:
-                    mtows.append(sol["cost"].magnitude)
-                else:
-                    mtows.append(np.nan)
-                    failed = True
+            except RuntimeWarning:  # infeasible here, so at every later season too
+                mtows.append(np.nan)
+                failed = True
 
         mtows = np.hstack(mtows)
         data[l] = mtows

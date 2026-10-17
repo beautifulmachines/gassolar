@@ -37,7 +37,6 @@ from numpy import array, exp, hstack
 import gassolar.environment
 from gassolar.environment.solar_irradiance import get_Eirr, twi_fits
 from gassolar.environment.wind_speeds import get_month
-from gassolar.solar_detailed.relaxed_constants import post_process, relaxed_constants
 
 path = dirname(gassolar.environment.__file__)
 
@@ -723,12 +722,6 @@ def test():
     m = Mission(v, latitude=[20])
     m.cost = m[m.aircraft.Wtotal]
     m.localsolve()
-    v = Aircraft(Npod=3, sp=True)
-    m = Mission(v, latitude=[20])
-    m.cost = m[m.aircraft.Wtotal]
-    f = relaxed_constants(M)
-    s = f.localsolve()
-    post_process(s)
 
 
 if __name__ == "__main__":
@@ -736,12 +729,4 @@ if __name__ == "__main__":
     Vehicle = Aircraft(Npod=3, sp=SP)
     M = Mission(Vehicle, latitude=[20])
     M.cost = M[M.aircraft.Wtotal]
-    try:
-        sol = M.localsolve("mosek") if SP else M.solve("mosek")
-    except RuntimeWarning:
-        V2 = Aircraft(Npod=3, sp=SP)
-        M2 = Mission(V2, latitude=[20])
-        M2.cost = M2[M2.aircraft.Wtotal]
-        feas = relaxed_constants(M2)
-        sol = feas.localsolve("mosek")
-        vks = post_process(sol)
+    sol = M.localsolve("mosek") if SP else M.solve("mosek")
