@@ -2028,8 +2028,8 @@ Mission.FlightSegment.FlightState
 
 Mission.FlightSegment.TailBoomBending1
 -0.0342 : dx[0] = deta
-+0.0114 : \bar{EI}[0] ≤ E⋅I[0]/F/l²/2
 +0.0114 : F ≥ qne⋅S
++0.0114 : \bar{EI}[0] ≤ E⋅I[0]/F/l²/2
 +0.0114 : kappa ≥ \bar{\delta}[1]⋅CLmax⋅Nsafety
 
 Mission.FlightSegment.TailBoomBending1.Beam
@@ -2042,8 +2042,8 @@ Mission.FlightSegment1.FlightState
 
 Mission.FlightSegment1.TailBoomBending1
 -0.0342 : dx[0] = deta
-+0.0114 : \bar{EI}[0] ≤ E⋅I[0]/F/l²/2
 +0.0114 : F ≥ qne⋅S
++0.0114 : \bar{EI}[0] ≤ E⋅I[0]/F/l²/2
 +0.0114 : kappa ≥ \bar{\delta}[1]⋅CLmax⋅Nsafety
 
 Mission.FlightSegment1.TailBoomBending1.Beam
@@ -2120,8 +2120,8 @@ Mission.FlightSegment10.SteadyLevelFlight
 
 Mission.FlightSegment10.TailBoomBending1
 -0.0342 : dx[0] = deta
-+0.0114 : \bar{EI}[0] ≤ E⋅I[0]/F/l²/2
 +0.0114 : F ≥ qne⋅S
++0.0114 : \bar{EI}[0] ≤ E⋅I[0]/F/l²/2
 +0.0114 : kappa ≥ \bar{\delta}[1]⋅CLmax⋅Nsafety
 
 Mission.FlightSegment10.TailBoomBending1.Beam
@@ -2134,8 +2134,8 @@ Mission.FlightSegment2.FlightState
 
 Mission.FlightSegment2.TailBoomBending1
 -0.0342 : dx[0] = deta
-+0.0114 : \bar{EI}[0] ≤ E⋅I[0]/F/l²/2
 +0.0114 : F ≥ qne⋅S
++0.0114 : \bar{EI}[0] ≤ E⋅I[0]/F/l²/2
 +0.0114 : kappa ≥ \bar{\delta}[1]⋅CLmax⋅Nsafety
 
 Mission.FlightSegment2.TailBoomBending1.Beam
@@ -2148,8 +2148,8 @@ Mission.FlightSegment3.FlightState
 
 Mission.FlightSegment3.TailBoomBending1
 -0.0342 : dx[0] = deta
-+0.0114 : \bar{EI}[0] ≤ E⋅I[0]/F/l²/2
 +0.0114 : F ≥ qne⋅S
++0.0114 : \bar{EI}[0] ≤ E⋅I[0]/F/l²/2
 +0.0114 : kappa ≥ \bar{\delta}[1]⋅CLmax⋅Nsafety
 
 Mission.FlightSegment3.TailBoomBending1.Beam
@@ -2162,8 +2162,8 @@ Mission.FlightSegment4.FlightState
 
 Mission.FlightSegment4.TailBoomBending1
 -0.0342 : dx[0] = deta
-+0.0114 : \bar{EI}[0] ≤ E⋅I[0]/F/l²/2
 +0.0114 : F ≥ qne⋅S
++0.0114 : \bar{EI}[0] ≤ E⋅I[0]/F/l²/2
 +0.0114 : kappa ≥ \bar{\delta}[1]⋅CLmax⋅Nsafety
 
 Mission.FlightSegment4.TailBoomBending1.Beam
@@ -2176,8 +2176,8 @@ Mission.FlightSegment5.FlightState
 
 Mission.FlightSegment5.TailBoomBending1
 -0.0342 : dx[0] = deta
-+0.0114 : \bar{EI}[0] ≤ E⋅I[0]/F/l²/2
 +0.0114 : F ≥ qne⋅S
++0.0114 : \bar{EI}[0] ≤ E⋅I[0]/F/l²/2
 +0.0114 : kappa ≥ \bar{\delta}[1]⋅CLmax⋅Nsafety
 
 Mission.FlightSegment5.TailBoomBending1.Beam
@@ -2190,8 +2190,8 @@ Mission.FlightSegment6.FlightState
 
 Mission.FlightSegment6.TailBoomBending1
 -0.0342 : dx[0] = deta
-+0.0114 : \bar{EI}[0] ≤ E⋅I[0]/F/l²/2
 +0.0114 : F ≥ qne⋅S
++0.0114 : \bar{EI}[0] ≤ E⋅I[0]/F/l²/2
 +0.0114 : kappa ≥ \bar{\delta}[1]⋅CLmax⋅Nsafety
 
 Mission.FlightSegment6.TailBoomBending1.Beam
@@ -2204,8 +2204,8 @@ Mission.FlightSegment7.FlightState
 
 Mission.FlightSegment7.TailBoomBending1
 -0.0342 : dx[0] = deta
-+0.0114 : \bar{EI}[0] ≤ E⋅I[0]/F/l²/2
 +0.0114 : F ≥ qne⋅S
++0.0114 : \bar{EI}[0] ≤ E⋅I[0]/F/l²/2
 +0.0114 : kappa ≥ \bar{\delta}[1]⋅CLmax⋅Nsafety
 
 Mission.FlightSegment7.TailBoomBending1.Beam
@@ -2218,8 +2218,8 @@ Mission.FlightSegment8.FlightState
 
 Mission.FlightSegment8.TailBoomBending1
 -0.0342 : dx[0] = deta
-+0.0114 : \bar{EI}[0] ≤ E⋅I[0]/F/l²/2
 +0.0114 : F ≥ qne⋅S
++0.0114 : \bar{EI}[0] ≤ E⋅I[0]/F/l²/2
 +0.0114 : kappa ≥ \bar{\delta}[1]⋅CLmax⋅Nsafety
 
 Mission.FlightSegment8.TailBoomBending1.Beam
@@ -2232,8 +2232,8 @@ Mission.FlightSegment9.FlightState
 
 Mission.FlightSegment9.TailBoomBending1
 -0.0342 : dx[0] = deta
-+0.0114 : \bar{EI}[0] ≤ E⋅I[0]/F/l²/2
 +0.0114 : F ≥ qne⋅S
++0.0114 : \bar{EI}[0] ≤ E⋅I[0]/F/l²/2
 +0.0114 : kappa ≥ \bar{\delta}[1]⋅CLmax⋅Nsafety
 
 Mission.FlightSegment9.TailBoomBending1.Beam
