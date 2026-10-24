@@ -62,10 +62,7 @@
   fixed eta[:]
   fixed lam
   cons  b² = S⋅AR
-  cons  cave[0] = cbave[0]⋅S/b
-  cons  cave[1] = cbave[1]⋅S/b
-  cons  cave[2] = cbave[2]⋅S/b
-  cons  cave[3] = cbave[3]⋅S/b
+  cons  cave[:] = cbave[:]⋅S/b
   cons  croot = S/b⋅cbar[0]
   cons  cmac = croot⋅cbarmac
 [Mission.Aircraft._WingGP.WingSkin]
@@ -112,31 +109,13 @@
   fixed CFRPUD.rho
   fixed FoamHD.rho
   fixed tmin
-  cons  I[0]/mfac ≤ w[0]⋅2⋅t[0]⋅(hin[0]/2)²
-  cons  I[1]/mfac ≤ w[1]⋅2⋅t[1]⋅(hin[1]/2)²
-  cons  I[2]/mfac ≤ w[2]⋅2⋅t[2]⋅(hin[2]/2)²
-  cons  I[3]/mfac ≤ w[3]⋅2⋅t[3]⋅(hin[3]/2)²
-  cons  dm[0] ≥ (CFRPUD.rho⋅w[0]⋅2⋅t[0] + tshear[0]⋅2⋅CFRPFabric.rho⋅(hin[0] + t[0]⋅2) + FoamHD.rho⋅w[0]⋅hin[0])⋅b/2⋅deta[0]
-  cons  dm[1] ≥ (CFRPUD.rho⋅w[1]⋅2⋅t[1] + tshear[1]⋅2⋅CFRPFabric.rho⋅(hin[1] + t[1]⋅2) + FoamHD.rho⋅w[1]⋅hin[1])⋅b/2⋅deta[1]
-  cons  dm[2] ≥ (CFRPUD.rho⋅w[2]⋅2⋅t[2] + tshear[2]⋅2⋅CFRPFabric.rho⋅(hin[2] + t[2]⋅2) + FoamHD.rho⋅w[2]⋅hin[2])⋅b/2⋅deta[2]
-  cons  dm[3] ≥ (CFRPUD.rho⋅w[3]⋅2⋅t[3] + tshear[3]⋅2⋅CFRPFabric.rho⋅(hin[3] + t[3]⋅2) + FoamHD.rho⋅w[3]⋅hin[3])⋅b/2⋅deta[3]
+  cons  I[:]/mfac ≤ 2⋅w[:]⋅t[:]⋅(hin[:]/2)²
+  cons  dm[:] ≥ (CFRPUD.rho⋅2⋅w[:]⋅t[:] + 2⋅tshear[:]⋅CFRPFabric.rho⋅(hin[:] + 2⋅t[:]) + FoamHD.rho⋅w[:]⋅hin[:])⋅b/2⋅deta[:]
   cons  W ≥ 2⋅dm[:].sum()⋅g
-  cons  w[0] ≤ wlim⋅cave[0]
-  cons  w[1] ≤ wlim⋅cave[1]
-  cons  w[2] ≤ wlim⋅cave[2]
-  cons  w[3] ≤ wlim⋅cave[3]
-  cons  cave[0]⋅tau ≥ hin[0] + t[0]⋅2
-  cons  cave[1]⋅tau ≥ hin[1] + t[1]⋅2
-  cons  cave[2]⋅tau ≥ hin[2] + t[2]⋅2
-  cons  cave[3]⋅tau ≥ hin[3] + t[3]⋅2
-  cons  I[0] ≥ Sy[0]⋅(hin[0]/2 + t[0])
-  cons  I[1] ≥ Sy[1]⋅(hin[1]/2 + t[1])
-  cons  I[2] ≥ Sy[2]⋅(hin[2]/2 + t[2])
-  cons  I[3] ≥ Sy[3]⋅(hin[3]/2 + t[3])
-  cons  tshear[0] ≥ tmin
-  cons  tshear[1] ≥ tmin
-  cons  tshear[2] ≥ tmin
-  cons  tshear[3] ≥ tmin
+  cons  w[:] ≤ wlim⋅cave[:]
+  cons  cave[:]⋅tau ≥ hin[:] + 2⋅t[:]
+  cons  Sy[:]⋅(hin[:]/2 + t[:]) ≤ I[:]
+  cons  tshear[:] ≥ tmin
 [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
   fixed E
   fixed rho
@@ -205,8 +184,7 @@
   fixed eta[:]
   fixed lam
   cons  b² = S⋅AR
-  cons  cave[0] = cbave[0]⋅S/b
-  cons  cave[1] = cbave[1]⋅S/b
+  cons  cave[:] = cbave[:]⋅S/b
   cons  croot = S/b⋅cbar[0]
   cons  cmac = croot⋅cbarmac
 [Mission.Aircraft.Empennage.HorizontalTail.WingSkin]
@@ -268,8 +246,7 @@
   fixed eta[:]
   fixed lam
   cons  b² = S⋅AR
-  cons  cave[0] = cbave[0]⋅S/b
-  cons  cave[1] = cbave[1]⋅S/b
+  cons  cave[:] = cbave[:]⋅S/b
   cons  croot = S/b⋅cbar[0]
   cons  cmac = croot⋅cbarmac
 [Mission.Aircraft.Empennage.VerticalTail.WingSkin]
@@ -326,11 +303,11 @@
   fixed g
   fixed rho
   fixed tmin
-  cons  I[0] ≤ t[0]⋅3.14⋅d[0]³/8
-  cons  Sy[0] ≤ I[0]⋅2/d[0]
-  cons  dm[0] ≥ 3.14⋅rho⋅d[0]⋅deta⋅t[0]⋅kfac⋅l
+  cons  I[:] ≤ 3.14⋅t[:]⋅d[:]³/8
+  cons  Sy[:] ≤ 2⋅I[:]/d[:]
+  cons  dm[:] ≥ 3.14⋅rho⋅d[:]⋅deta⋅t[:]⋅kfac⋅l
   cons  W/mfac ≥ g⋅dm[:].sum()
-  cons  t[0] ≥ tmin
+  cons  t[:] ≥ tmin
   cons  S = l⋅3.14⋅d[0]
   cons  b = 2⋅l
 [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
@@ -525,36 +502,17 @@
   fixed deta[:]  [Mission.Aircraft._WingGP.Planform]
   fixed E  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
   fixed sigma  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
-  cons  S[0] ≥ S[1] + deta[0]⋅0.5⋅b/2⋅(q[0] + q[1])
-  cons  S[1] ≥ S[2] + deta[1]⋅0.5⋅b/2⋅(q[1] + q[2])
-  cons  S[2] ≥ S[3] + deta[2]⋅0.5⋅b/2⋅(q[2] + q[3])
-  cons  S[3] ≥ S[4] + deta[3]⋅0.5⋅b/2⋅(q[3] + q[4])
-  cons  M[0] ≥ M[1] + deta[0]⋅0.5⋅b/2⋅(S[0] + S[1])
-  cons  M[1] ≥ M[2] + deta[1]⋅0.5⋅b/2⋅(S[1] + S[2])
-  cons  M[2] ≥ M[3] + deta[2]⋅0.5⋅b/2⋅(S[2] + S[3])
-  cons  M[3] ≥ M[4] + deta[3]⋅0.5⋅b/2⋅(S[3] + S[4])
+  cons  S[:-1] ≥ S[1:] + 0.5⋅deta[:]⋅b/2⋅(q[:-1] + q[1:])
+  cons  M[:-1] ≥ M[1:] + 0.5⋅deta[:]⋅b/2⋅(S[:-1] + S[1:])
   cons  N = Nsafety⋅Nmax
-  cons  q[0] ≥ N⋅W/b⋅cbar[0]
-  cons  q[1] ≥ N⋅W/b⋅cbar[1]
-  cons  q[2] ≥ N⋅W/b⋅cbar[2]
-  cons  q[3] ≥ N⋅W/b⋅cbar[3]
-  cons  q[4] ≥ N⋅W/b⋅cbar[4]
+  cons  q[:] ≥ N⋅W/b⋅cbar[:]
   cons  S[4] ≥ Stip
   cons  M[4] ≥ Mtip
   cons  th[0] ≥ throot
-  cons  th[1] ≥ th[0] + deta[0]⋅0.5⋅b/2⋅(M[1] + M[0])/E/I[0]
-  cons  th[2] ≥ th[1] + deta[1]⋅0.5⋅b/2⋅(M[2] + M[1])/E/I[1]
-  cons  th[3] ≥ th[2] + deta[2]⋅0.5⋅b/2⋅(M[3] + M[2])/E/I[2]
-  cons  th[4] ≥ th[3] + deta[3]⋅0.5⋅b/2⋅(M[4] + M[3])/E/I[3]
+  cons  th[1:] ≥ th[:-1] + 0.5⋅deta[:]⋅b/2⋅(M[1:] + M[:-1])/E/I[:]
   cons  w[0] ≥ wroot
-  cons  w[1] ≥ w[0] + deta[0]⋅0.5⋅b/2⋅(th[1] + th[0])
-  cons  w[2] ≥ w[1] + deta[1]⋅0.5⋅b/2⋅(th[2] + th[1])
-  cons  w[3] ≥ w[2] + deta[2]⋅0.5⋅b/2⋅(th[3] + th[2])
-  cons  w[4] ≥ w[3] + deta[3]⋅0.5⋅b/2⋅(th[4] + th[3])
-  cons  sigma ≥ M[0]/Sy[0]
-  cons  sigma ≥ M[1]/Sy[1]
-  cons  sigma ≥ M[2]/Sy[2]
-  cons  sigma ≥ M[3]/Sy[3]
+  cons  w[1:] ≥ w[:-1] + 0.5⋅deta[:]⋅b/2⋅(th[1:] + th[:-1])
+  cons  M[:-1]/Sy[:] ≤ sigma
   cons  kappa ≥ w[4]/(b/2)
 [Mission.FlightSegment.GustL]
   free  agust[:]
@@ -590,47 +548,24 @@
   fixed deta[:]  [Mission.Aircraft._WingGP.Planform]
   fixed E  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
   fixed sigma  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
-  cons  S[0] ≥ S[1] + deta[0]⋅0.5⋅b/2⋅(q[0] + q[1])
-  cons  S[1] ≥ S[2] + deta[1]⋅0.5⋅b/2⋅(q[1] + q[2])
-  cons  S[2] ≥ S[3] + deta[2]⋅0.5⋅b/2⋅(q[2] + q[3])
-  cons  S[3] ≥ S[4] + deta[3]⋅0.5⋅b/2⋅(q[3] + q[4])
-  cons  M[0] ≥ M[1] + deta[0]⋅0.5⋅b/2⋅(S[0] + S[1])
-  cons  M[1] ≥ M[2] + deta[1]⋅0.5⋅b/2⋅(S[1] + S[2])
-  cons  M[2] ≥ M[3] + deta[2]⋅0.5⋅b/2⋅(S[2] + S[3])
-  cons  M[3] ≥ M[4] + deta[3]⋅0.5⋅b/2⋅(S[3] + S[4])
+  cons  S[:-1] ≥ S[1:] + 0.5⋅deta[:]⋅b/2⋅(q[:-1] + q[1:])
+  cons  M[:-1] ≥ M[1:] + 0.5⋅deta[:]⋅b/2⋅(S[:-1] + S[1:])
   cons  N = Nsafety⋅Nmax
-  cons  q[0] ≥ N⋅W/b⋅cbar[0]
-  cons  q[1] ≥ N⋅W/b⋅cbar[1]
-  cons  q[2] ≥ N⋅W/b⋅cbar[2]
-  cons  q[3] ≥ N⋅W/b⋅cbar[3]
-  cons  q[4] ≥ N⋅W/b⋅cbar[4]
+  cons  q[:] ≥ N⋅W/b⋅cbar[:]
   cons  S[4] ≥ Stip
   cons  M[4] ≥ Mtip
   cons  th[0] ≥ throot
-  cons  th[1] ≥ th[0] + deta[0]⋅0.5⋅b/2⋅(M[1] + M[0])/E/I[0]
-  cons  th[2] ≥ th[1] + deta[1]⋅0.5⋅b/2⋅(M[2] + M[1])/E/I[1]
-  cons  th[3] ≥ th[2] + deta[2]⋅0.5⋅b/2⋅(M[3] + M[2])/E/I[2]
-  cons  th[4] ≥ th[3] + deta[3]⋅0.5⋅b/2⋅(M[4] + M[3])/E/I[3]
+  cons  th[1:] ≥ th[:-1] + 0.5⋅deta[:]⋅b/2⋅(M[1:] + M[:-1])/E/I[:]
   cons  w[0] ≥ wroot
-  cons  w[1] ≥ w[0] + deta[0]⋅0.5⋅b/2⋅(th[1] + th[0])
-  cons  w[2] ≥ w[1] + deta[1]⋅0.5⋅b/2⋅(th[2] + th[1])
-  cons  w[3] ≥ w[2] + deta[2]⋅0.5⋅b/2⋅(th[3] + th[2])
-  cons  w[4] ≥ w[3] + deta[3]⋅0.5⋅b/2⋅(th[4] + th[3])
-  cons  sigma ≥ M[0]/Sy[0]
-  cons  sigma ≥ M[1]/Sy[1]
-  cons  sigma ≥ M[2]/Sy[2]
-  cons  sigma ≥ M[3]/Sy[3]
+  cons  w[1:] ≥ w[:-1] + 0.5⋅deta[:]⋅b/2⋅(th[1:] + th[:-1])
+  cons  M[:-1]/Sy[:] ≤ sigma
   cons  kappa ≥ w[4]/(b/2)
-  cons  (cosminus1[0]⋅vgust/v)^0.996⋅0.946 = agust[0]/m_{fac--fit}
-  cons  (cosminus1[1]⋅vgust/v)^0.996⋅0.946 = agust[1]/m_{fac--fit}
-  cons  (cosminus1[2]⋅vgust/v)^0.996⋅0.946 = agust[2]/m_{fac--fit}
-  cons  (cosminus1[3]⋅vgust/v)^0.996⋅0.946 = agust[3]/m_{fac--fit}
-  cons  (cosminus1[4]⋅vgust/v)^0.996⋅0.946 = agust[4]/m_{fac--fit}
-  cons  q[0] ≥ W⋅N/b⋅cbar[0]⋅(agust[0]⋅6.28/cl⋅(1 + Ww/W) + 1)
-  cons  q[1] ≥ W⋅N/b⋅cbar[1]⋅(agust[1]⋅6.28/cl⋅(1 + Ww/W) + 1)
-  cons  q[2] ≥ W⋅N/b⋅cbar[2]⋅(agust[2]⋅6.28/cl⋅(1 + Ww/W) + 1)
-  cons  q[3] ≥ W⋅N/b⋅cbar[3]⋅(agust[3]⋅6.28/cl⋅(1 + Ww/W) + 1)
-  cons  q[4] ≥ W⋅N/b⋅cbar[4]⋅(agust[4]⋅6.28/cl⋅(1 + Ww/W) + 1)
+  cons  0.946⋅(cosminus1[0]⋅vgust/v)^0.996 = agust[0]/m_{fac--fit}
+  cons  0.946⋅(cosminus1[1]⋅vgust/v)^0.996 = agust[1]/m_{fac--fit}
+  cons  0.946⋅(cosminus1[2]⋅vgust/v)^0.996 = agust[2]/m_{fac--fit}
+  cons  0.946⋅(cosminus1[3]⋅vgust/v)^0.996 = agust[3]/m_{fac--fit}
+  cons  0.946⋅(cosminus1[4]⋅vgust/v)^0.996 = agust[4]/m_{fac--fit}
+  cons  q[:] ≥ W⋅N/b⋅cbar[:]⋅(1 + 6.28⋅agust[:]/cl⋅(1 + Ww/W))
 [Mission.FlightSegment.TailBoomBending]
   free  F
   free  Mr[:]
@@ -651,11 +586,11 @@
   fixed deta  [Mission.Aircraft.Empennage.TailBoom]
   fixed E  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
   fixed sigma  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
-  cons  dx[0] = deta
+  cons  dx[:] = deta
   cons  F ≥ qne⋅S
-  cons  \bar{EI}[0] ≤ E⋅I[0]/F/l²/2
-  cons  Mr[0] ≥ \bar{M}[0]⋅F⋅l
-  cons  sigma ≥ Mr[0]/Sy[0]
+  cons  \bar{EI}[:] ≤ E⋅I[:]/F/l²/2
+  cons  Mr[:] ≥ \bar{M}[:-1]⋅F⋅l
+  cons  Mr[:]/Sy[:] ≤ sigma
   cons  th = \theta[1]
   cons  kappa ≥ \bar{\delta}[1]⋅CLmax⋅Nsafety
 [Mission.FlightSegment.TailBoomBending.Beam]
@@ -668,12 +603,12 @@
   fixed \bar{M}_{tip}
   fixed \bar{S}[:]
   fixed \theta_{root}
-  cons  \bar{M}[0] ≥ \bar{M}[1] + dx[0]⋅0.5⋅(\bar{S}[0] + \bar{S}[1])
+  cons  \bar{M}[:-1] ≥ \bar{M}[1:] + 0.5⋅dx[:]⋅(\bar{S}[:-1] + \bar{S}[1:])
   cons  \bar{M}[1] ≥ \bar{M}_{tip}
   cons  \theta[0] ≥ \theta_{root}
-  cons  \theta[1] ≥ \theta[0] + dx[0]⋅0.5⋅(\bar{M}[1] + \bar{M}[0])/\bar{EI}[0]
+  cons  \theta[1:] ≥ \theta[:-1] + 0.5⋅dx[:]⋅(\bar{M}[1:] + \bar{M}[:-1])/\bar{EI}[:]
   cons  \bar{\delta}[0] ≥ \bar{\delta}_{root}
-  cons  \bar{\delta}[1] ≥ \bar{\delta}[0] + dx[0]⋅0.5⋅(\theta[1] + \theta[0])
+  cons  \bar{\delta}[1:] ≥ \bar{\delta}[:-1] + 0.5⋅dx[:]⋅(\theta[1:] + \theta[:-1])
 [Mission.FlightSegment.TailBoomBending1]
   free  F
   free  Mr[:]
@@ -694,11 +629,11 @@
   fixed deta  [Mission.Aircraft.Empennage.TailBoom]
   fixed E  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
   fixed sigma  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
-  cons  dx[0] = deta
+  cons  dx[:] = deta
   cons  F ≥ qne⋅S
-  cons  \bar{EI}[0] ≤ E⋅I[0]/F/l²/2
-  cons  Mr[0] ≥ \bar{M}[0]⋅F⋅l
-  cons  sigma ≥ Mr[0]/Sy[0]
+  cons  \bar{EI}[:] ≤ E⋅I[:]/F/l²/2
+  cons  Mr[:] ≥ \bar{M}[:-1]⋅F⋅l
+  cons  Mr[:]/Sy[:] ≤ sigma
   cons  th = \theta[1]
   cons  kappa ≥ \bar{\delta}[1]⋅CLmax⋅Nsafety
 [Mission.FlightSegment.TailBoomBending1.Beam]
@@ -711,12 +646,12 @@
   fixed \bar{M}_{tip}
   fixed \bar{S}[:]
   fixed \theta_{root}
-  cons  \bar{M}[0] ≥ \bar{M}[1] + dx[0]⋅0.5⋅(\bar{S}[0] + \bar{S}[1])
+  cons  \bar{M}[:-1] ≥ \bar{M}[1:] + 0.5⋅dx[:]⋅(\bar{S}[:-1] + \bar{S}[1:])
   cons  \bar{M}[1] ≥ \bar{M}_{tip}
   cons  \theta[0] ≥ \theta_{root}
-  cons  \theta[1] ≥ \theta[0] + dx[0]⋅0.5⋅(\bar{M}[1] + \bar{M}[0])/\bar{EI}[0]
+  cons  \theta[1:] ≥ \theta[:-1] + 0.5⋅dx[:]⋅(\bar{M}[1:] + \bar{M}[:-1])/\bar{EI}[:]
   cons  \bar{\delta}[0] ≥ \bar{\delta}_{root}
-  cons  \bar{\delta}[1] ≥ \bar{\delta}[0] + dx[0]⋅0.5⋅(\theta[1] + \theta[0])
+  cons  \bar{\delta}[1:] ≥ \bar{\delta}[:-1] + 0.5⋅dx[:]⋅(\theta[1:] + \theta[:-1])
 [Mission.FlightSegment1]
   free  CL
   free  cl
@@ -889,36 +824,17 @@
   fixed deta[:]  [Mission.Aircraft._WingGP.Planform]
   fixed E  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
   fixed sigma  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
-  cons  S[0] ≥ S[1] + deta[0]⋅0.5⋅b/2⋅(q[0] + q[1])
-  cons  S[1] ≥ S[2] + deta[1]⋅0.5⋅b/2⋅(q[1] + q[2])
-  cons  S[2] ≥ S[3] + deta[2]⋅0.5⋅b/2⋅(q[2] + q[3])
-  cons  S[3] ≥ S[4] + deta[3]⋅0.5⋅b/2⋅(q[3] + q[4])
-  cons  M[0] ≥ M[1] + deta[0]⋅0.5⋅b/2⋅(S[0] + S[1])
-  cons  M[1] ≥ M[2] + deta[1]⋅0.5⋅b/2⋅(S[1] + S[2])
-  cons  M[2] ≥ M[3] + deta[2]⋅0.5⋅b/2⋅(S[2] + S[3])
-  cons  M[3] ≥ M[4] + deta[3]⋅0.5⋅b/2⋅(S[3] + S[4])
+  cons  S[:-1] ≥ S[1:] + 0.5⋅deta[:]⋅b/2⋅(q[:-1] + q[1:])
+  cons  M[:-1] ≥ M[1:] + 0.5⋅deta[:]⋅b/2⋅(S[:-1] + S[1:])
   cons  N = Nsafety⋅Nmax
-  cons  q[0] ≥ N⋅W/b⋅cbar[0]
-  cons  q[1] ≥ N⋅W/b⋅cbar[1]
-  cons  q[2] ≥ N⋅W/b⋅cbar[2]
-  cons  q[3] ≥ N⋅W/b⋅cbar[3]
-  cons  q[4] ≥ N⋅W/b⋅cbar[4]
+  cons  q[:] ≥ N⋅W/b⋅cbar[:]
   cons  S[4] ≥ Stip
   cons  M[4] ≥ Mtip
   cons  th[0] ≥ throot
-  cons  th[1] ≥ th[0] + deta[0]⋅0.5⋅b/2⋅(M[1] + M[0])/E/I[0]
-  cons  th[2] ≥ th[1] + deta[1]⋅0.5⋅b/2⋅(M[2] + M[1])/E/I[1]
-  cons  th[3] ≥ th[2] + deta[2]⋅0.5⋅b/2⋅(M[3] + M[2])/E/I[2]
-  cons  th[4] ≥ th[3] + deta[3]⋅0.5⋅b/2⋅(M[4] + M[3])/E/I[3]
+  cons  th[1:] ≥ th[:-1] + 0.5⋅deta[:]⋅b/2⋅(M[1:] + M[:-1])/E/I[:]
   cons  w[0] ≥ wroot
-  cons  w[1] ≥ w[0] + deta[0]⋅0.5⋅b/2⋅(th[1] + th[0])
-  cons  w[2] ≥ w[1] + deta[1]⋅0.5⋅b/2⋅(th[2] + th[1])
-  cons  w[3] ≥ w[2] + deta[2]⋅0.5⋅b/2⋅(th[3] + th[2])
-  cons  w[4] ≥ w[3] + deta[3]⋅0.5⋅b/2⋅(th[4] + th[3])
-  cons  sigma ≥ M[0]/Sy[0]
-  cons  sigma ≥ M[1]/Sy[1]
-  cons  sigma ≥ M[2]/Sy[2]
-  cons  sigma ≥ M[3]/Sy[3]
+  cons  w[1:] ≥ w[:-1] + 0.5⋅deta[:]⋅b/2⋅(th[1:] + th[:-1])
+  cons  M[:-1]/Sy[:] ≤ sigma
   cons  kappa ≥ w[4]/(b/2)
 [Mission.FlightSegment1.GustL]
   free  agust[:]
@@ -954,47 +870,24 @@
   fixed deta[:]  [Mission.Aircraft._WingGP.Planform]
   fixed E  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
   fixed sigma  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
-  cons  S[0] ≥ S[1] + deta[0]⋅0.5⋅b/2⋅(q[0] + q[1])
-  cons  S[1] ≥ S[2] + deta[1]⋅0.5⋅b/2⋅(q[1] + q[2])
-  cons  S[2] ≥ S[3] + deta[2]⋅0.5⋅b/2⋅(q[2] + q[3])
-  cons  S[3] ≥ S[4] + deta[3]⋅0.5⋅b/2⋅(q[3] + q[4])
-  cons  M[0] ≥ M[1] + deta[0]⋅0.5⋅b/2⋅(S[0] + S[1])
-  cons  M[1] ≥ M[2] + deta[1]⋅0.5⋅b/2⋅(S[1] + S[2])
-  cons  M[2] ≥ M[3] + deta[2]⋅0.5⋅b/2⋅(S[2] + S[3])
-  cons  M[3] ≥ M[4] + deta[3]⋅0.5⋅b/2⋅(S[3] + S[4])
+  cons  S[:-1] ≥ S[1:] + 0.5⋅deta[:]⋅b/2⋅(q[:-1] + q[1:])
+  cons  M[:-1] ≥ M[1:] + 0.5⋅deta[:]⋅b/2⋅(S[:-1] + S[1:])
   cons  N = Nsafety⋅Nmax
-  cons  q[0] ≥ N⋅W/b⋅cbar[0]
-  cons  q[1] ≥ N⋅W/b⋅cbar[1]
-  cons  q[2] ≥ N⋅W/b⋅cbar[2]
-  cons  q[3] ≥ N⋅W/b⋅cbar[3]
-  cons  q[4] ≥ N⋅W/b⋅cbar[4]
+  cons  q[:] ≥ N⋅W/b⋅cbar[:]
   cons  S[4] ≥ Stip
   cons  M[4] ≥ Mtip
   cons  th[0] ≥ throot
-  cons  th[1] ≥ th[0] + deta[0]⋅0.5⋅b/2⋅(M[1] + M[0])/E/I[0]
-  cons  th[2] ≥ th[1] + deta[1]⋅0.5⋅b/2⋅(M[2] + M[1])/E/I[1]
-  cons  th[3] ≥ th[2] + deta[2]⋅0.5⋅b/2⋅(M[3] + M[2])/E/I[2]
-  cons  th[4] ≥ th[3] + deta[3]⋅0.5⋅b/2⋅(M[4] + M[3])/E/I[3]
+  cons  th[1:] ≥ th[:-1] + 0.5⋅deta[:]⋅b/2⋅(M[1:] + M[:-1])/E/I[:]
   cons  w[0] ≥ wroot
-  cons  w[1] ≥ w[0] + deta[0]⋅0.5⋅b/2⋅(th[1] + th[0])
-  cons  w[2] ≥ w[1] + deta[1]⋅0.5⋅b/2⋅(th[2] + th[1])
-  cons  w[3] ≥ w[2] + deta[2]⋅0.5⋅b/2⋅(th[3] + th[2])
-  cons  w[4] ≥ w[3] + deta[3]⋅0.5⋅b/2⋅(th[4] + th[3])
-  cons  sigma ≥ M[0]/Sy[0]
-  cons  sigma ≥ M[1]/Sy[1]
-  cons  sigma ≥ M[2]/Sy[2]
-  cons  sigma ≥ M[3]/Sy[3]
+  cons  w[1:] ≥ w[:-1] + 0.5⋅deta[:]⋅b/2⋅(th[1:] + th[:-1])
+  cons  M[:-1]/Sy[:] ≤ sigma
   cons  kappa ≥ w[4]/(b/2)
-  cons  (cosminus1[0]⋅vgust/v)^0.996⋅0.946 = agust[0]/m_{fac--fit}
-  cons  (cosminus1[1]⋅vgust/v)^0.996⋅0.946 = agust[1]/m_{fac--fit}
-  cons  (cosminus1[2]⋅vgust/v)^0.996⋅0.946 = agust[2]/m_{fac--fit}
-  cons  (cosminus1[3]⋅vgust/v)^0.996⋅0.946 = agust[3]/m_{fac--fit}
-  cons  (cosminus1[4]⋅vgust/v)^0.996⋅0.946 = agust[4]/m_{fac--fit}
-  cons  q[0] ≥ W⋅N/b⋅cbar[0]⋅(agust[0]⋅6.28/cl⋅(1 + Ww/W) + 1)
-  cons  q[1] ≥ W⋅N/b⋅cbar[1]⋅(agust[1]⋅6.28/cl⋅(1 + Ww/W) + 1)
-  cons  q[2] ≥ W⋅N/b⋅cbar[2]⋅(agust[2]⋅6.28/cl⋅(1 + Ww/W) + 1)
-  cons  q[3] ≥ W⋅N/b⋅cbar[3]⋅(agust[3]⋅6.28/cl⋅(1 + Ww/W) + 1)
-  cons  q[4] ≥ W⋅N/b⋅cbar[4]⋅(agust[4]⋅6.28/cl⋅(1 + Ww/W) + 1)
+  cons  0.946⋅(cosminus1[0]⋅vgust/v)^0.996 = agust[0]/m_{fac--fit}
+  cons  0.946⋅(cosminus1[1]⋅vgust/v)^0.996 = agust[1]/m_{fac--fit}
+  cons  0.946⋅(cosminus1[2]⋅vgust/v)^0.996 = agust[2]/m_{fac--fit}
+  cons  0.946⋅(cosminus1[3]⋅vgust/v)^0.996 = agust[3]/m_{fac--fit}
+  cons  0.946⋅(cosminus1[4]⋅vgust/v)^0.996 = agust[4]/m_{fac--fit}
+  cons  q[:] ≥ W⋅N/b⋅cbar[:]⋅(1 + 6.28⋅agust[:]/cl⋅(1 + Ww/W))
 [Mission.FlightSegment1.TailBoomBending]
   free  F
   free  Mr[:]
@@ -1015,11 +908,11 @@
   fixed deta  [Mission.Aircraft.Empennage.TailBoom]
   fixed E  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
   fixed sigma  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
-  cons  dx[0] = deta
+  cons  dx[:] = deta
   cons  F ≥ qne⋅S
-  cons  \bar{EI}[0] ≤ E⋅I[0]/F/l²/2
-  cons  Mr[0] ≥ \bar{M}[0]⋅F⋅l
-  cons  sigma ≥ Mr[0]/Sy[0]
+  cons  \bar{EI}[:] ≤ E⋅I[:]/F/l²/2
+  cons  Mr[:] ≥ \bar{M}[:-1]⋅F⋅l
+  cons  Mr[:]/Sy[:] ≤ sigma
   cons  th = \theta[1]
   cons  kappa ≥ \bar{\delta}[1]⋅CLmax⋅Nsafety
 [Mission.FlightSegment1.TailBoomBending.Beam]
@@ -1032,12 +925,12 @@
   fixed \bar{M}_{tip}
   fixed \bar{S}[:]
   fixed \theta_{root}
-  cons  \bar{M}[0] ≥ \bar{M}[1] + dx[0]⋅0.5⋅(\bar{S}[0] + \bar{S}[1])
+  cons  \bar{M}[:-1] ≥ \bar{M}[1:] + 0.5⋅dx[:]⋅(\bar{S}[:-1] + \bar{S}[1:])
   cons  \bar{M}[1] ≥ \bar{M}_{tip}
   cons  \theta[0] ≥ \theta_{root}
-  cons  \theta[1] ≥ \theta[0] + dx[0]⋅0.5⋅(\bar{M}[1] + \bar{M}[0])/\bar{EI}[0]
+  cons  \theta[1:] ≥ \theta[:-1] + 0.5⋅dx[:]⋅(\bar{M}[1:] + \bar{M}[:-1])/\bar{EI}[:]
   cons  \bar{\delta}[0] ≥ \bar{\delta}_{root}
-  cons  \bar{\delta}[1] ≥ \bar{\delta}[0] + dx[0]⋅0.5⋅(\theta[1] + \theta[0])
+  cons  \bar{\delta}[1:] ≥ \bar{\delta}[:-1] + 0.5⋅dx[:]⋅(\theta[1:] + \theta[:-1])
 [Mission.FlightSegment1.TailBoomBending1]
   free  F
   free  Mr[:]
@@ -1058,11 +951,11 @@
   fixed deta  [Mission.Aircraft.Empennage.TailBoom]
   fixed E  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
   fixed sigma  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
-  cons  dx[0] = deta
+  cons  dx[:] = deta
   cons  F ≥ qne⋅S
-  cons  \bar{EI}[0] ≤ E⋅I[0]/F/l²/2
-  cons  Mr[0] ≥ \bar{M}[0]⋅F⋅l
-  cons  sigma ≥ Mr[0]/Sy[0]
+  cons  \bar{EI}[:] ≤ E⋅I[:]/F/l²/2
+  cons  Mr[:] ≥ \bar{M}[:-1]⋅F⋅l
+  cons  Mr[:]/Sy[:] ≤ sigma
   cons  th = \theta[1]
   cons  kappa ≥ \bar{\delta}[1]⋅CLmax⋅Nsafety
 [Mission.FlightSegment1.TailBoomBending1.Beam]
@@ -1075,12 +968,12 @@
   fixed \bar{M}_{tip}
   fixed \bar{S}[:]
   fixed \theta_{root}
-  cons  \bar{M}[0] ≥ \bar{M}[1] + dx[0]⋅0.5⋅(\bar{S}[0] + \bar{S}[1])
+  cons  \bar{M}[:-1] ≥ \bar{M}[1:] + 0.5⋅dx[:]⋅(\bar{S}[:-1] + \bar{S}[1:])
   cons  \bar{M}[1] ≥ \bar{M}_{tip}
   cons  \theta[0] ≥ \theta_{root}
-  cons  \theta[1] ≥ \theta[0] + dx[0]⋅0.5⋅(\bar{M}[1] + \bar{M}[0])/\bar{EI}[0]
+  cons  \theta[1:] ≥ \theta[:-1] + 0.5⋅dx[:]⋅(\bar{M}[1:] + \bar{M}[:-1])/\bar{EI}[:]
   cons  \bar{\delta}[0] ≥ \bar{\delta}_{root}
-  cons  \bar{\delta}[1] ≥ \bar{\delta}[0] + dx[0]⋅0.5⋅(\theta[1] + \theta[0])
+  cons  \bar{\delta}[1:] ≥ \bar{\delta}[:-1] + 0.5⋅dx[:]⋅(\theta[1:] + \theta[:-1])
 [Mission.FlightSegment2]
   free  CL
   free  cl
@@ -1253,36 +1146,17 @@
   fixed deta[:]  [Mission.Aircraft._WingGP.Planform]
   fixed E  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
   fixed sigma  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
-  cons  S[0] ≥ S[1] + deta[0]⋅0.5⋅b/2⋅(q[0] + q[1])
-  cons  S[1] ≥ S[2] + deta[1]⋅0.5⋅b/2⋅(q[1] + q[2])
-  cons  S[2] ≥ S[3] + deta[2]⋅0.5⋅b/2⋅(q[2] + q[3])
-  cons  S[3] ≥ S[4] + deta[3]⋅0.5⋅b/2⋅(q[3] + q[4])
-  cons  M[0] ≥ M[1] + deta[0]⋅0.5⋅b/2⋅(S[0] + S[1])
-  cons  M[1] ≥ M[2] + deta[1]⋅0.5⋅b/2⋅(S[1] + S[2])
-  cons  M[2] ≥ M[3] + deta[2]⋅0.5⋅b/2⋅(S[2] + S[3])
-  cons  M[3] ≥ M[4] + deta[3]⋅0.5⋅b/2⋅(S[3] + S[4])
+  cons  S[:-1] ≥ S[1:] + 0.5⋅deta[:]⋅b/2⋅(q[:-1] + q[1:])
+  cons  M[:-1] ≥ M[1:] + 0.5⋅deta[:]⋅b/2⋅(S[:-1] + S[1:])
   cons  N = Nsafety⋅Nmax
-  cons  q[0] ≥ N⋅W/b⋅cbar[0]
-  cons  q[1] ≥ N⋅W/b⋅cbar[1]
-  cons  q[2] ≥ N⋅W/b⋅cbar[2]
-  cons  q[3] ≥ N⋅W/b⋅cbar[3]
-  cons  q[4] ≥ N⋅W/b⋅cbar[4]
+  cons  q[:] ≥ N⋅W/b⋅cbar[:]
   cons  S[4] ≥ Stip
   cons  M[4] ≥ Mtip
   cons  th[0] ≥ throot
-  cons  th[1] ≥ th[0] + deta[0]⋅0.5⋅b/2⋅(M[1] + M[0])/E/I[0]
-  cons  th[2] ≥ th[1] + deta[1]⋅0.5⋅b/2⋅(M[2] + M[1])/E/I[1]
-  cons  th[3] ≥ th[2] + deta[2]⋅0.5⋅b/2⋅(M[3] + M[2])/E/I[2]
-  cons  th[4] ≥ th[3] + deta[3]⋅0.5⋅b/2⋅(M[4] + M[3])/E/I[3]
+  cons  th[1:] ≥ th[:-1] + 0.5⋅deta[:]⋅b/2⋅(M[1:] + M[:-1])/E/I[:]
   cons  w[0] ≥ wroot
-  cons  w[1] ≥ w[0] + deta[0]⋅0.5⋅b/2⋅(th[1] + th[0])
-  cons  w[2] ≥ w[1] + deta[1]⋅0.5⋅b/2⋅(th[2] + th[1])
-  cons  w[3] ≥ w[2] + deta[2]⋅0.5⋅b/2⋅(th[3] + th[2])
-  cons  w[4] ≥ w[3] + deta[3]⋅0.5⋅b/2⋅(th[4] + th[3])
-  cons  sigma ≥ M[0]/Sy[0]
-  cons  sigma ≥ M[1]/Sy[1]
-  cons  sigma ≥ M[2]/Sy[2]
-  cons  sigma ≥ M[3]/Sy[3]
+  cons  w[1:] ≥ w[:-1] + 0.5⋅deta[:]⋅b/2⋅(th[1:] + th[:-1])
+  cons  M[:-1]/Sy[:] ≤ sigma
   cons  kappa ≥ w[4]/(b/2)
 [Mission.FlightSegment2.GustL]
   free  agust[:]
@@ -1318,47 +1192,24 @@
   fixed deta[:]  [Mission.Aircraft._WingGP.Planform]
   fixed E  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
   fixed sigma  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
-  cons  S[0] ≥ S[1] + deta[0]⋅0.5⋅b/2⋅(q[0] + q[1])
-  cons  S[1] ≥ S[2] + deta[1]⋅0.5⋅b/2⋅(q[1] + q[2])
-  cons  S[2] ≥ S[3] + deta[2]⋅0.5⋅b/2⋅(q[2] + q[3])
-  cons  S[3] ≥ S[4] + deta[3]⋅0.5⋅b/2⋅(q[3] + q[4])
-  cons  M[0] ≥ M[1] + deta[0]⋅0.5⋅b/2⋅(S[0] + S[1])
-  cons  M[1] ≥ M[2] + deta[1]⋅0.5⋅b/2⋅(S[1] + S[2])
-  cons  M[2] ≥ M[3] + deta[2]⋅0.5⋅b/2⋅(S[2] + S[3])
-  cons  M[3] ≥ M[4] + deta[3]⋅0.5⋅b/2⋅(S[3] + S[4])
+  cons  S[:-1] ≥ S[1:] + 0.5⋅deta[:]⋅b/2⋅(q[:-1] + q[1:])
+  cons  M[:-1] ≥ M[1:] + 0.5⋅deta[:]⋅b/2⋅(S[:-1] + S[1:])
   cons  N = Nsafety⋅Nmax
-  cons  q[0] ≥ N⋅W/b⋅cbar[0]
-  cons  q[1] ≥ N⋅W/b⋅cbar[1]
-  cons  q[2] ≥ N⋅W/b⋅cbar[2]
-  cons  q[3] ≥ N⋅W/b⋅cbar[3]
-  cons  q[4] ≥ N⋅W/b⋅cbar[4]
+  cons  q[:] ≥ N⋅W/b⋅cbar[:]
   cons  S[4] ≥ Stip
   cons  M[4] ≥ Mtip
   cons  th[0] ≥ throot
-  cons  th[1] ≥ th[0] + deta[0]⋅0.5⋅b/2⋅(M[1] + M[0])/E/I[0]
-  cons  th[2] ≥ th[1] + deta[1]⋅0.5⋅b/2⋅(M[2] + M[1])/E/I[1]
-  cons  th[3] ≥ th[2] + deta[2]⋅0.5⋅b/2⋅(M[3] + M[2])/E/I[2]
-  cons  th[4] ≥ th[3] + deta[3]⋅0.5⋅b/2⋅(M[4] + M[3])/E/I[3]
+  cons  th[1:] ≥ th[:-1] + 0.5⋅deta[:]⋅b/2⋅(M[1:] + M[:-1])/E/I[:]
   cons  w[0] ≥ wroot
-  cons  w[1] ≥ w[0] + deta[0]⋅0.5⋅b/2⋅(th[1] + th[0])
-  cons  w[2] ≥ w[1] + deta[1]⋅0.5⋅b/2⋅(th[2] + th[1])
-  cons  w[3] ≥ w[2] + deta[2]⋅0.5⋅b/2⋅(th[3] + th[2])
-  cons  w[4] ≥ w[3] + deta[3]⋅0.5⋅b/2⋅(th[4] + th[3])
-  cons  sigma ≥ M[0]/Sy[0]
-  cons  sigma ≥ M[1]/Sy[1]
-  cons  sigma ≥ M[2]/Sy[2]
-  cons  sigma ≥ M[3]/Sy[3]
+  cons  w[1:] ≥ w[:-1] + 0.5⋅deta[:]⋅b/2⋅(th[1:] + th[:-1])
+  cons  M[:-1]/Sy[:] ≤ sigma
   cons  kappa ≥ w[4]/(b/2)
-  cons  (cosminus1[0]⋅vgust/v)^0.996⋅0.946 = agust[0]/m_{fac--fit}
-  cons  (cosminus1[1]⋅vgust/v)^0.996⋅0.946 = agust[1]/m_{fac--fit}
-  cons  (cosminus1[2]⋅vgust/v)^0.996⋅0.946 = agust[2]/m_{fac--fit}
-  cons  (cosminus1[3]⋅vgust/v)^0.996⋅0.946 = agust[3]/m_{fac--fit}
-  cons  (cosminus1[4]⋅vgust/v)^0.996⋅0.946 = agust[4]/m_{fac--fit}
-  cons  q[0] ≥ W⋅N/b⋅cbar[0]⋅(agust[0]⋅6.28/cl⋅(1 + Ww/W) + 1)
-  cons  q[1] ≥ W⋅N/b⋅cbar[1]⋅(agust[1]⋅6.28/cl⋅(1 + Ww/W) + 1)
-  cons  q[2] ≥ W⋅N/b⋅cbar[2]⋅(agust[2]⋅6.28/cl⋅(1 + Ww/W) + 1)
-  cons  q[3] ≥ W⋅N/b⋅cbar[3]⋅(agust[3]⋅6.28/cl⋅(1 + Ww/W) + 1)
-  cons  q[4] ≥ W⋅N/b⋅cbar[4]⋅(agust[4]⋅6.28/cl⋅(1 + Ww/W) + 1)
+  cons  0.946⋅(cosminus1[0]⋅vgust/v)^0.996 = agust[0]/m_{fac--fit}
+  cons  0.946⋅(cosminus1[1]⋅vgust/v)^0.996 = agust[1]/m_{fac--fit}
+  cons  0.946⋅(cosminus1[2]⋅vgust/v)^0.996 = agust[2]/m_{fac--fit}
+  cons  0.946⋅(cosminus1[3]⋅vgust/v)^0.996 = agust[3]/m_{fac--fit}
+  cons  0.946⋅(cosminus1[4]⋅vgust/v)^0.996 = agust[4]/m_{fac--fit}
+  cons  q[:] ≥ W⋅N/b⋅cbar[:]⋅(1 + 6.28⋅agust[:]/cl⋅(1 + Ww/W))
 [Mission.FlightSegment2.TailBoomBending]
   free  F
   free  Mr[:]
@@ -1379,11 +1230,11 @@
   fixed deta  [Mission.Aircraft.Empennage.TailBoom]
   fixed E  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
   fixed sigma  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
-  cons  dx[0] = deta
+  cons  dx[:] = deta
   cons  F ≥ qne⋅S
-  cons  \bar{EI}[0] ≤ E⋅I[0]/F/l²/2
-  cons  Mr[0] ≥ \bar{M}[0]⋅F⋅l
-  cons  sigma ≥ Mr[0]/Sy[0]
+  cons  \bar{EI}[:] ≤ E⋅I[:]/F/l²/2
+  cons  Mr[:] ≥ \bar{M}[:-1]⋅F⋅l
+  cons  Mr[:]/Sy[:] ≤ sigma
   cons  th = \theta[1]
   cons  kappa ≥ \bar{\delta}[1]⋅CLmax⋅Nsafety
 [Mission.FlightSegment2.TailBoomBending.Beam]
@@ -1396,12 +1247,12 @@
   fixed \bar{M}_{tip}
   fixed \bar{S}[:]
   fixed \theta_{root}
-  cons  \bar{M}[0] ≥ \bar{M}[1] + dx[0]⋅0.5⋅(\bar{S}[0] + \bar{S}[1])
+  cons  \bar{M}[:-1] ≥ \bar{M}[1:] + 0.5⋅dx[:]⋅(\bar{S}[:-1] + \bar{S}[1:])
   cons  \bar{M}[1] ≥ \bar{M}_{tip}
   cons  \theta[0] ≥ \theta_{root}
-  cons  \theta[1] ≥ \theta[0] + dx[0]⋅0.5⋅(\bar{M}[1] + \bar{M}[0])/\bar{EI}[0]
+  cons  \theta[1:] ≥ \theta[:-1] + 0.5⋅dx[:]⋅(\bar{M}[1:] + \bar{M}[:-1])/\bar{EI}[:]
   cons  \bar{\delta}[0] ≥ \bar{\delta}_{root}
-  cons  \bar{\delta}[1] ≥ \bar{\delta}[0] + dx[0]⋅0.5⋅(\theta[1] + \theta[0])
+  cons  \bar{\delta}[1:] ≥ \bar{\delta}[:-1] + 0.5⋅dx[:]⋅(\theta[1:] + \theta[:-1])
 [Mission.FlightSegment2.TailBoomBending1]
   free  F
   free  Mr[:]
@@ -1422,11 +1273,11 @@
   fixed deta  [Mission.Aircraft.Empennage.TailBoom]
   fixed E  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
   fixed sigma  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
-  cons  dx[0] = deta
+  cons  dx[:] = deta
   cons  F ≥ qne⋅S
-  cons  \bar{EI}[0] ≤ E⋅I[0]/F/l²/2
-  cons  Mr[0] ≥ \bar{M}[0]⋅F⋅l
-  cons  sigma ≥ Mr[0]/Sy[0]
+  cons  \bar{EI}[:] ≤ E⋅I[:]/F/l²/2
+  cons  Mr[:] ≥ \bar{M}[:-1]⋅F⋅l
+  cons  Mr[:]/Sy[:] ≤ sigma
   cons  th = \theta[1]
   cons  kappa ≥ \bar{\delta}[1]⋅CLmax⋅Nsafety
 [Mission.FlightSegment2.TailBoomBending1.Beam]
@@ -1439,12 +1290,12 @@
   fixed \bar{M}_{tip}
   fixed \bar{S}[:]
   fixed \theta_{root}
-  cons  \bar{M}[0] ≥ \bar{M}[1] + dx[0]⋅0.5⋅(\bar{S}[0] + \bar{S}[1])
+  cons  \bar{M}[:-1] ≥ \bar{M}[1:] + 0.5⋅dx[:]⋅(\bar{S}[:-1] + \bar{S}[1:])
   cons  \bar{M}[1] ≥ \bar{M}_{tip}
   cons  \theta[0] ≥ \theta_{root}
-  cons  \theta[1] ≥ \theta[0] + dx[0]⋅0.5⋅(\bar{M}[1] + \bar{M}[0])/\bar{EI}[0]
+  cons  \theta[1:] ≥ \theta[:-1] + 0.5⋅dx[:]⋅(\bar{M}[1:] + \bar{M}[:-1])/\bar{EI}[:]
   cons  \bar{\delta}[0] ≥ \bar{\delta}_{root}
-  cons  \bar{\delta}[1] ≥ \bar{\delta}[0] + dx[0]⋅0.5⋅(\theta[1] + \theta[0])
+  cons  \bar{\delta}[1:] ≥ \bar{\delta}[:-1] + 0.5⋅dx[:]⋅(\theta[1:] + \theta[:-1])
 [Mission.FlightSegment3]
   free  CL
   free  cl
@@ -1617,36 +1468,17 @@
   fixed deta[:]  [Mission.Aircraft._WingGP.Planform]
   fixed E  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
   fixed sigma  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
-  cons  S[0] ≥ S[1] + deta[0]⋅0.5⋅b/2⋅(q[0] + q[1])
-  cons  S[1] ≥ S[2] + deta[1]⋅0.5⋅b/2⋅(q[1] + q[2])
-  cons  S[2] ≥ S[3] + deta[2]⋅0.5⋅b/2⋅(q[2] + q[3])
-  cons  S[3] ≥ S[4] + deta[3]⋅0.5⋅b/2⋅(q[3] + q[4])
-  cons  M[0] ≥ M[1] + deta[0]⋅0.5⋅b/2⋅(S[0] + S[1])
-  cons  M[1] ≥ M[2] + deta[1]⋅0.5⋅b/2⋅(S[1] + S[2])
-  cons  M[2] ≥ M[3] + deta[2]⋅0.5⋅b/2⋅(S[2] + S[3])
-  cons  M[3] ≥ M[4] + deta[3]⋅0.5⋅b/2⋅(S[3] + S[4])
+  cons  S[:-1] ≥ S[1:] + 0.5⋅deta[:]⋅b/2⋅(q[:-1] + q[1:])
+  cons  M[:-1] ≥ M[1:] + 0.5⋅deta[:]⋅b/2⋅(S[:-1] + S[1:])
   cons  N = Nsafety⋅Nmax
-  cons  q[0] ≥ N⋅W/b⋅cbar[0]
-  cons  q[1] ≥ N⋅W/b⋅cbar[1]
-  cons  q[2] ≥ N⋅W/b⋅cbar[2]
-  cons  q[3] ≥ N⋅W/b⋅cbar[3]
-  cons  q[4] ≥ N⋅W/b⋅cbar[4]
+  cons  q[:] ≥ N⋅W/b⋅cbar[:]
   cons  S[4] ≥ Stip
   cons  M[4] ≥ Mtip
   cons  th[0] ≥ throot
-  cons  th[1] ≥ th[0] + deta[0]⋅0.5⋅b/2⋅(M[1] + M[0])/E/I[0]
-  cons  th[2] ≥ th[1] + deta[1]⋅0.5⋅b/2⋅(M[2] + M[1])/E/I[1]
-  cons  th[3] ≥ th[2] + deta[2]⋅0.5⋅b/2⋅(M[3] + M[2])/E/I[2]
-  cons  th[4] ≥ th[3] + deta[3]⋅0.5⋅b/2⋅(M[4] + M[3])/E/I[3]
+  cons  th[1:] ≥ th[:-1] + 0.5⋅deta[:]⋅b/2⋅(M[1:] + M[:-1])/E/I[:]
   cons  w[0] ≥ wroot
-  cons  w[1] ≥ w[0] + deta[0]⋅0.5⋅b/2⋅(th[1] + th[0])
-  cons  w[2] ≥ w[1] + deta[1]⋅0.5⋅b/2⋅(th[2] + th[1])
-  cons  w[3] ≥ w[2] + deta[2]⋅0.5⋅b/2⋅(th[3] + th[2])
-  cons  w[4] ≥ w[3] + deta[3]⋅0.5⋅b/2⋅(th[4] + th[3])
-  cons  sigma ≥ M[0]/Sy[0]
-  cons  sigma ≥ M[1]/Sy[1]
-  cons  sigma ≥ M[2]/Sy[2]
-  cons  sigma ≥ M[3]/Sy[3]
+  cons  w[1:] ≥ w[:-1] + 0.5⋅deta[:]⋅b/2⋅(th[1:] + th[:-1])
+  cons  M[:-1]/Sy[:] ≤ sigma
   cons  kappa ≥ w[4]/(b/2)
 [Mission.FlightSegment3.GustL]
   free  agust[:]
@@ -1682,47 +1514,24 @@
   fixed deta[:]  [Mission.Aircraft._WingGP.Planform]
   fixed E  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
   fixed sigma  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
-  cons  S[0] ≥ S[1] + deta[0]⋅0.5⋅b/2⋅(q[0] + q[1])
-  cons  S[1] ≥ S[2] + deta[1]⋅0.5⋅b/2⋅(q[1] + q[2])
-  cons  S[2] ≥ S[3] + deta[2]⋅0.5⋅b/2⋅(q[2] + q[3])
-  cons  S[3] ≥ S[4] + deta[3]⋅0.5⋅b/2⋅(q[3] + q[4])
-  cons  M[0] ≥ M[1] + deta[0]⋅0.5⋅b/2⋅(S[0] + S[1])
-  cons  M[1] ≥ M[2] + deta[1]⋅0.5⋅b/2⋅(S[1] + S[2])
-  cons  M[2] ≥ M[3] + deta[2]⋅0.5⋅b/2⋅(S[2] + S[3])
-  cons  M[3] ≥ M[4] + deta[3]⋅0.5⋅b/2⋅(S[3] + S[4])
+  cons  S[:-1] ≥ S[1:] + 0.5⋅deta[:]⋅b/2⋅(q[:-1] + q[1:])
+  cons  M[:-1] ≥ M[1:] + 0.5⋅deta[:]⋅b/2⋅(S[:-1] + S[1:])
   cons  N = Nsafety⋅Nmax
-  cons  q[0] ≥ N⋅W/b⋅cbar[0]
-  cons  q[1] ≥ N⋅W/b⋅cbar[1]
-  cons  q[2] ≥ N⋅W/b⋅cbar[2]
-  cons  q[3] ≥ N⋅W/b⋅cbar[3]
-  cons  q[4] ≥ N⋅W/b⋅cbar[4]
+  cons  q[:] ≥ N⋅W/b⋅cbar[:]
   cons  S[4] ≥ Stip
   cons  M[4] ≥ Mtip
   cons  th[0] ≥ throot
-  cons  th[1] ≥ th[0] + deta[0]⋅0.5⋅b/2⋅(M[1] + M[0])/E/I[0]
-  cons  th[2] ≥ th[1] + deta[1]⋅0.5⋅b/2⋅(M[2] + M[1])/E/I[1]
-  cons  th[3] ≥ th[2] + deta[2]⋅0.5⋅b/2⋅(M[3] + M[2])/E/I[2]
-  cons  th[4] ≥ th[3] + deta[3]⋅0.5⋅b/2⋅(M[4] + M[3])/E/I[3]
+  cons  th[1:] ≥ th[:-1] + 0.5⋅deta[:]⋅b/2⋅(M[1:] + M[:-1])/E/I[:]
   cons  w[0] ≥ wroot
-  cons  w[1] ≥ w[0] + deta[0]⋅0.5⋅b/2⋅(th[1] + th[0])
-  cons  w[2] ≥ w[1] + deta[1]⋅0.5⋅b/2⋅(th[2] + th[1])
-  cons  w[3] ≥ w[2] + deta[2]⋅0.5⋅b/2⋅(th[3] + th[2])
-  cons  w[4] ≥ w[3] + deta[3]⋅0.5⋅b/2⋅(th[4] + th[3])
-  cons  sigma ≥ M[0]/Sy[0]
-  cons  sigma ≥ M[1]/Sy[1]
-  cons  sigma ≥ M[2]/Sy[2]
-  cons  sigma ≥ M[3]/Sy[3]
+  cons  w[1:] ≥ w[:-1] + 0.5⋅deta[:]⋅b/2⋅(th[1:] + th[:-1])
+  cons  M[:-1]/Sy[:] ≤ sigma
   cons  kappa ≥ w[4]/(b/2)
-  cons  (cosminus1[0]⋅vgust/v)^0.996⋅0.946 = agust[0]/m_{fac--fit}
-  cons  (cosminus1[1]⋅vgust/v)^0.996⋅0.946 = agust[1]/m_{fac--fit}
-  cons  (cosminus1[2]⋅vgust/v)^0.996⋅0.946 = agust[2]/m_{fac--fit}
-  cons  (cosminus1[3]⋅vgust/v)^0.996⋅0.946 = agust[3]/m_{fac--fit}
-  cons  (cosminus1[4]⋅vgust/v)^0.996⋅0.946 = agust[4]/m_{fac--fit}
-  cons  q[0] ≥ W⋅N/b⋅cbar[0]⋅(agust[0]⋅6.28/cl⋅(1 + Ww/W) + 1)
-  cons  q[1] ≥ W⋅N/b⋅cbar[1]⋅(agust[1]⋅6.28/cl⋅(1 + Ww/W) + 1)
-  cons  q[2] ≥ W⋅N/b⋅cbar[2]⋅(agust[2]⋅6.28/cl⋅(1 + Ww/W) + 1)
-  cons  q[3] ≥ W⋅N/b⋅cbar[3]⋅(agust[3]⋅6.28/cl⋅(1 + Ww/W) + 1)
-  cons  q[4] ≥ W⋅N/b⋅cbar[4]⋅(agust[4]⋅6.28/cl⋅(1 + Ww/W) + 1)
+  cons  0.946⋅(cosminus1[0]⋅vgust/v)^0.996 = agust[0]/m_{fac--fit}
+  cons  0.946⋅(cosminus1[1]⋅vgust/v)^0.996 = agust[1]/m_{fac--fit}
+  cons  0.946⋅(cosminus1[2]⋅vgust/v)^0.996 = agust[2]/m_{fac--fit}
+  cons  0.946⋅(cosminus1[3]⋅vgust/v)^0.996 = agust[3]/m_{fac--fit}
+  cons  0.946⋅(cosminus1[4]⋅vgust/v)^0.996 = agust[4]/m_{fac--fit}
+  cons  q[:] ≥ W⋅N/b⋅cbar[:]⋅(1 + 6.28⋅agust[:]/cl⋅(1 + Ww/W))
 [Mission.FlightSegment3.TailBoomBending]
   free  F
   free  Mr[:]
@@ -1743,11 +1552,11 @@
   fixed deta  [Mission.Aircraft.Empennage.TailBoom]
   fixed E  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
   fixed sigma  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
-  cons  dx[0] = deta
+  cons  dx[:] = deta
   cons  F ≥ qne⋅S
-  cons  \bar{EI}[0] ≤ E⋅I[0]/F/l²/2
-  cons  Mr[0] ≥ \bar{M}[0]⋅F⋅l
-  cons  sigma ≥ Mr[0]/Sy[0]
+  cons  \bar{EI}[:] ≤ E⋅I[:]/F/l²/2
+  cons  Mr[:] ≥ \bar{M}[:-1]⋅F⋅l
+  cons  Mr[:]/Sy[:] ≤ sigma
   cons  th = \theta[1]
   cons  kappa ≥ \bar{\delta}[1]⋅CLmax⋅Nsafety
 [Mission.FlightSegment3.TailBoomBending.Beam]
@@ -1760,12 +1569,12 @@
   fixed \bar{M}_{tip}
   fixed \bar{S}[:]
   fixed \theta_{root}
-  cons  \bar{M}[0] ≥ \bar{M}[1] + dx[0]⋅0.5⋅(\bar{S}[0] + \bar{S}[1])
+  cons  \bar{M}[:-1] ≥ \bar{M}[1:] + 0.5⋅dx[:]⋅(\bar{S}[:-1] + \bar{S}[1:])
   cons  \bar{M}[1] ≥ \bar{M}_{tip}
   cons  \theta[0] ≥ \theta_{root}
-  cons  \theta[1] ≥ \theta[0] + dx[0]⋅0.5⋅(\bar{M}[1] + \bar{M}[0])/\bar{EI}[0]
+  cons  \theta[1:] ≥ \theta[:-1] + 0.5⋅dx[:]⋅(\bar{M}[1:] + \bar{M}[:-1])/\bar{EI}[:]
   cons  \bar{\delta}[0] ≥ \bar{\delta}_{root}
-  cons  \bar{\delta}[1] ≥ \bar{\delta}[0] + dx[0]⋅0.5⋅(\theta[1] + \theta[0])
+  cons  \bar{\delta}[1:] ≥ \bar{\delta}[:-1] + 0.5⋅dx[:]⋅(\theta[1:] + \theta[:-1])
 [Mission.FlightSegment3.TailBoomBending1]
   free  F
   free  Mr[:]
@@ -1786,11 +1595,11 @@
   fixed deta  [Mission.Aircraft.Empennage.TailBoom]
   fixed E  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
   fixed sigma  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
-  cons  dx[0] = deta
+  cons  dx[:] = deta
   cons  F ≥ qne⋅S
-  cons  \bar{EI}[0] ≤ E⋅I[0]/F/l²/2
-  cons  Mr[0] ≥ \bar{M}[0]⋅F⋅l
-  cons  sigma ≥ Mr[0]/Sy[0]
+  cons  \bar{EI}[:] ≤ E⋅I[:]/F/l²/2
+  cons  Mr[:] ≥ \bar{M}[:-1]⋅F⋅l
+  cons  Mr[:]/Sy[:] ≤ sigma
   cons  th = \theta[1]
   cons  kappa ≥ \bar{\delta}[1]⋅CLmax⋅Nsafety
 [Mission.FlightSegment3.TailBoomBending1.Beam]
@@ -1803,12 +1612,12 @@
   fixed \bar{M}_{tip}
   fixed \bar{S}[:]
   fixed \theta_{root}
-  cons  \bar{M}[0] ≥ \bar{M}[1] + dx[0]⋅0.5⋅(\bar{S}[0] + \bar{S}[1])
+  cons  \bar{M}[:-1] ≥ \bar{M}[1:] + 0.5⋅dx[:]⋅(\bar{S}[:-1] + \bar{S}[1:])
   cons  \bar{M}[1] ≥ \bar{M}_{tip}
   cons  \theta[0] ≥ \theta_{root}
-  cons  \theta[1] ≥ \theta[0] + dx[0]⋅0.5⋅(\bar{M}[1] + \bar{M}[0])/\bar{EI}[0]
+  cons  \theta[1:] ≥ \theta[:-1] + 0.5⋅dx[:]⋅(\bar{M}[1:] + \bar{M}[:-1])/\bar{EI}[:]
   cons  \bar{\delta}[0] ≥ \bar{\delta}_{root}
-  cons  \bar{\delta}[1] ≥ \bar{\delta}[0] + dx[0]⋅0.5⋅(\theta[1] + \theta[0])
+  cons  \bar{\delta}[1:] ≥ \bar{\delta}[:-1] + 0.5⋅dx[:]⋅(\theta[1:] + \theta[:-1])
 [Mission.FlightSegment4]
   free  CL
   free  cl
@@ -1981,36 +1790,17 @@
   fixed deta[:]  [Mission.Aircraft._WingGP.Planform]
   fixed E  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
   fixed sigma  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
-  cons  S[0] ≥ S[1] + deta[0]⋅0.5⋅b/2⋅(q[0] + q[1])
-  cons  S[1] ≥ S[2] + deta[1]⋅0.5⋅b/2⋅(q[1] + q[2])
-  cons  S[2] ≥ S[3] + deta[2]⋅0.5⋅b/2⋅(q[2] + q[3])
-  cons  S[3] ≥ S[4] + deta[3]⋅0.5⋅b/2⋅(q[3] + q[4])
-  cons  M[0] ≥ M[1] + deta[0]⋅0.5⋅b/2⋅(S[0] + S[1])
-  cons  M[1] ≥ M[2] + deta[1]⋅0.5⋅b/2⋅(S[1] + S[2])
-  cons  M[2] ≥ M[3] + deta[2]⋅0.5⋅b/2⋅(S[2] + S[3])
-  cons  M[3] ≥ M[4] + deta[3]⋅0.5⋅b/2⋅(S[3] + S[4])
+  cons  S[:-1] ≥ S[1:] + 0.5⋅deta[:]⋅b/2⋅(q[:-1] + q[1:])
+  cons  M[:-1] ≥ M[1:] + 0.5⋅deta[:]⋅b/2⋅(S[:-1] + S[1:])
   cons  N = Nsafety⋅Nmax
-  cons  q[0] ≥ N⋅W/b⋅cbar[0]
-  cons  q[1] ≥ N⋅W/b⋅cbar[1]
-  cons  q[2] ≥ N⋅W/b⋅cbar[2]
-  cons  q[3] ≥ N⋅W/b⋅cbar[3]
-  cons  q[4] ≥ N⋅W/b⋅cbar[4]
+  cons  q[:] ≥ N⋅W/b⋅cbar[:]
   cons  S[4] ≥ Stip
   cons  M[4] ≥ Mtip
   cons  th[0] ≥ throot
-  cons  th[1] ≥ th[0] + deta[0]⋅0.5⋅b/2⋅(M[1] + M[0])/E/I[0]
-  cons  th[2] ≥ th[1] + deta[1]⋅0.5⋅b/2⋅(M[2] + M[1])/E/I[1]
-  cons  th[3] ≥ th[2] + deta[2]⋅0.5⋅b/2⋅(M[3] + M[2])/E/I[2]
-  cons  th[4] ≥ th[3] + deta[3]⋅0.5⋅b/2⋅(M[4] + M[3])/E/I[3]
+  cons  th[1:] ≥ th[:-1] + 0.5⋅deta[:]⋅b/2⋅(M[1:] + M[:-1])/E/I[:]
   cons  w[0] ≥ wroot
-  cons  w[1] ≥ w[0] + deta[0]⋅0.5⋅b/2⋅(th[1] + th[0])
-  cons  w[2] ≥ w[1] + deta[1]⋅0.5⋅b/2⋅(th[2] + th[1])
-  cons  w[3] ≥ w[2] + deta[2]⋅0.5⋅b/2⋅(th[3] + th[2])
-  cons  w[4] ≥ w[3] + deta[3]⋅0.5⋅b/2⋅(th[4] + th[3])
-  cons  sigma ≥ M[0]/Sy[0]
-  cons  sigma ≥ M[1]/Sy[1]
-  cons  sigma ≥ M[2]/Sy[2]
-  cons  sigma ≥ M[3]/Sy[3]
+  cons  w[1:] ≥ w[:-1] + 0.5⋅deta[:]⋅b/2⋅(th[1:] + th[:-1])
+  cons  M[:-1]/Sy[:] ≤ sigma
   cons  kappa ≥ w[4]/(b/2)
 [Mission.FlightSegment4.GustL]
   free  agust[:]
@@ -2046,47 +1836,24 @@
   fixed deta[:]  [Mission.Aircraft._WingGP.Planform]
   fixed E  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
   fixed sigma  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
-  cons  S[0] ≥ S[1] + deta[0]⋅0.5⋅b/2⋅(q[0] + q[1])
-  cons  S[1] ≥ S[2] + deta[1]⋅0.5⋅b/2⋅(q[1] + q[2])
-  cons  S[2] ≥ S[3] + deta[2]⋅0.5⋅b/2⋅(q[2] + q[3])
-  cons  S[3] ≥ S[4] + deta[3]⋅0.5⋅b/2⋅(q[3] + q[4])
-  cons  M[0] ≥ M[1] + deta[0]⋅0.5⋅b/2⋅(S[0] + S[1])
-  cons  M[1] ≥ M[2] + deta[1]⋅0.5⋅b/2⋅(S[1] + S[2])
-  cons  M[2] ≥ M[3] + deta[2]⋅0.5⋅b/2⋅(S[2] + S[3])
-  cons  M[3] ≥ M[4] + deta[3]⋅0.5⋅b/2⋅(S[3] + S[4])
+  cons  S[:-1] ≥ S[1:] + 0.5⋅deta[:]⋅b/2⋅(q[:-1] + q[1:])
+  cons  M[:-1] ≥ M[1:] + 0.5⋅deta[:]⋅b/2⋅(S[:-1] + S[1:])
   cons  N = Nsafety⋅Nmax
-  cons  q[0] ≥ N⋅W/b⋅cbar[0]
-  cons  q[1] ≥ N⋅W/b⋅cbar[1]
-  cons  q[2] ≥ N⋅W/b⋅cbar[2]
-  cons  q[3] ≥ N⋅W/b⋅cbar[3]
-  cons  q[4] ≥ N⋅W/b⋅cbar[4]
+  cons  q[:] ≥ N⋅W/b⋅cbar[:]
   cons  S[4] ≥ Stip
   cons  M[4] ≥ Mtip
   cons  th[0] ≥ throot
-  cons  th[1] ≥ th[0] + deta[0]⋅0.5⋅b/2⋅(M[1] + M[0])/E/I[0]
-  cons  th[2] ≥ th[1] + deta[1]⋅0.5⋅b/2⋅(M[2] + M[1])/E/I[1]
-  cons  th[3] ≥ th[2] + deta[2]⋅0.5⋅b/2⋅(M[3] + M[2])/E/I[2]
-  cons  th[4] ≥ th[3] + deta[3]⋅0.5⋅b/2⋅(M[4] + M[3])/E/I[3]
+  cons  th[1:] ≥ th[:-1] + 0.5⋅deta[:]⋅b/2⋅(M[1:] + M[:-1])/E/I[:]
   cons  w[0] ≥ wroot
-  cons  w[1] ≥ w[0] + deta[0]⋅0.5⋅b/2⋅(th[1] + th[0])
-  cons  w[2] ≥ w[1] + deta[1]⋅0.5⋅b/2⋅(th[2] + th[1])
-  cons  w[3] ≥ w[2] + deta[2]⋅0.5⋅b/2⋅(th[3] + th[2])
-  cons  w[4] ≥ w[3] + deta[3]⋅0.5⋅b/2⋅(th[4] + th[3])
-  cons  sigma ≥ M[0]/Sy[0]
-  cons  sigma ≥ M[1]/Sy[1]
-  cons  sigma ≥ M[2]/Sy[2]
-  cons  sigma ≥ M[3]/Sy[3]
+  cons  w[1:] ≥ w[:-1] + 0.5⋅deta[:]⋅b/2⋅(th[1:] + th[:-1])
+  cons  M[:-1]/Sy[:] ≤ sigma
   cons  kappa ≥ w[4]/(b/2)
-  cons  (cosminus1[0]⋅vgust/v)^0.996⋅0.946 = agust[0]/m_{fac--fit}
-  cons  (cosminus1[1]⋅vgust/v)^0.996⋅0.946 = agust[1]/m_{fac--fit}
-  cons  (cosminus1[2]⋅vgust/v)^0.996⋅0.946 = agust[2]/m_{fac--fit}
-  cons  (cosminus1[3]⋅vgust/v)^0.996⋅0.946 = agust[3]/m_{fac--fit}
-  cons  (cosminus1[4]⋅vgust/v)^0.996⋅0.946 = agust[4]/m_{fac--fit}
-  cons  q[0] ≥ W⋅N/b⋅cbar[0]⋅(agust[0]⋅6.28/cl⋅(1 + Ww/W) + 1)
-  cons  q[1] ≥ W⋅N/b⋅cbar[1]⋅(agust[1]⋅6.28/cl⋅(1 + Ww/W) + 1)
-  cons  q[2] ≥ W⋅N/b⋅cbar[2]⋅(agust[2]⋅6.28/cl⋅(1 + Ww/W) + 1)
-  cons  q[3] ≥ W⋅N/b⋅cbar[3]⋅(agust[3]⋅6.28/cl⋅(1 + Ww/W) + 1)
-  cons  q[4] ≥ W⋅N/b⋅cbar[4]⋅(agust[4]⋅6.28/cl⋅(1 + Ww/W) + 1)
+  cons  0.946⋅(cosminus1[0]⋅vgust/v)^0.996 = agust[0]/m_{fac--fit}
+  cons  0.946⋅(cosminus1[1]⋅vgust/v)^0.996 = agust[1]/m_{fac--fit}
+  cons  0.946⋅(cosminus1[2]⋅vgust/v)^0.996 = agust[2]/m_{fac--fit}
+  cons  0.946⋅(cosminus1[3]⋅vgust/v)^0.996 = agust[3]/m_{fac--fit}
+  cons  0.946⋅(cosminus1[4]⋅vgust/v)^0.996 = agust[4]/m_{fac--fit}
+  cons  q[:] ≥ W⋅N/b⋅cbar[:]⋅(1 + 6.28⋅agust[:]/cl⋅(1 + Ww/W))
 [Mission.FlightSegment4.TailBoomBending]
   free  F
   free  Mr[:]
@@ -2107,11 +1874,11 @@
   fixed deta  [Mission.Aircraft.Empennage.TailBoom]
   fixed E  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
   fixed sigma  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
-  cons  dx[0] = deta
+  cons  dx[:] = deta
   cons  F ≥ qne⋅S
-  cons  \bar{EI}[0] ≤ E⋅I[0]/F/l²/2
-  cons  Mr[0] ≥ \bar{M}[0]⋅F⋅l
-  cons  sigma ≥ Mr[0]/Sy[0]
+  cons  \bar{EI}[:] ≤ E⋅I[:]/F/l²/2
+  cons  Mr[:] ≥ \bar{M}[:-1]⋅F⋅l
+  cons  Mr[:]/Sy[:] ≤ sigma
   cons  th = \theta[1]
   cons  kappa ≥ \bar{\delta}[1]⋅CLmax⋅Nsafety
 [Mission.FlightSegment4.TailBoomBending.Beam]
@@ -2124,12 +1891,12 @@
   fixed \bar{M}_{tip}
   fixed \bar{S}[:]
   fixed \theta_{root}
-  cons  \bar{M}[0] ≥ \bar{M}[1] + dx[0]⋅0.5⋅(\bar{S}[0] + \bar{S}[1])
+  cons  \bar{M}[:-1] ≥ \bar{M}[1:] + 0.5⋅dx[:]⋅(\bar{S}[:-1] + \bar{S}[1:])
   cons  \bar{M}[1] ≥ \bar{M}_{tip}
   cons  \theta[0] ≥ \theta_{root}
-  cons  \theta[1] ≥ \theta[0] + dx[0]⋅0.5⋅(\bar{M}[1] + \bar{M}[0])/\bar{EI}[0]
+  cons  \theta[1:] ≥ \theta[:-1] + 0.5⋅dx[:]⋅(\bar{M}[1:] + \bar{M}[:-1])/\bar{EI}[:]
   cons  \bar{\delta}[0] ≥ \bar{\delta}_{root}
-  cons  \bar{\delta}[1] ≥ \bar{\delta}[0] + dx[0]⋅0.5⋅(\theta[1] + \theta[0])
+  cons  \bar{\delta}[1:] ≥ \bar{\delta}[:-1] + 0.5⋅dx[:]⋅(\theta[1:] + \theta[:-1])
 [Mission.FlightSegment4.TailBoomBending1]
   free  F
   free  Mr[:]
@@ -2150,11 +1917,11 @@
   fixed deta  [Mission.Aircraft.Empennage.TailBoom]
   fixed E  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
   fixed sigma  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
-  cons  dx[0] = deta
+  cons  dx[:] = deta
   cons  F ≥ qne⋅S
-  cons  \bar{EI}[0] ≤ E⋅I[0]/F/l²/2
-  cons  Mr[0] ≥ \bar{M}[0]⋅F⋅l
-  cons  sigma ≥ Mr[0]/Sy[0]
+  cons  \bar{EI}[:] ≤ E⋅I[:]/F/l²/2
+  cons  Mr[:] ≥ \bar{M}[:-1]⋅F⋅l
+  cons  Mr[:]/Sy[:] ≤ sigma
   cons  th = \theta[1]
   cons  kappa ≥ \bar{\delta}[1]⋅CLmax⋅Nsafety
 [Mission.FlightSegment4.TailBoomBending1.Beam]
@@ -2167,12 +1934,12 @@
   fixed \bar{M}_{tip}
   fixed \bar{S}[:]
   fixed \theta_{root}
-  cons  \bar{M}[0] ≥ \bar{M}[1] + dx[0]⋅0.5⋅(\bar{S}[0] + \bar{S}[1])
+  cons  \bar{M}[:-1] ≥ \bar{M}[1:] + 0.5⋅dx[:]⋅(\bar{S}[:-1] + \bar{S}[1:])
   cons  \bar{M}[1] ≥ \bar{M}_{tip}
   cons  \theta[0] ≥ \theta_{root}
-  cons  \theta[1] ≥ \theta[0] + dx[0]⋅0.5⋅(\bar{M}[1] + \bar{M}[0])/\bar{EI}[0]
+  cons  \theta[1:] ≥ \theta[:-1] + 0.5⋅dx[:]⋅(\bar{M}[1:] + \bar{M}[:-1])/\bar{EI}[:]
   cons  \bar{\delta}[0] ≥ \bar{\delta}_{root}
-  cons  \bar{\delta}[1] ≥ \bar{\delta}[0] + dx[0]⋅0.5⋅(\theta[1] + \theta[0])
+  cons  \bar{\delta}[1:] ≥ \bar{\delta}[:-1] + 0.5⋅dx[:]⋅(\theta[1:] + \theta[:-1])
 [Mission.FlightSegment5]
   free  CL
   free  cl
@@ -2349,36 +2116,17 @@
   fixed deta[:]  [Mission.Aircraft._WingGP.Planform]
   fixed E  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
   fixed sigma  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
-  cons  S[0] ≥ S[1] + deta[0]⋅0.5⋅b/2⋅(q[0] + q[1])
-  cons  S[1] ≥ S[2] + deta[1]⋅0.5⋅b/2⋅(q[1] + q[2])
-  cons  S[2] ≥ S[3] + deta[2]⋅0.5⋅b/2⋅(q[2] + q[3])
-  cons  S[3] ≥ S[4] + deta[3]⋅0.5⋅b/2⋅(q[3] + q[4])
-  cons  M[0] ≥ M[1] + deta[0]⋅0.5⋅b/2⋅(S[0] + S[1])
-  cons  M[1] ≥ M[2] + deta[1]⋅0.5⋅b/2⋅(S[1] + S[2])
-  cons  M[2] ≥ M[3] + deta[2]⋅0.5⋅b/2⋅(S[2] + S[3])
-  cons  M[3] ≥ M[4] + deta[3]⋅0.5⋅b/2⋅(S[3] + S[4])
+  cons  S[:-1] ≥ S[1:] + 0.5⋅deta[:]⋅b/2⋅(q[:-1] + q[1:])
+  cons  M[:-1] ≥ M[1:] + 0.5⋅deta[:]⋅b/2⋅(S[:-1] + S[1:])
   cons  N = Nsafety⋅Nmax
-  cons  q[0] ≥ N⋅W/b⋅cbar[0]
-  cons  q[1] ≥ N⋅W/b⋅cbar[1]
-  cons  q[2] ≥ N⋅W/b⋅cbar[2]
-  cons  q[3] ≥ N⋅W/b⋅cbar[3]
-  cons  q[4] ≥ N⋅W/b⋅cbar[4]
+  cons  q[:] ≥ N⋅W/b⋅cbar[:]
   cons  S[4] ≥ Stip
   cons  M[4] ≥ Mtip
   cons  th[0] ≥ throot
-  cons  th[1] ≥ th[0] + deta[0]⋅0.5⋅b/2⋅(M[1] + M[0])/E/I[0]
-  cons  th[2] ≥ th[1] + deta[1]⋅0.5⋅b/2⋅(M[2] + M[1])/E/I[1]
-  cons  th[3] ≥ th[2] + deta[2]⋅0.5⋅b/2⋅(M[3] + M[2])/E/I[2]
-  cons  th[4] ≥ th[3] + deta[3]⋅0.5⋅b/2⋅(M[4] + M[3])/E/I[3]
+  cons  th[1:] ≥ th[:-1] + 0.5⋅deta[:]⋅b/2⋅(M[1:] + M[:-1])/E/I[:]
   cons  w[0] ≥ wroot
-  cons  w[1] ≥ w[0] + deta[0]⋅0.5⋅b/2⋅(th[1] + th[0])
-  cons  w[2] ≥ w[1] + deta[1]⋅0.5⋅b/2⋅(th[2] + th[1])
-  cons  w[3] ≥ w[2] + deta[2]⋅0.5⋅b/2⋅(th[3] + th[2])
-  cons  w[4] ≥ w[3] + deta[3]⋅0.5⋅b/2⋅(th[4] + th[3])
-  cons  sigma ≥ M[0]/Sy[0]
-  cons  sigma ≥ M[1]/Sy[1]
-  cons  sigma ≥ M[2]/Sy[2]
-  cons  sigma ≥ M[3]/Sy[3]
+  cons  w[1:] ≥ w[:-1] + 0.5⋅deta[:]⋅b/2⋅(th[1:] + th[:-1])
+  cons  M[:-1]/Sy[:] ≤ sigma
   cons  kappa ≥ w[4]/(b/2)
 [Mission.FlightSegment5.GustL]
   free  agust[:]
@@ -2414,47 +2162,24 @@
   fixed deta[:]  [Mission.Aircraft._WingGP.Planform]
   fixed E  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
   fixed sigma  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
-  cons  S[0] ≥ S[1] + deta[0]⋅0.5⋅b/2⋅(q[0] + q[1])
-  cons  S[1] ≥ S[2] + deta[1]⋅0.5⋅b/2⋅(q[1] + q[2])
-  cons  S[2] ≥ S[3] + deta[2]⋅0.5⋅b/2⋅(q[2] + q[3])
-  cons  S[3] ≥ S[4] + deta[3]⋅0.5⋅b/2⋅(q[3] + q[4])
-  cons  M[0] ≥ M[1] + deta[0]⋅0.5⋅b/2⋅(S[0] + S[1])
-  cons  M[1] ≥ M[2] + deta[1]⋅0.5⋅b/2⋅(S[1] + S[2])
-  cons  M[2] ≥ M[3] + deta[2]⋅0.5⋅b/2⋅(S[2] + S[3])
-  cons  M[3] ≥ M[4] + deta[3]⋅0.5⋅b/2⋅(S[3] + S[4])
+  cons  S[:-1] ≥ S[1:] + 0.5⋅deta[:]⋅b/2⋅(q[:-1] + q[1:])
+  cons  M[:-1] ≥ M[1:] + 0.5⋅deta[:]⋅b/2⋅(S[:-1] + S[1:])
   cons  N = Nsafety⋅Nmax
-  cons  q[0] ≥ N⋅W/b⋅cbar[0]
-  cons  q[1] ≥ N⋅W/b⋅cbar[1]
-  cons  q[2] ≥ N⋅W/b⋅cbar[2]
-  cons  q[3] ≥ N⋅W/b⋅cbar[3]
-  cons  q[4] ≥ N⋅W/b⋅cbar[4]
+  cons  q[:] ≥ N⋅W/b⋅cbar[:]
   cons  S[4] ≥ Stip
   cons  M[4] ≥ Mtip
   cons  th[0] ≥ throot
-  cons  th[1] ≥ th[0] + deta[0]⋅0.5⋅b/2⋅(M[1] + M[0])/E/I[0]
-  cons  th[2] ≥ th[1] + deta[1]⋅0.5⋅b/2⋅(M[2] + M[1])/E/I[1]
-  cons  th[3] ≥ th[2] + deta[2]⋅0.5⋅b/2⋅(M[3] + M[2])/E/I[2]
-  cons  th[4] ≥ th[3] + deta[3]⋅0.5⋅b/2⋅(M[4] + M[3])/E/I[3]
+  cons  th[1:] ≥ th[:-1] + 0.5⋅deta[:]⋅b/2⋅(M[1:] + M[:-1])/E/I[:]
   cons  w[0] ≥ wroot
-  cons  w[1] ≥ w[0] + deta[0]⋅0.5⋅b/2⋅(th[1] + th[0])
-  cons  w[2] ≥ w[1] + deta[1]⋅0.5⋅b/2⋅(th[2] + th[1])
-  cons  w[3] ≥ w[2] + deta[2]⋅0.5⋅b/2⋅(th[3] + th[2])
-  cons  w[4] ≥ w[3] + deta[3]⋅0.5⋅b/2⋅(th[4] + th[3])
-  cons  sigma ≥ M[0]/Sy[0]
-  cons  sigma ≥ M[1]/Sy[1]
-  cons  sigma ≥ M[2]/Sy[2]
-  cons  sigma ≥ M[3]/Sy[3]
+  cons  w[1:] ≥ w[:-1] + 0.5⋅deta[:]⋅b/2⋅(th[1:] + th[:-1])
+  cons  M[:-1]/Sy[:] ≤ sigma
   cons  kappa ≥ w[4]/(b/2)
-  cons  (cosminus1[0]⋅vgust/v)^0.996⋅0.946 = agust[0]/m_{fac--fit}
-  cons  (cosminus1[1]⋅vgust/v)^0.996⋅0.946 = agust[1]/m_{fac--fit}
-  cons  (cosminus1[2]⋅vgust/v)^0.996⋅0.946 = agust[2]/m_{fac--fit}
-  cons  (cosminus1[3]⋅vgust/v)^0.996⋅0.946 = agust[3]/m_{fac--fit}
-  cons  (cosminus1[4]⋅vgust/v)^0.996⋅0.946 = agust[4]/m_{fac--fit}
-  cons  q[0] ≥ W⋅N/b⋅cbar[0]⋅(agust[0]⋅6.28/cl⋅(1 + Ww/W) + 1)
-  cons  q[1] ≥ W⋅N/b⋅cbar[1]⋅(agust[1]⋅6.28/cl⋅(1 + Ww/W) + 1)
-  cons  q[2] ≥ W⋅N/b⋅cbar[2]⋅(agust[2]⋅6.28/cl⋅(1 + Ww/W) + 1)
-  cons  q[3] ≥ W⋅N/b⋅cbar[3]⋅(agust[3]⋅6.28/cl⋅(1 + Ww/W) + 1)
-  cons  q[4] ≥ W⋅N/b⋅cbar[4]⋅(agust[4]⋅6.28/cl⋅(1 + Ww/W) + 1)
+  cons  0.946⋅(cosminus1[0]⋅vgust/v)^0.996 = agust[0]/m_{fac--fit}
+  cons  0.946⋅(cosminus1[1]⋅vgust/v)^0.996 = agust[1]/m_{fac--fit}
+  cons  0.946⋅(cosminus1[2]⋅vgust/v)^0.996 = agust[2]/m_{fac--fit}
+  cons  0.946⋅(cosminus1[3]⋅vgust/v)^0.996 = agust[3]/m_{fac--fit}
+  cons  0.946⋅(cosminus1[4]⋅vgust/v)^0.996 = agust[4]/m_{fac--fit}
+  cons  q[:] ≥ W⋅N/b⋅cbar[:]⋅(1 + 6.28⋅agust[:]/cl⋅(1 + Ww/W))
 [Mission.FlightSegment5.TailBoomBending]
   free  F
   free  Mr[:]
@@ -2475,11 +2200,11 @@
   fixed deta  [Mission.Aircraft.Empennage.TailBoom]
   fixed E  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
   fixed sigma  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
-  cons  dx[0] = deta
+  cons  dx[:] = deta
   cons  F ≥ qne⋅S
-  cons  \bar{EI}[0] ≤ E⋅I[0]/F/l²/2
-  cons  Mr[0] ≥ \bar{M}[0]⋅F⋅l
-  cons  sigma ≥ Mr[0]/Sy[0]
+  cons  \bar{EI}[:] ≤ E⋅I[:]/F/l²/2
+  cons  Mr[:] ≥ \bar{M}[:-1]⋅F⋅l
+  cons  Mr[:]/Sy[:] ≤ sigma
   cons  th = \theta[1]
   cons  kappa ≥ \bar{\delta}[1]⋅CLmax⋅Nsafety
 [Mission.FlightSegment5.TailBoomBending.Beam]
@@ -2492,12 +2217,12 @@
   fixed \bar{M}_{tip}
   fixed \bar{S}[:]
   fixed \theta_{root}
-  cons  \bar{M}[0] ≥ \bar{M}[1] + dx[0]⋅0.5⋅(\bar{S}[0] + \bar{S}[1])
+  cons  \bar{M}[:-1] ≥ \bar{M}[1:] + 0.5⋅dx[:]⋅(\bar{S}[:-1] + \bar{S}[1:])
   cons  \bar{M}[1] ≥ \bar{M}_{tip}
   cons  \theta[0] ≥ \theta_{root}
-  cons  \theta[1] ≥ \theta[0] + dx[0]⋅0.5⋅(\bar{M}[1] + \bar{M}[0])/\bar{EI}[0]
+  cons  \theta[1:] ≥ \theta[:-1] + 0.5⋅dx[:]⋅(\bar{M}[1:] + \bar{M}[:-1])/\bar{EI}[:]
   cons  \bar{\delta}[0] ≥ \bar{\delta}_{root}
-  cons  \bar{\delta}[1] ≥ \bar{\delta}[0] + dx[0]⋅0.5⋅(\theta[1] + \theta[0])
+  cons  \bar{\delta}[1:] ≥ \bar{\delta}[:-1] + 0.5⋅dx[:]⋅(\theta[1:] + \theta[:-1])
 [Mission.FlightSegment5.TailBoomBending1]
   free  F
   free  Mr[:]
@@ -2518,11 +2243,11 @@
   fixed deta  [Mission.Aircraft.Empennage.TailBoom]
   fixed E  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
   fixed sigma  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
-  cons  dx[0] = deta
+  cons  dx[:] = deta
   cons  F ≥ qne⋅S
-  cons  \bar{EI}[0] ≤ E⋅I[0]/F/l²/2
-  cons  Mr[0] ≥ \bar{M}[0]⋅F⋅l
-  cons  sigma ≥ Mr[0]/Sy[0]
+  cons  \bar{EI}[:] ≤ E⋅I[:]/F/l²/2
+  cons  Mr[:] ≥ \bar{M}[:-1]⋅F⋅l
+  cons  Mr[:]/Sy[:] ≤ sigma
   cons  th = \theta[1]
   cons  kappa ≥ \bar{\delta}[1]⋅CLmax⋅Nsafety
 [Mission.FlightSegment5.TailBoomBending1.Beam]
@@ -2535,12 +2260,12 @@
   fixed \bar{M}_{tip}
   fixed \bar{S}[:]
   fixed \theta_{root}
-  cons  \bar{M}[0] ≥ \bar{M}[1] + dx[0]⋅0.5⋅(\bar{S}[0] + \bar{S}[1])
+  cons  \bar{M}[:-1] ≥ \bar{M}[1:] + 0.5⋅dx[:]⋅(\bar{S}[:-1] + \bar{S}[1:])
   cons  \bar{M}[1] ≥ \bar{M}_{tip}
   cons  \theta[0] ≥ \theta_{root}
-  cons  \theta[1] ≥ \theta[0] + dx[0]⋅0.5⋅(\bar{M}[1] + \bar{M}[0])/\bar{EI}[0]
+  cons  \theta[1:] ≥ \theta[:-1] + 0.5⋅dx[:]⋅(\bar{M}[1:] + \bar{M}[:-1])/\bar{EI}[:]
   cons  \bar{\delta}[0] ≥ \bar{\delta}_{root}
-  cons  \bar{\delta}[1] ≥ \bar{\delta}[0] + dx[0]⋅0.5⋅(\theta[1] + \theta[0])
+  cons  \bar{\delta}[1:] ≥ \bar{\delta}[:-1] + 0.5⋅dx[:]⋅(\theta[1:] + \theta[:-1])
 [Mission.FlightSegment6]
   free  CL
   free  cl
@@ -2713,36 +2438,17 @@
   fixed deta[:]  [Mission.Aircraft._WingGP.Planform]
   fixed E  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
   fixed sigma  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
-  cons  S[0] ≥ S[1] + deta[0]⋅0.5⋅b/2⋅(q[0] + q[1])
-  cons  S[1] ≥ S[2] + deta[1]⋅0.5⋅b/2⋅(q[1] + q[2])
-  cons  S[2] ≥ S[3] + deta[2]⋅0.5⋅b/2⋅(q[2] + q[3])
-  cons  S[3] ≥ S[4] + deta[3]⋅0.5⋅b/2⋅(q[3] + q[4])
-  cons  M[0] ≥ M[1] + deta[0]⋅0.5⋅b/2⋅(S[0] + S[1])
-  cons  M[1] ≥ M[2] + deta[1]⋅0.5⋅b/2⋅(S[1] + S[2])
-  cons  M[2] ≥ M[3] + deta[2]⋅0.5⋅b/2⋅(S[2] + S[3])
-  cons  M[3] ≥ M[4] + deta[3]⋅0.5⋅b/2⋅(S[3] + S[4])
+  cons  S[:-1] ≥ S[1:] + 0.5⋅deta[:]⋅b/2⋅(q[:-1] + q[1:])
+  cons  M[:-1] ≥ M[1:] + 0.5⋅deta[:]⋅b/2⋅(S[:-1] + S[1:])
   cons  N = Nsafety⋅Nmax
-  cons  q[0] ≥ N⋅W/b⋅cbar[0]
-  cons  q[1] ≥ N⋅W/b⋅cbar[1]
-  cons  q[2] ≥ N⋅W/b⋅cbar[2]
-  cons  q[3] ≥ N⋅W/b⋅cbar[3]
-  cons  q[4] ≥ N⋅W/b⋅cbar[4]
+  cons  q[:] ≥ N⋅W/b⋅cbar[:]
   cons  S[4] ≥ Stip
   cons  M[4] ≥ Mtip
   cons  th[0] ≥ throot
-  cons  th[1] ≥ th[0] + deta[0]⋅0.5⋅b/2⋅(M[1] + M[0])/E/I[0]
-  cons  th[2] ≥ th[1] + deta[1]⋅0.5⋅b/2⋅(M[2] + M[1])/E/I[1]
-  cons  th[3] ≥ th[2] + deta[2]⋅0.5⋅b/2⋅(M[3] + M[2])/E/I[2]
-  cons  th[4] ≥ th[3] + deta[3]⋅0.5⋅b/2⋅(M[4] + M[3])/E/I[3]
+  cons  th[1:] ≥ th[:-1] + 0.5⋅deta[:]⋅b/2⋅(M[1:] + M[:-1])/E/I[:]
   cons  w[0] ≥ wroot
-  cons  w[1] ≥ w[0] + deta[0]⋅0.5⋅b/2⋅(th[1] + th[0])
-  cons  w[2] ≥ w[1] + deta[1]⋅0.5⋅b/2⋅(th[2] + th[1])
-  cons  w[3] ≥ w[2] + deta[2]⋅0.5⋅b/2⋅(th[3] + th[2])
-  cons  w[4] ≥ w[3] + deta[3]⋅0.5⋅b/2⋅(th[4] + th[3])
-  cons  sigma ≥ M[0]/Sy[0]
-  cons  sigma ≥ M[1]/Sy[1]
-  cons  sigma ≥ M[2]/Sy[2]
-  cons  sigma ≥ M[3]/Sy[3]
+  cons  w[1:] ≥ w[:-1] + 0.5⋅deta[:]⋅b/2⋅(th[1:] + th[:-1])
+  cons  M[:-1]/Sy[:] ≤ sigma
   cons  kappa ≥ w[4]/(b/2)
 [Mission.FlightSegment6.GustL]
   free  agust[:]
@@ -2778,47 +2484,24 @@
   fixed deta[:]  [Mission.Aircraft._WingGP.Planform]
   fixed E  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
   fixed sigma  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
-  cons  S[0] ≥ S[1] + deta[0]⋅0.5⋅b/2⋅(q[0] + q[1])
-  cons  S[1] ≥ S[2] + deta[1]⋅0.5⋅b/2⋅(q[1] + q[2])
-  cons  S[2] ≥ S[3] + deta[2]⋅0.5⋅b/2⋅(q[2] + q[3])
-  cons  S[3] ≥ S[4] + deta[3]⋅0.5⋅b/2⋅(q[3] + q[4])
-  cons  M[0] ≥ M[1] + deta[0]⋅0.5⋅b/2⋅(S[0] + S[1])
-  cons  M[1] ≥ M[2] + deta[1]⋅0.5⋅b/2⋅(S[1] + S[2])
-  cons  M[2] ≥ M[3] + deta[2]⋅0.5⋅b/2⋅(S[2] + S[3])
-  cons  M[3] ≥ M[4] + deta[3]⋅0.5⋅b/2⋅(S[3] + S[4])
+  cons  S[:-1] ≥ S[1:] + 0.5⋅deta[:]⋅b/2⋅(q[:-1] + q[1:])
+  cons  M[:-1] ≥ M[1:] + 0.5⋅deta[:]⋅b/2⋅(S[:-1] + S[1:])
   cons  N = Nsafety⋅Nmax
-  cons  q[0] ≥ N⋅W/b⋅cbar[0]
-  cons  q[1] ≥ N⋅W/b⋅cbar[1]
-  cons  q[2] ≥ N⋅W/b⋅cbar[2]
-  cons  q[3] ≥ N⋅W/b⋅cbar[3]
-  cons  q[4] ≥ N⋅W/b⋅cbar[4]
+  cons  q[:] ≥ N⋅W/b⋅cbar[:]
   cons  S[4] ≥ Stip
   cons  M[4] ≥ Mtip
   cons  th[0] ≥ throot
-  cons  th[1] ≥ th[0] + deta[0]⋅0.5⋅b/2⋅(M[1] + M[0])/E/I[0]
-  cons  th[2] ≥ th[1] + deta[1]⋅0.5⋅b/2⋅(M[2] + M[1])/E/I[1]
-  cons  th[3] ≥ th[2] + deta[2]⋅0.5⋅b/2⋅(M[3] + M[2])/E/I[2]
-  cons  th[4] ≥ th[3] + deta[3]⋅0.5⋅b/2⋅(M[4] + M[3])/E/I[3]
+  cons  th[1:] ≥ th[:-1] + 0.5⋅deta[:]⋅b/2⋅(M[1:] + M[:-1])/E/I[:]
   cons  w[0] ≥ wroot
-  cons  w[1] ≥ w[0] + deta[0]⋅0.5⋅b/2⋅(th[1] + th[0])
-  cons  w[2] ≥ w[1] + deta[1]⋅0.5⋅b/2⋅(th[2] + th[1])
-  cons  w[3] ≥ w[2] + deta[2]⋅0.5⋅b/2⋅(th[3] + th[2])
-  cons  w[4] ≥ w[3] + deta[3]⋅0.5⋅b/2⋅(th[4] + th[3])
-  cons  sigma ≥ M[0]/Sy[0]
-  cons  sigma ≥ M[1]/Sy[1]
-  cons  sigma ≥ M[2]/Sy[2]
-  cons  sigma ≥ M[3]/Sy[3]
+  cons  w[1:] ≥ w[:-1] + 0.5⋅deta[:]⋅b/2⋅(th[1:] + th[:-1])
+  cons  M[:-1]/Sy[:] ≤ sigma
   cons  kappa ≥ w[4]/(b/2)
-  cons  (cosminus1[0]⋅vgust/v)^0.996⋅0.946 = agust[0]/m_{fac--fit}
-  cons  (cosminus1[1]⋅vgust/v)^0.996⋅0.946 = agust[1]/m_{fac--fit}
-  cons  (cosminus1[2]⋅vgust/v)^0.996⋅0.946 = agust[2]/m_{fac--fit}
-  cons  (cosminus1[3]⋅vgust/v)^0.996⋅0.946 = agust[3]/m_{fac--fit}
-  cons  (cosminus1[4]⋅vgust/v)^0.996⋅0.946 = agust[4]/m_{fac--fit}
-  cons  q[0] ≥ W⋅N/b⋅cbar[0]⋅(agust[0]⋅6.28/cl⋅(1 + Ww/W) + 1)
-  cons  q[1] ≥ W⋅N/b⋅cbar[1]⋅(agust[1]⋅6.28/cl⋅(1 + Ww/W) + 1)
-  cons  q[2] ≥ W⋅N/b⋅cbar[2]⋅(agust[2]⋅6.28/cl⋅(1 + Ww/W) + 1)
-  cons  q[3] ≥ W⋅N/b⋅cbar[3]⋅(agust[3]⋅6.28/cl⋅(1 + Ww/W) + 1)
-  cons  q[4] ≥ W⋅N/b⋅cbar[4]⋅(agust[4]⋅6.28/cl⋅(1 + Ww/W) + 1)
+  cons  0.946⋅(cosminus1[0]⋅vgust/v)^0.996 = agust[0]/m_{fac--fit}
+  cons  0.946⋅(cosminus1[1]⋅vgust/v)^0.996 = agust[1]/m_{fac--fit}
+  cons  0.946⋅(cosminus1[2]⋅vgust/v)^0.996 = agust[2]/m_{fac--fit}
+  cons  0.946⋅(cosminus1[3]⋅vgust/v)^0.996 = agust[3]/m_{fac--fit}
+  cons  0.946⋅(cosminus1[4]⋅vgust/v)^0.996 = agust[4]/m_{fac--fit}
+  cons  q[:] ≥ W⋅N/b⋅cbar[:]⋅(1 + 6.28⋅agust[:]/cl⋅(1 + Ww/W))
 [Mission.FlightSegment6.TailBoomBending]
   free  F
   free  Mr[:]
@@ -2839,11 +2522,11 @@
   fixed deta  [Mission.Aircraft.Empennage.TailBoom]
   fixed E  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
   fixed sigma  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
-  cons  dx[0] = deta
+  cons  dx[:] = deta
   cons  F ≥ qne⋅S
-  cons  \bar{EI}[0] ≤ E⋅I[0]/F/l²/2
-  cons  Mr[0] ≥ \bar{M}[0]⋅F⋅l
-  cons  sigma ≥ Mr[0]/Sy[0]
+  cons  \bar{EI}[:] ≤ E⋅I[:]/F/l²/2
+  cons  Mr[:] ≥ \bar{M}[:-1]⋅F⋅l
+  cons  Mr[:]/Sy[:] ≤ sigma
   cons  th = \theta[1]
   cons  kappa ≥ \bar{\delta}[1]⋅CLmax⋅Nsafety
 [Mission.FlightSegment6.TailBoomBending.Beam]
@@ -2856,12 +2539,12 @@
   fixed \bar{M}_{tip}
   fixed \bar{S}[:]
   fixed \theta_{root}
-  cons  \bar{M}[0] ≥ \bar{M}[1] + dx[0]⋅0.5⋅(\bar{S}[0] + \bar{S}[1])
+  cons  \bar{M}[:-1] ≥ \bar{M}[1:] + 0.5⋅dx[:]⋅(\bar{S}[:-1] + \bar{S}[1:])
   cons  \bar{M}[1] ≥ \bar{M}_{tip}
   cons  \theta[0] ≥ \theta_{root}
-  cons  \theta[1] ≥ \theta[0] + dx[0]⋅0.5⋅(\bar{M}[1] + \bar{M}[0])/\bar{EI}[0]
+  cons  \theta[1:] ≥ \theta[:-1] + 0.5⋅dx[:]⋅(\bar{M}[1:] + \bar{M}[:-1])/\bar{EI}[:]
   cons  \bar{\delta}[0] ≥ \bar{\delta}_{root}
-  cons  \bar{\delta}[1] ≥ \bar{\delta}[0] + dx[0]⋅0.5⋅(\theta[1] + \theta[0])
+  cons  \bar{\delta}[1:] ≥ \bar{\delta}[:-1] + 0.5⋅dx[:]⋅(\theta[1:] + \theta[:-1])
 [Mission.FlightSegment6.TailBoomBending1]
   free  F
   free  Mr[:]
@@ -2882,11 +2565,11 @@
   fixed deta  [Mission.Aircraft.Empennage.TailBoom]
   fixed E  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
   fixed sigma  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
-  cons  dx[0] = deta
+  cons  dx[:] = deta
   cons  F ≥ qne⋅S
-  cons  \bar{EI}[0] ≤ E⋅I[0]/F/l²/2
-  cons  Mr[0] ≥ \bar{M}[0]⋅F⋅l
-  cons  sigma ≥ Mr[0]/Sy[0]
+  cons  \bar{EI}[:] ≤ E⋅I[:]/F/l²/2
+  cons  Mr[:] ≥ \bar{M}[:-1]⋅F⋅l
+  cons  Mr[:]/Sy[:] ≤ sigma
   cons  th = \theta[1]
   cons  kappa ≥ \bar{\delta}[1]⋅CLmax⋅Nsafety
 [Mission.FlightSegment6.TailBoomBending1.Beam]
@@ -2899,12 +2582,12 @@
   fixed \bar{M}_{tip}
   fixed \bar{S}[:]
   fixed \theta_{root}
-  cons  \bar{M}[0] ≥ \bar{M}[1] + dx[0]⋅0.5⋅(\bar{S}[0] + \bar{S}[1])
+  cons  \bar{M}[:-1] ≥ \bar{M}[1:] + 0.5⋅dx[:]⋅(\bar{S}[:-1] + \bar{S}[1:])
   cons  \bar{M}[1] ≥ \bar{M}_{tip}
   cons  \theta[0] ≥ \theta_{root}
-  cons  \theta[1] ≥ \theta[0] + dx[0]⋅0.5⋅(\bar{M}[1] + \bar{M}[0])/\bar{EI}[0]
+  cons  \theta[1:] ≥ \theta[:-1] + 0.5⋅dx[:]⋅(\bar{M}[1:] + \bar{M}[:-1])/\bar{EI}[:]
   cons  \bar{\delta}[0] ≥ \bar{\delta}_{root}
-  cons  \bar{\delta}[1] ≥ \bar{\delta}[0] + dx[0]⋅0.5⋅(\theta[1] + \theta[0])
+  cons  \bar{\delta}[1:] ≥ \bar{\delta}[:-1] + 0.5⋅dx[:]⋅(\theta[1:] + \theta[:-1])
 [Mission.FlightSegment7]
   free  CL
   free  cl
@@ -3077,36 +2760,17 @@
   fixed deta[:]  [Mission.Aircraft._WingGP.Planform]
   fixed E  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
   fixed sigma  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
-  cons  S[0] ≥ S[1] + deta[0]⋅0.5⋅b/2⋅(q[0] + q[1])
-  cons  S[1] ≥ S[2] + deta[1]⋅0.5⋅b/2⋅(q[1] + q[2])
-  cons  S[2] ≥ S[3] + deta[2]⋅0.5⋅b/2⋅(q[2] + q[3])
-  cons  S[3] ≥ S[4] + deta[3]⋅0.5⋅b/2⋅(q[3] + q[4])
-  cons  M[0] ≥ M[1] + deta[0]⋅0.5⋅b/2⋅(S[0] + S[1])
-  cons  M[1] ≥ M[2] + deta[1]⋅0.5⋅b/2⋅(S[1] + S[2])
-  cons  M[2] ≥ M[3] + deta[2]⋅0.5⋅b/2⋅(S[2] + S[3])
-  cons  M[3] ≥ M[4] + deta[3]⋅0.5⋅b/2⋅(S[3] + S[4])
+  cons  S[:-1] ≥ S[1:] + 0.5⋅deta[:]⋅b/2⋅(q[:-1] + q[1:])
+  cons  M[:-1] ≥ M[1:] + 0.5⋅deta[:]⋅b/2⋅(S[:-1] + S[1:])
   cons  N = Nsafety⋅Nmax
-  cons  q[0] ≥ N⋅W/b⋅cbar[0]
-  cons  q[1] ≥ N⋅W/b⋅cbar[1]
-  cons  q[2] ≥ N⋅W/b⋅cbar[2]
-  cons  q[3] ≥ N⋅W/b⋅cbar[3]
-  cons  q[4] ≥ N⋅W/b⋅cbar[4]
+  cons  q[:] ≥ N⋅W/b⋅cbar[:]
   cons  S[4] ≥ Stip
   cons  M[4] ≥ Mtip
   cons  th[0] ≥ throot
-  cons  th[1] ≥ th[0] + deta[0]⋅0.5⋅b/2⋅(M[1] + M[0])/E/I[0]
-  cons  th[2] ≥ th[1] + deta[1]⋅0.5⋅b/2⋅(M[2] + M[1])/E/I[1]
-  cons  th[3] ≥ th[2] + deta[2]⋅0.5⋅b/2⋅(M[3] + M[2])/E/I[2]
-  cons  th[4] ≥ th[3] + deta[3]⋅0.5⋅b/2⋅(M[4] + M[3])/E/I[3]
+  cons  th[1:] ≥ th[:-1] + 0.5⋅deta[:]⋅b/2⋅(M[1:] + M[:-1])/E/I[:]
   cons  w[0] ≥ wroot
-  cons  w[1] ≥ w[0] + deta[0]⋅0.5⋅b/2⋅(th[1] + th[0])
-  cons  w[2] ≥ w[1] + deta[1]⋅0.5⋅b/2⋅(th[2] + th[1])
-  cons  w[3] ≥ w[2] + deta[2]⋅0.5⋅b/2⋅(th[3] + th[2])
-  cons  w[4] ≥ w[3] + deta[3]⋅0.5⋅b/2⋅(th[4] + th[3])
-  cons  sigma ≥ M[0]/Sy[0]
-  cons  sigma ≥ M[1]/Sy[1]
-  cons  sigma ≥ M[2]/Sy[2]
-  cons  sigma ≥ M[3]/Sy[3]
+  cons  w[1:] ≥ w[:-1] + 0.5⋅deta[:]⋅b/2⋅(th[1:] + th[:-1])
+  cons  M[:-1]/Sy[:] ≤ sigma
   cons  kappa ≥ w[4]/(b/2)
 [Mission.FlightSegment7.GustL]
   free  agust[:]
@@ -3142,47 +2806,24 @@
   fixed deta[:]  [Mission.Aircraft._WingGP.Planform]
   fixed E  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
   fixed sigma  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
-  cons  S[0] ≥ S[1] + deta[0]⋅0.5⋅b/2⋅(q[0] + q[1])
-  cons  S[1] ≥ S[2] + deta[1]⋅0.5⋅b/2⋅(q[1] + q[2])
-  cons  S[2] ≥ S[3] + deta[2]⋅0.5⋅b/2⋅(q[2] + q[3])
-  cons  S[3] ≥ S[4] + deta[3]⋅0.5⋅b/2⋅(q[3] + q[4])
-  cons  M[0] ≥ M[1] + deta[0]⋅0.5⋅b/2⋅(S[0] + S[1])
-  cons  M[1] ≥ M[2] + deta[1]⋅0.5⋅b/2⋅(S[1] + S[2])
-  cons  M[2] ≥ M[3] + deta[2]⋅0.5⋅b/2⋅(S[2] + S[3])
-  cons  M[3] ≥ M[4] + deta[3]⋅0.5⋅b/2⋅(S[3] + S[4])
+  cons  S[:-1] ≥ S[1:] + 0.5⋅deta[:]⋅b/2⋅(q[:-1] + q[1:])
+  cons  M[:-1] ≥ M[1:] + 0.5⋅deta[:]⋅b/2⋅(S[:-1] + S[1:])
   cons  N = Nsafety⋅Nmax
-  cons  q[0] ≥ N⋅W/b⋅cbar[0]
-  cons  q[1] ≥ N⋅W/b⋅cbar[1]
-  cons  q[2] ≥ N⋅W/b⋅cbar[2]
-  cons  q[3] ≥ N⋅W/b⋅cbar[3]
-  cons  q[4] ≥ N⋅W/b⋅cbar[4]
+  cons  q[:] ≥ N⋅W/b⋅cbar[:]
   cons  S[4] ≥ Stip
   cons  M[4] ≥ Mtip
   cons  th[0] ≥ throot
-  cons  th[1] ≥ th[0] + deta[0]⋅0.5⋅b/2⋅(M[1] + M[0])/E/I[0]
-  cons  th[2] ≥ th[1] + deta[1]⋅0.5⋅b/2⋅(M[2] + M[1])/E/I[1]
-  cons  th[3] ≥ th[2] + deta[2]⋅0.5⋅b/2⋅(M[3] + M[2])/E/I[2]
-  cons  th[4] ≥ th[3] + deta[3]⋅0.5⋅b/2⋅(M[4] + M[3])/E/I[3]
+  cons  th[1:] ≥ th[:-1] + 0.5⋅deta[:]⋅b/2⋅(M[1:] + M[:-1])/E/I[:]
   cons  w[0] ≥ wroot
-  cons  w[1] ≥ w[0] + deta[0]⋅0.5⋅b/2⋅(th[1] + th[0])
-  cons  w[2] ≥ w[1] + deta[1]⋅0.5⋅b/2⋅(th[2] + th[1])
-  cons  w[3] ≥ w[2] + deta[2]⋅0.5⋅b/2⋅(th[3] + th[2])
-  cons  w[4] ≥ w[3] + deta[3]⋅0.5⋅b/2⋅(th[4] + th[3])
-  cons  sigma ≥ M[0]/Sy[0]
-  cons  sigma ≥ M[1]/Sy[1]
-  cons  sigma ≥ M[2]/Sy[2]
-  cons  sigma ≥ M[3]/Sy[3]
+  cons  w[1:] ≥ w[:-1] + 0.5⋅deta[:]⋅b/2⋅(th[1:] + th[:-1])
+  cons  M[:-1]/Sy[:] ≤ sigma
   cons  kappa ≥ w[4]/(b/2)
-  cons  (cosminus1[0]⋅vgust/v)^0.996⋅0.946 = agust[0]/m_{fac--fit}
-  cons  (cosminus1[1]⋅vgust/v)^0.996⋅0.946 = agust[1]/m_{fac--fit}
-  cons  (cosminus1[2]⋅vgust/v)^0.996⋅0.946 = agust[2]/m_{fac--fit}
-  cons  (cosminus1[3]⋅vgust/v)^0.996⋅0.946 = agust[3]/m_{fac--fit}
-  cons  (cosminus1[4]⋅vgust/v)^0.996⋅0.946 = agust[4]/m_{fac--fit}
-  cons  q[0] ≥ W⋅N/b⋅cbar[0]⋅(agust[0]⋅6.28/cl⋅(1 + Ww/W) + 1)
-  cons  q[1] ≥ W⋅N/b⋅cbar[1]⋅(agust[1]⋅6.28/cl⋅(1 + Ww/W) + 1)
-  cons  q[2] ≥ W⋅N/b⋅cbar[2]⋅(agust[2]⋅6.28/cl⋅(1 + Ww/W) + 1)
-  cons  q[3] ≥ W⋅N/b⋅cbar[3]⋅(agust[3]⋅6.28/cl⋅(1 + Ww/W) + 1)
-  cons  q[4] ≥ W⋅N/b⋅cbar[4]⋅(agust[4]⋅6.28/cl⋅(1 + Ww/W) + 1)
+  cons  0.946⋅(cosminus1[0]⋅vgust/v)^0.996 = agust[0]/m_{fac--fit}
+  cons  0.946⋅(cosminus1[1]⋅vgust/v)^0.996 = agust[1]/m_{fac--fit}
+  cons  0.946⋅(cosminus1[2]⋅vgust/v)^0.996 = agust[2]/m_{fac--fit}
+  cons  0.946⋅(cosminus1[3]⋅vgust/v)^0.996 = agust[3]/m_{fac--fit}
+  cons  0.946⋅(cosminus1[4]⋅vgust/v)^0.996 = agust[4]/m_{fac--fit}
+  cons  q[:] ≥ W⋅N/b⋅cbar[:]⋅(1 + 6.28⋅agust[:]/cl⋅(1 + Ww/W))
 [Mission.FlightSegment7.TailBoomBending]
   free  F
   free  Mr[:]
@@ -3203,11 +2844,11 @@
   fixed deta  [Mission.Aircraft.Empennage.TailBoom]
   fixed E  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
   fixed sigma  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
-  cons  dx[0] = deta
+  cons  dx[:] = deta
   cons  F ≥ qne⋅S
-  cons  \bar{EI}[0] ≤ E⋅I[0]/F/l²/2
-  cons  Mr[0] ≥ \bar{M}[0]⋅F⋅l
-  cons  sigma ≥ Mr[0]/Sy[0]
+  cons  \bar{EI}[:] ≤ E⋅I[:]/F/l²/2
+  cons  Mr[:] ≥ \bar{M}[:-1]⋅F⋅l
+  cons  Mr[:]/Sy[:] ≤ sigma
   cons  th = \theta[1]
   cons  kappa ≥ \bar{\delta}[1]⋅CLmax⋅Nsafety
 [Mission.FlightSegment7.TailBoomBending.Beam]
@@ -3220,12 +2861,12 @@
   fixed \bar{M}_{tip}
   fixed \bar{S}[:]
   fixed \theta_{root}
-  cons  \bar{M}[0] ≥ \bar{M}[1] + dx[0]⋅0.5⋅(\bar{S}[0] + \bar{S}[1])
+  cons  \bar{M}[:-1] ≥ \bar{M}[1:] + 0.5⋅dx[:]⋅(\bar{S}[:-1] + \bar{S}[1:])
   cons  \bar{M}[1] ≥ \bar{M}_{tip}
   cons  \theta[0] ≥ \theta_{root}
-  cons  \theta[1] ≥ \theta[0] + dx[0]⋅0.5⋅(\bar{M}[1] + \bar{M}[0])/\bar{EI}[0]
+  cons  \theta[1:] ≥ \theta[:-1] + 0.5⋅dx[:]⋅(\bar{M}[1:] + \bar{M}[:-1])/\bar{EI}[:]
   cons  \bar{\delta}[0] ≥ \bar{\delta}_{root}
-  cons  \bar{\delta}[1] ≥ \bar{\delta}[0] + dx[0]⋅0.5⋅(\theta[1] + \theta[0])
+  cons  \bar{\delta}[1:] ≥ \bar{\delta}[:-1] + 0.5⋅dx[:]⋅(\theta[1:] + \theta[:-1])
 [Mission.FlightSegment7.TailBoomBending1]
   free  F
   free  Mr[:]
@@ -3246,11 +2887,11 @@
   fixed deta  [Mission.Aircraft.Empennage.TailBoom]
   fixed E  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
   fixed sigma  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
-  cons  dx[0] = deta
+  cons  dx[:] = deta
   cons  F ≥ qne⋅S
-  cons  \bar{EI}[0] ≤ E⋅I[0]/F/l²/2
-  cons  Mr[0] ≥ \bar{M}[0]⋅F⋅l
-  cons  sigma ≥ Mr[0]/Sy[0]
+  cons  \bar{EI}[:] ≤ E⋅I[:]/F/l²/2
+  cons  Mr[:] ≥ \bar{M}[:-1]⋅F⋅l
+  cons  Mr[:]/Sy[:] ≤ sigma
   cons  th = \theta[1]
   cons  kappa ≥ \bar{\delta}[1]⋅CLmax⋅Nsafety
 [Mission.FlightSegment7.TailBoomBending1.Beam]
@@ -3263,12 +2904,12 @@
   fixed \bar{M}_{tip}
   fixed \bar{S}[:]
   fixed \theta_{root}
-  cons  \bar{M}[0] ≥ \bar{M}[1] + dx[0]⋅0.5⋅(\bar{S}[0] + \bar{S}[1])
+  cons  \bar{M}[:-1] ≥ \bar{M}[1:] + 0.5⋅dx[:]⋅(\bar{S}[:-1] + \bar{S}[1:])
   cons  \bar{M}[1] ≥ \bar{M}_{tip}
   cons  \theta[0] ≥ \theta_{root}
-  cons  \theta[1] ≥ \theta[0] + dx[0]⋅0.5⋅(\bar{M}[1] + \bar{M}[0])/\bar{EI}[0]
+  cons  \theta[1:] ≥ \theta[:-1] + 0.5⋅dx[:]⋅(\bar{M}[1:] + \bar{M}[:-1])/\bar{EI}[:]
   cons  \bar{\delta}[0] ≥ \bar{\delta}_{root}
-  cons  \bar{\delta}[1] ≥ \bar{\delta}[0] + dx[0]⋅0.5⋅(\theta[1] + \theta[0])
+  cons  \bar{\delta}[1:] ≥ \bar{\delta}[:-1] + 0.5⋅dx[:]⋅(\theta[1:] + \theta[:-1])
 [Mission.FlightSegment8]
   free  CL
   free  cl
@@ -3445,36 +3086,17 @@
   fixed deta[:]  [Mission.Aircraft._WingGP.Planform]
   fixed E  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
   fixed sigma  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
-  cons  S[0] ≥ S[1] + deta[0]⋅0.5⋅b/2⋅(q[0] + q[1])
-  cons  S[1] ≥ S[2] + deta[1]⋅0.5⋅b/2⋅(q[1] + q[2])
-  cons  S[2] ≥ S[3] + deta[2]⋅0.5⋅b/2⋅(q[2] + q[3])
-  cons  S[3] ≥ S[4] + deta[3]⋅0.5⋅b/2⋅(q[3] + q[4])
-  cons  M[0] ≥ M[1] + deta[0]⋅0.5⋅b/2⋅(S[0] + S[1])
-  cons  M[1] ≥ M[2] + deta[1]⋅0.5⋅b/2⋅(S[1] + S[2])
-  cons  M[2] ≥ M[3] + deta[2]⋅0.5⋅b/2⋅(S[2] + S[3])
-  cons  M[3] ≥ M[4] + deta[3]⋅0.5⋅b/2⋅(S[3] + S[4])
+  cons  S[:-1] ≥ S[1:] + 0.5⋅deta[:]⋅b/2⋅(q[:-1] + q[1:])
+  cons  M[:-1] ≥ M[1:] + 0.5⋅deta[:]⋅b/2⋅(S[:-1] + S[1:])
   cons  N = Nsafety⋅Nmax
-  cons  q[0] ≥ N⋅W/b⋅cbar[0]
-  cons  q[1] ≥ N⋅W/b⋅cbar[1]
-  cons  q[2] ≥ N⋅W/b⋅cbar[2]
-  cons  q[3] ≥ N⋅W/b⋅cbar[3]
-  cons  q[4] ≥ N⋅W/b⋅cbar[4]
+  cons  q[:] ≥ N⋅W/b⋅cbar[:]
   cons  S[4] ≥ Stip
   cons  M[4] ≥ Mtip
   cons  th[0] ≥ throot
-  cons  th[1] ≥ th[0] + deta[0]⋅0.5⋅b/2⋅(M[1] + M[0])/E/I[0]
-  cons  th[2] ≥ th[1] + deta[1]⋅0.5⋅b/2⋅(M[2] + M[1])/E/I[1]
-  cons  th[3] ≥ th[2] + deta[2]⋅0.5⋅b/2⋅(M[3] + M[2])/E/I[2]
-  cons  th[4] ≥ th[3] + deta[3]⋅0.5⋅b/2⋅(M[4] + M[3])/E/I[3]
+  cons  th[1:] ≥ th[:-1] + 0.5⋅deta[:]⋅b/2⋅(M[1:] + M[:-1])/E/I[:]
   cons  w[0] ≥ wroot
-  cons  w[1] ≥ w[0] + deta[0]⋅0.5⋅b/2⋅(th[1] + th[0])
-  cons  w[2] ≥ w[1] + deta[1]⋅0.5⋅b/2⋅(th[2] + th[1])
-  cons  w[3] ≥ w[2] + deta[2]⋅0.5⋅b/2⋅(th[3] + th[2])
-  cons  w[4] ≥ w[3] + deta[3]⋅0.5⋅b/2⋅(th[4] + th[3])
-  cons  sigma ≥ M[0]/Sy[0]
-  cons  sigma ≥ M[1]/Sy[1]
-  cons  sigma ≥ M[2]/Sy[2]
-  cons  sigma ≥ M[3]/Sy[3]
+  cons  w[1:] ≥ w[:-1] + 0.5⋅deta[:]⋅b/2⋅(th[1:] + th[:-1])
+  cons  M[:-1]/Sy[:] ≤ sigma
   cons  kappa ≥ w[4]/(b/2)
 [Mission.FlightSegment8.GustL]
   free  agust[:]
@@ -3510,47 +3132,24 @@
   fixed deta[:]  [Mission.Aircraft._WingGP.Planform]
   fixed E  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
   fixed sigma  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
-  cons  S[0] ≥ S[1] + deta[0]⋅0.5⋅b/2⋅(q[0] + q[1])
-  cons  S[1] ≥ S[2] + deta[1]⋅0.5⋅b/2⋅(q[1] + q[2])
-  cons  S[2] ≥ S[3] + deta[2]⋅0.5⋅b/2⋅(q[2] + q[3])
-  cons  S[3] ≥ S[4] + deta[3]⋅0.5⋅b/2⋅(q[3] + q[4])
-  cons  M[0] ≥ M[1] + deta[0]⋅0.5⋅b/2⋅(S[0] + S[1])
-  cons  M[1] ≥ M[2] + deta[1]⋅0.5⋅b/2⋅(S[1] + S[2])
-  cons  M[2] ≥ M[3] + deta[2]⋅0.5⋅b/2⋅(S[2] + S[3])
-  cons  M[3] ≥ M[4] + deta[3]⋅0.5⋅b/2⋅(S[3] + S[4])
+  cons  S[:-1] ≥ S[1:] + 0.5⋅deta[:]⋅b/2⋅(q[:-1] + q[1:])
+  cons  M[:-1] ≥ M[1:] + 0.5⋅deta[:]⋅b/2⋅(S[:-1] + S[1:])
   cons  N = Nsafety⋅Nmax
-  cons  q[0] ≥ N⋅W/b⋅cbar[0]
-  cons  q[1] ≥ N⋅W/b⋅cbar[1]
-  cons  q[2] ≥ N⋅W/b⋅cbar[2]
-  cons  q[3] ≥ N⋅W/b⋅cbar[3]
-  cons  q[4] ≥ N⋅W/b⋅cbar[4]
+  cons  q[:] ≥ N⋅W/b⋅cbar[:]
   cons  S[4] ≥ Stip
   cons  M[4] ≥ Mtip
   cons  th[0] ≥ throot
-  cons  th[1] ≥ th[0] + deta[0]⋅0.5⋅b/2⋅(M[1] + M[0])/E/I[0]
-  cons  th[2] ≥ th[1] + deta[1]⋅0.5⋅b/2⋅(M[2] + M[1])/E/I[1]
-  cons  th[3] ≥ th[2] + deta[2]⋅0.5⋅b/2⋅(M[3] + M[2])/E/I[2]
-  cons  th[4] ≥ th[3] + deta[3]⋅0.5⋅b/2⋅(M[4] + M[3])/E/I[3]
+  cons  th[1:] ≥ th[:-1] + 0.5⋅deta[:]⋅b/2⋅(M[1:] + M[:-1])/E/I[:]
   cons  w[0] ≥ wroot
-  cons  w[1] ≥ w[0] + deta[0]⋅0.5⋅b/2⋅(th[1] + th[0])
-  cons  w[2] ≥ w[1] + deta[1]⋅0.5⋅b/2⋅(th[2] + th[1])
-  cons  w[3] ≥ w[2] + deta[2]⋅0.5⋅b/2⋅(th[3] + th[2])
-  cons  w[4] ≥ w[3] + deta[3]⋅0.5⋅b/2⋅(th[4] + th[3])
-  cons  sigma ≥ M[0]/Sy[0]
-  cons  sigma ≥ M[1]/Sy[1]
-  cons  sigma ≥ M[2]/Sy[2]
-  cons  sigma ≥ M[3]/Sy[3]
+  cons  w[1:] ≥ w[:-1] + 0.5⋅deta[:]⋅b/2⋅(th[1:] + th[:-1])
+  cons  M[:-1]/Sy[:] ≤ sigma
   cons  kappa ≥ w[4]/(b/2)
-  cons  (cosminus1[0]⋅vgust/v)^0.996⋅0.946 = agust[0]/m_{fac--fit}
-  cons  (cosminus1[1]⋅vgust/v)^0.996⋅0.946 = agust[1]/m_{fac--fit}
-  cons  (cosminus1[2]⋅vgust/v)^0.996⋅0.946 = agust[2]/m_{fac--fit}
-  cons  (cosminus1[3]⋅vgust/v)^0.996⋅0.946 = agust[3]/m_{fac--fit}
-  cons  (cosminus1[4]⋅vgust/v)^0.996⋅0.946 = agust[4]/m_{fac--fit}
-  cons  q[0] ≥ W⋅N/b⋅cbar[0]⋅(agust[0]⋅6.28/cl⋅(1 + Ww/W) + 1)
-  cons  q[1] ≥ W⋅N/b⋅cbar[1]⋅(agust[1]⋅6.28/cl⋅(1 + Ww/W) + 1)
-  cons  q[2] ≥ W⋅N/b⋅cbar[2]⋅(agust[2]⋅6.28/cl⋅(1 + Ww/W) + 1)
-  cons  q[3] ≥ W⋅N/b⋅cbar[3]⋅(agust[3]⋅6.28/cl⋅(1 + Ww/W) + 1)
-  cons  q[4] ≥ W⋅N/b⋅cbar[4]⋅(agust[4]⋅6.28/cl⋅(1 + Ww/W) + 1)
+  cons  0.946⋅(cosminus1[0]⋅vgust/v)^0.996 = agust[0]/m_{fac--fit}
+  cons  0.946⋅(cosminus1[1]⋅vgust/v)^0.996 = agust[1]/m_{fac--fit}
+  cons  0.946⋅(cosminus1[2]⋅vgust/v)^0.996 = agust[2]/m_{fac--fit}
+  cons  0.946⋅(cosminus1[3]⋅vgust/v)^0.996 = agust[3]/m_{fac--fit}
+  cons  0.946⋅(cosminus1[4]⋅vgust/v)^0.996 = agust[4]/m_{fac--fit}
+  cons  q[:] ≥ W⋅N/b⋅cbar[:]⋅(1 + 6.28⋅agust[:]/cl⋅(1 + Ww/W))
 [Mission.FlightSegment8.TailBoomBending]
   free  F
   free  Mr[:]
@@ -3571,11 +3170,11 @@
   fixed deta  [Mission.Aircraft.Empennage.TailBoom]
   fixed E  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
   fixed sigma  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
-  cons  dx[0] = deta
+  cons  dx[:] = deta
   cons  F ≥ qne⋅S
-  cons  \bar{EI}[0] ≤ E⋅I[0]/F/l²/2
-  cons  Mr[0] ≥ \bar{M}[0]⋅F⋅l
-  cons  sigma ≥ Mr[0]/Sy[0]
+  cons  \bar{EI}[:] ≤ E⋅I[:]/F/l²/2
+  cons  Mr[:] ≥ \bar{M}[:-1]⋅F⋅l
+  cons  Mr[:]/Sy[:] ≤ sigma
   cons  th = \theta[1]
   cons  kappa ≥ \bar{\delta}[1]⋅CLmax⋅Nsafety
 [Mission.FlightSegment8.TailBoomBending.Beam]
@@ -3588,12 +3187,12 @@
   fixed \bar{M}_{tip}
   fixed \bar{S}[:]
   fixed \theta_{root}
-  cons  \bar{M}[0] ≥ \bar{M}[1] + dx[0]⋅0.5⋅(\bar{S}[0] + \bar{S}[1])
+  cons  \bar{M}[:-1] ≥ \bar{M}[1:] + 0.5⋅dx[:]⋅(\bar{S}[:-1] + \bar{S}[1:])
   cons  \bar{M}[1] ≥ \bar{M}_{tip}
   cons  \theta[0] ≥ \theta_{root}
-  cons  \theta[1] ≥ \theta[0] + dx[0]⋅0.5⋅(\bar{M}[1] + \bar{M}[0])/\bar{EI}[0]
+  cons  \theta[1:] ≥ \theta[:-1] + 0.5⋅dx[:]⋅(\bar{M}[1:] + \bar{M}[:-1])/\bar{EI}[:]
   cons  \bar{\delta}[0] ≥ \bar{\delta}_{root}
-  cons  \bar{\delta}[1] ≥ \bar{\delta}[0] + dx[0]⋅0.5⋅(\theta[1] + \theta[0])
+  cons  \bar{\delta}[1:] ≥ \bar{\delta}[:-1] + 0.5⋅dx[:]⋅(\theta[1:] + \theta[:-1])
 [Mission.FlightSegment8.TailBoomBending1]
   free  F
   free  Mr[:]
@@ -3614,11 +3213,11 @@
   fixed deta  [Mission.Aircraft.Empennage.TailBoom]
   fixed E  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
   fixed sigma  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
-  cons  dx[0] = deta
+  cons  dx[:] = deta
   cons  F ≥ qne⋅S
-  cons  \bar{EI}[0] ≤ E⋅I[0]/F/l²/2
-  cons  Mr[0] ≥ \bar{M}[0]⋅F⋅l
-  cons  sigma ≥ Mr[0]/Sy[0]
+  cons  \bar{EI}[:] ≤ E⋅I[:]/F/l²/2
+  cons  Mr[:] ≥ \bar{M}[:-1]⋅F⋅l
+  cons  Mr[:]/Sy[:] ≤ sigma
   cons  th = \theta[1]
   cons  kappa ≥ \bar{\delta}[1]⋅CLmax⋅Nsafety
 [Mission.FlightSegment8.TailBoomBending1.Beam]
@@ -3631,12 +3230,12 @@
   fixed \bar{M}_{tip}
   fixed \bar{S}[:]
   fixed \theta_{root}
-  cons  \bar{M}[0] ≥ \bar{M}[1] + dx[0]⋅0.5⋅(\bar{S}[0] + \bar{S}[1])
+  cons  \bar{M}[:-1] ≥ \bar{M}[1:] + 0.5⋅dx[:]⋅(\bar{S}[:-1] + \bar{S}[1:])
   cons  \bar{M}[1] ≥ \bar{M}_{tip}
   cons  \theta[0] ≥ \theta_{root}
-  cons  \theta[1] ≥ \theta[0] + dx[0]⋅0.5⋅(\bar{M}[1] + \bar{M}[0])/\bar{EI}[0]
+  cons  \theta[1:] ≥ \theta[:-1] + 0.5⋅dx[:]⋅(\bar{M}[1:] + \bar{M}[:-1])/\bar{EI}[:]
   cons  \bar{\delta}[0] ≥ \bar{\delta}_{root}
-  cons  \bar{\delta}[1] ≥ \bar{\delta}[0] + dx[0]⋅0.5⋅(\theta[1] + \theta[0])
+  cons  \bar{\delta}[1:] ≥ \bar{\delta}[:-1] + 0.5⋅dx[:]⋅(\theta[1:] + \theta[:-1])
 [Mission.FlightSegment9]
   free  CL
   free  cl
@@ -3809,36 +3408,17 @@
   fixed deta[:]  [Mission.Aircraft._WingGP.Planform]
   fixed E  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
   fixed sigma  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
-  cons  S[0] ≥ S[1] + deta[0]⋅0.5⋅b/2⋅(q[0] + q[1])
-  cons  S[1] ≥ S[2] + deta[1]⋅0.5⋅b/2⋅(q[1] + q[2])
-  cons  S[2] ≥ S[3] + deta[2]⋅0.5⋅b/2⋅(q[2] + q[3])
-  cons  S[3] ≥ S[4] + deta[3]⋅0.5⋅b/2⋅(q[3] + q[4])
-  cons  M[0] ≥ M[1] + deta[0]⋅0.5⋅b/2⋅(S[0] + S[1])
-  cons  M[1] ≥ M[2] + deta[1]⋅0.5⋅b/2⋅(S[1] + S[2])
-  cons  M[2] ≥ M[3] + deta[2]⋅0.5⋅b/2⋅(S[2] + S[3])
-  cons  M[3] ≥ M[4] + deta[3]⋅0.5⋅b/2⋅(S[3] + S[4])
+  cons  S[:-1] ≥ S[1:] + 0.5⋅deta[:]⋅b/2⋅(q[:-1] + q[1:])
+  cons  M[:-1] ≥ M[1:] + 0.5⋅deta[:]⋅b/2⋅(S[:-1] + S[1:])
   cons  N = Nsafety⋅Nmax
-  cons  q[0] ≥ N⋅W/b⋅cbar[0]
-  cons  q[1] ≥ N⋅W/b⋅cbar[1]
-  cons  q[2] ≥ N⋅W/b⋅cbar[2]
-  cons  q[3] ≥ N⋅W/b⋅cbar[3]
-  cons  q[4] ≥ N⋅W/b⋅cbar[4]
+  cons  q[:] ≥ N⋅W/b⋅cbar[:]
   cons  S[4] ≥ Stip
   cons  M[4] ≥ Mtip
   cons  th[0] ≥ throot
-  cons  th[1] ≥ th[0] + deta[0]⋅0.5⋅b/2⋅(M[1] + M[0])/E/I[0]
-  cons  th[2] ≥ th[1] + deta[1]⋅0.5⋅b/2⋅(M[2] + M[1])/E/I[1]
-  cons  th[3] ≥ th[2] + deta[2]⋅0.5⋅b/2⋅(M[3] + M[2])/E/I[2]
-  cons  th[4] ≥ th[3] + deta[3]⋅0.5⋅b/2⋅(M[4] + M[3])/E/I[3]
+  cons  th[1:] ≥ th[:-1] + 0.5⋅deta[:]⋅b/2⋅(M[1:] + M[:-1])/E/I[:]
   cons  w[0] ≥ wroot
-  cons  w[1] ≥ w[0] + deta[0]⋅0.5⋅b/2⋅(th[1] + th[0])
-  cons  w[2] ≥ w[1] + deta[1]⋅0.5⋅b/2⋅(th[2] + th[1])
-  cons  w[3] ≥ w[2] + deta[2]⋅0.5⋅b/2⋅(th[3] + th[2])
-  cons  w[4] ≥ w[3] + deta[3]⋅0.5⋅b/2⋅(th[4] + th[3])
-  cons  sigma ≥ M[0]/Sy[0]
-  cons  sigma ≥ M[1]/Sy[1]
-  cons  sigma ≥ M[2]/Sy[2]
-  cons  sigma ≥ M[3]/Sy[3]
+  cons  w[1:] ≥ w[:-1] + 0.5⋅deta[:]⋅b/2⋅(th[1:] + th[:-1])
+  cons  M[:-1]/Sy[:] ≤ sigma
   cons  kappa ≥ w[4]/(b/2)
 [Mission.FlightSegment9.GustL]
   free  agust[:]
@@ -3874,47 +3454,24 @@
   fixed deta[:]  [Mission.Aircraft._WingGP.Planform]
   fixed E  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
   fixed sigma  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
-  cons  S[0] ≥ S[1] + deta[0]⋅0.5⋅b/2⋅(q[0] + q[1])
-  cons  S[1] ≥ S[2] + deta[1]⋅0.5⋅b/2⋅(q[1] + q[2])
-  cons  S[2] ≥ S[3] + deta[2]⋅0.5⋅b/2⋅(q[2] + q[3])
-  cons  S[3] ≥ S[4] + deta[3]⋅0.5⋅b/2⋅(q[3] + q[4])
-  cons  M[0] ≥ M[1] + deta[0]⋅0.5⋅b/2⋅(S[0] + S[1])
-  cons  M[1] ≥ M[2] + deta[1]⋅0.5⋅b/2⋅(S[1] + S[2])
-  cons  M[2] ≥ M[3] + deta[2]⋅0.5⋅b/2⋅(S[2] + S[3])
-  cons  M[3] ≥ M[4] + deta[3]⋅0.5⋅b/2⋅(S[3] + S[4])
+  cons  S[:-1] ≥ S[1:] + 0.5⋅deta[:]⋅b/2⋅(q[:-1] + q[1:])
+  cons  M[:-1] ≥ M[1:] + 0.5⋅deta[:]⋅b/2⋅(S[:-1] + S[1:])
   cons  N = Nsafety⋅Nmax
-  cons  q[0] ≥ N⋅W/b⋅cbar[0]
-  cons  q[1] ≥ N⋅W/b⋅cbar[1]
-  cons  q[2] ≥ N⋅W/b⋅cbar[2]
-  cons  q[3] ≥ N⋅W/b⋅cbar[3]
-  cons  q[4] ≥ N⋅W/b⋅cbar[4]
+  cons  q[:] ≥ N⋅W/b⋅cbar[:]
   cons  S[4] ≥ Stip
   cons  M[4] ≥ Mtip
   cons  th[0] ≥ throot
-  cons  th[1] ≥ th[0] + deta[0]⋅0.5⋅b/2⋅(M[1] + M[0])/E/I[0]
-  cons  th[2] ≥ th[1] + deta[1]⋅0.5⋅b/2⋅(M[2] + M[1])/E/I[1]
-  cons  th[3] ≥ th[2] + deta[2]⋅0.5⋅b/2⋅(M[3] + M[2])/E/I[2]
-  cons  th[4] ≥ th[3] + deta[3]⋅0.5⋅b/2⋅(M[4] + M[3])/E/I[3]
+  cons  th[1:] ≥ th[:-1] + 0.5⋅deta[:]⋅b/2⋅(M[1:] + M[:-1])/E/I[:]
   cons  w[0] ≥ wroot
-  cons  w[1] ≥ w[0] + deta[0]⋅0.5⋅b/2⋅(th[1] + th[0])
-  cons  w[2] ≥ w[1] + deta[1]⋅0.5⋅b/2⋅(th[2] + th[1])
-  cons  w[3] ≥ w[2] + deta[2]⋅0.5⋅b/2⋅(th[3] + th[2])
-  cons  w[4] ≥ w[3] + deta[3]⋅0.5⋅b/2⋅(th[4] + th[3])
-  cons  sigma ≥ M[0]/Sy[0]
-  cons  sigma ≥ M[1]/Sy[1]
-  cons  sigma ≥ M[2]/Sy[2]
-  cons  sigma ≥ M[3]/Sy[3]
+  cons  w[1:] ≥ w[:-1] + 0.5⋅deta[:]⋅b/2⋅(th[1:] + th[:-1])
+  cons  M[:-1]/Sy[:] ≤ sigma
   cons  kappa ≥ w[4]/(b/2)
-  cons  (cosminus1[0]⋅vgust/v)^0.996⋅0.946 = agust[0]/m_{fac--fit}
-  cons  (cosminus1[1]⋅vgust/v)^0.996⋅0.946 = agust[1]/m_{fac--fit}
-  cons  (cosminus1[2]⋅vgust/v)^0.996⋅0.946 = agust[2]/m_{fac--fit}
-  cons  (cosminus1[3]⋅vgust/v)^0.996⋅0.946 = agust[3]/m_{fac--fit}
-  cons  (cosminus1[4]⋅vgust/v)^0.996⋅0.946 = agust[4]/m_{fac--fit}
-  cons  q[0] ≥ W⋅N/b⋅cbar[0]⋅(agust[0]⋅6.28/cl⋅(1 + Ww/W) + 1)
-  cons  q[1] ≥ W⋅N/b⋅cbar[1]⋅(agust[1]⋅6.28/cl⋅(1 + Ww/W) + 1)
-  cons  q[2] ≥ W⋅N/b⋅cbar[2]⋅(agust[2]⋅6.28/cl⋅(1 + Ww/W) + 1)
-  cons  q[3] ≥ W⋅N/b⋅cbar[3]⋅(agust[3]⋅6.28/cl⋅(1 + Ww/W) + 1)
-  cons  q[4] ≥ W⋅N/b⋅cbar[4]⋅(agust[4]⋅6.28/cl⋅(1 + Ww/W) + 1)
+  cons  0.946⋅(cosminus1[0]⋅vgust/v)^0.996 = agust[0]/m_{fac--fit}
+  cons  0.946⋅(cosminus1[1]⋅vgust/v)^0.996 = agust[1]/m_{fac--fit}
+  cons  0.946⋅(cosminus1[2]⋅vgust/v)^0.996 = agust[2]/m_{fac--fit}
+  cons  0.946⋅(cosminus1[3]⋅vgust/v)^0.996 = agust[3]/m_{fac--fit}
+  cons  0.946⋅(cosminus1[4]⋅vgust/v)^0.996 = agust[4]/m_{fac--fit}
+  cons  q[:] ≥ W⋅N/b⋅cbar[:]⋅(1 + 6.28⋅agust[:]/cl⋅(1 + Ww/W))
 [Mission.FlightSegment9.TailBoomBending]
   free  F
   free  Mr[:]
@@ -3935,11 +3492,11 @@
   fixed deta  [Mission.Aircraft.Empennage.TailBoom]
   fixed E  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
   fixed sigma  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
-  cons  dx[0] = deta
+  cons  dx[:] = deta
   cons  F ≥ qne⋅S
-  cons  \bar{EI}[0] ≤ E⋅I[0]/F/l²/2
-  cons  Mr[0] ≥ \bar{M}[0]⋅F⋅l
-  cons  sigma ≥ Mr[0]/Sy[0]
+  cons  \bar{EI}[:] ≤ E⋅I[:]/F/l²/2
+  cons  Mr[:] ≥ \bar{M}[:-1]⋅F⋅l
+  cons  Mr[:]/Sy[:] ≤ sigma
   cons  th = \theta[1]
   cons  kappa ≥ \bar{\delta}[1]⋅CLmax⋅Nsafety
 [Mission.FlightSegment9.TailBoomBending.Beam]
@@ -3952,12 +3509,12 @@
   fixed \bar{M}_{tip}
   fixed \bar{S}[:]
   fixed \theta_{root}
-  cons  \bar{M}[0] ≥ \bar{M}[1] + dx[0]⋅0.5⋅(\bar{S}[0] + \bar{S}[1])
+  cons  \bar{M}[:-1] ≥ \bar{M}[1:] + 0.5⋅dx[:]⋅(\bar{S}[:-1] + \bar{S}[1:])
   cons  \bar{M}[1] ≥ \bar{M}_{tip}
   cons  \theta[0] ≥ \theta_{root}
-  cons  \theta[1] ≥ \theta[0] + dx[0]⋅0.5⋅(\bar{M}[1] + \bar{M}[0])/\bar{EI}[0]
+  cons  \theta[1:] ≥ \theta[:-1] + 0.5⋅dx[:]⋅(\bar{M}[1:] + \bar{M}[:-1])/\bar{EI}[:]
   cons  \bar{\delta}[0] ≥ \bar{\delta}_{root}
-  cons  \bar{\delta}[1] ≥ \bar{\delta}[0] + dx[0]⋅0.5⋅(\theta[1] + \theta[0])
+  cons  \bar{\delta}[1:] ≥ \bar{\delta}[:-1] + 0.5⋅dx[:]⋅(\theta[1:] + \theta[:-1])
 [Mission.FlightSegment9.TailBoomBending1]
   free  F
   free  Mr[:]
@@ -3978,11 +3535,11 @@
   fixed deta  [Mission.Aircraft.Empennage.TailBoom]
   fixed E  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
   fixed sigma  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
-  cons  dx[0] = deta
+  cons  dx[:] = deta
   cons  F ≥ qne⋅S
-  cons  \bar{EI}[0] ≤ E⋅I[0]/F/l²/2
-  cons  Mr[0] ≥ \bar{M}[0]⋅F⋅l
-  cons  sigma ≥ Mr[0]/Sy[0]
+  cons  \bar{EI}[:] ≤ E⋅I[:]/F/l²/2
+  cons  Mr[:] ≥ \bar{M}[:-1]⋅F⋅l
+  cons  Mr[:]/Sy[:] ≤ sigma
   cons  th = \theta[1]
   cons  kappa ≥ \bar{\delta}[1]⋅CLmax⋅Nsafety
 [Mission.FlightSegment9.TailBoomBending1.Beam]
@@ -3995,12 +3552,12 @@
   fixed \bar{M}_{tip}
   fixed \bar{S}[:]
   fixed \theta_{root}
-  cons  \bar{M}[0] ≥ \bar{M}[1] + dx[0]⋅0.5⋅(\bar{S}[0] + \bar{S}[1])
+  cons  \bar{M}[:-1] ≥ \bar{M}[1:] + 0.5⋅dx[:]⋅(\bar{S}[:-1] + \bar{S}[1:])
   cons  \bar{M}[1] ≥ \bar{M}_{tip}
   cons  \theta[0] ≥ \theta_{root}
-  cons  \theta[1] ≥ \theta[0] + dx[0]⋅0.5⋅(\bar{M}[1] + \bar{M}[0])/\bar{EI}[0]
+  cons  \theta[1:] ≥ \theta[:-1] + 0.5⋅dx[:]⋅(\bar{M}[1:] + \bar{M}[:-1])/\bar{EI}[:]
   cons  \bar{\delta}[0] ≥ \bar{\delta}_{root}
-  cons  \bar{\delta}[1] ≥ \bar{\delta}[0] + dx[0]⋅0.5⋅(\theta[1] + \theta[0])
+  cons  \bar{\delta}[1:] ≥ \bar{\delta}[:-1] + 0.5⋅dx[:]⋅(\theta[1:] + \theta[:-1])
 [Mission.FlightSegment10]
   free  CL
   free  cl
@@ -4173,36 +3730,17 @@
   fixed deta[:]  [Mission.Aircraft._WingGP.Planform]
   fixed E  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
   fixed sigma  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
-  cons  S[0] ≥ S[1] + deta[0]⋅0.5⋅b/2⋅(q[0] + q[1])
-  cons  S[1] ≥ S[2] + deta[1]⋅0.5⋅b/2⋅(q[1] + q[2])
-  cons  S[2] ≥ S[3] + deta[2]⋅0.5⋅b/2⋅(q[2] + q[3])
-  cons  S[3] ≥ S[4] + deta[3]⋅0.5⋅b/2⋅(q[3] + q[4])
-  cons  M[0] ≥ M[1] + deta[0]⋅0.5⋅b/2⋅(S[0] + S[1])
-  cons  M[1] ≥ M[2] + deta[1]⋅0.5⋅b/2⋅(S[1] + S[2])
-  cons  M[2] ≥ M[3] + deta[2]⋅0.5⋅b/2⋅(S[2] + S[3])
-  cons  M[3] ≥ M[4] + deta[3]⋅0.5⋅b/2⋅(S[3] + S[4])
+  cons  S[:-1] ≥ S[1:] + 0.5⋅deta[:]⋅b/2⋅(q[:-1] + q[1:])
+  cons  M[:-1] ≥ M[1:] + 0.5⋅deta[:]⋅b/2⋅(S[:-1] + S[1:])
   cons  N = Nsafety⋅Nmax
-  cons  q[0] ≥ N⋅W/b⋅cbar[0]
-  cons  q[1] ≥ N⋅W/b⋅cbar[1]
-  cons  q[2] ≥ N⋅W/b⋅cbar[2]
-  cons  q[3] ≥ N⋅W/b⋅cbar[3]
-  cons  q[4] ≥ N⋅W/b⋅cbar[4]
+  cons  q[:] ≥ N⋅W/b⋅cbar[:]
   cons  S[4] ≥ Stip
   cons  M[4] ≥ Mtip
   cons  th[0] ≥ throot
-  cons  th[1] ≥ th[0] + deta[0]⋅0.5⋅b/2⋅(M[1] + M[0])/E/I[0]
-  cons  th[2] ≥ th[1] + deta[1]⋅0.5⋅b/2⋅(M[2] + M[1])/E/I[1]
-  cons  th[3] ≥ th[2] + deta[2]⋅0.5⋅b/2⋅(M[3] + M[2])/E/I[2]
-  cons  th[4] ≥ th[3] + deta[3]⋅0.5⋅b/2⋅(M[4] + M[3])/E/I[3]
+  cons  th[1:] ≥ th[:-1] + 0.5⋅deta[:]⋅b/2⋅(M[1:] + M[:-1])/E/I[:]
   cons  w[0] ≥ wroot
-  cons  w[1] ≥ w[0] + deta[0]⋅0.5⋅b/2⋅(th[1] + th[0])
-  cons  w[2] ≥ w[1] + deta[1]⋅0.5⋅b/2⋅(th[2] + th[1])
-  cons  w[3] ≥ w[2] + deta[2]⋅0.5⋅b/2⋅(th[3] + th[2])
-  cons  w[4] ≥ w[3] + deta[3]⋅0.5⋅b/2⋅(th[4] + th[3])
-  cons  sigma ≥ M[0]/Sy[0]
-  cons  sigma ≥ M[1]/Sy[1]
-  cons  sigma ≥ M[2]/Sy[2]
-  cons  sigma ≥ M[3]/Sy[3]
+  cons  w[1:] ≥ w[:-1] + 0.5⋅deta[:]⋅b/2⋅(th[1:] + th[:-1])
+  cons  M[:-1]/Sy[:] ≤ sigma
   cons  kappa ≥ w[4]/(b/2)
 [Mission.FlightSegment10.GustL]
   free  agust[:]
@@ -4238,47 +3776,24 @@
   fixed deta[:]  [Mission.Aircraft._WingGP.Planform]
   fixed E  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
   fixed sigma  [Mission.Aircraft._WingGP.CapSpar.CFRPUD]
-  cons  S[0] ≥ S[1] + deta[0]⋅0.5⋅b/2⋅(q[0] + q[1])
-  cons  S[1] ≥ S[2] + deta[1]⋅0.5⋅b/2⋅(q[1] + q[2])
-  cons  S[2] ≥ S[3] + deta[2]⋅0.5⋅b/2⋅(q[2] + q[3])
-  cons  S[3] ≥ S[4] + deta[3]⋅0.5⋅b/2⋅(q[3] + q[4])
-  cons  M[0] ≥ M[1] + deta[0]⋅0.5⋅b/2⋅(S[0] + S[1])
-  cons  M[1] ≥ M[2] + deta[1]⋅0.5⋅b/2⋅(S[1] + S[2])
-  cons  M[2] ≥ M[3] + deta[2]⋅0.5⋅b/2⋅(S[2] + S[3])
-  cons  M[3] ≥ M[4] + deta[3]⋅0.5⋅b/2⋅(S[3] + S[4])
+  cons  S[:-1] ≥ S[1:] + 0.5⋅deta[:]⋅b/2⋅(q[:-1] + q[1:])
+  cons  M[:-1] ≥ M[1:] + 0.5⋅deta[:]⋅b/2⋅(S[:-1] + S[1:])
   cons  N = Nsafety⋅Nmax
-  cons  q[0] ≥ N⋅W/b⋅cbar[0]
-  cons  q[1] ≥ N⋅W/b⋅cbar[1]
-  cons  q[2] ≥ N⋅W/b⋅cbar[2]
-  cons  q[3] ≥ N⋅W/b⋅cbar[3]
-  cons  q[4] ≥ N⋅W/b⋅cbar[4]
+  cons  q[:] ≥ N⋅W/b⋅cbar[:]
   cons  S[4] ≥ Stip
   cons  M[4] ≥ Mtip
   cons  th[0] ≥ throot
-  cons  th[1] ≥ th[0] + deta[0]⋅0.5⋅b/2⋅(M[1] + M[0])/E/I[0]
-  cons  th[2] ≥ th[1] + deta[1]⋅0.5⋅b/2⋅(M[2] + M[1])/E/I[1]
-  cons  th[3] ≥ th[2] + deta[2]⋅0.5⋅b/2⋅(M[3] + M[2])/E/I[2]
-  cons  th[4] ≥ th[3] + deta[3]⋅0.5⋅b/2⋅(M[4] + M[3])/E/I[3]
+  cons  th[1:] ≥ th[:-1] + 0.5⋅deta[:]⋅b/2⋅(M[1:] + M[:-1])/E/I[:]
   cons  w[0] ≥ wroot
-  cons  w[1] ≥ w[0] + deta[0]⋅0.5⋅b/2⋅(th[1] + th[0])
-  cons  w[2] ≥ w[1] + deta[1]⋅0.5⋅b/2⋅(th[2] + th[1])
-  cons  w[3] ≥ w[2] + deta[2]⋅0.5⋅b/2⋅(th[3] + th[2])
-  cons  w[4] ≥ w[3] + deta[3]⋅0.5⋅b/2⋅(th[4] + th[3])
-  cons  sigma ≥ M[0]/Sy[0]
-  cons  sigma ≥ M[1]/Sy[1]
-  cons  sigma ≥ M[2]/Sy[2]
-  cons  sigma ≥ M[3]/Sy[3]
+  cons  w[1:] ≥ w[:-1] + 0.5⋅deta[:]⋅b/2⋅(th[1:] + th[:-1])
+  cons  M[:-1]/Sy[:] ≤ sigma
   cons  kappa ≥ w[4]/(b/2)
-  cons  (cosminus1[0]⋅vgust/v)^0.996⋅0.946 = agust[0]/m_{fac--fit}
-  cons  (cosminus1[1]⋅vgust/v)^0.996⋅0.946 = agust[1]/m_{fac--fit}
-  cons  (cosminus1[2]⋅vgust/v)^0.996⋅0.946 = agust[2]/m_{fac--fit}
-  cons  (cosminus1[3]⋅vgust/v)^0.996⋅0.946 = agust[3]/m_{fac--fit}
-  cons  (cosminus1[4]⋅vgust/v)^0.996⋅0.946 = agust[4]/m_{fac--fit}
-  cons  q[0] ≥ W⋅N/b⋅cbar[0]⋅(agust[0]⋅6.28/cl⋅(1 + Ww/W) + 1)
-  cons  q[1] ≥ W⋅N/b⋅cbar[1]⋅(agust[1]⋅6.28/cl⋅(1 + Ww/W) + 1)
-  cons  q[2] ≥ W⋅N/b⋅cbar[2]⋅(agust[2]⋅6.28/cl⋅(1 + Ww/W) + 1)
-  cons  q[3] ≥ W⋅N/b⋅cbar[3]⋅(agust[3]⋅6.28/cl⋅(1 + Ww/W) + 1)
-  cons  q[4] ≥ W⋅N/b⋅cbar[4]⋅(agust[4]⋅6.28/cl⋅(1 + Ww/W) + 1)
+  cons  0.946⋅(cosminus1[0]⋅vgust/v)^0.996 = agust[0]/m_{fac--fit}
+  cons  0.946⋅(cosminus1[1]⋅vgust/v)^0.996 = agust[1]/m_{fac--fit}
+  cons  0.946⋅(cosminus1[2]⋅vgust/v)^0.996 = agust[2]/m_{fac--fit}
+  cons  0.946⋅(cosminus1[3]⋅vgust/v)^0.996 = agust[3]/m_{fac--fit}
+  cons  0.946⋅(cosminus1[4]⋅vgust/v)^0.996 = agust[4]/m_{fac--fit}
+  cons  q[:] ≥ W⋅N/b⋅cbar[:]⋅(1 + 6.28⋅agust[:]/cl⋅(1 + Ww/W))
 [Mission.FlightSegment10.TailBoomBending]
   free  F
   free  Mr[:]
@@ -4299,11 +3814,11 @@
   fixed deta  [Mission.Aircraft.Empennage.TailBoom]
   fixed E  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
   fixed sigma  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
-  cons  dx[0] = deta
+  cons  dx[:] = deta
   cons  F ≥ qne⋅S
-  cons  \bar{EI}[0] ≤ E⋅I[0]/F/l²/2
-  cons  Mr[0] ≥ \bar{M}[0]⋅F⋅l
-  cons  sigma ≥ Mr[0]/Sy[0]
+  cons  \bar{EI}[:] ≤ E⋅I[:]/F/l²/2
+  cons  Mr[:] ≥ \bar{M}[:-1]⋅F⋅l
+  cons  Mr[:]/Sy[:] ≤ sigma
   cons  th = \theta[1]
   cons  kappa ≥ \bar{\delta}[1]⋅CLmax⋅Nsafety
 [Mission.FlightSegment10.TailBoomBending.Beam]
@@ -4316,12 +3831,12 @@
   fixed \bar{M}_{tip}
   fixed \bar{S}[:]
   fixed \theta_{root}
-  cons  \bar{M}[0] ≥ \bar{M}[1] + dx[0]⋅0.5⋅(\bar{S}[0] + \bar{S}[1])
+  cons  \bar{M}[:-1] ≥ \bar{M}[1:] + 0.5⋅dx[:]⋅(\bar{S}[:-1] + \bar{S}[1:])
   cons  \bar{M}[1] ≥ \bar{M}_{tip}
   cons  \theta[0] ≥ \theta_{root}
-  cons  \theta[1] ≥ \theta[0] + dx[0]⋅0.5⋅(\bar{M}[1] + \bar{M}[0])/\bar{EI}[0]
+  cons  \theta[1:] ≥ \theta[:-1] + 0.5⋅dx[:]⋅(\bar{M}[1:] + \bar{M}[:-1])/\bar{EI}[:]
   cons  \bar{\delta}[0] ≥ \bar{\delta}_{root}
-  cons  \bar{\delta}[1] ≥ \bar{\delta}[0] + dx[0]⋅0.5⋅(\theta[1] + \theta[0])
+  cons  \bar{\delta}[1:] ≥ \bar{\delta}[:-1] + 0.5⋅dx[:]⋅(\theta[1:] + \theta[:-1])
 [Mission.FlightSegment10.TailBoomBending1]
   free  F
   free  Mr[:]
@@ -4342,11 +3857,11 @@
   fixed deta  [Mission.Aircraft.Empennage.TailBoom]
   fixed E  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
   fixed sigma  [Mission.Aircraft.Empennage.TailBoom.CFRPFabric]
-  cons  dx[0] = deta
+  cons  dx[:] = deta
   cons  F ≥ qne⋅S
-  cons  \bar{EI}[0] ≤ E⋅I[0]/F/l²/2
-  cons  Mr[0] ≥ \bar{M}[0]⋅F⋅l
-  cons  sigma ≥ Mr[0]/Sy[0]
+  cons  \bar{EI}[:] ≤ E⋅I[:]/F/l²/2
+  cons  Mr[:] ≥ \bar{M}[:-1]⋅F⋅l
+  cons  Mr[:]/Sy[:] ≤ sigma
   cons  th = \theta[1]
   cons  kappa ≥ \bar{\delta}[1]⋅CLmax⋅Nsafety
 [Mission.FlightSegment10.TailBoomBending1.Beam]
@@ -4359,9 +3874,9 @@
   fixed \bar{M}_{tip}
   fixed \bar{S}[:]
   fixed \theta_{root}
-  cons  \bar{M}[0] ≥ \bar{M}[1] + dx[0]⋅0.5⋅(\bar{S}[0] + \bar{S}[1])
+  cons  \bar{M}[:-1] ≥ \bar{M}[1:] + 0.5⋅dx[:]⋅(\bar{S}[:-1] + \bar{S}[1:])
   cons  \bar{M}[1] ≥ \bar{M}_{tip}
   cons  \theta[0] ≥ \theta_{root}
-  cons  \theta[1] ≥ \theta[0] + dx[0]⋅0.5⋅(\bar{M}[1] + \bar{M}[0])/\bar{EI}[0]
+  cons  \theta[1:] ≥ \theta[:-1] + 0.5⋅dx[:]⋅(\bar{M}[1:] + \bar{M}[:-1])/\bar{EI}[:]
   cons  \bar{\delta}[0] ≥ \bar{\delta}_{root}
-  cons  \bar{\delta}[1] ≥ \bar{\delta}[0] + dx[0]⋅0.5⋅(\theta[1] + \theta[0])
+  cons  \bar{\delta}[1:] ≥ \bar{\delta}[:-1] + 0.5⋅dx[:]⋅(\theta[1:] + \theta[:-1])

@@ -1969,17 +1969,16 @@ Mission.Aircraft.Empennage.HorizontalTail.WingSkin
 +0.03281 : t ≥ tmin
 
 Mission.Aircraft.Empennage.TailBoom
-+0.1254  : I[0] ≤ t[0]⋅3.14⋅d[0]³/8
+[ +0.125 ] : I[:] ≤ 3.14⋅t[:]⋅d[:]³/8
 +0.1254  : W/mfac ≥ g⋅dm[:].sum()
-+0.1254  : dm[0] ≥ 3.14⋅rho⋅d[0]⋅deta⋅t[0]⋅kfac⋅l
+[ +0.125 ] : dm[:] ≥ 3.14⋅rho⋅d[:]⋅deta⋅t[:]⋅kfac⋅l
 -0.05986 : S = l⋅3.14⋅d[0]
 
 Mission.Aircraft.Empennage.VerticalTail
 +0.1121 : W/mfac ≥ W + W
 
 Mission.Aircraft.Empennage.VerticalTail.Planform
--0.03558 : cave[0] = cbave[0]⋅S/b
--0.02849 : cave[1] = cbave[1]⋅S/b
+[ -0.0356  -0.0285 ] : cave[:] = cbave[:]⋅S/b
 
 Mission.Aircraft.Empennage.VerticalTail.WingCore
 +0.03204 : W ≥ 2⋅(g⋅rho⋅Abar⋅cave[:]²⋅b/2⋅deta[:]).sum()
@@ -1995,29 +1994,17 @@ Mission.Aircraft._WingGP
 +0.7746 : W/mfac ≥ W + W
 
 Mission.Aircraft._WingGP.CapSpar
-+0.2093  : W ≥ 2⋅dm[:].sum()⋅g
-+0.1049  : cave[0]⋅tau ≥ hin[0] + t[0]⋅2
-+0.08293 : dm[0] ≥ (rho⋅w[0]⋅2⋅t[0] + tshear[0]⋅2⋅rho⋅(hin[0] + t[0]⋅2) + rho⋅w[0]⋅hin[0])⋅b/2⋅deta[0]
-+0.07426 : cave[1]⋅tau ≥ hin[1] + t[1]⋅2
-+0.06354 : dm[1] ≥ (rho⋅w[1]⋅2⋅t[1] + tshear[1]⋅2⋅rho⋅(hin[1] + t[1]⋅2) + rho⋅w[1]⋅hin[1])⋅b/2⋅deta[1]
-+0.06262 : I[0]/mfac ≤ w[0]⋅2⋅t[0]⋅(hin[0]/2)²
-+0.04593 : I[1]/mfac ≤ w[1]⋅2⋅t[1]⋅(hin[1]/2)²
-+0.0419  : dm[2] ≥ (rho⋅w[2]⋅2⋅t[2] + tshear[2]⋅2⋅rho⋅(hin[2] + t[2]⋅2) + rho⋅w[2]⋅hin[2])⋅b/2⋅deta[2]
-+0.0391  : cave[2]⋅tau ≥ hin[2] + t[2]⋅2
-+0.027   : I[2]/mfac ≤ w[2]⋅2⋅t[2]⋅(hin[2]/2)²
-+0.02092 : dm[3] ≥ (rho⋅w[3]⋅2⋅t[3] + tshear[3]⋅2⋅rho⋅(hin[3] + t[3]⋅2) + rho⋅w[3]⋅hin[3])⋅b/2⋅deta[3]
-+0.02032 : tshear[0] ≥ tmin
-+0.01761 : tshear[1] ≥ tmin
-+0.0149  : tshear[2] ≥ tmin
-+0.01219 : tshear[3] ≥ tmin
++0.2093 : W ≥ 2⋅dm[:].sum()⋅g
+[ +0.105    +0.0743   +0.0391   +0.00526 ] : cave[:]⋅tau ≥ hin[:] + 2⋅t[:]
+[ +0.0829   +0.0635   +0.0419   +0.0209  ] : dm[:] ≥ (rho⋅2⋅w[:]⋅t[:] + 2⋅tshear[:]⋅rho⋅(hin[:] + 2⋅t[:]) + rho⋅w[:]⋅hin[:])⋅b/2⋅deta[:]
+[ +0.0626   +0.0459   +0.027    +0.00873 ] : I[:]/mfac ≤ 2⋅w[:]⋅t[:]⋅(hin[:]/2)²
+[ +0.0203   +0.0176   +0.0149   +0.0122  ] : tshear[:] ≥ tmin
 
 Mission.Aircraft._WingGP.Planform
--0.9125  : b² = S⋅AR
-+0.8578  : croot = S/b⋅cbar[0]
-+0.6669  : cmac = croot⋅cbarmac
-+0.1049  : cave[0] = cbave[0]⋅S/b
-+0.07426 : cave[1] = cbave[1]⋅S/b
-+0.0391  : cave[2] = cbave[2]⋅S/b
+-0.9125 : b² = S⋅AR
++0.8578 : croot = S/b⋅cbar[0]
++0.6669 : cmac = croot⋅cbarmac
+[ +0.105    +0.0743   +0.0391   +0.00526 ] : cave[:] = cbave[:]⋅S/b
 
 Mission.Aircraft._WingGP.WingSkin
 +0.5653 : W ≥ rho⋅S⋅2⋅t⋅g
@@ -2027,29 +2014,29 @@ Mission.FlightSegment.FlightState
 -0.0114 : qne = 0.5⋅Vne²⋅rhosl
 
 Mission.FlightSegment.TailBoomBending1
--0.0342 : dx[0] = deta
+[ -0.0342 ] : dx[:] = deta
 +0.0114 : F ≥ qne⋅S
-+0.0114 : \bar{EI}[0] ≤ E⋅I[0]/F/l²/2
+[ +0.0114 ] : \bar{EI}[:] ≤ E⋅I[:]/F/l²/2
 +0.0114 : kappa ≥ \bar{\delta}[1]⋅CLmax⋅Nsafety
 
 Mission.FlightSegment.TailBoomBending1.Beam
-+0.0114 : \bar{M}[0] ≥ \bar{M}[1] + dx[0]⋅0.5⋅(\bar{S}[0] + \bar{S}[1])
-+0.0114 : \bar{\delta}[1] ≥ \bar{\delta}[0] + dx[0]⋅0.5⋅(\theta[1] + \theta[0])
-+0.0114 : \theta[1] ≥ \theta[0] + dx[0]⋅0.5⋅(\bar{M}[1] + \bar{M}[0])/\bar{EI}[0]
+[ +0.0114 ] : \bar{M}[:-1] ≥ \bar{M}[1:] + 0.5⋅dx[:]⋅(\bar{S}[:-1] + \bar{S}[1:])
+[ +0.0114 ] : \bar{\delta}[1:] ≥ \bar{\delta}[:-1] + 0.5⋅dx[:]⋅(\theta[1:] + \theta[:-1])
+[ +0.0114 ] : \theta[1:] ≥ \theta[:-1] + 0.5⋅dx[:]⋅(\bar{M}[1:] + \bar{M}[:-1])/\bar{EI}[:]
 
 Mission.FlightSegment1.FlightState
 -0.0114 : qne = 0.5⋅Vne²⋅rhosl
 
 Mission.FlightSegment1.TailBoomBending1
--0.0342 : dx[0] = deta
+[ -0.0342 ] : dx[:] = deta
 +0.0114 : F ≥ qne⋅S
-+0.0114 : \bar{EI}[0] ≤ E⋅I[0]/F/l²/2
+[ +0.0114 ] : \bar{EI}[:] ≤ E⋅I[:]/F/l²/2
 +0.0114 : kappa ≥ \bar{\delta}[1]⋅CLmax⋅Nsafety
 
 Mission.FlightSegment1.TailBoomBending1.Beam
-+0.0114 : \bar{M}[0] ≥ \bar{M}[1] + dx[0]⋅0.5⋅(\bar{S}[0] + \bar{S}[1])
-+0.0114 : \bar{\delta}[1] ≥ \bar{\delta}[0] + dx[0]⋅0.5⋅(\theta[1] + \theta[0])
-+0.0114 : \theta[1] ≥ \theta[0] + dx[0]⋅0.5⋅(\bar{M}[1] + \bar{M}[0])/\bar{EI}[0]
+[ +0.0114 ] : \bar{M}[:-1] ≥ \bar{M}[1:] + 0.5⋅dx[:]⋅(\bar{S}[:-1] + \bar{S}[1:])
+[ +0.0114 ] : \bar{\delta}[1:] ≥ \bar{\delta}[:-1] + 0.5⋅dx[:]⋅(\theta[1:] + \theta[:-1])
+[ +0.0114 ] : \theta[1:] ≥ \theta[:-1] + 0.5⋅dx[:]⋅(\bar{M}[1:] + \bar{M}[:-1])/\bar{EI}[:]
 
 Mission.FlightSegment10
 +0.1152  : cl = CL
@@ -2092,26 +2079,14 @@ Mission.FlightSegment10.FlightState
 Mission.FlightSegment10.GustL
 -0.1431  : N = Nsafety⋅Nmax
 +0.1431  : kappa ≥ w[4]/(b/2)
-+0.1431  : w[4] ≥ w[3] + deta[3]⋅0.5⋅b/2⋅(th[4] + th[3])
-+0.09911 : S[3] ≥ S[4] + deta[3]⋅0.5⋅b/2⋅(q[3] + q[4])
-+0.08992 : th[2] ≥ th[1] + deta[1]⋅0.5⋅b/2⋅(M[2] + M[1])/E/I[1]
-+0.08073 : S[2] ≥ S[3] + deta[2]⋅0.5⋅b/2⋅(q[2] + q[3])
-+0.08073 : th[3] ≥ th[2] + deta[2]⋅0.5⋅b/2⋅(M[3] + M[2])/E/I[2]
-+0.08062 : w[3] ≥ w[2] + deta[2]⋅0.5⋅b/2⋅(th[3] + th[2])
-+0.0781  : M[1] ≥ M[2] + deta[1]⋅0.5⋅b/2⋅(S[1] + S[2])
-+0.07374 : M[2] ≥ M[3] + deta[2]⋅0.5⋅b/2⋅(S[2] + S[3])
-+0.06578 : q[3] ≥ W⋅N/b⋅cbar[3]⋅(agust[3]⋅6.28/cl⋅(1 + Ww/W) + 1)
-+0.06211 : th[1] ≥ th[0] + deta[0]⋅0.5⋅b/2⋅(M[1] + M[0])/E/I[0]
-+0.05409 : q[4] ≥ W⋅N/b⋅cbar[4]⋅(agust[4]⋅6.28/cl⋅(1 + Ww/W) + 1)
-+0.05352 : (cosminus1[3]⋅vgust/v)^0.996⋅0.946 = agust[3]/m_{fac--fit}
-+0.04738 : (cosminus1[4]⋅vgust/v)^0.996⋅0.946 = agust[4]/m_{fac--fit}
-+0.03841 : M[0] ≥ M[1] + deta[0]⋅0.5⋅b/2⋅(S[0] + S[1])
-+0.03642 : S[1] ≥ S[2] + deta[1]⋅0.5⋅b/2⋅(q[1] + q[2])
-+0.03573 : w[2] ≥ w[1] + deta[1]⋅0.5⋅b/2⋅(th[2] + th[1])
-+0.03556 : th[4] ≥ th[3] + deta[3]⋅0.5⋅b/2⋅(M[4] + M[3])/E/I[3]
-+0.03385 : M[3] ≥ M[4] + deta[3]⋅0.5⋅b/2⋅(S[3] + S[4])
-+0.01932 : q[2] ≥ W⋅N/b⋅cbar[2]⋅(agust[2]⋅6.28/cl⋅(1 + Ww/W) + 1)
-+0.01304 : (cosminus1[2]⋅vgust/v)^0.996⋅0.946 = agust[2]/m_{fac--fit}
+[ +0.00887  +0.0357  +0.0806  +0.143 ]            : w[1:] ≥ w[:-1] + 0.5⋅deta[:]⋅b/2⋅(th[1:] + th[:-1])
+[ +0.00784  +0.0364  +0.0807  +0.0991 ]           : S[:-1] ≥ S[1:] + 0.5⋅deta[:]⋅b/2⋅(q[:-1] + q[1:])
+[ +0.0621  +0.0899  +0.0807  +0.0356 ]            : th[1:] ≥ th[:-1] + 0.5⋅deta[:]⋅b/2⋅(M[1:] + M[:-1])/E/I[:]
+[ +0.0384  +0.0781  +0.0737  +0.0338 ]            : M[:-1] ≥ M[1:] + 0.5⋅deta[:]⋅b/2⋅(S[:-1] + S[1:])
+[ +0.000206  +0.0035  +0.0193  +0.0658  +0.0541 ] : q[:] ≥ W⋅N/b⋅cbar[:]⋅(1 + 6.28⋅agust[:]/cl⋅(1 + Ww/W))
++0.05352 : 0.946⋅(cosminus1[3]⋅vgust/v)^0.996 = agust[3]/m_{fac--fit}
++0.04738 : 0.946⋅(cosminus1[4]⋅vgust/v)^0.996 = agust[4]/m_{fac--fit}
++0.01304 : 0.946⋅(cosminus1[2]⋅vgust/v)^0.996 = agust[2]/m_{fac--fit}
 
 Mission.FlightSegment10.SteadyLevelFlight
 +2.261 : Wtotal ≤ 0.5⋅\rho⋅V²⋅CL⋅S
@@ -2119,124 +2094,124 @@ Mission.FlightSegment10.SteadyLevelFlight
 +2.114 : T ≥ 0.5⋅\rho⋅V²⋅CD⋅S
 
 Mission.FlightSegment10.TailBoomBending1
--0.0342 : dx[0] = deta
+[ -0.0342 ] : dx[:] = deta
 +0.0114 : F ≥ qne⋅S
-+0.0114 : \bar{EI}[0] ≤ E⋅I[0]/F/l²/2
+[ +0.0114 ] : \bar{EI}[:] ≤ E⋅I[:]/F/l²/2
 +0.0114 : kappa ≥ \bar{\delta}[1]⋅CLmax⋅Nsafety
 
 Mission.FlightSegment10.TailBoomBending1.Beam
-+0.0114 : \bar{M}[0] ≥ \bar{M}[1] + dx[0]⋅0.5⋅(\bar{S}[0] + \bar{S}[1])
-+0.0114 : \bar{\delta}[1] ≥ \bar{\delta}[0] + dx[0]⋅0.5⋅(\theta[1] + \theta[0])
-+0.0114 : \theta[1] ≥ \theta[0] + dx[0]⋅0.5⋅(\bar{M}[1] + \bar{M}[0])/\bar{EI}[0]
+[ +0.0114 ] : \bar{M}[:-1] ≥ \bar{M}[1:] + 0.5⋅dx[:]⋅(\bar{S}[:-1] + \bar{S}[1:])
+[ +0.0114 ] : \bar{\delta}[1:] ≥ \bar{\delta}[:-1] + 0.5⋅dx[:]⋅(\theta[1:] + \theta[:-1])
+[ +0.0114 ] : \theta[1:] ≥ \theta[:-1] + 0.5⋅dx[:]⋅(\bar{M}[1:] + \bar{M}[:-1])/\bar{EI}[:]
 
 Mission.FlightSegment2.FlightState
 -0.0114 : qne = 0.5⋅Vne²⋅rhosl
 
 Mission.FlightSegment2.TailBoomBending1
--0.0342 : dx[0] = deta
+[ -0.0342 ] : dx[:] = deta
 +0.0114 : F ≥ qne⋅S
-+0.0114 : \bar{EI}[0] ≤ E⋅I[0]/F/l²/2
+[ +0.0114 ] : \bar{EI}[:] ≤ E⋅I[:]/F/l²/2
 +0.0114 : kappa ≥ \bar{\delta}[1]⋅CLmax⋅Nsafety
 
 Mission.FlightSegment2.TailBoomBending1.Beam
-+0.0114 : \bar{M}[0] ≥ \bar{M}[1] + dx[0]⋅0.5⋅(\bar{S}[0] + \bar{S}[1])
-+0.0114 : \bar{\delta}[1] ≥ \bar{\delta}[0] + dx[0]⋅0.5⋅(\theta[1] + \theta[0])
-+0.0114 : \theta[1] ≥ \theta[0] + dx[0]⋅0.5⋅(\bar{M}[1] + \bar{M}[0])/\bar{EI}[0]
+[ +0.0114 ] : \bar{M}[:-1] ≥ \bar{M}[1:] + 0.5⋅dx[:]⋅(\bar{S}[:-1] + \bar{S}[1:])
+[ +0.0114 ] : \bar{\delta}[1:] ≥ \bar{\delta}[:-1] + 0.5⋅dx[:]⋅(\theta[1:] + \theta[:-1])
+[ +0.0114 ] : \theta[1:] ≥ \theta[:-1] + 0.5⋅dx[:]⋅(\bar{M}[1:] + \bar{M}[:-1])/\bar{EI}[:]
 
 Mission.FlightSegment3.FlightState
 -0.0114 : qne = 0.5⋅Vne²⋅rhosl
 
 Mission.FlightSegment3.TailBoomBending1
--0.0342 : dx[0] = deta
+[ -0.0342 ] : dx[:] = deta
 +0.0114 : F ≥ qne⋅S
-+0.0114 : \bar{EI}[0] ≤ E⋅I[0]/F/l²/2
+[ +0.0114 ] : \bar{EI}[:] ≤ E⋅I[:]/F/l²/2
 +0.0114 : kappa ≥ \bar{\delta}[1]⋅CLmax⋅Nsafety
 
 Mission.FlightSegment3.TailBoomBending1.Beam
-+0.0114 : \bar{M}[0] ≥ \bar{M}[1] + dx[0]⋅0.5⋅(\bar{S}[0] + \bar{S}[1])
-+0.0114 : \bar{\delta}[1] ≥ \bar{\delta}[0] + dx[0]⋅0.5⋅(\theta[1] + \theta[0])
-+0.0114 : \theta[1] ≥ \theta[0] + dx[0]⋅0.5⋅(\bar{M}[1] + \bar{M}[0])/\bar{EI}[0]
+[ +0.0114 ] : \bar{M}[:-1] ≥ \bar{M}[1:] + 0.5⋅dx[:]⋅(\bar{S}[:-1] + \bar{S}[1:])
+[ +0.0114 ] : \bar{\delta}[1:] ≥ \bar{\delta}[:-1] + 0.5⋅dx[:]⋅(\theta[1:] + \theta[:-1])
+[ +0.0114 ] : \theta[1:] ≥ \theta[:-1] + 0.5⋅dx[:]⋅(\bar{M}[1:] + \bar{M}[:-1])/\bar{EI}[:]
 
 Mission.FlightSegment4.FlightState
 -0.0114 : qne = 0.5⋅Vne²⋅rhosl
 
 Mission.FlightSegment4.TailBoomBending1
--0.0342 : dx[0] = deta
+[ -0.0342 ] : dx[:] = deta
 +0.0114 : F ≥ qne⋅S
-+0.0114 : \bar{EI}[0] ≤ E⋅I[0]/F/l²/2
+[ +0.0114 ] : \bar{EI}[:] ≤ E⋅I[:]/F/l²/2
 +0.0114 : kappa ≥ \bar{\delta}[1]⋅CLmax⋅Nsafety
 
 Mission.FlightSegment4.TailBoomBending1.Beam
-+0.0114 : \bar{M}[0] ≥ \bar{M}[1] + dx[0]⋅0.5⋅(\bar{S}[0] + \bar{S}[1])
-+0.0114 : \bar{\delta}[1] ≥ \bar{\delta}[0] + dx[0]⋅0.5⋅(\theta[1] + \theta[0])
-+0.0114 : \theta[1] ≥ \theta[0] + dx[0]⋅0.5⋅(\bar{M}[1] + \bar{M}[0])/\bar{EI}[0]
+[ +0.0114 ] : \bar{M}[:-1] ≥ \bar{M}[1:] + 0.5⋅dx[:]⋅(\bar{S}[:-1] + \bar{S}[1:])
+[ +0.0114 ] : \bar{\delta}[1:] ≥ \bar{\delta}[:-1] + 0.5⋅dx[:]⋅(\theta[1:] + \theta[:-1])
+[ +0.0114 ] : \theta[1:] ≥ \theta[:-1] + 0.5⋅dx[:]⋅(\bar{M}[1:] + \bar{M}[:-1])/\bar{EI}[:]
 
 Mission.FlightSegment5.FlightState
 -0.0114 : qne = 0.5⋅Vne²⋅rhosl
 
 Mission.FlightSegment5.TailBoomBending1
--0.0342 : dx[0] = deta
+[ -0.0342 ] : dx[:] = deta
 +0.0114 : F ≥ qne⋅S
-+0.0114 : \bar{EI}[0] ≤ E⋅I[0]/F/l²/2
+[ +0.0114 ] : \bar{EI}[:] ≤ E⋅I[:]/F/l²/2
 +0.0114 : kappa ≥ \bar{\delta}[1]⋅CLmax⋅Nsafety
 
 Mission.FlightSegment5.TailBoomBending1.Beam
-+0.0114 : \bar{M}[0] ≥ \bar{M}[1] + dx[0]⋅0.5⋅(\bar{S}[0] + \bar{S}[1])
-+0.0114 : \bar{\delta}[1] ≥ \bar{\delta}[0] + dx[0]⋅0.5⋅(\theta[1] + \theta[0])
-+0.0114 : \theta[1] ≥ \theta[0] + dx[0]⋅0.5⋅(\bar{M}[1] + \bar{M}[0])/\bar{EI}[0]
+[ +0.0114 ] : \bar{M}[:-1] ≥ \bar{M}[1:] + 0.5⋅dx[:]⋅(\bar{S}[:-1] + \bar{S}[1:])
+[ +0.0114 ] : \bar{\delta}[1:] ≥ \bar{\delta}[:-1] + 0.5⋅dx[:]⋅(\theta[1:] + \theta[:-1])
+[ +0.0114 ] : \theta[1:] ≥ \theta[:-1] + 0.5⋅dx[:]⋅(\bar{M}[1:] + \bar{M}[:-1])/\bar{EI}[:]
 
 Mission.FlightSegment6.FlightState
 -0.0114 : qne = 0.5⋅Vne²⋅rhosl
 
 Mission.FlightSegment6.TailBoomBending1
--0.0342 : dx[0] = deta
+[ -0.0342 ] : dx[:] = deta
 +0.0114 : F ≥ qne⋅S
-+0.0114 : \bar{EI}[0] ≤ E⋅I[0]/F/l²/2
+[ +0.0114 ] : \bar{EI}[:] ≤ E⋅I[:]/F/l²/2
 +0.0114 : kappa ≥ \bar{\delta}[1]⋅CLmax⋅Nsafety
 
 Mission.FlightSegment6.TailBoomBending1.Beam
-+0.0114 : \bar{M}[0] ≥ \bar{M}[1] + dx[0]⋅0.5⋅(\bar{S}[0] + \bar{S}[1])
-+0.0114 : \bar{\delta}[1] ≥ \bar{\delta}[0] + dx[0]⋅0.5⋅(\theta[1] + \theta[0])
-+0.0114 : \theta[1] ≥ \theta[0] + dx[0]⋅0.5⋅(\bar{M}[1] + \bar{M}[0])/\bar{EI}[0]
+[ +0.0114 ] : \bar{M}[:-1] ≥ \bar{M}[1:] + 0.5⋅dx[:]⋅(\bar{S}[:-1] + \bar{S}[1:])
+[ +0.0114 ] : \bar{\delta}[1:] ≥ \bar{\delta}[:-1] + 0.5⋅dx[:]⋅(\theta[1:] + \theta[:-1])
+[ +0.0114 ] : \theta[1:] ≥ \theta[:-1] + 0.5⋅dx[:]⋅(\bar{M}[1:] + \bar{M}[:-1])/\bar{EI}[:]
 
 Mission.FlightSegment7.FlightState
 -0.0114 : qne = 0.5⋅Vne²⋅rhosl
 
 Mission.FlightSegment7.TailBoomBending1
--0.0342 : dx[0] = deta
+[ -0.0342 ] : dx[:] = deta
 +0.0114 : F ≥ qne⋅S
-+0.0114 : \bar{EI}[0] ≤ E⋅I[0]/F/l²/2
+[ +0.0114 ] : \bar{EI}[:] ≤ E⋅I[:]/F/l²/2
 +0.0114 : kappa ≥ \bar{\delta}[1]⋅CLmax⋅Nsafety
 
 Mission.FlightSegment7.TailBoomBending1.Beam
-+0.0114 : \bar{M}[0] ≥ \bar{M}[1] + dx[0]⋅0.5⋅(\bar{S}[0] + \bar{S}[1])
-+0.0114 : \bar{\delta}[1] ≥ \bar{\delta}[0] + dx[0]⋅0.5⋅(\theta[1] + \theta[0])
-+0.0114 : \theta[1] ≥ \theta[0] + dx[0]⋅0.5⋅(\bar{M}[1] + \bar{M}[0])/\bar{EI}[0]
+[ +0.0114 ] : \bar{M}[:-1] ≥ \bar{M}[1:] + 0.5⋅dx[:]⋅(\bar{S}[:-1] + \bar{S}[1:])
+[ +0.0114 ] : \bar{\delta}[1:] ≥ \bar{\delta}[:-1] + 0.5⋅dx[:]⋅(\theta[1:] + \theta[:-1])
+[ +0.0114 ] : \theta[1:] ≥ \theta[:-1] + 0.5⋅dx[:]⋅(\bar{M}[1:] + \bar{M}[:-1])/\bar{EI}[:]
 
 Mission.FlightSegment8.FlightState
 -0.0114 : qne = 0.5⋅Vne²⋅rhosl
 
 Mission.FlightSegment8.TailBoomBending1
--0.0342 : dx[0] = deta
+[ -0.0342 ] : dx[:] = deta
 +0.0114 : F ≥ qne⋅S
-+0.0114 : \bar{EI}[0] ≤ E⋅I[0]/F/l²/2
+[ +0.0114 ] : \bar{EI}[:] ≤ E⋅I[:]/F/l²/2
 +0.0114 : kappa ≥ \bar{\delta}[1]⋅CLmax⋅Nsafety
 
 Mission.FlightSegment8.TailBoomBending1.Beam
-+0.0114 : \bar{M}[0] ≥ \bar{M}[1] + dx[0]⋅0.5⋅(\bar{S}[0] + \bar{S}[1])
-+0.0114 : \bar{\delta}[1] ≥ \bar{\delta}[0] + dx[0]⋅0.5⋅(\theta[1] + \theta[0])
-+0.0114 : \theta[1] ≥ \theta[0] + dx[0]⋅0.5⋅(\bar{M}[1] + \bar{M}[0])/\bar{EI}[0]
+[ +0.0114 ] : \bar{M}[:-1] ≥ \bar{M}[1:] + 0.5⋅dx[:]⋅(\bar{S}[:-1] + \bar{S}[1:])
+[ +0.0114 ] : \bar{\delta}[1:] ≥ \bar{\delta}[:-1] + 0.5⋅dx[:]⋅(\theta[1:] + \theta[:-1])
+[ +0.0114 ] : \theta[1:] ≥ \theta[:-1] + 0.5⋅dx[:]⋅(\bar{M}[1:] + \bar{M}[:-1])/\bar{EI}[:]
 
 Mission.FlightSegment9.FlightState
 -0.0114 : qne = 0.5⋅Vne²⋅rhosl
 
 Mission.FlightSegment9.TailBoomBending1
--0.0342 : dx[0] = deta
+[ -0.0342 ] : dx[:] = deta
 +0.0114 : F ≥ qne⋅S
-+0.0114 : \bar{EI}[0] ≤ E⋅I[0]/F/l²/2
+[ +0.0114 ] : \bar{EI}[:] ≤ E⋅I[:]/F/l²/2
 +0.0114 : kappa ≥ \bar{\delta}[1]⋅CLmax⋅Nsafety
 
 Mission.FlightSegment9.TailBoomBending1.Beam
-+0.0114 : \bar{M}[0] ≥ \bar{M}[1] + dx[0]⋅0.5⋅(\bar{S}[0] + \bar{S}[1])
-+0.0114 : \bar{\delta}[1] ≥ \bar{\delta}[0] + dx[0]⋅0.5⋅(\theta[1] + \theta[0])
-+0.0114 : \theta[1] ≥ \theta[0] + dx[0]⋅0.5⋅(\bar{M}[1] + \bar{M}[0])/\bar{EI}[0]
+[ +0.0114 ] : \bar{M}[:-1] ≥ \bar{M}[1:] + 0.5⋅dx[:]⋅(\bar{S}[:-1] + \bar{S}[1:])
+[ +0.0114 ] : \bar{\delta}[1:] ≥ \bar{\delta}[:-1] + 0.5⋅dx[:]⋅(\theta[1:] + \theta[:-1])
+[ +0.0114 ] : \theta[1:] ≥ \theta[:-1] + 0.5⋅dx[:]⋅(\bar{M}[1:] + \bar{M}[:-1])/\bar{EI}[:]
