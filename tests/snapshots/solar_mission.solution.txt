@@ -7,11 +7,11 @@
          ┃┃         ┃ (15.4lbf) ┃ (8.79e+06J) ┃
          ┃┃         ┃           ┃             ┛
          ┃┃         ┛           ┛             ┣╸SolarCells.S
-         ┃┃         ┓           ┓                    ^
-    Cost╺┫┃         ┃           ┃
- (36lbf) ┃┣╸Wtotal  ┣╸_WingGP.W ┣╸_WingGP.WingSkin.W ^
-         ┃┃ (36lbf) ┃ (8.23lbf) ┛ (5lbf)             ^
-         ┃┃         ┛           ┣╸CapSpar.W╶⎨
+         ┃┃         ┓             ┓                      ^
+    Cost╺┫┃         ┃             ┃
+ (36lbf) ┃┣╸Wtotal  ┣╸SolarWing.W ┣╸SolarWing.WingSkin.W ^
+         ┃┃ (36lbf) ┃ (8.23lbf)   ┛ (5lbf)               ^
+         ┃┃         ┛             ┣╸CapSpar.W╶⎨
          ┃┃         ┓
          ┃┃         ┃
          ┃┃         ┣╸Wavn
@@ -235,12 +235,12 @@ Mission.Aircraft.SolarCells
         g : 9.81  [m/s²]  (+0.1304) gravitational constant
 rho_solar : 0.27  [kg/m²] (+0.1304) solar cell area density
 
-Mission.Aircraft._WingGP
+Mission.Aircraft.SolarWing
    W : 8.226 [lbf]           wing weight
 ...constants
 mfac : 1.2         (+0.7746) wing weight margin factor
 
-Mission.Aircraft._WingGP.CapSpar
+Mission.Aircraft.SolarWing.CapSpar
         W : 1.852 [lbf]           spar weight
      I[:] : [ 2.25e-08  1.24e-08  5.22e-09  1.13e-09 ] [m⁴] spar x moment of inertia
     Sy[:] : [ 1e-06     6.33e-07  3.14e-07  8.29e-08 ] [m³] section modulus
@@ -254,7 +254,7 @@ tshear[:] : [ 0.012     0.012     0.012     0.012    ] [in] shear web thickness
         E : 2e+07 [psi] (~0)      Young modulus of CFRP
      wlim : 0.15        (~0)      spar width to chord ratio
 
-Mission.Aircraft._WingGP.CapSpar.CFRPFabric
+Mission.Aircraft.SolarWing.CapSpar.CFRPFabric
 ...constants
   rho : 1.6    [g/cm³] (+0.06501) density of CFRP
  tmin : 0.3048 [mm]    (+0.06501) minimum gauge thickness
@@ -263,18 +263,18 @@ Mission.Aircraft._WingGP.CapSpar.CFRPFabric
 sigma : 400    [MPa]   (~0)       max stress
   tau : 570    [MPa]   (~0)       torsional stress limit
 
-Mission.Aircraft._WingGP.CapSpar.CFRPUD
+Mission.Aircraft.SolarWing.CapSpar.CFRPUD
 ...constants
     E : 137  [GPa]   (-0.1443) Youngs Modulus of CFRP
   rho : 1.6  [g/cm³] (+0.1179) density of CFRP
 sigma : 1700 [MPa]   (~0)      maximum stress limit of CFRP
  tmin : 0.1  [mm]    (~0)      minimum gauge thickness
 
-Mission.Aircraft._WingGP.CapSpar.FoamHD
+Mission.Aircraft.SolarWing.CapSpar.FoamHD
 ...constants
 rho : 0.036 [g/cm³] (+0.02637) foam density
 
-Mission.Aircraft._WingGP.Planform
+Mission.Aircraft.SolarWing.Planform
       AR : 27.46                  aspect ratio
        S : 25.03  [ft²]           surface area
        b : 26.22  [ft]            span
@@ -296,7 +296,7 @@ cbave[:] : [ 1.25  1.08  0.917  0.75 ]      non-dim mid section chord
  deta[:] : [ 0.25  0.25  0.25  0.25 ]      \Delta (2y/b)
       sens ( ~0    ~0    ~0    ~0   )
 
-Mission.Aircraft._WingGP.WingSkin
+Mission.Aircraft.SolarWing.WingSkin
     W : 5.003   [lbf]        wing skin weight
     t : 0.012   [in]         wing skin thickness
 ...constants
@@ -305,7 +305,7 @@ Jtbar : 0.01114 [1/mm]  (~0) torsional moment of inertia
   Vne : 45      [m/s]   (~0) never exceed vehicle speed
 rhosl : 1.225   [kg/m³] (~0) sea level air density
 
-Mission.Aircraft._WingGP.WingSkin.CFRPFabric
+Mission.Aircraft.SolarWing.WingSkin.CFRPFabric
 ...constants
   rho : 1.6    [g/cm³] (+0.5653) density of CFRP
  tmin : 0.3048 [mm]    (+0.5653) minimum gauge thickness
@@ -1990,23 +1990,23 @@ Mission.Aircraft.Empennage.VerticalTail.WingSkin
 Mission.Aircraft.SolarCells
 +0.1304 : W ≥ rho_solar⋅S⋅g
 
-Mission.Aircraft._WingGP
+Mission.Aircraft.SolarWing
 +0.7746 : W/mfac ≥ W + W
 
-Mission.Aircraft._WingGP.CapSpar
+Mission.Aircraft.SolarWing.CapSpar
 +0.2093 : W ≥ 2⋅dm[:].sum()⋅g
 [ +0.105    +0.0743   +0.0391   +0.00526 ] : cave[:]⋅tau ≥ hin[:] + 2⋅t[:]
 [ +0.0829   +0.0635   +0.0419   +0.0209  ] : dm[:] ≥ (rho⋅2⋅w[:]⋅t[:] + 2⋅tshear[:]⋅rho⋅(hin[:] + 2⋅t[:]) + rho⋅w[:]⋅hin[:])⋅b/2⋅deta[:]
 [ +0.0626   +0.0459   +0.027    +0.00873 ] : I[:]/mfac ≤ 2⋅w[:]⋅t[:]⋅(hin[:]/2)²
 [ +0.0203   +0.0176   +0.0149   +0.0122  ] : tshear[:] ≥ tmin
 
-Mission.Aircraft._WingGP.Planform
+Mission.Aircraft.SolarWing.Planform
 -0.9125 : b² = S⋅AR
 +0.8578 : croot = S/b⋅cbar[0]
 +0.6669 : cmac = croot⋅cbarmac
 [ +0.105    +0.0743   +0.0391   +0.00526 ] : cave[:] = cbave[:]⋅S/b
 
-Mission.Aircraft._WingGP.WingSkin
+Mission.Aircraft.SolarWing.WingSkin
 +0.5653 : W ≥ rho⋅S⋅2⋅t⋅g
 +0.5653 : t ≥ tmin
 

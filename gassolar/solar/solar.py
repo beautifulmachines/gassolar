@@ -22,11 +22,11 @@ path = basepath.replace(os.sep + "solar" + os.sep, os.sep + "environment" + os.s
 
 
 # Explicit subclasses to disable foam fill without mutating the shared base classes.
-class _WingGP(WingGP):
+class SolarWing(WingGP):
     fill_model = None
 
 
-class _WingSP(WingSP):
+class SolarWingSP(WingSP):
     fill_model = None
 
 
@@ -71,9 +71,9 @@ class Aircraft(Model):
         self.emp = Empennage()
         self.solarcells = SolarCells()
         if sp:
-            self.wing = _WingSP()
+            self.wing = SolarWingSP()
         else:
-            self.wing = _WingGP()
+            self.wing = SolarWing()
         self.battery = Battery()
         self.motor = Motor()
 
