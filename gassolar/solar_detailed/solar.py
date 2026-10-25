@@ -41,32 +41,31 @@ from gassolar.environment.wind_speeds import get_month
 path = dirname(gassolar.environment.__file__)
 
 
-# Explicit subclasses with solar-specific structural configurations,
-# replacing the runtime class mutations that were used previously.
-class _SolarHTail(HorizontalTail):
+# Solar-specific structural configurations of the stock components.
+class SolarHTail(HorizontalTail):
     spar_model = BoxSparGP
     fill_model = None
     skin_model = WingSecondStruct
 
 
-class _SolarVTail(VerticalTail):
+class SolarVTail(VerticalTail):
     spar_model = BoxSparGP
     fill_model = None
     skin_model = WingSecondStruct
 
 
-class _SolarTailBoom(TailBoom):
+class SolarTailBoom(TailBoom):
     spar_model = BoxSparGP
     secondaryWeight = True
 
 
-class _SolarWingGP(WingGP):
+class SolarWing(WingGP):
     spar_model = BoxSparGP
     fill_model = None
     skin_model = WingSecondStruct
 
 
-class _SolarWingSP(WingSP):
+class SolarWingSP(WingSP):
     spar_model = BoxSparSP
     fill_model = None
     skin_model = WingSecondStruct
@@ -237,16 +236,16 @@ class Aircraft(Model):
 
         self.emp = Empennage(
             N=5,
-            htail_cls=_SolarHTail,
-            vtail_cls=_SolarVTail,
-            tailboom_cls=_SolarTailBoom,
+            htail_cls=SolarHTail,
+            vtail_cls=SolarVTail,
+            tailboom_cls=SolarTailBoom,
         )
         self.solarcells = SolarCells()
         self.battery = Battery()
         if sp:
-            self.wing = _SolarWingSP(N=20)
+            self.wing = SolarWingSP(N=20)
         else:
-            self.wing = _SolarWingGP(N=20)
+            self.wing = SolarWing(N=20)
         self.motor = Motor()
         self.propeller = Propeller()  # ActuatorProp is already the default flight_model
         self.components = [self.solarcells, self.wing, self.battery, self.emp]
