@@ -2053,11 +2053,11 @@ Mission.FlightSegment10.AircraftPerf
 +0.2177 : CDA/m_{fac} ≥ Cd⋅S/S + Cd⋅S/S + Cf⋅S/S
 
 Mission.FlightSegment10.AircraftPerf.TailAero
-+0.05518 : 9.51⋅Re^-0.4823⋅tau^0.4675 ≤ Cd/m_{fac--fit}
++0.05518 : Cd/m_{fac--fit} ≥ 9.51⋅Re^-0.4823⋅tau^0.4675
 +0.02661 : Re = V⋅\rho⋅S/b/\mu
 
 Mission.FlightSegment10.AircraftPerf.TailAero1
-+0.1029  : 9.51⋅Re^-0.4823⋅tau^0.4675 ≤ Cd/m_{fac--fit}
++0.1029  : Cd/m_{fac--fit} ≥ 9.51⋅Re^-0.4823⋅tau^0.4675
 +0.04964 : Re = V⋅\rho⋅S/b/\mu
 
 Mission.FlightSegment10.AircraftPerf.TailBoomAero
@@ -2071,22 +2071,20 @@ Mission.FlightSegment10.AircraftPerf.WingAero
 
 Mission.FlightSegment10.FlightState
 +0.9458 : V_{wind} ≤ V/m_{fac}
-+0.2267 : 16.3⋅((P/S)_{min}/(P/S)_{ref})^0.9186 = (E/S)_{day}/(E/S)_{ref}/m_{fac--fit}
-+0.1351 : 0.00278⋅((P/S)_{min}/(P/S)_{ref})^2.016 = (E/S)_C/(E/S)_{ref}/m_{fac--fit}
+-0.2267 : (E/S)_{day}/(E/S)_{ref}/m_{fac--fit} = 16.3⋅((P/S)_{min}/(P/S)_{ref})^0.9186
+-0.1351 : (E/S)_C/(E/S)_{ref}/m_{fac--fit} = 0.00278⋅((P/S)_{min}/(P/S)_{ref})^2.016
 +0.1069 : (V_{wind}/V_{wind-ref}/m_{fac--fit})^8.845 ≥ 4.53⋅(\rho/\rho_{ref})^8.474⋅p_{wind}^14.22 + 9.77e-12⋅(\rho/\rho_{ref})^-8.293⋅p_{wind}^920.1 + 5.82e-19⋅(\rho/\rho_{ref})^-10.89⋅p_{wind}^14.19 + 55.7⋅(\rho/\rho_{ref})^8.426⋅p_{wind}^61.02
 -0.0114 : qne = 0.5⋅Vne²⋅rhosl
 
 Mission.FlightSegment10.GustL
--0.1431  : N = Nsafety⋅Nmax
-+0.1431  : kappa ≥ w[4]/(b/2)
+-0.1431 : N = Nsafety⋅Nmax
++0.1431 : kappa ≥ w[4]/(b/2)
 [ +0.00887  +0.0357  +0.0806  +0.143 ]            : w[1:] ≥ w[:-1] + 0.5⋅deta[:]⋅b/2⋅(th[1:] + th[:-1])
 [ +0.00784  +0.0364  +0.0807  +0.0991 ]           : S[:-1] ≥ S[1:] + 0.5⋅deta[:]⋅b/2⋅(q[:-1] + q[1:])
 [ +0.0621  +0.0899  +0.0807  +0.0356 ]            : th[1:] ≥ th[:-1] + 0.5⋅deta[:]⋅b/2⋅(M[1:] + M[:-1])/E/I[:]
 [ +0.0384  +0.0781  +0.0737  +0.0338 ]            : M[:-1] ≥ M[1:] + 0.5⋅deta[:]⋅b/2⋅(S[:-1] + S[1:])
 [ +0.000206  +0.0035  +0.0193  +0.0658  +0.0541 ] : q[:] ≥ W⋅N/b⋅cbar[:]⋅(1 + 6.28⋅agust[:]/cl⋅(1 + Ww/W))
-+0.05352 : 0.946⋅(cosminus1[3]⋅vgust/v)^0.996 = agust[3]/m_{fac--fit}
-+0.04738 : 0.946⋅(cosminus1[4]⋅vgust/v)^0.996 = agust[4]/m_{fac--fit}
-+0.01304 : 0.946⋅(cosminus1[2]⋅vgust/v)^0.996 = agust[2]/m_{fac--fit}
+[ ~0  -0.00123  -0.013  -0.0535  -0.0474 ]        : agust[:]/m_{fac--fit} = 0.946⋅(cosminus1[:]⋅vgust/v)^0.996
 
 Mission.FlightSegment10.SteadyLevelFlight
 +2.261 : Wtotal ≤ 0.5⋅\rho⋅V²⋅CL⋅S

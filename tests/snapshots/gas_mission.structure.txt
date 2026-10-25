@@ -204,7 +204,7 @@
   fixed mfac
   fixed P_ref
   fixed W_engref
-  cons  1.28⋅(P_sl_max/P_ref)^0.7724 = W_eng/W_engref/m_{fac--fit}
+  cons  W_eng/W_engref/m_{fac--fit} = 1.28⋅(P_sl_max/P_ref)^0.7724
   cons  W/mfac ≥ 2.57⋅[lbf]⋅(W_eng/[lbf])^0.922
 [Mission.Aircraft.Empennage]
   free  W
@@ -449,16 +449,7 @@
   fixed \rho[:]  [Mission.Climb.FlightSegment.FlightState]
   cons  Cd[:] ≥ cdp[:] + CL[:]²/3.14/AR/e[:]
   cons  Re[:] = \rho[:]⋅V[:]⋅cmac/\mu[:]
-  cons  (cdp[0]/m_{fac-polar-fit}[0])^3.09 ≥ 1.02e-07⋅CL[0]^18.86⋅Re[0]^-0.1833 + 0.00168⋅CL[0]^2.963⋅Re[0]^-0.6675 + 2.28e-06⋅CL[0]^-1.653⋅Re[0]^-0.3496 + 1.76e+08⋅CL[0]^-0.1787⋅Re[0]^-2.713
-  cons  (cdp[1]/m_{fac-polar-fit}[1])^3.09 ≥ 1.02e-07⋅CL[1]^18.86⋅Re[1]^-0.1833 + 0.00168⋅CL[1]^2.963⋅Re[1]^-0.6675 + 2.28e-06⋅CL[1]^-1.653⋅Re[1]^-0.3496 + 1.76e+08⋅CL[1]^-0.1787⋅Re[1]^-2.713
-  cons  (cdp[2]/m_{fac-polar-fit}[2])^3.09 ≥ 1.02e-07⋅CL[2]^18.86⋅Re[2]^-0.1833 + 0.00168⋅CL[2]^2.963⋅Re[2]^-0.6675 + 2.28e-06⋅CL[2]^-1.653⋅Re[2]^-0.3496 + 1.76e+08⋅CL[2]^-0.1787⋅Re[2]^-2.713
-  cons  (cdp[3]/m_{fac-polar-fit}[3])^3.09 ≥ 1.02e-07⋅CL[3]^18.86⋅Re[3]^-0.1833 + 0.00168⋅CL[3]^2.963⋅Re[3]^-0.6675 + 2.28e-06⋅CL[3]^-1.653⋅Re[3]^-0.3496 + 1.76e+08⋅CL[3]^-0.1787⋅Re[3]^-2.713
-  cons  (cdp[4]/m_{fac-polar-fit}[4])^3.09 ≥ 1.02e-07⋅CL[4]^18.86⋅Re[4]^-0.1833 + 0.00168⋅CL[4]^2.963⋅Re[4]^-0.6675 + 2.28e-06⋅CL[4]^-1.653⋅Re[4]^-0.3496 + 1.76e+08⋅CL[4]^-0.1787⋅Re[4]^-2.713
-  cons  (cdp[5]/m_{fac-polar-fit}[5])^3.09 ≥ 1.02e-07⋅CL[5]^18.86⋅Re[5]^-0.1833 + 0.00168⋅CL[5]^2.963⋅Re[5]^-0.6675 + 2.28e-06⋅CL[5]^-1.653⋅Re[5]^-0.3496 + 1.76e+08⋅CL[5]^-0.1787⋅Re[5]^-2.713
-  cons  (cdp[6]/m_{fac-polar-fit}[6])^3.09 ≥ 1.02e-07⋅CL[6]^18.86⋅Re[6]^-0.1833 + 0.00168⋅CL[6]^2.963⋅Re[6]^-0.6675 + 2.28e-06⋅CL[6]^-1.653⋅Re[6]^-0.3496 + 1.76e+08⋅CL[6]^-0.1787⋅Re[6]^-2.713
-  cons  (cdp[7]/m_{fac-polar-fit}[7])^3.09 ≥ 1.02e-07⋅CL[7]^18.86⋅Re[7]^-0.1833 + 0.00168⋅CL[7]^2.963⋅Re[7]^-0.6675 + 2.28e-06⋅CL[7]^-1.653⋅Re[7]^-0.3496 + 1.76e+08⋅CL[7]^-0.1787⋅Re[7]^-2.713
-  cons  (cdp[8]/m_{fac-polar-fit}[8])^3.09 ≥ 1.02e-07⋅CL[8]^18.86⋅Re[8]^-0.1833 + 0.00168⋅CL[8]^2.963⋅Re[8]^-0.6675 + 2.28e-06⋅CL[8]^-1.653⋅Re[8]^-0.3496 + 1.76e+08⋅CL[8]^-0.1787⋅Re[8]^-2.713
-  cons  (cdp[9]/m_{fac-polar-fit}[9])^3.09 ≥ 1.02e-07⋅CL[9]^18.86⋅Re[9]^-0.1833 + 0.00168⋅CL[9]^2.963⋅Re[9]^-0.6675 + 2.28e-06⋅CL[9]^-1.653⋅Re[9]^-0.3496 + 1.76e+08⋅CL[9]^-0.1787⋅Re[9]^-2.713
+  cons  (cdp[:]/m_{fac-polar-fit}[:])^3.09 ≥ 1.02e-07⋅CL[:]^18.86⋅Re[:]^-0.1833 + 0.00168⋅CL[:]^2.963⋅Re[:]^-0.6675 + 2.28e-06⋅CL[:]^-1.653⋅Re[:]^-0.3496 + 1.76e+08⋅CL[:]^-0.1787⋅Re[:]^-2.713
   cons  CL[:] ≤ CLstall[:]
 [Mission.Climb.FlightSegment.AircraftPerf.FuselageAero]
   free  Cd[:]
@@ -486,16 +477,7 @@
   fixed m_{fac}[:]
   fixed P_avn[:]
   fixed bsfc_min  [Mission.Aircraft.Engine]
-  cons  (BSFC[0]/m_{fac}[0]/bsfc_min/m_{fac--fit}[0])^18.56 ≥ 0.00866⋅(P_total[0]/P_{shaft-max}[0])^-7.702 + 1.39⋅(P_total[0]/P_{shaft-max}[0])^1.129
-  cons  (BSFC[1]/m_{fac}[1]/bsfc_min/m_{fac--fit}[1])^18.56 ≥ 0.00866⋅(P_total[1]/P_{shaft-max}[1])^-7.702 + 1.39⋅(P_total[1]/P_{shaft-max}[1])^1.129
-  cons  (BSFC[2]/m_{fac}[2]/bsfc_min/m_{fac--fit}[2])^18.56 ≥ 0.00866⋅(P_total[2]/P_{shaft-max}[2])^-7.702 + 1.39⋅(P_total[2]/P_{shaft-max}[2])^1.129
-  cons  (BSFC[3]/m_{fac}[3]/bsfc_min/m_{fac--fit}[3])^18.56 ≥ 0.00866⋅(P_total[3]/P_{shaft-max}[3])^-7.702 + 1.39⋅(P_total[3]/P_{shaft-max}[3])^1.129
-  cons  (BSFC[4]/m_{fac}[4]/bsfc_min/m_{fac--fit}[4])^18.56 ≥ 0.00866⋅(P_total[4]/P_{shaft-max}[4])^-7.702 + 1.39⋅(P_total[4]/P_{shaft-max}[4])^1.129
-  cons  (BSFC[5]/m_{fac}[5]/bsfc_min/m_{fac--fit}[5])^18.56 ≥ 0.00866⋅(P_total[5]/P_{shaft-max}[5])^-7.702 + 1.39⋅(P_total[5]/P_{shaft-max}[5])^1.129
-  cons  (BSFC[6]/m_{fac}[6]/bsfc_min/m_{fac--fit}[6])^18.56 ≥ 0.00866⋅(P_total[6]/P_{shaft-max}[6])^-7.702 + 1.39⋅(P_total[6]/P_{shaft-max}[6])^1.129
-  cons  (BSFC[7]/m_{fac}[7]/bsfc_min/m_{fac--fit}[7])^18.56 ≥ 0.00866⋅(P_total[7]/P_{shaft-max}[7])^-7.702 + 1.39⋅(P_total[7]/P_{shaft-max}[7])^1.129
-  cons  (BSFC[8]/m_{fac}[8]/bsfc_min/m_{fac--fit}[8])^18.56 ≥ 0.00866⋅(P_total[8]/P_{shaft-max}[8])^-7.702 + 1.39⋅(P_total[8]/P_{shaft-max}[8])^1.129
-  cons  (BSFC[9]/m_{fac}[9]/bsfc_min/m_{fac--fit}[9])^18.56 ≥ 0.00866⋅(P_total[9]/P_{shaft-max}[9])^-7.702 + 1.39⋅(P_total[9]/P_{shaft-max}[9])^1.129
+  cons  (BSFC[:]/m_{fac}[:]/bsfc_min/m_{fac--fit}[:])^18.56 ≥ 0.00866⋅(P_total[:]/P_{shaft-max}[:])^-7.702 + 1.39⋅(P_total[:]/P_{shaft-max}[:])^1.129
   cons  P_{shaft-max}[:]/P_sl_max = L_{eng}[:]
   cons  P_{shaft-max}[:] ≥ P_total[:]
   cons  P_total[:] ≥ P_shaft[:] + P_avn[:]/eta_alternator[:]
@@ -510,56 +492,11 @@
   fixed \mu[:]  [Mission.Climb.FlightSegment.FlightState]
   fixed \rho[:]  [Mission.Climb.FlightSegment.FlightState]
   cons  Re[:] = V[:]⋅\rho[:]⋅S/b/\mu[:]
-  cons  0.34⋅Re[0]^-0.182⋅tau^0.7746 ≤ Cd[0]/m_{fac--fit}[0]
-  cons  5.45⋅Re[0]^-0.4849⋅tau^0.2463 ≤ Cd[0]/m_{fac--fit}[0]
-  cons  16.3⋅Re[0]^-0.5399⋅tau^0.4664 ≤ Cd[0]/m_{fac--fit}[0]
-  cons  9.51⋅Re[0]^-0.4823⋅tau^0.4675 ≤ Cd[0]/m_{fac--fit}[0]
-  cons  219⋅Re[0]^-0.6039⋅tau^1.312 ≤ Cd[0]/m_{fac--fit}[0]
-  cons  0.34⋅Re[1]^-0.182⋅tau^0.7746 ≤ Cd[1]/m_{fac--fit}[1]
-  cons  5.45⋅Re[1]^-0.4849⋅tau^0.2463 ≤ Cd[1]/m_{fac--fit}[1]
-  cons  16.3⋅Re[1]^-0.5399⋅tau^0.4664 ≤ Cd[1]/m_{fac--fit}[1]
-  cons  9.51⋅Re[1]^-0.4823⋅tau^0.4675 ≤ Cd[1]/m_{fac--fit}[1]
-  cons  219⋅Re[1]^-0.6039⋅tau^1.312 ≤ Cd[1]/m_{fac--fit}[1]
-  cons  0.34⋅Re[2]^-0.182⋅tau^0.7746 ≤ Cd[2]/m_{fac--fit}[2]
-  cons  5.45⋅Re[2]^-0.4849⋅tau^0.2463 ≤ Cd[2]/m_{fac--fit}[2]
-  cons  16.3⋅Re[2]^-0.5399⋅tau^0.4664 ≤ Cd[2]/m_{fac--fit}[2]
-  cons  9.51⋅Re[2]^-0.4823⋅tau^0.4675 ≤ Cd[2]/m_{fac--fit}[2]
-  cons  219⋅Re[2]^-0.6039⋅tau^1.312 ≤ Cd[2]/m_{fac--fit}[2]
-  cons  0.34⋅Re[3]^-0.182⋅tau^0.7746 ≤ Cd[3]/m_{fac--fit}[3]
-  cons  5.45⋅Re[3]^-0.4849⋅tau^0.2463 ≤ Cd[3]/m_{fac--fit}[3]
-  cons  16.3⋅Re[3]^-0.5399⋅tau^0.4664 ≤ Cd[3]/m_{fac--fit}[3]
-  cons  9.51⋅Re[3]^-0.4823⋅tau^0.4675 ≤ Cd[3]/m_{fac--fit}[3]
-  cons  219⋅Re[3]^-0.6039⋅tau^1.312 ≤ Cd[3]/m_{fac--fit}[3]
-  cons  0.34⋅Re[4]^-0.182⋅tau^0.7746 ≤ Cd[4]/m_{fac--fit}[4]
-  cons  5.45⋅Re[4]^-0.4849⋅tau^0.2463 ≤ Cd[4]/m_{fac--fit}[4]
-  cons  16.3⋅Re[4]^-0.5399⋅tau^0.4664 ≤ Cd[4]/m_{fac--fit}[4]
-  cons  9.51⋅Re[4]^-0.4823⋅tau^0.4675 ≤ Cd[4]/m_{fac--fit}[4]
-  cons  219⋅Re[4]^-0.6039⋅tau^1.312 ≤ Cd[4]/m_{fac--fit}[4]
-  cons  0.34⋅Re[5]^-0.182⋅tau^0.7746 ≤ Cd[5]/m_{fac--fit}[5]
-  cons  5.45⋅Re[5]^-0.4849⋅tau^0.2463 ≤ Cd[5]/m_{fac--fit}[5]
-  cons  16.3⋅Re[5]^-0.5399⋅tau^0.4664 ≤ Cd[5]/m_{fac--fit}[5]
-  cons  9.51⋅Re[5]^-0.4823⋅tau^0.4675 ≤ Cd[5]/m_{fac--fit}[5]
-  cons  219⋅Re[5]^-0.6039⋅tau^1.312 ≤ Cd[5]/m_{fac--fit}[5]
-  cons  0.34⋅Re[6]^-0.182⋅tau^0.7746 ≤ Cd[6]/m_{fac--fit}[6]
-  cons  5.45⋅Re[6]^-0.4849⋅tau^0.2463 ≤ Cd[6]/m_{fac--fit}[6]
-  cons  16.3⋅Re[6]^-0.5399⋅tau^0.4664 ≤ Cd[6]/m_{fac--fit}[6]
-  cons  9.51⋅Re[6]^-0.4823⋅tau^0.4675 ≤ Cd[6]/m_{fac--fit}[6]
-  cons  219⋅Re[6]^-0.6039⋅tau^1.312 ≤ Cd[6]/m_{fac--fit}[6]
-  cons  0.34⋅Re[7]^-0.182⋅tau^0.7746 ≤ Cd[7]/m_{fac--fit}[7]
-  cons  5.45⋅Re[7]^-0.4849⋅tau^0.2463 ≤ Cd[7]/m_{fac--fit}[7]
-  cons  16.3⋅Re[7]^-0.5399⋅tau^0.4664 ≤ Cd[7]/m_{fac--fit}[7]
-  cons  9.51⋅Re[7]^-0.4823⋅tau^0.4675 ≤ Cd[7]/m_{fac--fit}[7]
-  cons  219⋅Re[7]^-0.6039⋅tau^1.312 ≤ Cd[7]/m_{fac--fit}[7]
-  cons  0.34⋅Re[8]^-0.182⋅tau^0.7746 ≤ Cd[8]/m_{fac--fit}[8]
-  cons  5.45⋅Re[8]^-0.4849⋅tau^0.2463 ≤ Cd[8]/m_{fac--fit}[8]
-  cons  16.3⋅Re[8]^-0.5399⋅tau^0.4664 ≤ Cd[8]/m_{fac--fit}[8]
-  cons  9.51⋅Re[8]^-0.4823⋅tau^0.4675 ≤ Cd[8]/m_{fac--fit}[8]
-  cons  219⋅Re[8]^-0.6039⋅tau^1.312 ≤ Cd[8]/m_{fac--fit}[8]
-  cons  0.34⋅Re[9]^-0.182⋅tau^0.7746 ≤ Cd[9]/m_{fac--fit}[9]
-  cons  5.45⋅Re[9]^-0.4849⋅tau^0.2463 ≤ Cd[9]/m_{fac--fit}[9]
-  cons  16.3⋅Re[9]^-0.5399⋅tau^0.4664 ≤ Cd[9]/m_{fac--fit}[9]
-  cons  9.51⋅Re[9]^-0.4823⋅tau^0.4675 ≤ Cd[9]/m_{fac--fit}[9]
-  cons  219⋅Re[9]^-0.6039⋅tau^1.312 ≤ Cd[9]/m_{fac--fit}[9]
+  cons  Cd[:]/m_{fac--fit}[:] ≥ 0.34⋅Re[:]^-0.182⋅tau^0.7746
+  cons  Cd[:]/m_{fac--fit}[:] ≥ 5.45⋅Re[:]^-0.4849⋅tau^0.2463
+  cons  Cd[:]/m_{fac--fit}[:] ≥ 16.3⋅Re[:]^-0.5399⋅tau^0.4664
+  cons  Cd[:]/m_{fac--fit}[:] ≥ 9.51⋅Re[:]^-0.4823⋅tau^0.4675
+  cons  Cd[:]/m_{fac--fit}[:] ≥ 219⋅Re[:]^-0.6039⋅tau^1.312
 [Mission.Climb.FlightSegment.AircraftPerf.TailAero1]
   free  Cd[:]
   free  Re[:]
@@ -571,56 +508,11 @@
   fixed \mu[:]  [Mission.Climb.FlightSegment.FlightState]
   fixed \rho[:]  [Mission.Climb.FlightSegment.FlightState]
   cons  Re[:] = V[:]⋅\rho[:]⋅S/b/\mu[:]
-  cons  0.34⋅Re[0]^-0.182⋅tau^0.7746 ≤ Cd[0]/m_{fac--fit}[0]
-  cons  5.45⋅Re[0]^-0.4849⋅tau^0.2463 ≤ Cd[0]/m_{fac--fit}[0]
-  cons  16.3⋅Re[0]^-0.5399⋅tau^0.4664 ≤ Cd[0]/m_{fac--fit}[0]
-  cons  9.51⋅Re[0]^-0.4823⋅tau^0.4675 ≤ Cd[0]/m_{fac--fit}[0]
-  cons  219⋅Re[0]^-0.6039⋅tau^1.312 ≤ Cd[0]/m_{fac--fit}[0]
-  cons  0.34⋅Re[1]^-0.182⋅tau^0.7746 ≤ Cd[1]/m_{fac--fit}[1]
-  cons  5.45⋅Re[1]^-0.4849⋅tau^0.2463 ≤ Cd[1]/m_{fac--fit}[1]
-  cons  16.3⋅Re[1]^-0.5399⋅tau^0.4664 ≤ Cd[1]/m_{fac--fit}[1]
-  cons  9.51⋅Re[1]^-0.4823⋅tau^0.4675 ≤ Cd[1]/m_{fac--fit}[1]
-  cons  219⋅Re[1]^-0.6039⋅tau^1.312 ≤ Cd[1]/m_{fac--fit}[1]
-  cons  0.34⋅Re[2]^-0.182⋅tau^0.7746 ≤ Cd[2]/m_{fac--fit}[2]
-  cons  5.45⋅Re[2]^-0.4849⋅tau^0.2463 ≤ Cd[2]/m_{fac--fit}[2]
-  cons  16.3⋅Re[2]^-0.5399⋅tau^0.4664 ≤ Cd[2]/m_{fac--fit}[2]
-  cons  9.51⋅Re[2]^-0.4823⋅tau^0.4675 ≤ Cd[2]/m_{fac--fit}[2]
-  cons  219⋅Re[2]^-0.6039⋅tau^1.312 ≤ Cd[2]/m_{fac--fit}[2]
-  cons  0.34⋅Re[3]^-0.182⋅tau^0.7746 ≤ Cd[3]/m_{fac--fit}[3]
-  cons  5.45⋅Re[3]^-0.4849⋅tau^0.2463 ≤ Cd[3]/m_{fac--fit}[3]
-  cons  16.3⋅Re[3]^-0.5399⋅tau^0.4664 ≤ Cd[3]/m_{fac--fit}[3]
-  cons  9.51⋅Re[3]^-0.4823⋅tau^0.4675 ≤ Cd[3]/m_{fac--fit}[3]
-  cons  219⋅Re[3]^-0.6039⋅tau^1.312 ≤ Cd[3]/m_{fac--fit}[3]
-  cons  0.34⋅Re[4]^-0.182⋅tau^0.7746 ≤ Cd[4]/m_{fac--fit}[4]
-  cons  5.45⋅Re[4]^-0.4849⋅tau^0.2463 ≤ Cd[4]/m_{fac--fit}[4]
-  cons  16.3⋅Re[4]^-0.5399⋅tau^0.4664 ≤ Cd[4]/m_{fac--fit}[4]
-  cons  9.51⋅Re[4]^-0.4823⋅tau^0.4675 ≤ Cd[4]/m_{fac--fit}[4]
-  cons  219⋅Re[4]^-0.6039⋅tau^1.312 ≤ Cd[4]/m_{fac--fit}[4]
-  cons  0.34⋅Re[5]^-0.182⋅tau^0.7746 ≤ Cd[5]/m_{fac--fit}[5]
-  cons  5.45⋅Re[5]^-0.4849⋅tau^0.2463 ≤ Cd[5]/m_{fac--fit}[5]
-  cons  16.3⋅Re[5]^-0.5399⋅tau^0.4664 ≤ Cd[5]/m_{fac--fit}[5]
-  cons  9.51⋅Re[5]^-0.4823⋅tau^0.4675 ≤ Cd[5]/m_{fac--fit}[5]
-  cons  219⋅Re[5]^-0.6039⋅tau^1.312 ≤ Cd[5]/m_{fac--fit}[5]
-  cons  0.34⋅Re[6]^-0.182⋅tau^0.7746 ≤ Cd[6]/m_{fac--fit}[6]
-  cons  5.45⋅Re[6]^-0.4849⋅tau^0.2463 ≤ Cd[6]/m_{fac--fit}[6]
-  cons  16.3⋅Re[6]^-0.5399⋅tau^0.4664 ≤ Cd[6]/m_{fac--fit}[6]
-  cons  9.51⋅Re[6]^-0.4823⋅tau^0.4675 ≤ Cd[6]/m_{fac--fit}[6]
-  cons  219⋅Re[6]^-0.6039⋅tau^1.312 ≤ Cd[6]/m_{fac--fit}[6]
-  cons  0.34⋅Re[7]^-0.182⋅tau^0.7746 ≤ Cd[7]/m_{fac--fit}[7]
-  cons  5.45⋅Re[7]^-0.4849⋅tau^0.2463 ≤ Cd[7]/m_{fac--fit}[7]
-  cons  16.3⋅Re[7]^-0.5399⋅tau^0.4664 ≤ Cd[7]/m_{fac--fit}[7]
-  cons  9.51⋅Re[7]^-0.4823⋅tau^0.4675 ≤ Cd[7]/m_{fac--fit}[7]
-  cons  219⋅Re[7]^-0.6039⋅tau^1.312 ≤ Cd[7]/m_{fac--fit}[7]
-  cons  0.34⋅Re[8]^-0.182⋅tau^0.7746 ≤ Cd[8]/m_{fac--fit}[8]
-  cons  5.45⋅Re[8]^-0.4849⋅tau^0.2463 ≤ Cd[8]/m_{fac--fit}[8]
-  cons  16.3⋅Re[8]^-0.5399⋅tau^0.4664 ≤ Cd[8]/m_{fac--fit}[8]
-  cons  9.51⋅Re[8]^-0.4823⋅tau^0.4675 ≤ Cd[8]/m_{fac--fit}[8]
-  cons  219⋅Re[8]^-0.6039⋅tau^1.312 ≤ Cd[8]/m_{fac--fit}[8]
-  cons  0.34⋅Re[9]^-0.182⋅tau^0.7746 ≤ Cd[9]/m_{fac--fit}[9]
-  cons  5.45⋅Re[9]^-0.4849⋅tau^0.2463 ≤ Cd[9]/m_{fac--fit}[9]
-  cons  16.3⋅Re[9]^-0.5399⋅tau^0.4664 ≤ Cd[9]/m_{fac--fit}[9]
-  cons  9.51⋅Re[9]^-0.4823⋅tau^0.4675 ≤ Cd[9]/m_{fac--fit}[9]
-  cons  219⋅Re[9]^-0.6039⋅tau^1.312 ≤ Cd[9]/m_{fac--fit}[9]
+  cons  Cd[:]/m_{fac--fit}[:] ≥ 0.34⋅Re[:]^-0.182⋅tau^0.7746
+  cons  Cd[:]/m_{fac--fit}[:] ≥ 5.45⋅Re[:]^-0.4849⋅tau^0.2463
+  cons  Cd[:]/m_{fac--fit}[:] ≥ 16.3⋅Re[:]^-0.5399⋅tau^0.4664
+  cons  Cd[:]/m_{fac--fit}[:] ≥ 9.51⋅Re[:]^-0.4823⋅tau^0.4675
+  cons  Cd[:]/m_{fac--fit}[:] ≥ 219⋅Re[:]^-0.6039⋅tau^1.312
 [Mission.Climb.FlightSegment.AircraftPerf.TailBoomAero]
   free  Cf[:]
   free  Re[:]
@@ -716,11 +608,7 @@
   fixed \rho[:]  [Mission.Loiter.FlightSegment.FlightState]
   cons  Cd[:] ≥ cdp[:] + CL[:]²/3.14/AR/e[:]
   cons  Re[:] = \rho[:]⋅V[:]⋅cmac/\mu[:]
-  cons  (cdp[0]/m_{fac-polar-fit}[0])^3.09 ≥ 1.02e-07⋅CL[0]^18.86⋅Re[0]^-0.1833 + 0.00168⋅CL[0]^2.963⋅Re[0]^-0.6675 + 2.28e-06⋅CL[0]^-1.653⋅Re[0]^-0.3496 + 1.76e+08⋅CL[0]^-0.1787⋅Re[0]^-2.713
-  cons  (cdp[1]/m_{fac-polar-fit}[1])^3.09 ≥ 1.02e-07⋅CL[1]^18.86⋅Re[1]^-0.1833 + 0.00168⋅CL[1]^2.963⋅Re[1]^-0.6675 + 2.28e-06⋅CL[1]^-1.653⋅Re[1]^-0.3496 + 1.76e+08⋅CL[1]^-0.1787⋅Re[1]^-2.713
-  cons  (cdp[2]/m_{fac-polar-fit}[2])^3.09 ≥ 1.02e-07⋅CL[2]^18.86⋅Re[2]^-0.1833 + 0.00168⋅CL[2]^2.963⋅Re[2]^-0.6675 + 2.28e-06⋅CL[2]^-1.653⋅Re[2]^-0.3496 + 1.76e+08⋅CL[2]^-0.1787⋅Re[2]^-2.713
-  cons  (cdp[3]/m_{fac-polar-fit}[3])^3.09 ≥ 1.02e-07⋅CL[3]^18.86⋅Re[3]^-0.1833 + 0.00168⋅CL[3]^2.963⋅Re[3]^-0.6675 + 2.28e-06⋅CL[3]^-1.653⋅Re[3]^-0.3496 + 1.76e+08⋅CL[3]^-0.1787⋅Re[3]^-2.713
-  cons  (cdp[4]/m_{fac-polar-fit}[4])^3.09 ≥ 1.02e-07⋅CL[4]^18.86⋅Re[4]^-0.1833 + 0.00168⋅CL[4]^2.963⋅Re[4]^-0.6675 + 2.28e-06⋅CL[4]^-1.653⋅Re[4]^-0.3496 + 1.76e+08⋅CL[4]^-0.1787⋅Re[4]^-2.713
+  cons  (cdp[:]/m_{fac-polar-fit}[:])^3.09 ≥ 1.02e-07⋅CL[:]^18.86⋅Re[:]^-0.1833 + 0.00168⋅CL[:]^2.963⋅Re[:]^-0.6675 + 2.28e-06⋅CL[:]^-1.653⋅Re[:]^-0.3496 + 1.76e+08⋅CL[:]^-0.1787⋅Re[:]^-2.713
   cons  CL[:] ≤ CLstall[:]
 [Mission.Loiter.FlightSegment.AircraftPerf.FuselageAero]
   free  Cd[:]
@@ -748,11 +636,7 @@
   fixed m_{fac}[:]
   fixed P_avn[:]
   fixed bsfc_min  [Mission.Aircraft.Engine]
-  cons  (BSFC[0]/m_{fac}[0]/bsfc_min/m_{fac--fit}[0])^18.56 ≥ 0.00866⋅(P_total[0]/P_{shaft-max}[0])^-7.702 + 1.39⋅(P_total[0]/P_{shaft-max}[0])^1.129
-  cons  (BSFC[1]/m_{fac}[1]/bsfc_min/m_{fac--fit}[1])^18.56 ≥ 0.00866⋅(P_total[1]/P_{shaft-max}[1])^-7.702 + 1.39⋅(P_total[1]/P_{shaft-max}[1])^1.129
-  cons  (BSFC[2]/m_{fac}[2]/bsfc_min/m_{fac--fit}[2])^18.56 ≥ 0.00866⋅(P_total[2]/P_{shaft-max}[2])^-7.702 + 1.39⋅(P_total[2]/P_{shaft-max}[2])^1.129
-  cons  (BSFC[3]/m_{fac}[3]/bsfc_min/m_{fac--fit}[3])^18.56 ≥ 0.00866⋅(P_total[3]/P_{shaft-max}[3])^-7.702 + 1.39⋅(P_total[3]/P_{shaft-max}[3])^1.129
-  cons  (BSFC[4]/m_{fac}[4]/bsfc_min/m_{fac--fit}[4])^18.56 ≥ 0.00866⋅(P_total[4]/P_{shaft-max}[4])^-7.702 + 1.39⋅(P_total[4]/P_{shaft-max}[4])^1.129
+  cons  (BSFC[:]/m_{fac}[:]/bsfc_min/m_{fac--fit}[:])^18.56 ≥ 0.00866⋅(P_total[:]/P_{shaft-max}[:])^-7.702 + 1.39⋅(P_total[:]/P_{shaft-max}[:])^1.129
   cons  P_{shaft-max}[:]/P_sl_max = L_{eng}[:]
   cons  P_{shaft-max}[:] ≥ P_total[:]
   cons  P_total[:] ≥ P_shaft[:] + P_avn[:]/eta_alternator[:]
@@ -767,31 +651,11 @@
   fixed \mu[:]  [Mission.Loiter.FlightSegment.FlightState]
   fixed \rho[:]  [Mission.Loiter.FlightSegment.FlightState]
   cons  Re[:] = V[:]⋅\rho[:]⋅S/b/\mu[:]
-  cons  0.34⋅Re[0]^-0.182⋅tau^0.7746 ≤ Cd[0]/m_{fac--fit}[0]
-  cons  5.45⋅Re[0]^-0.4849⋅tau^0.2463 ≤ Cd[0]/m_{fac--fit}[0]
-  cons  16.3⋅Re[0]^-0.5399⋅tau^0.4664 ≤ Cd[0]/m_{fac--fit}[0]
-  cons  9.51⋅Re[0]^-0.4823⋅tau^0.4675 ≤ Cd[0]/m_{fac--fit}[0]
-  cons  219⋅Re[0]^-0.6039⋅tau^1.312 ≤ Cd[0]/m_{fac--fit}[0]
-  cons  0.34⋅Re[1]^-0.182⋅tau^0.7746 ≤ Cd[1]/m_{fac--fit}[1]
-  cons  5.45⋅Re[1]^-0.4849⋅tau^0.2463 ≤ Cd[1]/m_{fac--fit}[1]
-  cons  16.3⋅Re[1]^-0.5399⋅tau^0.4664 ≤ Cd[1]/m_{fac--fit}[1]
-  cons  9.51⋅Re[1]^-0.4823⋅tau^0.4675 ≤ Cd[1]/m_{fac--fit}[1]
-  cons  219⋅Re[1]^-0.6039⋅tau^1.312 ≤ Cd[1]/m_{fac--fit}[1]
-  cons  0.34⋅Re[2]^-0.182⋅tau^0.7746 ≤ Cd[2]/m_{fac--fit}[2]
-  cons  5.45⋅Re[2]^-0.4849⋅tau^0.2463 ≤ Cd[2]/m_{fac--fit}[2]
-  cons  16.3⋅Re[2]^-0.5399⋅tau^0.4664 ≤ Cd[2]/m_{fac--fit}[2]
-  cons  9.51⋅Re[2]^-0.4823⋅tau^0.4675 ≤ Cd[2]/m_{fac--fit}[2]
-  cons  219⋅Re[2]^-0.6039⋅tau^1.312 ≤ Cd[2]/m_{fac--fit}[2]
-  cons  0.34⋅Re[3]^-0.182⋅tau^0.7746 ≤ Cd[3]/m_{fac--fit}[3]
-  cons  5.45⋅Re[3]^-0.4849⋅tau^0.2463 ≤ Cd[3]/m_{fac--fit}[3]
-  cons  16.3⋅Re[3]^-0.5399⋅tau^0.4664 ≤ Cd[3]/m_{fac--fit}[3]
-  cons  9.51⋅Re[3]^-0.4823⋅tau^0.4675 ≤ Cd[3]/m_{fac--fit}[3]
-  cons  219⋅Re[3]^-0.6039⋅tau^1.312 ≤ Cd[3]/m_{fac--fit}[3]
-  cons  0.34⋅Re[4]^-0.182⋅tau^0.7746 ≤ Cd[4]/m_{fac--fit}[4]
-  cons  5.45⋅Re[4]^-0.4849⋅tau^0.2463 ≤ Cd[4]/m_{fac--fit}[4]
-  cons  16.3⋅Re[4]^-0.5399⋅tau^0.4664 ≤ Cd[4]/m_{fac--fit}[4]
-  cons  9.51⋅Re[4]^-0.4823⋅tau^0.4675 ≤ Cd[4]/m_{fac--fit}[4]
-  cons  219⋅Re[4]^-0.6039⋅tau^1.312 ≤ Cd[4]/m_{fac--fit}[4]
+  cons  Cd[:]/m_{fac--fit}[:] ≥ 0.34⋅Re[:]^-0.182⋅tau^0.7746
+  cons  Cd[:]/m_{fac--fit}[:] ≥ 5.45⋅Re[:]^-0.4849⋅tau^0.2463
+  cons  Cd[:]/m_{fac--fit}[:] ≥ 16.3⋅Re[:]^-0.5399⋅tau^0.4664
+  cons  Cd[:]/m_{fac--fit}[:] ≥ 9.51⋅Re[:]^-0.4823⋅tau^0.4675
+  cons  Cd[:]/m_{fac--fit}[:] ≥ 219⋅Re[:]^-0.6039⋅tau^1.312
 [Mission.Loiter.FlightSegment.AircraftPerf.TailAero1]
   free  Cd[:]
   free  Re[:]
@@ -803,31 +667,11 @@
   fixed \mu[:]  [Mission.Loiter.FlightSegment.FlightState]
   fixed \rho[:]  [Mission.Loiter.FlightSegment.FlightState]
   cons  Re[:] = V[:]⋅\rho[:]⋅S/b/\mu[:]
-  cons  0.34⋅Re[0]^-0.182⋅tau^0.7746 ≤ Cd[0]/m_{fac--fit}[0]
-  cons  5.45⋅Re[0]^-0.4849⋅tau^0.2463 ≤ Cd[0]/m_{fac--fit}[0]
-  cons  16.3⋅Re[0]^-0.5399⋅tau^0.4664 ≤ Cd[0]/m_{fac--fit}[0]
-  cons  9.51⋅Re[0]^-0.4823⋅tau^0.4675 ≤ Cd[0]/m_{fac--fit}[0]
-  cons  219⋅Re[0]^-0.6039⋅tau^1.312 ≤ Cd[0]/m_{fac--fit}[0]
-  cons  0.34⋅Re[1]^-0.182⋅tau^0.7746 ≤ Cd[1]/m_{fac--fit}[1]
-  cons  5.45⋅Re[1]^-0.4849⋅tau^0.2463 ≤ Cd[1]/m_{fac--fit}[1]
-  cons  16.3⋅Re[1]^-0.5399⋅tau^0.4664 ≤ Cd[1]/m_{fac--fit}[1]
-  cons  9.51⋅Re[1]^-0.4823⋅tau^0.4675 ≤ Cd[1]/m_{fac--fit}[1]
-  cons  219⋅Re[1]^-0.6039⋅tau^1.312 ≤ Cd[1]/m_{fac--fit}[1]
-  cons  0.34⋅Re[2]^-0.182⋅tau^0.7746 ≤ Cd[2]/m_{fac--fit}[2]
-  cons  5.45⋅Re[2]^-0.4849⋅tau^0.2463 ≤ Cd[2]/m_{fac--fit}[2]
-  cons  16.3⋅Re[2]^-0.5399⋅tau^0.4664 ≤ Cd[2]/m_{fac--fit}[2]
-  cons  9.51⋅Re[2]^-0.4823⋅tau^0.4675 ≤ Cd[2]/m_{fac--fit}[2]
-  cons  219⋅Re[2]^-0.6039⋅tau^1.312 ≤ Cd[2]/m_{fac--fit}[2]
-  cons  0.34⋅Re[3]^-0.182⋅tau^0.7746 ≤ Cd[3]/m_{fac--fit}[3]
-  cons  5.45⋅Re[3]^-0.4849⋅tau^0.2463 ≤ Cd[3]/m_{fac--fit}[3]
-  cons  16.3⋅Re[3]^-0.5399⋅tau^0.4664 ≤ Cd[3]/m_{fac--fit}[3]
-  cons  9.51⋅Re[3]^-0.4823⋅tau^0.4675 ≤ Cd[3]/m_{fac--fit}[3]
-  cons  219⋅Re[3]^-0.6039⋅tau^1.312 ≤ Cd[3]/m_{fac--fit}[3]
-  cons  0.34⋅Re[4]^-0.182⋅tau^0.7746 ≤ Cd[4]/m_{fac--fit}[4]
-  cons  5.45⋅Re[4]^-0.4849⋅tau^0.2463 ≤ Cd[4]/m_{fac--fit}[4]
-  cons  16.3⋅Re[4]^-0.5399⋅tau^0.4664 ≤ Cd[4]/m_{fac--fit}[4]
-  cons  9.51⋅Re[4]^-0.4823⋅tau^0.4675 ≤ Cd[4]/m_{fac--fit}[4]
-  cons  219⋅Re[4]^-0.6039⋅tau^1.312 ≤ Cd[4]/m_{fac--fit}[4]
+  cons  Cd[:]/m_{fac--fit}[:] ≥ 0.34⋅Re[:]^-0.182⋅tau^0.7746
+  cons  Cd[:]/m_{fac--fit}[:] ≥ 5.45⋅Re[:]^-0.4849⋅tau^0.2463
+  cons  Cd[:]/m_{fac--fit}[:] ≥ 16.3⋅Re[:]^-0.5399⋅tau^0.4664
+  cons  Cd[:]/m_{fac--fit}[:] ≥ 9.51⋅Re[:]^-0.4823⋅tau^0.4675
+  cons  Cd[:]/m_{fac--fit}[:] ≥ 219⋅Re[:]^-0.6039⋅tau^1.312
 [Mission.Loiter.FlightSegment.AircraftPerf.TailBoomAero]
   free  Cf[:]
   free  Re[:]
@@ -949,11 +793,7 @@
   cons  w[1:] ≥ w[:-1] + 0.5⋅deta[:]⋅b/2⋅(th[1:] + th[:-1])
   cons  M[:-1]/Sy[:] ≤ sigma
   cons  kappa ≥ w[4]/(b/2)
-  cons  0.946⋅(cosminus1[0]⋅vgust/v)^0.996 = agust[0]/m_{fac--fit}
-  cons  0.946⋅(cosminus1[1]⋅vgust/v)^0.996 = agust[1]/m_{fac--fit}
-  cons  0.946⋅(cosminus1[2]⋅vgust/v)^0.996 = agust[2]/m_{fac--fit}
-  cons  0.946⋅(cosminus1[3]⋅vgust/v)^0.996 = agust[3]/m_{fac--fit}
-  cons  0.946⋅(cosminus1[4]⋅vgust/v)^0.996 = agust[4]/m_{fac--fit}
+  cons  agust[:]/m_{fac--fit} = 0.946⋅(cosminus1[:]⋅vgust/v)^0.996
   cons  q[:] ≥ W⋅N/b⋅cbar[:]⋅(1 + 6.28⋅agust[:]/cl⋅(1 + Ww/W))
 [Mission.TailBoomBending]
   free  F
