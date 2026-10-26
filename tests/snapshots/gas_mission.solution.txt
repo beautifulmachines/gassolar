@@ -647,18 +647,18 @@ Mission.Aircraft.Empennage
 +0.02949 : l ≥ lh
 
 Mission.Aircraft.Empennage.TailBoom
--0.04248 : S = l⋅3.14⋅d[0]
-[ +0.0212 ] : I[:] ≤ 3.14⋅t[:]⋅d[:]³/8
+-0.04248 : S = l⋅3.142⋅d[0]
+[ +0.0212 ] : I[:] ≤ 3.142⋅t[:]⋅d[:]³/8
 +0.02124 : W/mfac ≥ g⋅dm[:].sum()
-[ +0.0212 ] : dm[:] ≥ 3.14⋅rho⋅d[:]⋅deta⋅t[:]⋅kfac⋅l
+[ +0.0212 ] : dm[:] ≥ 3.142⋅rho⋅d[:]⋅deta⋅t[:]⋅kfac⋅l
 
 Mission.Aircraft.Engine
-+0.3259 : W/mfac ≥ 2.57⋅[lbf]⋅(W_eng/[lbf])^0.922
--0.3005 : W_eng/W_engref/m_{fac--fit} = 1.28⋅(P_sl_max/P_ref)^0.7724
++0.3259 : W/mfac ≥ 2.572⋅[lbf]⋅(W_eng/[lbf])^0.922
+-0.3005 : W_eng/W_engref/m_{fac--fit} = 1.278⋅(P_sl_max/P_ref)^0.7724
 
 Mission.Aircraft.Fuselage
-+0.3751  : 3⋅(S/3.14)^1.607 ≥ 2⋅(l⋅R⋅2)^1.607 + (2⋅R)^3.215
-+0.3522  : Vol ≤ 4.19⋅l/2⋅R²
++0.3751  : 3⋅(S/3.142)^1.607 ≥ 2⋅(l⋅R⋅2)^1.607 + (2⋅R)^3.215
++0.3522  : Vol ≤ 4.189⋅l/2⋅R²
 +0.267   : k ≥ 1 + 60/f³ + f/400
 +0.105   : W/mfac ≥ S⋅rho⋅t⋅g
 +0.105   : t ≥ nply⋅tmin
@@ -709,9 +709,9 @@ Mission.Climb.FlightSegment.AircraftPerf.FuselageAero
 [ +2.75e-05  +3.19e-05  +3.76e-05  +4.52e-05  +5.57e-05  +7.09e-05 ... ] : Re[:] = V[:]⋅\rho[:]⋅l/\mu[:]
 
 Mission.Climb.FlightSegment.AircraftPerf.WingAero
-[ +0.000378  +0.000438  +0.000515  +0.000619  +0.000762  +0.00097  ... ] : Cd[:] ≥ cdp[:] + CL[:]²/3.14/AR/e[:]
+[ +0.000378  +0.000438  +0.000515  +0.000619  +0.000762  +0.00097  ... ] : Cd[:] ≥ cdp[:] + CL[:]²/3.142/AR/e[:]
 [ +3.04e-05  +3.56e-05  +4.24e-05  +5.14e-05  +6.39e-05  +8.22e-05 ... ] : Re[:] = \rho[:]⋅V[:]⋅cmac/\mu[:]
-[ +3.47e-05  +4.04e-05  +4.77e-05  +5.74e-05  +7.09e-05  +9.04e-05 ... ] : (cdp[:]/m_{fac-polar-fit}[:])^3.09 ≥ 1.02e-07⋅CL[:]^18.86⋅Re[:]^-0.1833 + 0.00168⋅CL[:]^2.963⋅Re[:]^-0.6675 + 2.28e-06⋅CL[:]^-1.653⋅Re[:]^-0.3496 + 1.76e+08⋅CL[:]^-0.1787⋅Re[:]^-2.713
+[ +3.47e-05  +4.04e-05  +4.77e-05  +5.74e-05  +7.09e-05  +9.04e-05 ... ] : (cdp[:]/m_{fac-polar-fit}[:])^3.09 ≥ 1.024e-07⋅CL[:]^18.86⋅Re[:]^-0.1833 + 0.001682⋅CL[:]^2.963⋅Re[:]^-0.6675 + 2.283e-06⋅CL[:]^-1.653⋅Re[:]^-0.3496 + 1.758e+08⋅CL[:]^-0.1787⋅Re[:]^-2.713
 
 Mission.Climb.FlightSegment.BreguetEndurance
 [ +1     +1     +1     +1.01  +1.01  +1.01 ... ] : Wstart[:] ≥ Wend[:] + W_fuel[:]
@@ -730,7 +730,7 @@ Mission.GustL
 [ +0.095  +0.134  +0.115  +0.047 ]                 : th[1:] ≥ th[:-1] + 0.5⋅deta[:]⋅b/2⋅(M[1:] + M[:-1])/E/I[:]
 [ +0.0137  +0.0579  +0.117  +0.131 ]               : S[:-1] ≥ S[1:] + 0.5⋅deta[:]⋅b/2⋅(q[:-1] + q[1:])
 [ +0.0598  +0.116  +0.102  +0.0421 ]               : M[:-1] ≥ M[1:] + 0.5⋅deta[:]⋅b/2⋅(S[:-1] + S[1:])
-[ +0.000673  +0.00866  +0.0337  +0.0924  +0.0681 ] : q[:] ≥ W⋅N/b⋅cbar[:]⋅(1 + 6.28⋅agust[:]/cl⋅(1 + Ww/W))
+[ +0.000673  +0.00866  +0.0337  +0.0924  +0.0681 ] : q[:] ≥ W⋅N/b⋅cbar[:]⋅(1 + 6.283⋅agust[:]/cl⋅(1 + Ww/W))
 [ ~0  -0.00129  -0.0135  -0.054  -0.0473 ]         : agust[:]/m_{fac--fit} = 0.946⋅(cosminus1[:]⋅vgust/v)^0.996
 
 Mission.Loiter
@@ -747,7 +747,7 @@ Mission.Loiter.FlightSegment.AircraftPerf
 Mission.Loiter.FlightSegment.AircraftPerf.EnginePerf
 [ +0.355   +0.306   +0.264   +0.238   +0.225  ] : P_total[:] ≥ P_shaft[:] + P_avn[:]/eta_alternator[:]
 [ +0.0088  +0.0493  +0.0911  +0.118   +0.131  ] : P_{shaft-max}[:]/P_sl_max = L_{eng}[:]
-[ +0.0196  +0.0191  +0.0191  +0.0192  +0.0192 ] : (BSFC[:]/m_{fac}[:]/bsfc_min/m_{fac--fit}[:])^18.56 ≥ 0.00866⋅(P_total[:]/P_{shaft-max}[:])^-7.702 + 1.39⋅(P_total[:]/P_{shaft-max}[:])^1.129
+[ +0.0196  +0.0191  +0.0191  +0.0192  +0.0192 ] : (BSFC[:]/m_{fac}[:]/bsfc_min/m_{fac--fit}[:])^18.56 ≥ 0.008663⋅(P_total[:]/P_{shaft-max}[:])^-7.702 + 1.386⋅(P_total[:]/P_{shaft-max}[:])^1.129
 
 Mission.Loiter.FlightSegment.AircraftPerf.FuselageAero
 [ +0.0822  +0.0811  +0.0787  +0.078   +0.0795 ] : Cf[:] ≥ 0.455/Re[:]^0.3
@@ -755,9 +755,9 @@ Mission.Loiter.FlightSegment.AircraftPerf.FuselageAero
 [ +0.0247  +0.0243  +0.0236  +0.0234  +0.0238 ] : Re[:] = V[:]⋅\rho[:]⋅l/\mu[:]
 
 Mission.Loiter.FlightSegment.AircraftPerf.WingAero
-[ +0.23    +0.182   +0.144   +0.119   +0.104  ] : Cd[:] ≥ cdp[:] + CL[:]²/3.14/AR/e[:]
+[ +0.23    +0.182   +0.144   +0.119   +0.104  ] : Cd[:] ≥ cdp[:] + CL[:]²/3.142/AR/e[:]
 [ +0.0321  +0.0331  +0.0334  +0.0337  +0.0341 ] : Re[:] = \rho[:]⋅V[:]⋅cmac/\mu[:]
-[ +0.0257  +0.0237  +0.0219  +0.0213  +0.022  ] : (cdp[:]/m_{fac-polar-fit}[:])^3.09 ≥ 1.02e-07⋅CL[:]^18.86⋅Re[:]^-0.1833 + 0.00168⋅CL[:]^2.963⋅Re[:]^-0.6675 + 2.28e-06⋅CL[:]^-1.653⋅Re[:]^-0.3496 + 1.76e+08⋅CL[:]^-0.1787⋅Re[:]^-2.713
+[ +0.0257  +0.0237  +0.0219  +0.0213  +0.022  ] : (cdp[:]/m_{fac-polar-fit}[:])^3.09 ≥ 1.024e-07⋅CL[:]^18.86⋅Re[:]^-0.1833 + 0.001682⋅CL[:]^2.963⋅Re[:]^-0.6675 + 2.283e-06⋅CL[:]^-1.653⋅Re[:]^-0.3496 + 1.758e+08⋅CL[:]^-0.1787⋅Re[:]^-2.713
 
 Mission.Loiter.FlightSegment.BreguetEndurance
 [ +1.6    +1.59   +1.54   +1.41   +1.23  ] : Wstart[:] ≥ Wend[:] + W_fuel[:]
