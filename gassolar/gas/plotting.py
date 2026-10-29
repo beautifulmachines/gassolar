@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from gasmale import GasMALE
 from gpkit import Variable
-from gpkit.small_scripts import unitstr
+from gpkit.display import unitstr
 
 
 def fix_vars(model, solution, var_names):
