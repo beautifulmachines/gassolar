@@ -4,7 +4,7 @@ import sys
 
 import matplotlib.pyplot as plt
 import numpy as np
-from gpkit.display.spelling import unitstr
+from gpkit.display import unitstr
 
 
 def get_highestsens(model, res, varnames=None, N=10):
