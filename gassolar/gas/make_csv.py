@@ -1,6 +1,6 @@
 import pandas as pd
 from gas import Mission
-from gpkit.small_scripts import unitstr
+from gpkit.display.spelling import unitstr
 
 
 def sketch_params(M, sol, varnames, othervars=None, pointmasses=None):
