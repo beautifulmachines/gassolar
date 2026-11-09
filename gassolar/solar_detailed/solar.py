@@ -232,8 +232,6 @@ class Aircraft(Model):
             self.maxtau,
         )
 
-        materials = [cfrpud, cfrpfabric, foamhd]
-
         self.emp = Empennage(
             N=5,
             htail_cls=SolarHTail,
@@ -358,7 +356,7 @@ class Aircraft(Model):
             cfrpfabric.tau: 80,
             foamhd.rho: 0.03,
         }
-        return [constraints, self.components, materials, self.propulsor], material_subs
+        return [constraints, self.components, self.propulsor], material_subs
 
 
 class Battery(Model):
@@ -700,32 +698,25 @@ class Mission(Model):
                 self.mission.append(FlightSegment(self.aircraft, l, day))
                 self.mission.append(FlightSegment(self.aircraft, l, 355 - 10 - day))
 
-        return self.mission, self.aircraft
+        return self.mission
 
     @classmethod
     def default(cls):
-        "Return a ready-to-solve solar_detailed Mission (GP). Latitude=[20]."
+        "Return a ready-to-solve aircraft and its Mission (GP). Latitude=[20]."
         aircraft = Aircraft(sp=False)
-        m = cls(aircraft, latitude=[20])
-        m.cost = m.aircraft.Wtotal
-        return m
+        return Model(aircraft.Wtotal, [aircraft, cls(aircraft, latitude=[20])])
 
 
 def test():
     "test model for continuous integration"
     v = Aircraft(sp=False)
-    m = Mission(v, latitude=[20])
-    m.cost = m[m.aircraft.Wtotal]
-    m.solve()
+    Model(v.Wtotal, [v, Mission(v, latitude=[20])]).solve()
     v = Aircraft(sp=True)
-    m = Mission(v, latitude=[20])
-    m.cost = m[m.aircraft.Wtotal]
-    m.localsolve()
+    Model(v.Wtotal, [v, Mission(v, latitude=[20])]).localsolve()
 
 
 if __name__ == "__main__":
     SP = True
     Vehicle = Aircraft(Npod=3, sp=SP)
-    M = Mission(Vehicle, latitude=[20])
-    M.cost = M[M.aircraft.Wtotal]
+    M = Model(Vehicle.Wtotal, [Vehicle, Mission(Vehicle, latitude=[20])])
     sol = M.localsolve("mosek") if SP else M.solve("mosek")

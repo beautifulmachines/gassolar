@@ -85,13 +85,6 @@
   cons  Vol ≤ 4.189⋅l/2⋅R²
   cons  W/mfac ≥ S⋅rho⋅t⋅g
   cons  t ≥ nply⋅tmin
-[CFRPFabric]
-  fixed E
-  fixed G
-  fixed rho
-  fixed sigma
-  fixed tau
-  fixed tmin
 [Mission.Aircraft.Wing]
   free  W
   free  CapSpar.W

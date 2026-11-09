@@ -39,12 +39,8 @@ g : 9.81 [m/s²] (+2.229) earth surface gravitational acceleration
 
 CFRPFabric
 ...constants
-  rho : 1.6    [g/cm³] (+0.105) density of CFRP
- tmin : 0.3048 [mm]    (+0.105) minimum gauge thickness
-    E : 150    [GPa]   (~0)     Youngs modulus
-    G : 2      [GPa]   (~0)     shear modulus
-sigma : 400    [MPa]   (~0)     max stress
-  tau : 570    [MPa]   (~0)     torsional stress limit
+ rho : 1.6    [g/cm³] (+0.105) density of CFRP
+tmin : 0.3048 [mm]    (+0.105) minimum gauge thickness
 
 Mission
        (W/S) : 8.302 [lbf/ft²]  wing loading
