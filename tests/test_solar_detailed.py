@@ -1,6 +1,7 @@
 "tests for gassolar.solar_detailed"
 
 import pytest
+from gpkit import Model
 from gpkit.util.small_scripts import mag
 
 from gassolar.solar_detailed.solar import Aircraft, Mission
@@ -8,8 +9,7 @@ from gassolar.solar_detailed.solar import Aircraft, Mission
 
 def test_solar_detailed_gp():
     v = Aircraft(sp=False)
-    m = Mission(v, latitude=[20])
-    m.cost = m[m.aircraft.Wtotal]
+    m = Model(v.Wtotal, [v, Mission(v, latitude=[20])])
     sol = m.solve(verbosity=0)
     assert mag(sol.cost) == pytest.approx(814.409, rel=1e-3)
 
@@ -24,7 +24,6 @@ def test_solar_detailed_gp():
 )
 def test_solar_detailed_sp():
     v = Aircraft(sp=True)
-    m = Mission(v, latitude=[20])
-    m.cost = m[m.aircraft.Wtotal]
+    m = Model(v.Wtotal, [v, Mission(v, latitude=[20])])
     sol = m.localsolve(verbosity=0)
     assert mag(sol.cost) > 0
