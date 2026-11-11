@@ -23,10 +23,14 @@ path = basepath.replace(os.sep + "solar" + os.sep, os.sep + "environment" + os.s
 
 # Explicit subclasses to disable foam fill without mutating the shared base classes.
 class SolarWing(WingGP):
+    "A wing with skin and spar but no foam core, as the solar aircraft uses."
+
     fill_model = None
 
 
 class SolarWingSP(WingSP):
+    "A wing with skin and spar but no foam core, as the solar aircraft uses."
+
     fill_model = None
 
 
@@ -57,7 +61,10 @@ PARAM_RANGES = {
 
 
 class Aircraft(Model):
-    "vehicle"
+    """
+    A long-endurance solar-electric aircraft: a wing covered in solar cells, plus
+    battery, motor and tail, carrying payload and avionics.
+    """
 
     Wpay = Var("lbf", "payload weight", value=0)
     Wavn = Var("lbf", "avionics weight", value=8)
@@ -120,7 +127,7 @@ class Aircraft(Model):
 
 
 class Motor(Model):
-    "the thing that provides power"
+    "The electric motor, weighing in proportion to its maximum power."
 
     W = Var("lbf", "motor weight")
     Pmax = Var("W", "max power")
@@ -135,7 +142,10 @@ class Motor(Model):
 
 
 class Battery(Model):
-    "battery model"
+    """
+    The battery, sized by the energy it stores, with weight and volume from its
+    energy density.
+    """
 
     W = Var("lbf", "battery weight")
     eta_charge = Var("-", "charging efficiency", value=0.98)
@@ -157,7 +167,7 @@ class Battery(Model):
 
 
 class SolarCells(Model):
-    "solar cell model"
+    "The solar cells on the wing, weighing in proportion to their area."
 
     rho_solar = Var("kg/m^2", "solar cell area density", value=0.27)
     g = Var("m/s**2", "gravitational constant", value=9.81)
@@ -171,7 +181,10 @@ class SolarCells(Model):
 
 
 class AircraftPerf(Model):
-    "aircraft performance"
+    """
+    The aircraft's drag and power at one flight condition, and its energy balance:
+    the solar cells must charge the battery by day enough to fly through the night.
+    """
 
     CD = Var("-", "aircraft drag coefficient")
     Pshaft = Var("hp", "shaft power")
@@ -230,14 +243,8 @@ class AircraftPerf(Model):
 
 class FlightState(Model):
     """
-    environmental state of aircraft
-
-    inputs
-    ------
-    latitude: earth latitude [deg]
-    altitude: flight altitude [ft]
-    percent: percentile wind speeds [%]
-    day: day of the year [Jan 1st = 1]
+    Flight conditions: air density, the wind to hold station against, and the
+    sunlight available at the latitude and day of year.
     """
 
     def setup(self, latitude=45, day=355):
@@ -292,7 +299,10 @@ def altitude(density):
 
 
 class FlightSegment(Model):
-    "flight segment"
+    """
+    One stretch of flight: the conditions, how the aircraft performs there, and the
+    load cases its structure must survive.
+    """
 
     def setup(self, aircraft, latitude=35, day=355):
 
@@ -339,7 +349,10 @@ class FlightSegment(Model):
 
 
 class SteadyLevelFlight(Model):
-    "steady level flight model"
+    """
+    Level flight: lift equals weight, and the propeller supplies the thrust to
+    overcome drag.
+    """
 
     def setup(self, state, aircraft, perf):
 

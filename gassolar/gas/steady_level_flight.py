@@ -4,7 +4,10 @@ from gpkit import Model, Var
 
 
 class SteadyLevelFlight(Model):
-    "steady level flight model"
+    """
+    Level flight: lift equals weight, and the propeller supplies the thrust to
+    overcome drag.
+    """
 
     T = Var("N", "thrust")
 

@@ -15,7 +15,10 @@ from gassolar.gas.loiter import Loiter
 
 
 class Aircraft(Model):
-    "the JHO vehicle"
+    """
+    A long-endurance gas-powered aircraft: wing, fuselage, engine and tail, carrying
+    payload and avionics.
+    """
 
     Wzfw = Var("lbf", "zero fuel weight")
     Wpay = Var("lbf", "payload weight", value=10)
@@ -65,7 +68,10 @@ class Aircraft(Model):
 
 
 class AircraftPerf(Model):
-    "performance model for aircraft"
+    """
+    The aircraft's drag at one flight condition: its components' drag added up, with
+    a margin.
+    """
 
     Wend = Var("lbf", "vector-end weight")
     Wstart = Var("lbf", "vector-begin weight")
@@ -114,7 +120,7 @@ class AircraftPerf(Model):
 
 
 class Cruise(Model):
-    "make a cruise flight segment"
+    "A cruise leg over a set distance."
 
     def setup(
         self, aircraft, N, altitude=15000, latitude=45, percent=90, day=355, R=200
@@ -128,7 +134,7 @@ class Cruise(Model):
 
 
 class Climb(Model):
-    "make a climb flight segment"
+    "A climb to altitude in steps, at no less than a minimum climb rate."
 
     def setup(
         self, aircraft, N, altitude=15000, latitude=45, percent=90, day=355, dh=15000
