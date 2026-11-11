@@ -1,4 +1,5 @@
 [Mission]
+  free  Wtotal
 [Mission.Aircraft]
   free  Wcent
   free  Wtotal

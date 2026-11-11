@@ -4,6 +4,7 @@
   free  W_{fuel-tot}
   free  P_shaft[:]
   free  P_total[:]
+  free  t
   free  DF70.W
   free  Fuselage.W
   free  SparLoading.W
