@@ -7,14 +7,8 @@ from gassolar.environment.air_properties import get_airvars
 
 class FlightState(Model):
     """
-    environmental state of aircraft
-
-    inputs
-    ------
-    latitude: earth latitude [deg]
-    altitude: flight altitude [ft]
-    percent: percentile wind speeds [%]
-    day: day of the year [Jan 1st = 1]
+    Flight conditions: altitude, air density, and the wind the aircraft must hold
+    station against, from wind data for the latitude and season.
     """
 
     mfac = Var("-", "wind speed margin factor", value=1.0)

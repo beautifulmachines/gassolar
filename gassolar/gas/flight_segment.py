@@ -9,7 +9,10 @@ from gassolar.gas.steady_level_flight import SteadyLevelFlight
 
 
 class FlightSegment(Model):
-    "flight segment"
+    """
+    One stretch of flight: the conditions, how the aircraft performs there, and the
+    fuel it burns.
+    """
 
     W_fuel_fs = Var("lbf", "flight segment fuel weight")
 

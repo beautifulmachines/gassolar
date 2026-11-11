@@ -12,7 +12,10 @@ from numpy import pi
 
 
 class Aircraft(Model):
-    "the JHO vehicle"
+    """
+    The Jungle Hawk Owl: a long-endurance gas-powered aircraft with an off-the-shelf
+    DF70 engine, carrying payload and avionics in its fuselage.
+    """
 
     Wzfw = Var("lbf", "zero fuel weight")
     Wpay = Var("lbf", "payload weight", value=10)
@@ -71,7 +74,7 @@ class Aircraft(Model):
 
 
 class Pylon(Model):
-    "attachment from fuselage to pylon"
+    "The pylon that mounts the wing on the fuselage."
 
     h = Var("in", "pylon height", value=7)
     l = Var("in", "pylon length", value=32.8)
@@ -86,7 +89,7 @@ class Pylon(Model):
 
 
 class PylonAero(Model):
-    "pylon drag model"
+    "Skin-friction drag of the pylon at one flight condition."
 
     def setup(self, static, state):
 
@@ -102,7 +105,7 @@ class PylonAero(Model):
 
 
 class AircraftLoading(Model):
-    "aircraft loading model"
+    "The load cases the aircraft's structure is sized for."
 
     def setup(self, aircraft, state, Wcent):
 
@@ -121,7 +124,10 @@ class AircraftLoading(Model):
 
 
 class AircraftPerf(Model):
-    "performance model for aircraft"
+    """
+    The aircraft's drag at one flight condition: its components' drag added up, with
+    a margin.
+    """
 
     Wend = Var("lbf", "vector-end weight")
     Wstart = Var("lbf", "vector-begin weight")
@@ -181,7 +187,10 @@ class AircraftPerf(Model):
 
 
 class FlightState(Model):
-    "define environment state during a portion of an aircraft mission"
+    """
+    Flight conditions: altitude, air density and viscosity, and the wind to hold
+    station against.
+    """
 
     rho = Var("kg/m^3", "air density")
     mu = Var("N*s/m^2", "Dynamic viscosity")
@@ -233,7 +242,10 @@ class FlightState(Model):
 
 
 class FlightSegment(Model):
-    "creates flight segment for aircraft"
+    """
+    One stretch of flight: the conditions, how the aircraft performs there, and the
+    fuel it burns.
+    """
 
     Wfuelfs = Var("lbf", "flight segment fuel weight")
 
@@ -262,7 +274,7 @@ class FlightSegment(Model):
 
 
 class Loiter(Model):
-    "make a loiter flight segment"
+    "The loiter on station: the endurance the mission must meet."
 
     def setup(self, N, aircraft, alt=15000, wind=False, etap=0.7):
         self.fs = FlightSegment(N, aircraft, alt, wind, etap)
@@ -274,7 +286,7 @@ class Loiter(Model):
 
 
 class Cruise(Model):
-    "make a cruise flight segment"
+    "A cruise leg over a set distance."
 
     def setup(self, N, aircraft, alt=15000, wind=False, etap=0.7, R=200):
         self.fs = fs = FlightSegment(N, aircraft, alt, wind, etap)
@@ -286,7 +298,7 @@ class Cruise(Model):
 
 
 class Climb(Model):
-    "make a climb flight segment"
+    "A climb to altitude in steps, at no less than a minimum climb rate."
 
     def setup(self, N, aircraft, alt=15000, wind=False, etap=0.7, dh=15000):
         self.fs = fs = FlightSegment(N, aircraft, alt, wind, etap)
@@ -310,25 +322,11 @@ class Climb(Model):
         return fs, constraints
 
 
-class SLFMaxSpeed(Model):
-    "steady level flight model"
-
-    T = Var("N", "thrust")
-
-    def setup(self, state, aircraft, perf, etap):
-
-        etaprop = Variable("\\eta_{prop}", etap, "-", "propulsive efficiency")
-
-        return [
-            (perf.Wend * perf.Wstart) ** 0.5
-            <= (0.5 * state.rho * state.V_max**2 * perf.wing.CL * aircraft.wing.S),
-            self.T >= (0.5 * state.rho * state.V_max**2 * perf.CD * aircraft.wing.S),
-            perf.engine.P_shaft >= self.T * state.V_max / etaprop,
-        ]
-
-
 class SteadyLevelFlight(Model):
-    "steady level flight model"
+    """
+    Level flight: lift equals weight, and the propeller supplies the thrust to
+    overcome drag.
+    """
 
     T = Var("N", "thrust")
 

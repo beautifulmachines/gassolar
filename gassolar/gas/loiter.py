@@ -6,7 +6,7 @@ from gassolar.gas.flight_segment import FlightSegment
 
 
 class Loiter(Model):
-    "loiter segment"
+    "The loiter on station: the endurance the mission must meet."
 
     t = Var("days", "endurance requirement")
 
