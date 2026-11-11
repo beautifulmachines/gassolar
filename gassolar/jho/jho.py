@@ -322,23 +322,6 @@ class Climb(Model):
         return fs, constraints
 
 
-class SLFMaxSpeed(Model):
-    "steady level flight model"
-
-    T = Var("N", "thrust")
-
-    def setup(self, state, aircraft, perf, etap):
-
-        etaprop = Variable("\\eta_{prop}", etap, "-", "propulsive efficiency")
-
-        return [
-            (perf.Wend * perf.Wstart) ** 0.5
-            <= (0.5 * state.rho * state.V_max**2 * perf.wing.CL * aircraft.wing.S),
-            self.T >= (0.5 * state.rho * state.V_max**2 * perf.CD * aircraft.wing.S),
-            perf.engine.P_shaft >= self.T * state.V_max / etaprop,
-        ]
-
-
 class SteadyLevelFlight(Model):
     """
     Level flight: lift equals weight, and the propeller supplies the thrust to
