@@ -173,7 +173,7 @@ Mission.Aircraft.Empennage.VerticalTail.Planform
       CM : 0.14         (0)         wing moment coefficient
  cbarmac : 0.7778       (0)         non-dim MAC
   eta[:] : [ 0  0.5  1       ]      (2y/b)
-      sens ( 0  ~0   +0.0032 )
+      sens ( 0  0    +0.0032 )
  cbar[:] : [ 1.33  1  0.667 ]      non-dim chord at nodes
       sens ( 0     0  0     )
 cbave[:] : [ 1.17  0.833 ]      non-dim mid section chord

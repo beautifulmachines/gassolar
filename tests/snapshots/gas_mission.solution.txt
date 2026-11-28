@@ -167,7 +167,7 @@ Mission.Aircraft.Empennage.VerticalTail.Planform
  cbarmac : 0.9037       (0)         non-dim MAC
      lam : 0.8          (0)         taper ratio
   eta[:] : [ 0  0.5  1        ]      (2y/b)
-      sens ( 0  ~0   +0.00139 )
+      sens ( 0  0    +0.00139 )
  cbar[:] : [ 1.11  1  0.889 ]      non-dim chord at nodes
       sens ( 0     0  0     )
 cbave[:] : [ 1.06  0.944 ]      non-dim mid section chord

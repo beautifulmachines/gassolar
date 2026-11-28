@@ -100,7 +100,7 @@ Mission.Aircraft.Empennage.HorizontalTail.Planform
  cbarmac : 0.9037       (0)         non-dim MAC
      lam : 0.8          (0)         taper ratio
   eta[:] : [ 0  0.5  1       ]      (2y/b)
-      sens ( 0  ~0   +0.0059 )
+      sens ( 0  0    +0.0059 )
  cbar[:] : [ 1.11  1  0.889 ]      non-dim chord at nodes
       sens ( 0     0  0     )
 cbave[:] : [ 1.06  0.944 ]      non-dim mid section chord
@@ -543,7 +543,7 @@ m_{fac--fit} : 1            (+6.284e-07) fit factor
        twmax : 0.2618       (0)          max tip twist
        wroot : 1e-10  [m]   (~0)         root deflection
 cosminus1[:] : [ 1e-10  0.0761  0.293  0.617  1   ]       1 minus cosine factor
-          sens ( ~0     nan     nan    nan    nan )
+          sens ( 0      nan     nan    nan    nan )
 
 Mission.FlightSegment1.SparLoading
       N : 5                 loading factor
@@ -839,7 +839,7 @@ m_{fac--fit} : 1            (+2.908e-07) fit factor
        twmax : 0.2618       (0)          max tip twist
        wroot : 1e-10  [m]   (~0)         root deflection
 cosminus1[:] : [ 1e-10  0.0761  0.293  0.617  1   ]       1 minus cosine factor
-          sens ( ~0     nan     nan    nan    nan )
+          sens ( 0      nan     nan    nan    nan )
 
 Mission.FlightSegment2.SparLoading
       N : 5                 loading factor
@@ -987,7 +987,7 @@ m_{fac--fit} : 1            (+2.304e-07) fit factor
        twmax : 0.2618       (0)          max tip twist
        wroot : 1e-10  [m]   (~0)         root deflection
 cosminus1[:] : [ 1e-10  0.0761  0.293  0.617  1   ]       1 minus cosine factor
-          sens ( ~0     nan     nan    nan    nan )
+          sens ( 0      nan     nan    nan    nan )
 
 Mission.FlightSegment3.SparLoading
       N : 5                 loading factor
@@ -1135,7 +1135,7 @@ m_{fac--fit} : 1            (+2.098e-07) fit factor
        twmax : 0.2618       (0)          max tip twist
        wroot : 1e-10  [m]   (~0)         root deflection
 cosminus1[:] : [ 1e-10  0.0761  0.293  0.617  1   ]       1 minus cosine factor
-          sens ( ~0     nan     nan    nan    nan )
+          sens ( 0      nan     nan    nan    nan )
 
 Mission.FlightSegment4.SparLoading
       N : 5                 loading factor
@@ -1283,7 +1283,7 @@ m_{fac--fit} : 1            (+1.97e-07)  fit factor
        twmax : 0.2618       (0)          max tip twist
        wroot : 1e-10  [m]   (~0)         root deflection
 cosminus1[:] : [ 1e-10  0.0761  0.293  0.617  1   ]       1 minus cosine factor
-          sens ( ~0     nan     nan    nan    nan )
+          sens ( 0      nan     nan    nan    nan )
 
 Mission.FlightSegment5.SparLoading
       N : 5                 loading factor
@@ -1431,7 +1431,7 @@ m_{fac--fit} : 1            (+2.024e-07) fit factor
        twmax : 0.2618       (0)          max tip twist
        wroot : 1e-10  [m]   (~0)         root deflection
 cosminus1[:] : [ 1e-10  0.0761  0.293  0.617  1   ]       1 minus cosine factor
-          sens ( ~0     nan     nan    nan    nan )
+          sens ( 0      nan     nan    nan    nan )
 
 Mission.FlightSegment6.SparLoading
       N : 5                 loading factor
@@ -1579,7 +1579,7 @@ m_{fac--fit} : 1            (+2.069e-07) fit factor
        twmax : 0.2618       (0)          max tip twist
        wroot : 1e-10  [m]   (~0)         root deflection
 cosminus1[:] : [ 1e-10  0.0761  0.293  0.617  1   ]       1 minus cosine factor
-          sens ( ~0     nan     nan    nan    nan )
+          sens ( 0      nan     nan    nan    nan )
 
 Mission.FlightSegment7.SparLoading
       N : 5                 loading factor
@@ -1727,7 +1727,7 @@ m_{fac--fit} : 1            (+2.049e-07) fit factor
        twmax : 0.2618       (0)          max tip twist
        wroot : 1e-10  [m]   (~0)         root deflection
 cosminus1[:] : [ 1e-10  0.0761  0.293  0.617  1   ]       1 minus cosine factor
-          sens ( ~0     nan     nan    nan    nan )
+          sens ( 0      nan     nan    nan    nan )
 
 Mission.FlightSegment8.SparLoading
       N : 5                 loading factor
@@ -1875,7 +1875,7 @@ m_{fac--fit} : 1            (+2.328e-07) fit factor
        twmax : 0.2618       (0)          max tip twist
        wroot : 1e-10  [m]   (~0)         root deflection
 cosminus1[:] : [ 1e-10  0.0761  0.293  0.617  1   ]       1 minus cosine factor
-          sens ( ~0     nan     nan    nan    nan )
+          sens ( 0      nan     nan    nan    nan )
 
 Mission.FlightSegment9.SparLoading
       N : 5                 loading factor
