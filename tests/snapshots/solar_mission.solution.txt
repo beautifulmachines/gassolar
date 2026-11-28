@@ -59,7 +59,7 @@ Wtotal : 35.96 [lbf]           aircraft weight
  Wwing : 25    [lbf]           wing weight
 ...constants
   Wavn : 8     [lbf] (+0.7739) avionics weight
-  Wpay : 0     [lbf] (~0)      payload weight
+  Wpay : 0     [lbf] (0)       payload weight
 
 Mission.Aircraft.Battery
             E : 8.791e+06 [J]                total battery energy
@@ -83,8 +83,8 @@ Mission.Aircraft.Empennage.HorizontalTail
 ...constants
     Vh : 0.45         (+0.08613) horizontal tail volume coefficient
   mfac : 1.1          (+0.04032) wing weight margin factor
-CLhmin : 0.75         (~0)       max downlift coefficient
-    mh : 0.1          (~0)       horizontal tail span effectiveness
+CLhmin : 0.75         (0)        max downlift coefficient
+    mh : 0.1          (0)        horizontal tail span effectiveness
 
 Mission.Aircraft.Empennage.HorizontalTail.Planform
        S : 1.543  [ft²]             surface area
@@ -96,17 +96,17 @@ Mission.Aircraft.Empennage.HorizontalTail.Planform
      tau : 0.08         (+0.0259)   airfoil thickness ratio
       AR : 5            (+0.009606) aspect ratio
    CLmax : 1.39         (~0)        maximum lift coefficient
-      CM : 0.14         (~0)        wing moment coefficient
- cbarmac : 0.9037       (~0)        non-dim MAC
-     lam : 0.8          (~0)        taper ratio
-  eta[:] : [ 0   0.5  1       ]      (2y/b)
-      sens ( ~0  ~0   +0.0059 )
- cbar[:] : [ 1.11  1   0.889 ]      non-dim chord at nodes
-      sens ( ~0    ~0  ~0    )
+      CM : 0.14         (0)         wing moment coefficient
+ cbarmac : 0.9037       (0)         non-dim MAC
+     lam : 0.8          (0)         taper ratio
+  eta[:] : [ 0  0.5  1       ]      (2y/b)
+      sens ( 0  ~0   +0.0059 )
+ cbar[:] : [ 1.11  1  0.889 ]      non-dim chord at nodes
+      sens ( 0     0  0     )
 cbave[:] : [ 1.06  0.944 ]      non-dim mid section chord
-      sens ( ~0    ~0    )
+      sens ( 0     0     )
  deta[:] : [ 0.5  0.5 ]      \Delta (2y/b)
-      sens ( ~0   ~0  )
+      sens ( 0    0   )
 
 Mission.Aircraft.Empennage.HorizontalTail.WingCore
    W : 0.07062 [lbf]             wing core weight
@@ -130,9 +130,9 @@ Mission.Aircraft.Empennage.HorizontalTail.WingSkin.CFRPFabric
 ...constants
   rho : 1.6    [g/cm³] (+0.03281) density of CFRP
  tmin : 0.3048 [mm]    (+0.03281) minimum gauge thickness
-    E : 150    [GPa]   (~0)       Youngs modulus
-    G : 2      [GPa]   (~0)       shear modulus
-sigma : 400    [MPa]   (~0)       max stress
+    E : 150    [GPa]   (0)        Youngs modulus
+    G : 2      [GPa]   (0)        shear modulus
+sigma : 400    [MPa]   (0)        max stress
   tau : 570    [MPa]   (~0)       torsional stress limit
 
 Mission.Aircraft.Empennage.TailBoom
@@ -149,17 +149,17 @@ dm[:] : [ 0.588    ] [kg] segment mass
  deta : 1             (+0.5016)  normalized segment length
  mfac : 1             (+0.1254)  weight margin factor
     k : 0.8           (-0.08359) taper index
- kfac : 0.6           (~0)       (1-k/2)
- rhoA : 0.15  [kg/m²] (~0)       total aerial density
-  tau : 1             (~0)       thickness to width ratio
+ kfac : 0.6           (0)        (1-k/2)
+ rhoA : 0.15  [kg/m²] (0)        total aerial density
+  tau : 1             (0)        thickness to width ratio
 
 Mission.Aircraft.Empennage.TailBoom.CFRPFabric
 ...constants
   rho : 1.6    [g/cm³] (+0.1254) density of CFRP
     E : 150    [GPa]   (-0.1254) Youngs modulus
 sigma : 400    [MPa]   (~0)      max stress
-    G : 2      [GPa]   (~0)      shear modulus
-  tau : 570    [MPa]   (~0)      torsional stress limit
+    G : 2      [GPa]   (0)       shear modulus
+  tau : 570    [MPa]   (0)       torsional stress limit
  tmin : 0.3048 [mm]    (~0)      minimum gauge thickness
 
 Mission.Aircraft.Empennage.VerticalTail
@@ -179,17 +179,17 @@ Mission.Aircraft.Empennage.VerticalTail.Planform
    CLmax : 1.39         (+0.1254)   maximum lift coefficient
      tau : 0.08         (+0.04831)  airfoil thickness ratio
       AR : 4            (+0.008906) aspect ratio
-      CM : 0.14         (~0)        wing moment coefficient
- cbarmac : 0.9037       (~0)        non-dim MAC
-     lam : 0.8          (~0)        taper ratio
-  eta[:] : [ 0   0.5  1       ]      (2y/b)
-      sens ( ~0  ~0   +0.0251 )
- cbar[:] : [ 1.11  1   0.889 ]      non-dim chord at nodes
-      sens ( ~0    ~0  ~0    )
+      CM : 0.14         (0)         wing moment coefficient
+ cbarmac : 0.9037       (0)         non-dim MAC
+     lam : 0.8          (0)         taper ratio
+  eta[:] : [ 0  0.5  1       ]      (2y/b)
+      sens ( 0  0    +0.0251 )
+ cbar[:] : [ 1.11  1  0.889 ]      non-dim chord at nodes
+      sens ( 0     0  0     )
 cbave[:] : [ 1.06  0.944 ]      non-dim mid section chord
-      sens ( ~0    ~0    )
+      sens ( 0     0     )
  deta[:] : [ 0.5  0.5 ]      \Delta (2y/b)
-      sens ( ~0   ~0  )
+      sens ( 0    0   )
 
 Mission.Aircraft.Empennage.VerticalTail.WingCore
    W : 0.3011 [lbf]            wing core weight
@@ -213,9 +213,9 @@ Mission.Aircraft.Empennage.VerticalTail.WingSkin.CFRPFabric
 ...constants
   rho : 1.6    [g/cm³] (+0.08008) density of CFRP
  tmin : 0.3048 [mm]    (+0.08008) minimum gauge thickness
-    E : 150    [GPa]   (~0)       Youngs modulus
-    G : 2      [GPa]   (~0)       shear modulus
-sigma : 400    [MPa]   (~0)       max stress
+    E : 150    [GPa]   (0)        Youngs modulus
+    G : 2      [GPa]   (0)        shear modulus
+sigma : 400    [MPa]   (0)        max stress
   tau : 570    [MPa]   (~0)       torsional stress limit
 
 Mission.Aircraft.Motor
@@ -251,24 +251,24 @@ tshear[:] : [ 0.012     0.012     0.012     0.012    ] [in] shear web thickness
      w[:] : [ 0.661     0.56      0.389     0.154    ] [in] spar width
 ...constants
      mfac : 0.97        (-0.1443) curvature knockdown factor
-        E : 2e+07 [psi] (~0)      Young modulus of CFRP
+        E : 2e+07 [psi] (0)       Young modulus of CFRP
      wlim : 0.15        (~0)      spar width to chord ratio
 
 Mission.Aircraft.SolarWing.CapSpar.CFRPFabric
 ...constants
   rho : 1.6    [g/cm³] (+0.06501) density of CFRP
  tmin : 0.3048 [mm]    (+0.06501) minimum gauge thickness
-    E : 150    [GPa]   (~0)       Youngs modulus
-    G : 2      [GPa]   (~0)       shear modulus
-sigma : 400    [MPa]   (~0)       max stress
-  tau : 570    [MPa]   (~0)       torsional stress limit
+    E : 150    [GPa]   (0)        Youngs modulus
+    G : 2      [GPa]   (0)        shear modulus
+sigma : 400    [MPa]   (0)        max stress
+  tau : 570    [MPa]   (0)        torsional stress limit
 
 Mission.Aircraft.SolarWing.CapSpar.CFRPUD
 ...constants
     E : 137  [GPa]   (-0.1443) Youngs Modulus of CFRP
   rho : 1.6  [g/cm³] (+0.1179) density of CFRP
 sigma : 1700 [MPa]   (~0)      maximum stress limit of CFRP
- tmin : 0.1  [mm]    (~0)      minimum gauge thickness
+ tmin : 0.1  [mm]    (0)       minimum gauge thickness
 
 Mission.Aircraft.SolarWing.CapSpar.FoamHD
 ...constants
@@ -283,18 +283,18 @@ Mission.Aircraft.SolarWing.Planform
  cave[:] : [ 1.19   1.03   0.875  0.716 ] [ft] mid section chord
 ...constants
      tau : 0.115        (-0.4145) airfoil thickness ratio
-   CLmax : 1.39         (~0)      maximum lift coefficient
-      CM : 0.14         (~0)      wing moment coefficient
- cbarmac : 0.7778       (~0)      non-dim MAC
-     lam : 0.5          (~0)      taper ratio
-  eta[:] : [ 0   0.25       0.5        0.75      1     ]      (2y/b)
-      sens ( ~0  -0.000335  -0.000738  -0.00039  +1.09 )
- cbar[:] : [ 1.33  1.17  1   0.833  0.667 ]      non-dim chord at nodes
-      sens ( ~0    ~0    ~0  ~0     ~0    )
+   CLmax : 1.39         (0)       maximum lift coefficient
+      CM : 0.14         (0)       wing moment coefficient
+ cbarmac : 0.7778       (0)       non-dim MAC
+     lam : 0.5          (0)       taper ratio
+  eta[:] : [ 0  0.25       0.5        0.75      1     ]      (2y/b)
+      sens ( 0  -0.000335  -0.000738  -0.00039  +1.09 )
+ cbar[:] : [ 1.33  1.17  1  0.833  0.667 ]      non-dim chord at nodes
+      sens ( 0     0     0  0      0     )
 cbave[:] : [ 1.25  1.08  0.917  0.75 ]      non-dim mid section chord
-      sens ( ~0    ~0    ~0     ~0   )
+      sens ( 0     0     0      0    )
  deta[:] : [ 0.25  0.25  0.25  0.25 ]      \Delta (2y/b)
-      sens ( ~0    ~0    ~0    ~0   )
+      sens ( 0     0     0     0    )
 
 Mission.Aircraft.SolarWing.WingSkin
     W : 5.003   [lbf]        wing skin weight
@@ -309,9 +309,9 @@ Mission.Aircraft.SolarWing.WingSkin.CFRPFabric
 ...constants
   rho : 1.6    [g/cm³] (+0.5653) density of CFRP
  tmin : 0.3048 [mm]    (+0.5653) minimum gauge thickness
-    E : 150    [GPa]   (~0)      Youngs modulus
-    G : 2      [GPa]   (~0)      shear modulus
-sigma : 400    [MPa]   (~0)      max stress
+    E : 150    [GPa]   (0)       Youngs modulus
+    G : 2      [GPa]   (0)       shear modulus
+sigma : 400    [MPa]   (0)       max stress
   tau : 570    [MPa]   (~0)      torsional stress limit
 
 Mission.FlightSegment.AircraftPerf
@@ -321,7 +321,7 @@ Mission.FlightSegment.AircraftPerf
  Pshaft : 0.2228   [hp]              shaft power
 ...constants
 m_{fac} : 1.2           (+0.0009277) drag margin factor
-   Pavn : 0        [W]  (~0)         Accessory power draw
+   Pavn : 0        [W]  (0)          Accessory power draw
 
 Mission.FlightSegment.AircraftPerf.TailAero
           Cd : 0.01517                 drag coefficient
@@ -392,7 +392,7 @@ m_{fac--fit} : 1            (+0.0009454) fit factor
         Mtip : 1e-10  [m⋅N] (~0)         tip moment
         Stip : 1e-10  [N]   (~0)         tip loading
       throot : 1e-10        (~0)         root deflection angle
-       twmax : 0.2618       (~0)         max tip twist
+       twmax : 0.2618       (0)          max tip twist
        wroot : 1e-10  [m]   (~0)         root deflection
 cosminus1[:] : [ 1e-10  0.0761  0.293  0.617  1   ]       1 minus cosine factor
           sens ( ~0     nan     nan    nan    nan )
@@ -412,7 +412,7 @@ Nsafety : 1            (~0) safety load factor
    Mtip : 1e-10  [m⋅N] (~0) tip moment
    Stip : 1e-10  [N]   (~0) tip loading
  throot : 1e-10        (~0) root deflection angle
-  twmax : 0.2618       (~0) max tip twist
+  twmax : 0.2618       (0)  max tip twist
   wroot : 1e-10  [m]   (~0) root deflection
 
 Mission.FlightSegment.SteadyLevelFlight
@@ -469,7 +469,7 @@ Mission.FlightSegment1.AircraftPerf
  Pshaft : 0.2227   [hp]              shaft power
 ...constants
 m_{fac} : 1.2           (+2.968e-07) drag margin factor
-   Pavn : 0        [W]  (~0)         Accessory power draw
+   Pavn : 0        [W]  (0)          Accessory power draw
 
 Mission.FlightSegment1.AircraftPerf.TailAero
           Cd : 0.01532         drag coefficient
@@ -540,7 +540,7 @@ m_{fac--fit} : 1            (+6.284e-07) fit factor
         Mtip : 1e-10  [m⋅N] (~0)         tip moment
         Stip : 1e-10  [N]   (~0)         tip loading
       throot : 1e-10        (~0)         root deflection angle
-       twmax : 0.2618       (~0)         max tip twist
+       twmax : 0.2618       (0)          max tip twist
        wroot : 1e-10  [m]   (~0)         root deflection
 cosminus1[:] : [ 1e-10  0.0761  0.293  0.617  1   ]       1 minus cosine factor
           sens ( ~0     nan     nan    nan    nan )
@@ -560,7 +560,7 @@ Nsafety : 1            (~0) safety load factor
    Mtip : 1e-10  [m⋅N] (~0) tip moment
    Stip : 1e-10  [N]   (~0) tip loading
  throot : 1e-10        (~0) root deflection angle
-  twmax : 0.2618       (~0) max tip twist
+  twmax : 0.2618       (0)  max tip twist
   wroot : 1e-10  [m]   (~0) root deflection
 
 Mission.FlightSegment1.SteadyLevelFlight
@@ -617,7 +617,7 @@ Mission.FlightSegment10.AircraftPerf
  Pshaft : 0.2227   [hp]           shaft power
 ...constants
 m_{fac} : 1.2           (+0.2177) drag margin factor
-   Pavn : 0        [W]  (~0)      Accessory power draw
+   Pavn : 0        [W]  (0)       Accessory power draw
 
 Mission.FlightSegment10.AircraftPerf.TailAero
           Cd : 0.01517               drag coefficient
@@ -688,7 +688,7 @@ m_{fac--fit} : 1            (+0.1152) fit factor
         Mtip : 1e-10  [m⋅N] (~0)      tip moment
         Stip : 1e-10  [N]   (~0)      tip loading
       throot : 1e-10        (~0)      root deflection angle
-       twmax : 0.2618       (~0)      max tip twist
+       twmax : 0.2618       (0)       max tip twist
        wroot : 1e-10  [m]   (~0)      root deflection
 cosminus1[:] : [ 1e-10  0.0761  0.293  0.617  1   ]       1 minus cosine factor
           sens ( ~0     nan     nan    nan    nan )
@@ -708,7 +708,7 @@ Nsafety : 1            (~0) safety load factor
    Mtip : 1e-10  [m⋅N] (~0) tip moment
    Stip : 1e-10  [N]   (~0) tip loading
  throot : 1e-10        (~0) root deflection angle
-  twmax : 0.2618       (~0) max tip twist
+  twmax : 0.2618       (0)  max tip twist
   wroot : 1e-10  [m]   (~0) root deflection
 
 Mission.FlightSegment10.SteadyLevelFlight
@@ -765,7 +765,7 @@ Mission.FlightSegment2.AircraftPerf
  Pshaft : 0.2226   [hp]      shaft power
 ...constants
 m_{fac} : 1.2           (~0) drag margin factor
-   Pavn : 0        [W]  (~0) Accessory power draw
+   Pavn : 0        [W]  (0)  Accessory power draw
 
 Mission.FlightSegment2.AircraftPerf.TailAero
           Cd : 0.01566         drag coefficient
@@ -836,7 +836,7 @@ m_{fac--fit} : 1            (+2.908e-07) fit factor
         Mtip : 1e-10  [m⋅N] (~0)         tip moment
         Stip : 1e-10  [N]   (~0)         tip loading
       throot : 1e-10        (~0)         root deflection angle
-       twmax : 0.2618       (~0)         max tip twist
+       twmax : 0.2618       (0)          max tip twist
        wroot : 1e-10  [m]   (~0)         root deflection
 cosminus1[:] : [ 1e-10  0.0761  0.293  0.617  1   ]       1 minus cosine factor
           sens ( ~0     nan     nan    nan    nan )
@@ -856,7 +856,7 @@ Nsafety : 1            (~0) safety load factor
    Mtip : 1e-10  [m⋅N] (~0) tip moment
    Stip : 1e-10  [N]   (~0) tip loading
  throot : 1e-10        (~0) root deflection angle
-  twmax : 0.2618       (~0) max tip twist
+  twmax : 0.2618       (0)  max tip twist
   wroot : 1e-10  [m]   (~0) root deflection
 
 Mission.FlightSegment2.SteadyLevelFlight
@@ -913,7 +913,7 @@ Mission.FlightSegment3.AircraftPerf
  Pshaft : 0.2226   [hp]      shaft power
 ...constants
 m_{fac} : 1.2           (~0) drag margin factor
-   Pavn : 0        [W]  (~0) Accessory power draw
+   Pavn : 0        [W]  (0)  Accessory power draw
 
 Mission.FlightSegment3.AircraftPerf.TailAero
           Cd : 0.01602         drag coefficient
@@ -984,7 +984,7 @@ m_{fac--fit} : 1            (+2.304e-07) fit factor
         Mtip : 1e-10  [m⋅N] (~0)         tip moment
         Stip : 1e-10  [N]   (~0)         tip loading
       throot : 1e-10        (~0)         root deflection angle
-       twmax : 0.2618       (~0)         max tip twist
+       twmax : 0.2618       (0)          max tip twist
        wroot : 1e-10  [m]   (~0)         root deflection
 cosminus1[:] : [ 1e-10  0.0761  0.293  0.617  1   ]       1 minus cosine factor
           sens ( ~0     nan     nan    nan    nan )
@@ -1004,7 +1004,7 @@ Nsafety : 1            (~0) safety load factor
    Mtip : 1e-10  [m⋅N] (~0) tip moment
    Stip : 1e-10  [N]   (~0) tip loading
  throot : 1e-10        (~0) root deflection angle
-  twmax : 0.2618       (~0) max tip twist
+  twmax : 0.2618       (0)  max tip twist
   wroot : 1e-10  [m]   (~0) root deflection
 
 Mission.FlightSegment3.SteadyLevelFlight
@@ -1061,7 +1061,7 @@ Mission.FlightSegment4.AircraftPerf
  Pshaft : 0.2225   [hp]      shaft power
 ...constants
 m_{fac} : 1.2           (~0) drag margin factor
-   Pavn : 0        [W]  (~0) Accessory power draw
+   Pavn : 0        [W]  (0)  Accessory power draw
 
 Mission.FlightSegment4.AircraftPerf.TailAero
           Cd : 0.01631         drag coefficient
@@ -1132,7 +1132,7 @@ m_{fac--fit} : 1            (+2.098e-07) fit factor
         Mtip : 1e-10  [m⋅N] (~0)         tip moment
         Stip : 1e-10  [N]   (~0)         tip loading
       throot : 1e-10        (~0)         root deflection angle
-       twmax : 0.2618       (~0)         max tip twist
+       twmax : 0.2618       (0)          max tip twist
        wroot : 1e-10  [m]   (~0)         root deflection
 cosminus1[:] : [ 1e-10  0.0761  0.293  0.617  1   ]       1 minus cosine factor
           sens ( ~0     nan     nan    nan    nan )
@@ -1152,7 +1152,7 @@ Nsafety : 1            (~0) safety load factor
    Mtip : 1e-10  [m⋅N] (~0) tip moment
    Stip : 1e-10  [N]   (~0) tip loading
  throot : 1e-10        (~0) root deflection angle
-  twmax : 0.2618       (~0) max tip twist
+  twmax : 0.2618       (0)  max tip twist
   wroot : 1e-10  [m]   (~0) root deflection
 
 Mission.FlightSegment4.SteadyLevelFlight
@@ -1209,7 +1209,7 @@ Mission.FlightSegment5.AircraftPerf
  Pshaft : 0.2224   [hp]      shaft power
 ...constants
 m_{fac} : 1.2           (~0) drag margin factor
-   Pavn : 0        [W]  (~0) Accessory power draw
+   Pavn : 0        [W]  (0)  Accessory power draw
 
 Mission.FlightSegment5.AircraftPerf.TailAero
           Cd : 0.01666         drag coefficient
@@ -1280,7 +1280,7 @@ m_{fac--fit} : 1            (+1.97e-07)  fit factor
         Mtip : 1e-10  [m⋅N] (~0)         tip moment
         Stip : 1e-10  [N]   (~0)         tip loading
       throot : 1e-10        (~0)         root deflection angle
-       twmax : 0.2618       (~0)         max tip twist
+       twmax : 0.2618       (0)          max tip twist
        wroot : 1e-10  [m]   (~0)         root deflection
 cosminus1[:] : [ 1e-10  0.0761  0.293  0.617  1   ]       1 minus cosine factor
           sens ( ~0     nan     nan    nan    nan )
@@ -1300,7 +1300,7 @@ Nsafety : 1            (~0) safety load factor
    Mtip : 1e-10  [m⋅N] (~0) tip moment
    Stip : 1e-10  [N]   (~0) tip loading
  throot : 1e-10        (~0) root deflection angle
-  twmax : 0.2618       (~0) max tip twist
+  twmax : 0.2618       (0)  max tip twist
   wroot : 1e-10  [m]   (~0) root deflection
 
 Mission.FlightSegment5.SteadyLevelFlight
@@ -1357,7 +1357,7 @@ Mission.FlightSegment6.AircraftPerf
  Pshaft : 0.2225   [hp]      shaft power
 ...constants
 m_{fac} : 1.2           (~0) drag margin factor
-   Pavn : 0        [W]  (~0) Accessory power draw
+   Pavn : 0        [W]  (0)  Accessory power draw
 
 Mission.FlightSegment6.AircraftPerf.TailAero
           Cd : 0.01645        drag coefficient
@@ -1428,7 +1428,7 @@ m_{fac--fit} : 1            (+2.024e-07) fit factor
         Mtip : 1e-10  [m⋅N] (~0)         tip moment
         Stip : 1e-10  [N]   (~0)         tip loading
       throot : 1e-10        (~0)         root deflection angle
-       twmax : 0.2618       (~0)         max tip twist
+       twmax : 0.2618       (0)          max tip twist
        wroot : 1e-10  [m]   (~0)         root deflection
 cosminus1[:] : [ 1e-10  0.0761  0.293  0.617  1   ]       1 minus cosine factor
           sens ( ~0     nan     nan    nan    nan )
@@ -1448,7 +1448,7 @@ Nsafety : 1            (~0) safety load factor
    Mtip : 1e-10  [m⋅N] (~0) tip moment
    Stip : 1e-10  [N]   (~0) tip loading
  throot : 1e-10        (~0) root deflection angle
-  twmax : 0.2618       (~0) max tip twist
+  twmax : 0.2618       (0)  max tip twist
   wroot : 1e-10  [m]   (~0) root deflection
 
 Mission.FlightSegment6.SteadyLevelFlight
@@ -1505,7 +1505,7 @@ Mission.FlightSegment7.AircraftPerf
  Pshaft : 0.2225   [hp]      shaft power
 ...constants
 m_{fac} : 1.2           (~0) drag margin factor
-   Pavn : 0        [W]  (~0) Accessory power draw
+   Pavn : 0        [W]  (0)  Accessory power draw
 
 Mission.FlightSegment7.AircraftPerf.TailAero
           Cd : 0.0163          drag coefficient
@@ -1576,7 +1576,7 @@ m_{fac--fit} : 1            (+2.069e-07) fit factor
         Mtip : 1e-10  [m⋅N] (~0)         tip moment
         Stip : 1e-10  [N]   (~0)         tip loading
       throot : 1e-10        (~0)         root deflection angle
-       twmax : 0.2618       (~0)         max tip twist
+       twmax : 0.2618       (0)          max tip twist
        wroot : 1e-10  [m]   (~0)         root deflection
 cosminus1[:] : [ 1e-10  0.0761  0.293  0.617  1   ]       1 minus cosine factor
           sens ( ~0     nan     nan    nan    nan )
@@ -1596,7 +1596,7 @@ Nsafety : 1            (~0) safety load factor
    Mtip : 1e-10  [m⋅N] (~0) tip moment
    Stip : 1e-10  [N]   (~0) tip loading
  throot : 1e-10        (~0) root deflection angle
-  twmax : 0.2618       (~0) max tip twist
+  twmax : 0.2618       (0)  max tip twist
   wroot : 1e-10  [m]   (~0) root deflection
 
 Mission.FlightSegment7.SteadyLevelFlight
@@ -1653,7 +1653,7 @@ Mission.FlightSegment8.AircraftPerf
  Pshaft : 0.2225   [hp]      shaft power
 ...constants
 m_{fac} : 1.2           (~0) drag margin factor
-   Pavn : 0        [W]  (~0) Accessory power draw
+   Pavn : 0        [W]  (0)  Accessory power draw
 
 Mission.FlightSegment8.AircraftPerf.TailAero
           Cd : 0.01625         drag coefficient
@@ -1724,7 +1724,7 @@ m_{fac--fit} : 1            (+2.049e-07) fit factor
         Mtip : 1e-10  [m⋅N] (~0)         tip moment
         Stip : 1e-10  [N]   (~0)         tip loading
       throot : 1e-10        (~0)         root deflection angle
-       twmax : 0.2618       (~0)         max tip twist
+       twmax : 0.2618       (0)          max tip twist
        wroot : 1e-10  [m]   (~0)         root deflection
 cosminus1[:] : [ 1e-10  0.0761  0.293  0.617  1   ]       1 minus cosine factor
           sens ( ~0     nan     nan    nan    nan )
@@ -1744,7 +1744,7 @@ Nsafety : 1            (~0) safety load factor
    Mtip : 1e-10  [m⋅N] (~0) tip moment
    Stip : 1e-10  [N]   (~0) tip loading
  throot : 1e-10        (~0) root deflection angle
-  twmax : 0.2618       (~0) max tip twist
+  twmax : 0.2618       (0)  max tip twist
   wroot : 1e-10  [m]   (~0) root deflection
 
 Mission.FlightSegment8.SteadyLevelFlight
@@ -1801,7 +1801,7 @@ Mission.FlightSegment9.AircraftPerf
  Pshaft : 0.2226   [hp]      shaft power
 ...constants
 m_{fac} : 1.2           (~0) drag margin factor
-   Pavn : 0        [W]  (~0) Accessory power draw
+   Pavn : 0        [W]  (0)  Accessory power draw
 
 Mission.FlightSegment9.AircraftPerf.TailAero
           Cd : 0.01583         drag coefficient
@@ -1872,7 +1872,7 @@ m_{fac--fit} : 1            (+2.328e-07) fit factor
         Mtip : 1e-10  [m⋅N] (~0)         tip moment
         Stip : 1e-10  [N]   (~0)         tip loading
       throot : 1e-10        (~0)         root deflection angle
-       twmax : 0.2618       (~0)         max tip twist
+       twmax : 0.2618       (0)          max tip twist
        wroot : 1e-10  [m]   (~0)         root deflection
 cosminus1[:] : [ 1e-10  0.0761  0.293  0.617  1   ]       1 minus cosine factor
           sens ( ~0     nan     nan    nan    nan )
@@ -1892,7 +1892,7 @@ Nsafety : 1            (~0) safety load factor
    Mtip : 1e-10  [m⋅N] (~0) tip moment
    Stip : 1e-10  [N]   (~0) tip loading
  throot : 1e-10        (~0) root deflection angle
-  twmax : 0.2618       (~0) max tip twist
+  twmax : 0.2618       (0)  max tip twist
   wroot : 1e-10  [m]   (~0) root deflection
 
 Mission.FlightSegment9.SteadyLevelFlight
