@@ -86,17 +86,17 @@ Mission.Aircraft.Empennage.HorizontalTail.Planform
      tau : 0.08         (+0.01965)  airfoil thickness ratio
       AR : 4            (-0.004207) aspect ratio
    CLmax : 1.39         (~0)        maximum lift coefficient
-      CM : 0.14         (~0)        wing moment coefficient
- cbarmac : 0.9037       (~0)        non-dim MAC
-     lam : 0.8          (~0)        taper ratio
-  eta[:] : [ 0   0.5  1        ]      (2y/b)
-      sens ( ~0  ~0   +0.00267 )
- cbar[:] : [ 1.11  1   0.889 ]      non-dim chord at nodes
-      sens ( ~0    ~0  ~0    )
+      CM : 0.14         (0)         wing moment coefficient
+ cbarmac : 0.9037       (0)         non-dim MAC
+     lam : 0.8          (0)         taper ratio
+  eta[:] : [ 0  0.5  1        ]      (2y/b)
+      sens ( 0  0    +0.00267 )
+ cbar[:] : [ 1.11  1  0.889 ]      non-dim chord at nodes
+      sens ( 0     0  0     )
 cbave[:] : [ 1.06  0.944 ]      non-dim mid section chord
-      sens ( ~0    ~0    )
+      sens ( 0     0     )
  deta[:] : [ 0.5  0.5 ]      \Delta (2y/b)
-      sens ( ~0   ~0  )
+      sens ( 0    0   )
 
 Mission.Aircraft.Empennage.HorizontalTail.WingCore
    W : 0.3022 [lbf]             wing core weight
@@ -120,9 +120,9 @@ Mission.Aircraft.Empennage.HorizontalTail.WingSkin.CFRPFabric
 ...constants
   rho : 1.6    [g/cm³] (+0.008499) density of CFRP
  tmin : 0.3048 [mm]    (+0.008499) minimum gauge thickness
-    E : 150    [GPa]   (~0)        Youngs modulus
-    G : 2      [GPa]   (~0)        shear modulus
-sigma : 400    [MPa]   (~0)        max stress
+    E : 150    [GPa]   (0)         Youngs modulus
+    G : 2      [GPa]   (0)         shear modulus
+sigma : 400    [MPa]   (0)         max stress
   tau : 570    [MPa]   (~0)        torsional stress limit
 
 Mission.Aircraft.Empennage.TailBoom
@@ -139,17 +139,17 @@ dm[:] : [ 0.732    ] [kg] segment mass
  deta : 1             (+0.05899) normalized segment length
  mfac : 1             (+0.01653) weight margin factor
     k : 0.8           (-0.01102) taper index
- kfac : 0.6           (~0)       (1-k/2)
- rhoA : 0.15  [kg/m²] (~0)       total aerial density
-  tau : 1             (~0)       thickness to width ratio
+ kfac : 0.6           (0)        (1-k/2)
+ rhoA : 0.15  [kg/m²] (0)        total aerial density
+  tau : 1             (0)        thickness to width ratio
 
 Mission.Aircraft.Empennage.TailBoom.CFRPFabric
 ...constants
   rho : 1.6    [g/cm³] (+0.01653) density of CFRP
     E : 150    [GPa]   (-0.01653) Youngs modulus
 sigma : 400    [MPa]   (~0)       max stress
-    G : 2      [GPa]   (~0)       shear modulus
-  tau : 570    [MPa]   (~0)       torsional stress limit
+    G : 2      [GPa]   (0)        shear modulus
+  tau : 570    [MPa]   (0)        torsional stress limit
  tmin : 0.3048 [mm]    (~0)       minimum gauge thickness
 
 Mission.Aircraft.Empennage.VerticalTail
@@ -170,16 +170,16 @@ Mission.Aircraft.Empennage.VerticalTail.Planform
       AR : 4            (+0.09542)  aspect ratio
      tau : 0.08         (+0.02969)  airfoil thickness ratio
    CLmax : 1.39         (+0.009389) maximum lift coefficient
-      CM : 0.14         (~0)        wing moment coefficient
- cbarmac : 0.7778       (~0)        non-dim MAC
-  eta[:] : [ 0   0.5  1       ]      (2y/b)
-      sens ( ~0  ~0   +0.0032 )
- cbar[:] : [ 1.33  1   0.667 ]      non-dim chord at nodes
-      sens ( ~0    ~0  ~0    )
+      CM : 0.14         (0)         wing moment coefficient
+ cbarmac : 0.7778       (0)         non-dim MAC
+  eta[:] : [ 0  0.5  1       ]      (2y/b)
+      sens ( 0  0    +0.0032 )
+ cbar[:] : [ 1.33  1  0.667 ]      non-dim chord at nodes
+      sens ( 0     0  0     )
 cbave[:] : [ 1.17  0.833 ]      non-dim mid section chord
-      sens ( ~0    ~0    )
+      sens ( 0     0     )
  deta[:] : [ 0.5  0.5 ]      \Delta (2y/b)
-      sens ( ~0   ~0  )
+      sens ( 0    0   )
 
 Mission.Aircraft.Empennage.VerticalTail.WingCore
    W : 0.6999 [lbf]             wing core weight
@@ -203,9 +203,9 @@ Mission.Aircraft.Empennage.VerticalTail.WingSkin.CFRPFabric
 ...constants
   rho : 1.6    [g/cm³] (+0.01464) density of CFRP
  tmin : 0.3048 [mm]    (+0.01464) minimum gauge thickness
-    E : 150    [GPa]   (~0)       Youngs modulus
-    G : 2      [GPa]   (~0)       shear modulus
-sigma : 400    [MPa]   (~0)       max stress
+    E : 150    [GPa]   (0)        Youngs modulus
+    G : 2      [GPa]   (0)        shear modulus
+sigma : 400    [MPa]   (0)        max stress
   tau : 570    [MPa]   (~0)       torsional stress limit
 
 Mission.Aircraft.Fuselage
@@ -269,23 +269,23 @@ tshear[:] : [ 0.012     0.012     0.012     0.012     0.012     0.012    ... ] [
 ...constants
      mfac : 0.97        (-0.1581)  curvature knockdown factor
      wlim : 0.15        (-0.04298) spar width to chord ratio
-        E : 2e+07 [psi] (~0)       Young modulus of CFRP
+        E : 2e+07 [psi] (0)        Young modulus of CFRP
 
 Mission.Aircraft.Wing.CapSpar.CFRPFabric
 ...constants
   rho : 1.6    [g/cm³] (+0.009112) density of CFRP
  tmin : 0.3048 [mm]    (+0.009112) minimum gauge thickness
-    E : 150    [GPa]   (~0)        Youngs modulus
-    G : 2      [GPa]   (~0)        shear modulus
-sigma : 400    [MPa]   (~0)        max stress
-  tau : 570    [MPa]   (~0)        torsional stress limit
+    E : 150    [GPa]   (0)         Youngs modulus
+    G : 2      [GPa]   (0)         shear modulus
+sigma : 400    [MPa]   (0)         max stress
+  tau : 570    [MPa]   (0)         torsional stress limit
 
 Mission.Aircraft.Wing.CapSpar.CFRPUD
 ...constants
     E : 137  [GPa]   (-0.1581) Youngs Modulus of CFRP
   rho : 1.6  [g/cm³] (+0.102)  density of CFRP
 sigma : 1700 [MPa]   (~0)      maximum stress limit of CFRP
- tmin : 0.1  [mm]    (~0)      minimum gauge thickness
+ tmin : 0.1  [mm]    (0)       minimum gauge thickness
 
 Mission.Aircraft.Wing.CapSpar.FoamHD
 ...constants
@@ -302,16 +302,16 @@ Mission.Aircraft.Wing.Planform
      tau : 0.115        (-0.3501)   airfoil thickness ratio
    CLmax : 1.39         (+0.02186)  maximum lift coefficient
       CM : 0.14         (+0.009052) wing moment coefficient
- cbarmac : 0.7778       (~0)        non-dim MAC
-     lam : 0.5          (~0)        taper ratio
-  eta[:] : [ 0   0.0909     0.182      0.273      0.364      0.455     ... ]      (2y/b)
-      sens ( ~0  -1.64e-05  -3.42e-05  -5.31e-05  -7.32e-05  -9.54e-05 ... )
+ cbarmac : 0.7778       (0)         non-dim MAC
+     lam : 0.5          (0)         taper ratio
+  eta[:] : [ 0  0.0909     0.182      0.273      0.364      0.455     ... ]      (2y/b)
+      sens ( 0  -1.64e-05  -3.42e-05  -5.31e-05  -7.32e-05  -9.54e-05 ... )
  cbar[:] : [ 1.33  1.27  1.21  1.15  1.09  1.03 ... ]      non-dim chord at nodes
-      sens ( ~0    ~0    ~0    ~0    ~0    ~0   ... )
-cbave[:] : [ 1.3  1.24  1.18  1.12  1.06  1  ... ]      non-dim mid section chord
-      sens ( ~0   ~0    ~0    ~0    ~0    ~0 ... )
+      sens ( 0     0     0     0     0     0    ... )
+cbave[:] : [ 1.3  1.24  1.18  1.12  1.06  1 ... ]      non-dim mid section chord
+      sens ( 0    0     0     0     0     0 ... )
  deta[:] : [ 0.0909  0.0909  0.0909  0.0909  0.0909  0.0909 ... ]      \Delta (2y/b)
-      sens ( ~0      ~0      ~0      ~0      ~0      ~0     ... )
+      sens ( 0       0       0       0       0       0      ... )
 
 Mission.Aircraft.Wing.WingCore
    W : 5.877   [lbf]            wing core weight
@@ -335,9 +335,9 @@ Mission.Aircraft.Wing.WingSkin.CFRPFabric
 ...constants
   rho : 1.6    [g/cm³] (+0.07923) density of CFRP
  tmin : 0.3048 [mm]    (+0.07923) minimum gauge thickness
-    E : 150    [GPa]   (~0)       Youngs modulus
-    G : 2      [GPa]   (~0)       shear modulus
-sigma : 400    [MPa]   (~0)       max stress
+    E : 150    [GPa]   (0)        Youngs modulus
+    G : 2      [GPa]   (0)        shear modulus
+sigma : 400    [MPa]   (0)        max stress
   tau : 570    [MPa]   (~0)       torsional stress limit
 
 Mission.AircraftLoading.FuselageLoading.FuselageLanding
@@ -372,7 +372,7 @@ Nsafety : 1            (+0.1581) safety load factor
    Mtip : 1e-10  [m⋅N] (~0)      tip moment
    Stip : 1e-10  [N]   (~0)      tip loading
  throot : 1e-10        (~0)      root deflection angle
-  twmax : 0.2618       (~0)      max tip twist
+  twmax : 0.2618       (0)       max tip twist
   wroot : 1e-10  [m]   (~0)      root deflection
 
 Mission.AircraftLoading.TailBoomBending
@@ -461,7 +461,7 @@ eta_alternator[:] : [ 0.8        0.8        0.8        0.8        0.8        0.8
      RPM_{max}[:] : [ 7.7e+03    7.7e+03    7.7e+03    7.7e+03    7.7e+03    7.7e+03   ... ] [rpm]     Maximum RPM
                sens ( ~0         ~0         ~0         ~0         ~0         ~0        ... )
        h_{ref}[:] : [ 1e+03      1e+03      1e+03      1e+03      1e+03      1e+03     ... ] [ft]      reference altitude
-               sens ( ~0         ~0         ~0         ~0         ~0         ~0        ... )
+               sens ( 0          0          0          0          0          0         ... )
 
 Mission.Climb.FlightSegment.AircraftPerf.FuselageAero
     Cd[:] : [ 0.0425    0.0423    0.0424    0.0425    0.0426    0.0428   ... ] fuselage drag coefficient
@@ -541,11 +541,11 @@ R_{spec}[:] : [ 287        287        287        287        287        287      
 \mu_{sl}[:] : [ 1.79e-05   1.79e-05   1.79e-05   1.79e-05   1.79e-05   1.79e-05  ... ] [N⋅s/m²]  Dynamic viscosity at sea level
          sens ( +2.48e-05  +2.79e-05  +3.22e-05  +3.8e-05   +4.57e-05  +5.66e-05 ... )
  L_{atm}[:] : [ 0.0065     0.0065     0.0065     0.0065     0.0065     0.0065    ... ] [K/m]     Temperature lapse rate
-         sens ( ~0         ~0         ~0         ~0         ~0         ~0        ... )
+         sens ( 0          0          0          0          0          0         ... )
      Vne[:] : [ 40         40         40         40         40         40        ... ] [m/s]     never exceed velocity
-         sens ( ~0         ~0         ~0         ~0         ~0         ~0        ... )
+         sens ( 0          0          0          0          0          0         ... )
    rhosl[:] : [ 1.23       1.23       1.23       1.23       1.23       1.23      ... ] [kg/m³]   air density at sea level
-         sens ( ~0         ~0         ~0         ~0         ~0         ~0        ... )
+         sens ( 0          0          0          0          0          0         ... )
 
 Mission.Climb.FlightSegment.SteadyLevelFlight
           T[:] : [ 93.1  86    79.1  72.5  66.1  60   ... ] [N] thrust
@@ -587,7 +587,7 @@ eta_alternator[:] : [ 0.8       ]           alternator efficiency
      RPM_{max}[:] : [ 7.7e+03   ] [rpm]     Maximum RPM
                sens ( ~0        )
        h_{ref}[:] : [ 1e+03     ] [ft]      reference altitude
-               sens ( ~0        )
+               sens ( 0         )
 
 Mission.Cruise.FlightSegment.AircraftPerf.FuselageAero
     Cd[:] : [ 0.04    ] fuselage drag coefficient
@@ -663,15 +663,15 @@ R_{spec}[:] : [ 287       ] [J/K/kg]  Specific gas constant of air
  h_{ref}[:] : [ 1.5e+04   ] [ft]      Reference altitude
          sens ( +0.000213 )
  L_{atm}[:] : [ 0.0065    ] [K/m]     Temperature lapse rate
-         sens ( ~0        )
+         sens ( 0         )
  V_{ref}[:] : [ 25        ] [m/s]     Reference wind speed
          sens ( ~0        )
      Vne[:] : [ 40        ] [m/s]     never exceed velocity
-         sens ( ~0        )
+         sens ( 0         )
  m_{fac}[:] : [ 1         ]           wind speed margin factor
          sens ( ~0        )
    rhosl[:] : [ 1.23      ] [kg/m³]   air density at sea level
-         sens ( ~0        )
+         sens ( 0         )
 
 Mission.Cruise.FlightSegment.SteadyLevelFlight
           T[:] : [ 20.7 ] [N] thrust
@@ -713,7 +713,7 @@ eta_alternator[:] : [ 0.8      ]           alternator efficiency
      RPM_{max}[:] : [ 7.7e+03  ] [rpm]     Maximum RPM
                sens ( ~0       )
        h_{ref}[:] : [ 1e+03    ] [ft]      reference altitude
-               sens ( ~0       )
+               sens ( 0        )
 
 Mission.Cruise1.FlightSegment.AircraftPerf.FuselageAero
     Cd[:] : [ 0.0432  ] fuselage drag coefficient
@@ -793,11 +793,11 @@ R_{spec}[:] : [ 287      ] [J/K/kg]  Specific gas constant of air
  h_{ref}[:] : [ 1.5e+04  ] [ft]      Reference altitude
          sens ( -0.00293 )
  L_{atm}[:] : [ 0.0065   ] [K/m]     Temperature lapse rate
-         sens ( ~0       )
+         sens ( 0        )
      Vne[:] : [ 40       ] [m/s]     never exceed velocity
-         sens ( ~0       )
+         sens ( 0        )
    rhosl[:] : [ 1.23     ] [kg/m³]   air density at sea level
-         sens ( ~0       )
+         sens ( 0        )
 
 Mission.Cruise1.FlightSegment.SteadyLevelFlight
           T[:] : [ 11.8 ] [N] thrust
@@ -838,7 +838,7 @@ eta_alternator[:] : [ 0.8       0.8       0.8      0.8      0.8     ]           
      RPM_{max}[:] : [ 7.7e+03   7.7e+03   7.7e+03  7.7e+03  7.7e+03 ] [rpm]     Maximum RPM
                sens ( ~0        ~0        ~0       ~0       ~0      )
        h_{ref}[:] : [ 1e+03     1e+03     1e+03    1e+03    1e+03   ] [ft]      reference altitude
-               sens ( ~0        ~0        ~0       ~0       ~0      )
+               sens ( 0         0         0        0        0       )
 
 Mission.Loiter.FlightSegment.AircraftPerf.FuselageAero
     Cd[:] : [ 0.0432   0.0432   0.0432   0.0432   0.0432  ] fuselage drag coefficient
@@ -922,7 +922,7 @@ R_{spec}[:] : [ 287       287       287       287       287      ] [J/K/kg]  Spe
    rhosl[:] : [ 1.23      1.23      1.23      1.23      1.23     ] [kg/m³]   air density at sea level
          sens ( +0.00331  +0.00331  +0.00331  +0.00331  +0.00331 )
  L_{atm}[:] : [ 0.0065    0.0065    0.0065    0.0065    0.0065   ] [K/m]     Temperature lapse rate
-         sens ( ~0        ~0        ~0        ~0        ~0       )
+         sens ( 0         0         0         0         0        )
 
 Mission.Loiter.FlightSegment.SteadyLevelFlight
           T[:] : [ 19.3  16.8  14.8  13.3  12.2 ] [N] thrust
