@@ -460,8 +460,6 @@ eta_alternator[:] : [ 0.8        0.8        0.8        0.8        0.8        0.8
                sens ( +0.000486  +0.000499  +0.000514  +0.000534  +0.000558  +0.00059  ... )
      RPM_{max}[:] : [ 7.7e+03    7.7e+03    7.7e+03    7.7e+03    7.7e+03    7.7e+03   ... ] [rpm]     Maximum RPM
                sens ( ~0         ~0         ~0         ~0         ~0         ~0        ... )
-       h_{ref}[:] : [ 1e+03      1e+03      1e+03      1e+03      1e+03      1e+03     ... ] [ft]      reference altitude
-               sens ( 0          0          0          0          0          0         ... )
 
 Mission.Climb.FlightSegment.AircraftPerf.FuselageAero
     Cd[:] : [ 0.0425    0.0423    0.0424    0.0425    0.0426    0.0428   ... ] fuselage drag coefficient
@@ -586,8 +584,6 @@ eta_alternator[:] : [ 0.8       ]           alternator efficiency
                sens ( -0.000702 )
      RPM_{max}[:] : [ 7.7e+03   ] [rpm]     Maximum RPM
                sens ( ~0        )
-       h_{ref}[:] : [ 1e+03     ] [ft]      reference altitude
-               sens ( 0         )
 
 Mission.Cruise.FlightSegment.AircraftPerf.FuselageAero
     Cd[:] : [ 0.04    ] fuselage drag coefficient
@@ -712,8 +708,6 @@ eta_alternator[:] : [ 0.8      ]           alternator efficiency
                sens ( -0.00162 )
      RPM_{max}[:] : [ 7.7e+03  ] [rpm]     Maximum RPM
                sens ( ~0       )
-       h_{ref}[:] : [ 1e+03    ] [ft]      reference altitude
-               sens ( 0        )
 
 Mission.Cruise1.FlightSegment.AircraftPerf.FuselageAero
     Cd[:] : [ 0.0432  ] fuselage drag coefficient
@@ -837,8 +831,6 @@ eta_alternator[:] : [ 0.8       0.8       0.8      0.8      0.8     ]           
                sens ( +0.00789  +0.00895  +0.01    +0.011   +0.0119 )
      RPM_{max}[:] : [ 7.7e+03   7.7e+03   7.7e+03  7.7e+03  7.7e+03 ] [rpm]     Maximum RPM
                sens ( ~0        ~0        ~0       ~0       ~0      )
-       h_{ref}[:] : [ 1e+03     1e+03     1e+03    1e+03    1e+03   ] [ft]      reference altitude
-               sens ( 0         0         0        0        0       )
 
 Mission.Loiter.FlightSegment.AircraftPerf.FuselageAero
     Cd[:] : [ 0.0432   0.0432   0.0432   0.0432   0.0432  ] fuselage drag coefficient

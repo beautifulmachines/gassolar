@@ -203,7 +203,7 @@ class AircraftPerf(Model):
         areadragcomps = [static.emp.htail, static.emp.vtail, static.emp.tailboom]
 
         cda = Variable("CDA", "-", "non-wing drag coefficient")
-        mfac = Variable("m_{fac}", 1.2, "-", "drag margin factor")
+        mfac = Variable("m_{fac}", "-", "drag margin factor", value=1.2)
 
         dvars = []
         for dc, dm in zip(areadragcomps, areadragmodel):
@@ -260,21 +260,21 @@ class FlightState(Model):
         Vwind = Variable("V_{wind}", "m/s", "wind velocity")
         V = self.V = Variable("V", "m/s", "true airspeed")
         rho = self.rho = Variable("\\rho", "kg/m**3", "air density")
-        self.mu = Variable("\\mu", 1.42e-5, "N*s/m**2", "viscosity")
-        Variable("(E/S)_{irr}", esirr, "W*hr/m^2", "solar energy")
+        self.mu = Variable("\\mu", "N*s/m**2", "viscosity", value=1.42e-5)
+        Variable("(E/S)_{irr}", "W*hr/m^2", "solar energy", value=esirr)
         PSmin = Variable("(P/S)_{min}", "W/m^2", "minimum necessary solar power")
         ESday = Variable("(E/S)_{day}", "W*hr/m^2", "solar cells energy during daytime")
         ESc = Variable("(E/S)_C", "W*hr/m^2", "energy for batteries during sunrise/set")
-        ESvar = Variable("(E/S)_{ref}", 1, "W*hr/m^2", "energy units variable")
-        PSvar = Variable("(P/S)_{ref}", 1, "W/m^2", "power units variable")
-        Variable("t_{night}", tn, "hr", "night duration")
-        pct = Variable("p_{wind}", 0.9, "-", "percentile wind speeds")
-        Vwindref = Variable("V_{wind-ref}", 100.0, "m/s", "reference wind speed")
-        rhoref = Variable("\\rho_{ref}", 1.0, "kg/m**3", "reference air density")
-        mfac = Variable("m_{fac}", 1.0, "-", "wind speed margin factor")
+        ESvar = Variable("(E/S)_{ref}", "W*hr/m^2", "energy units variable", value=1)
+        PSvar = Variable("(P/S)_{ref}", "W/m^2", "power units variable", value=1)
+        Variable("t_{night}", "hr", "night duration", value=tn)
+        pct = Variable("p_{wind}", "-", "percentile wind speeds", value=0.9)
+        Vwindref = Variable("V_{wind-ref}", "m/s", "reference wind speed", value=100.0)
+        rhoref = Variable("\\rho_{ref}", "kg/m**3", "reference air density", value=1.0)
+        mfac = Variable("m_{fac}", "-", "wind speed margin factor", value=1.0)
         qne = self.qne = Variable("qne", "kg/s^2/m", "never exceed dynamic pressure")
-        Vne = Variable("Vne", 40, "m/s", "never exceed velocity")
-        rhosl = Variable("rhosl", 1.225, "kg/m^3", "air density at sea level")
+        Vne = Variable("Vne", "m/s", "never exceed velocity", value=40)
+        rhosl = Variable("rhosl", "kg/m^3", "air density at sea level", value=1.225)
 
         constraints = [
             V / mfac >= Vwind,
@@ -357,7 +357,7 @@ class SteadyLevelFlight(Model):
     def setup(self, state, aircraft, perf):
 
         T = Variable("T", "N", "thrust")
-        etaprop = Variable("\\eta_{prop}", 0.8, "-", "propeller efficiency")
+        etaprop = Variable("\\eta_{prop}", "-", "propeller efficiency", value=0.8)
 
         constraints = [
             aircraft.Wtotal

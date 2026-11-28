@@ -35,10 +35,10 @@ class Aircraft(Model):
 
         components = [self.fuselage, self.wing, self.engine, self.emp, self.pylon]
         self.smeared_loads = [self.fuselage, self.engine, self.pylon]
-        lantenna = Variable("l_{antenna}", 13.4, "in", "antenna length")
-        wantenna = Variable("w_{antenna}", 10.2, "in", "antenna width")
-        Volpay = Variable("\\mathcal{V}_{pay}", 1.0, "ft**3", "payload volume")
-        Volavn = Variable("\\mathcal{V}_{avn}", 0.125, "ft**3", "avionics volume")
+        lantenna = Variable("l_{antenna}", "in", "antenna length", value=13.4)
+        wantenna = Variable("w_{antenna}", "in", "antenna width", value=10.2)
+        Volpay = Variable("\\mathcal{V}_{pay}", "ft**3", "payload volume", value=1.0)
+        Volavn = Variable("\\mathcal{V}_{avn}", "ft**3", "avionics volume", value=0.125)
 
         self.wing.substitutions[self.wing.planform.tau] = 0.115
         self.emp.substitutions[self.emp.vtail.planform.tau] = 0.08
@@ -168,7 +168,7 @@ class AircraftPerf(Model):
         ]
 
         CDA = Variable("CDA", "-", "area drag coefficient")
-        mfac = Variable("m_{fac}", 1.15, "-", "drag margin factor")
+        mfac = Variable("m_{fac}", "-", "drag margin factor", value=1.15)
 
         dvars = []
         for dc, dm in zip(areadragcomps, areadragmodel):
@@ -199,21 +199,26 @@ class FlightState(Model):
 
     def setup(self, alt, wind, **kwargs):  # noqa: ARG002
 
-        h = self.h = Variable("h", alt, "ft", "altitude")
-        href = Variable("h_{ref}", 15000, "ft", "Reference altitude")
-        psl = Variable("p_{sl}", 101325, "Pa", "Pressure at sea level")
-        Latm = Variable("L_{atm}", 0.0065, "K/m", "Temperature lapse rate")
-        Tsl = Variable("T_{sl}", 288.15, "K", "Temperature at sea level")
+        h = self.h = Variable("h", "ft", "altitude", value=alt)
+        href = Variable("h_{ref}", "ft", "Reference altitude", value=15000)
+        psl = Variable("p_{sl}", "Pa", "Pressure at sea level", value=101325)
+        Latm = Variable("L_{atm}", "K/m", "Temperature lapse rate", value=0.0065)
+        Tsl = Variable("T_{sl}", "K", "Temperature at sea level", value=288.15)
         temp = [
             (t.value - l.value * v.value).magnitude for t, v, l in zip(Tsl, h, Latm)
         ]
-        Tatm = Variable("t_{atm}", temp, "K", "Air temperature")
+        Tatm = Variable("t_{atm}", "K", "Air temperature", value=temp)
         musl = Variable(
-            "\\mu_{sl}", 1.789 * 10**-5, "N*s/m^2", "Dynamic viscosity at sea level"
+            "\\mu_{sl}",
+            "N*s/m^2",
+            "Dynamic viscosity at sea level",
+            value=1.789 * 10**-5,
         )
-        Rspec = Variable("R_{spec}", 287.058, "J/kg/K", "Specific gas constant of air")
-        Vne = Variable("Vne", 40, "m/s", "never exceed velocity")
-        rhosl = Variable("rhosl", 1.225, "kg/m^3", "air density at sea level")
+        Rspec = Variable(
+            "R_{spec}", "J/kg/K", "Specific gas constant of air", value=287.058
+        )
+        Vne = Variable("Vne", "m/s", "never exceed velocity", value=40)
+        rhosl = Variable("rhosl", "kg/m^3", "air density at sea level", value=1.225)
 
         # Atmospheric variation with altitude (valid from 0-7km of altitude)
         constraints = [
@@ -222,15 +227,15 @@ class FlightState(Model):
             self.qne == 0.5 * rhosl * Vne**2,
         ]
 
-        mfac = Variable("m_{fac}", 1.0, "-", "wind speed margin factor")
+        mfac = Variable("m_{fac}", "-", "wind speed margin factor", value=1.0)
 
         if wind:
-            V_wind = Variable("V_{wind}", 25, "m/s", "Wind speed")
+            V_wind = Variable("V_{wind}", "m/s", "Wind speed", value=25)
             constraints.extend([self.V / mfac >= V_wind])
 
         else:
             V_wind = Variable("V_{wind}", "m/s", "Wind speed")
-            V_ref = Variable("V_{ref}", 25, "m/s", "Reference wind speed")
+            V_ref = Variable("V_{ref}", "m/s", "Reference wind speed", value=25)
 
             constraints.extend(
                 [
@@ -291,7 +296,7 @@ class Cruise(Model):
     def setup(self, N, aircraft, alt=15000, wind=False, etap=0.7, R=200):
         self.fs = fs = FlightSegment(N, aircraft, alt, wind, etap)
 
-        R = Variable("R", R, "nautical_miles", "Range to station")
+        R = Variable("R", "nautical_miles", "Range to station", value=R)
         constraints = [R / N <= fs.fs.V * fs.be.t]
 
         return fs, constraints
@@ -306,8 +311,8 @@ class Climb(Model):
         with Vectorize(N):
             hdot = Variable("\\dot{h}", "ft/min", "Climb rate")
 
-        deltah = Variable("\\Delta h", dh, "ft", "altitude difference")
-        hdotmin = Variable("\\dot{h}_{min}", 100, "ft/min", "minimum climb rate")
+        deltah = Variable("\\Delta h", "ft", "altitude difference", value=dh)
+        hdotmin = Variable("\\dot{h}_{min}", "ft/min", "minimum climb rate", value=100)
 
         constraints = [
             hdot * fs.be.t >= deltah / N,
@@ -332,7 +337,7 @@ class SteadyLevelFlight(Model):
 
     def setup(self, state, aircraft, perf, etap):
 
-        etaprop = Variable("\\eta_{prop}", etap, "-", "propulsive efficiency")
+        etaprop = Variable("\\eta_{prop}", "-", "propulsive efficiency", value=etap)
 
         return [
             (perf.Wend * perf.Wstart) ** 0.5
