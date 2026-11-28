@@ -103,7 +103,7 @@ class AircraftPerf(Model):
         ]
 
         CDA = Variable("CDA", "-", "area drag coefficient")
-        mfac = Variable("m_{fac}", 1.0, "-", "drag margin factor")
+        mfac = Variable("m_{fac}", "-", "drag margin factor", value=1.0)
 
         dvars = []
         for dc, dm in zip(areadragcomps, areadragmodel):
@@ -127,7 +127,7 @@ class Cruise(Model):
     ):
         self.fs = fs = FlightSegment(aircraft, N, altitude, latitude, percent, day)
 
-        R = Variable("R", R, "nautical_miles", "Range to station")
+        R = Variable("R", "nautical_miles", "Range to station", value=R)
         constraints = [R / N <= fs.fs.V * fs.be.t]
 
         return fs, constraints
@@ -144,8 +144,8 @@ class Climb(Model):
         with Vectorize(N):
             hdot = Variable("\\dot{h}", "ft/min", "Climb rate")
 
-        deltah = Variable("\\Delta_h", dh, "ft", "altitude difference")
-        hdotmin = Variable("\\dot{h}_{min}", 100, "ft/min", "minimum climb rate")
+        deltah = Variable("\\Delta_h", "ft", "altitude difference", value=dh)
+        hdotmin = Variable("\\dot{h}_{min}", "ft/min", "minimum climb rate", value=100)
 
         constraints = [
             hdot * fs.be.t >= deltah / N,

@@ -425,8 +425,8 @@ class FlightState(Model):
 
     def setup(self, latitude, day, esirr, tn):
         # ESirr and tnight depend on args passed at construction time
-        self.ESirr = Variable("ESirr", esirr, "W*hr/m^2", "solar energy")
-        self.tnight = Variable("tnight", tn, "hr", "night duration")
+        self.ESirr = Variable("ESirr", "W*hr/m^2", "solar energy", value=esirr)
+        self.tnight = Variable("tnight", "hr", "night duration", value=tn)
 
         Vwind, V, rho, mfac, PSmin = self.Vwind, self.V, self.rho, self.mfac, self.PSmin
         ESday, EStwi, ESvar, PSvar = self.ESday, self.EStwi, self.ESvar, self.PSvar
@@ -634,14 +634,14 @@ class Climb(Model):
         self.N = N
 
         # scalar with linked function
-        dh = self.dh = Variable("dh", self.hstep, "ft", "change in altitude")
+        dh = self.dh = Variable("dh", "ft", "change in altitude", value=self.hstep)
 
         # vectors of shape (1, N) — used by AircraftDrag called with self as state
         dt = self.dt = VectorVariable((1, N), "dt", "min", "time step")
         V = self.V = VectorVariable((1, N), "V", "m/s", "vehicle speed")
         hdot = self.hdot = VectorVariable((1, N), "hdot", "ft/min", "climb rate")
         rho = self.rho = VectorVariable(
-            (1, N), "rho", self.density, "kg/m^3", "air density"
+            (1, N), "rho", "kg/m^3", "air density", value=self.density
         )
 
         with Vectorize(self.N):

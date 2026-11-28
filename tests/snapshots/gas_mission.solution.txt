@@ -353,8 +353,6 @@ eta_alternator[:] : [ 0.8        0.8        0.8        0.8        0.8        0.8
                sens ( +0.00131   +0.00135   +0.00141   +0.00148   +0.00157   +0.00168  ... )
        m_{fac}[:] : [ 1          1          1          1          1          1         ... ]           BSFC margin factor
                sens ( +0.00131   +0.00135   +0.00141   +0.00148   +0.00157   +0.00168  ... )
-       h_{ref}[:] : [ 1e+03      1e+03      1e+03      1e+03      1e+03      1e+03     ... ] [ft]      reference altitude
-               sens ( 0          0          0          0          0          0         ... )
 
 Mission.Climb.FlightSegment.AircraftPerf.FuselageAero
   Cd[:] : [ 0.00619   0.00622   0.00625   0.00628   0.00631   0.00634  ... ] fuselage drag coefficient
@@ -485,8 +483,6 @@ Mission.Loiter.FlightSegment.AircraftPerf.EnginePerf
                sens ( +0.0236  +0.0233  +0.0226  +0.0224  +0.0228 )
 eta_alternator[:] : [ 0.8      0.8      0.8      0.8      0.8     ]           alternator efficiency
                sens ( -0.0236  -0.0233  -0.0226  -0.0224  -0.0228 )
-       h_{ref}[:] : [ 1e+03    1e+03    1e+03    1e+03    1e+03   ] [ft]      reference altitude
-               sens ( 0        0        0        0        0       )
 
 Mission.Loiter.FlightSegment.AircraftPerf.FuselageAero
   Cd[:] : [ 0.0063    0.0063    0.0063    0.0063    0.0063   ] fuselage drag coefficient

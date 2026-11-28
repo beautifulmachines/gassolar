@@ -13,29 +13,31 @@ class Aircraft(Model):
 
         Wstructures = Variable("W_{structures}", "lbf", "structural weight")
         fstructures = Variable(
-            "f_{structures}", 0.35, "-", "fractional structural weight"
+            "f_{structures}", "-", "fractional structural weight", value=0.35
         )
-        Wpay = Variable("W_{pay}", 10, "lbf", "payload")
+        Wpay = Variable("W_{pay}", "lbf", "payload", value=10)
         Wsolar = Variable("W_{solar}", "lbf", "solar cell weight")
         Wbatt = Variable("W_{batt}", "lbf", "battery weight")
         W = Variable("W", "lbf", "aircraft weight")
         S = Variable("S", "ft**2", "planform area")
         b = Variable("b", "ft", "wing span")
         cmac = Variable("c_{MAC}", "ft", "mean aerodynamic chord")
-        AR = Variable("AR", 27, "-", "aspect ratio")
+        AR = Variable("AR", "-", "aspect ratio", value=27)
         W = Variable("W", "lbf", "aircraft weight")
         Ssolar = Variable("S_{solar}", "ft**2", "solar cell area")
-        eta_solar = Variable("\\eta_{solar}", 0.2, "-", "Solar cell efficiency")
+        eta_solar = Variable("\\eta_{solar}", "-", "Solar cell efficiency", value=0.2)
         eta_charge = Variable(
-            "\\eta_{charge}", 0.98, "-", "Battery charging efficiency"
+            "\\eta_{charge}", "-", "Battery charging efficiency", value=0.98
         )
         eta_discharge = Variable(
-            "\\eta_{discharge}", 0.98, "-", "Battery discharging efficiency"
+            "\\eta_{discharge}", "-", "Battery discharging efficiency", value=0.98
         )
-        hbatt = Variable("h_{batt}", 350, "W*hr/kg", "battery energy density")
+        hbatt = Variable("h_{batt}", "W*hr/kg", "battery energy density", value=350)
         Ebatt = Variable("E_{batt}", "J", "total battery energy")
-        rhosolar = Variable("\\rho_{solar}", 0.3, "kg/m^2", "solar cell area density")
-        g = Variable("g", 9.81, "m/s**2", "gravitational constant")
+        rhosolar = Variable(
+            "\\rho_{solar}", "kg/m^2", "solar cell area density", value=0.3
+        )
+        g = Variable("g", "m/s**2", "gravitational constant", value=9.81)
 
         constraints = [
             Wstructures >= W * fstructures,
@@ -61,7 +63,7 @@ class AircraftPerf(Model):
         self.wing = WingAero(static, state)
 
         CD = Variable("C_D", "-", "aircraft drag coefficient")
-        cda0 = Variable("CDA_0", 0.005, "-", "non-wing drag coefficient")
+        cda0 = Variable("CDA_0", "-", "non-wing drag coefficient", value=0.005)
         Pshaft = Variable("P_{shaft}", "hp", "shaft power")
 
         constraints = [CD >= cda0 + self.wing["C_d"]]
@@ -96,7 +98,7 @@ class SteadyLevelFlight(Model):
     def setup(self, state, aircraft, perf, etap, **kwargs):  # noqa: ARG002
 
         T = Variable("T", "N", "thrust")
-        etaprop = Variable("\\eta_{prop}", etap, "-", "propulsive efficiency")
+        etaprop = Variable("\\eta_{prop}", "-", "propulsive efficiency", value=etap)
 
         constraints = [
             aircraft["W"]
@@ -112,7 +114,7 @@ class Power(Model):
     def setup(self, static, state):
 
         Poper = Variable("P_{oper}", "W", "Aircraft operating power")
-        Pacc = Variable("P_{acc}", 0.0, "W", "Accessory power draw")
+        Pacc = Variable("P_{acc}", "W", "Accessory power draw", value=0.0)
 
         constraints = [
             state["(E/S)_{irr}"] * static["\\eta_{solar}"] * static["S_{solar}"]

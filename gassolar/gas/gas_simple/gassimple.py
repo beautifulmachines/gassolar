@@ -15,11 +15,11 @@ class Aircraft(Model):
 
         Wstructures = Variable("W_{structures}", "lbf", "structural weight")
         fstructures = Variable(
-            "f_{structures}", 0.35, "-", "fractional structural weight"
+            "f_{structures}", "-", "fractional structural weight", value=0.35
         )
-        Wpay = Variable("W_{pay}", 10, "lbf", "payload")
+        Wpay = Variable("W_{pay}", "lbf", "payload", value=10)
         Wzfw = Variable("W_{zfw}", "lbf", "zero fuel weight")
-        Variable("\\eta_{prop}", 0.75, "-", "propulsive efficiency")
+        Variable("\\eta_{prop}", "-", "propulsive efficiency", value=0.75)
 
         constraints = [
             Wzfw >= Wstructures + Wpay,
@@ -39,7 +39,7 @@ class Wing(Model):
         S = Variable("S", "ft**2", "planform area")
         b = Variable("b", "ft", "wing span")
         cmac = Variable("c_{MAC}", "ft", "mean aerodynamic chord")
-        AR = self.AR = Variable("AR", 27, "-", "aspect ratio")
+        AR = self.AR = Variable("AR", "-", "aspect ratio", value=27)
 
         constraints = [b**2 == S * AR, cmac == S / b]
 
@@ -57,12 +57,14 @@ class AircraftPerf(Model):
         self.wing = static.wing.flight_model(state)
 
         CD = Variable("C_D", "-", "aircraft drag coefficient")
-        cda0 = Variable("CDA_0", 0.005, "-", "non-wing drag coefficient")
+        cda0 = Variable("CDA_0", "-", "non-wing drag coefficient", value=0.005)
         Wstart = Variable("W_{start}", "lbf", "vector-begin weight")
         Wend = Variable("W_{end}", "lbf", "vector-end weight")
         Pshaft = Variable("P_{shaft}", "hp", "shaft power")
         Ptot = Variable("P_{total}", "hp", "shaft power")
-        bsfc = Variable("BSFC", 0.6, "lb/hp/hr", "break specific fuel consumption")
+        bsfc = Variable(
+            "BSFC", "lb/hp/hr", "break specific fuel consumption", value=0.6
+        )
 
         constraints = [
             CD >= cda0 + self.wing["C_d"],

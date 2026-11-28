@@ -24,9 +24,9 @@ class FlightState(Model):
         density, vis = get_airvars(altitude)
 
         # Vwind = Variable("V_{wind}", wind, "m/s", "wind velocity")
-        self.rho = Variable("\\rho", density, "kg/m**3", "air density")
-        self.mu = Variable("\\mu", vis, "N*s/m**2", "dynamic viscosity")
-        self.h = Variable("h", altitude, "ft", "flight altitude")
+        self.rho = Variable("\\rho", "kg/m**3", "air density", value=density)
+        self.mu = Variable("\\mu", "N*s/m**2", "dynamic viscosity", value=vis)
+        self.h = Variable("h", "ft", "flight altitude", value=altitude)
 
         constraints = [
             self.V / self.mfac >= Vwind,
